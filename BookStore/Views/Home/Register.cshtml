@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="breadcrumb-area pt-205 pb-210" style="background-image: url('@Url.Content("~/img/bg/breadcrumb.jpg")')">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>register</h2>
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index">home</a></li>
+                <li> register </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- register-area start -->
+<div class="register-area ptb-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-12 col-lg-12 col-xl-6 ms-auto me-auto">
+                <div class="login">
+                    <div class="login-form-container">
+                        <div class="login-form">
+                            <form action="#" method="post">
+                                <input name="user-email" placeholder="Email" type="email">
+                                <input type="text" name="full-name" placeholder="Full Name">
+                                <input type="password" name="user-password" placeholder="Password">
+                                <input type="password" name="user-re-password" placeholder="Renter Password">
+                                <input type="text" name="home-address" placeholder="Address">
+                                <div class="button-box">
+                                    <button type="submit" class="default-btn floatright">Register</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/main.js"></script>
+}
