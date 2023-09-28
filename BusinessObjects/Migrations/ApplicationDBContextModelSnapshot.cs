@@ -56,7 +56,7 @@ namespace BusinessObjects.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Languagues");
+                    b.ToTable("Languages");
 
                     b.HasData(
                         new
