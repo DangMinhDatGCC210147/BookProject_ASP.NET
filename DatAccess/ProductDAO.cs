@@ -9,9 +9,9 @@ namespace DataAccess
 {
 	public class ProductDAO
 	{
-		public static List<Product> GetProducts()
+		public static List<Book> GetProducts()
 		{
-			var listProducts = new List<Product>();
+			var listProducts = new List<Book>();
 			try
 			{
 				using (var context = new ApplicationDBContext())
@@ -27,9 +27,9 @@ namespace DataAccess
 			return listProducts;
 		}
 
-		public static Product FindProductById(int id)
+		public static Book FindProductById(int id)
 		{
-			var product = new Product();
+			var product = new Book();
 			try
 			{
 				using (var context = new ApplicationDBContext())
@@ -44,7 +44,7 @@ namespace DataAccess
 			}
 			return product;
 		}
-		public static void SaveProduct(Product product)
+		public static void SaveProduct(Book product)
 		{
 			try
 			{
@@ -60,13 +60,13 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-		public static void UpdateProduct(Product product)
+		public static void UpdateProduct(Book product)
 		{
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					context.Entry<Product>(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+					context.Entry<Book>(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 					context.SaveChanges();
 				}
 
@@ -77,7 +77,7 @@ namespace DataAccess
 			}
 		}
 
-		public static void DeleteProduct(Product product)
+		public static void DeleteProduct(Book product)
 		{
 			try
 			{

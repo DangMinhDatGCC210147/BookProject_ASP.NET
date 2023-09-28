@@ -13,11 +13,11 @@ namespace BookStoreAPI.Controllers
 		private IProductRepository repository = new ProductRepository();
 
 		[HttpGet]
-		public ActionResult<IEnumerable<Product>> GetProducts() => repository.GetProducts();
+		public ActionResult<IEnumerable<Book>> GetProducts() => repository.GetProducts();
 
 		
 		[HttpPost]
-		public IActionResult PostProducts(Product product)
+		public IActionResult PostProducts(Book product)
 		{
 			repository.SaveProduct(product);
 			return Ok();
@@ -34,7 +34,7 @@ namespace BookStoreAPI.Controllers
 		}
 
 		[HttpPut("id")]
-		public IActionResult UpdateProducts(int id, Product product)
+		public IActionResult UpdateProducts(int id, Book product)
 		{
 			var checkProduct = repository.GetProductById(id);
 			if (checkProduct == null)

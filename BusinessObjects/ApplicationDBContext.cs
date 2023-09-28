@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BookStore.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
@@ -20,12 +21,24 @@ namespace BusinessObjects
 			IConfigurationRoot configuration = builder.Build();
 			optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 		}
-		public virtual DbSet<Category> Categories { get; set; }
+		public virtual DbSet<Genre> Genres { get; set; }
 		public virtual DbSet<Language> Languages { get; set; }
-		public virtual DbSet<Product> Products { get; set; }
-		//Dữ liệu mẫu
+		public virtual DbSet<Book> Books { get; set; }
+		public virtual DbSet<Author> Authors { get; set; }
+		public virtual DbSet<Cart> Carts { get; set; }
+		public virtual DbSet<CartDetail> CartDetails { get; set; }
+		public virtual DbSet<Discount> Discounts { get; set; }
+		public virtual DbSet<Favourite> Favourites { get; set; }
+		public virtual DbSet<FeedBack> FeedBacks { get; set; }
+		public virtual DbSet<Order> Orders { get; set; }
+		public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+		public virtual DbSet<Publisher> Publishers { get; set; }
+		public virtual DbSet<Review> Reviews { get; set; }
+		
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+			base.OnModelCreating(modelBuilder);
+			modelBuilder.Entity<OrderDetail>().HasKey(o => new {o.OrderId, o.BookId});
 			modelBuilder.Entity<Language>().HasData(
 				new Language { Id = 1, Name = "Language 1" },
 				new Language { Id = 2, Name = "Language 2" },

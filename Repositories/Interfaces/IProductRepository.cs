@@ -4,10 +4,10 @@ namespace Repositories.Interfaces
 {
     public interface IProductRepository
     {
-        void SaveProduct(Product p);
-        Product GetProductById(int id);
-        void DeleteProductById(Product p);
-        void UpdateProduct(Product p);
-        List<Product> GetProducts();
+        void SaveProduct(Book p);
+        Book GetProductById(int id);
+        void DeleteProductById(Book p);
+        void UpdateProduct(Book p);
+        List<Book> GetProducts();
     }
 }
