@@ -23,19 +23,46 @@ namespace BookStore.Controllers
 			ProductApiUrl = "/api/Products";
 		}
 
-		public async Task<IActionResult> Index()
-		{
-			HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
+        public async Task<IActionResult> Index()
+        {
+            try
+            {
+                using (HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl))
+                {
+                    httpResponse.EnsureSuccessStatusCode(); // Xác minh rằng yêu cầu HTTP thành công.
 
-			string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
+                    string data = await httpResponse.Content.ReadAsStringAsync();
 
-			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //phân tích cú pháp JSON không phân biệt hoa/thường của tên thuộc tính
+                    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
+<<<<<<< Updated upstream
             List<Product> clubs = JsonSerializer.Deserialize<List<Product>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
 
             return View(clubs);
 		}
 		public async Task<IActionResult> Wishlist()
+=======
+                    List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);
+
+                    return View(books);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                // Xử lý lỗi khi yêu cầu HTTP thất bại.
+                // Ví dụ: Log lỗi, trả về một trang lỗi hoặc thông báo lỗi.
+                return View("Error");
+            }
+            //catch (JsonException ex)
+            //{
+            //    // Xử lý lỗi khi phân tích cú pháp JSON thất bại.
+            //    // Ví dụ: Log lỗi, trả về một trang lỗi hoặc thông báo lỗi.
+            //    return View("Error");
+            //}
+        }
+
+        public async Task<IActionResult> Wishlist()
+>>>>>>> Stashed changes
 		{
 			HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
 

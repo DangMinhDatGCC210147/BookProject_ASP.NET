@@ -16,7 +16,7 @@ namespace DataAccess
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					listProducts = context.Products.ToList();
+					listProducts = context.Books.ToList();
 				}
 
 			}
@@ -34,7 +34,7 @@ namespace DataAccess
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					product = context.Products.Find(id);
+					product = context.Books.Find(id);
 				}
 
 			}
@@ -50,7 +50,7 @@ namespace DataAccess
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					context.Products.Add(product);
+					context.Books.Add(product);
 					context.SaveChanges();
 				}
 
@@ -83,7 +83,7 @@ namespace DataAccess
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					context.Products.Remove(FindProductById(product.ID));
+					context.Books.Remove(FindProductById(product.ID));
 					context.SaveChanges();
 				}
 
