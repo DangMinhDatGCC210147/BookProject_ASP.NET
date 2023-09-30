@@ -6,7 +6,7 @@ namespace BusinessObjects
 	public class Book
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int ID { get; set; }
+		public int Id { get; set; }
 		[Required]
 		public string Title { get; set; }
 		[Required]
@@ -22,18 +22,25 @@ namespace BusinessObjects
 		[Required]
 		public int PageCount { get; set; }
 		[Required]
-		public bool IsStatus { get; set; }
+		public bool IsSale { get; set; }
 		[Required]
 		public int PublicationYear { get; set; }
 		[Required]
 		public int LanguageId { get; set; }
-		public Language Language { get; set; }
+		[ForeignKey("LanguageId")]
+		public virtual Language? Language { get; set; }
 		[Required]
-		public int AuthorId { get; set; }
-		public Author Author { get; set; }
+		public virtual int AuthorId { get; set; }
+		[ForeignKey("AuthorId")]
+		public virtual Author? Author { get; set; }
 		[Required]
 		public int GenreId { get; set; }
-		public Genre Genre { get; set; }
-		public ICollection<Book> Books { get; set;}
+		[ForeignKey("GenreId")]
+		public virtual Genre? Genre { get; set; }
+
+		public ICollection<Favourite>? Favourites { get; set;}
+		public ICollection<OrderDetail>? OrderDetails { get; set;}
+		public ICollection<Review>? Reviews { get; set; }
+
 	}
 }

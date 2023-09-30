@@ -18,6 +18,6 @@ namespace BusinessObjects
 		public DateTime StartDate { get; set; }
 		[Required]
 		public DateTime EndDate { get; set; }
-		public ICollection<Discount> Discounts { get; set;}
+		public ICollection<Order>? Orders { get; set;}
 	}
 }

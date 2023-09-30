@@ -16,6 +16,6 @@ namespace BusinessObjects
 		public string Name { get; set; }
 		[Required]
 		public string Description { get; set; }
-		public ICollection<Author> Authors { get; set; }
+		public ICollection<Book>? Books { get; set; }
 	}
 }
