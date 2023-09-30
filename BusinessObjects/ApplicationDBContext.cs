@@ -21,6 +21,7 @@ namespace BusinessObjects
 			IConfigurationRoot configuration = builder.Build();
 			optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 		}
+
 		public virtual DbSet<Genre> Genres { get; set; }
 		public virtual DbSet<Language> Languages { get; set; }
 		public virtual DbSet<Book> Books { get; set; }
@@ -39,6 +40,8 @@ namespace BusinessObjects
 		{
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.Entity<OrderDetail>().HasKey(o => new {o.OrderId, o.BookId});
+
+
 			modelBuilder.Entity<Language>().HasData(
 				new Language { Id = 1, Name = "Language 1" },
 				new Language { Id = 2, Name = "Language 2" },

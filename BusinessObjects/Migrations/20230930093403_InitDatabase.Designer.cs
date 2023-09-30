@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessObjects.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20230928020217_UpdateDatabaseFix")]
-    partial class UpdateDatabaseFix
+    [Migration("20230930093403_InitDatabase")]
+    partial class InitDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,14 +27,11 @@ namespace BusinessObjects.Migrations
 
             modelBuilder.Entity("BookStore.Models.Cart", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -42,9 +39,7 @@ namespace BusinessObjects.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
-
-                    b.HasIndex("BookId");
+                    b.HasKey("Id");
 
                     b.ToTable("Carts");
                 });
@@ -57,9 +52,6 @@ namespace BusinessObjects.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AuthorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -70,23 +62,18 @@ namespace BusinessObjects.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AuthorId");
-
                     b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("BusinessObjects.Book", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BookID")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -104,7 +91,7 @@ namespace BusinessObjects.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsStatus")
+                    b.Property<bool>("IsSale")
                         .HasColumnType("bit");
 
                     b.Property<int>("LanguageId")
@@ -119,6 +106,9 @@ namespace BusinessObjects.Migrations
                     b.Property<int>("PublicationYear")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PublisherId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("SellingPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -126,36 +116,41 @@ namespace BusinessObjects.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("BookID");
 
                     b.HasIndex("GenreId");
 
                     b.HasIndex("LanguageId");
 
-                    b.ToTable("B");
+                    b.HasIndex("PublisherId");
+
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("BusinessObjects.CartDetail", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CartId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("BookId");
+
+                    b.HasIndex("CartId");
 
                     b.ToTable("CartDetails");
                 });
@@ -167,9 +162,6 @@ namespace BusinessObjects.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("DiscountId")
-                        .HasColumnType("int");
 
                     b.Property<string>("DiscountName")
                         .IsRequired()
@@ -183,30 +175,23 @@ namespace BusinessObjects.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiscountId");
-
                     b.ToTable("Discounts");
                 });
 
             modelBuilder.Entity("BusinessObjects.Favourite", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("FavouriteID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("BookId");
-
-                    b.HasIndex("FavouriteID");
 
                     b.ToTable("Favourites");
                 });
@@ -259,16 +244,11 @@ namespace BusinessObjects.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GenreId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("GenreId");
 
                     b.ToTable("Genres");
                 });
@@ -281,16 +261,11 @@ namespace BusinessObjects.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("LanguageId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LanguageId");
 
                     b.ToTable("Languages");
 
@@ -339,11 +314,11 @@ namespace BusinessObjects.Migrations
 
             modelBuilder.Entity("BusinessObjects.Order", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BookId")
                         .HasColumnType("int");
@@ -372,19 +347,14 @@ namespace BusinessObjects.Migrations
                     b.Property<bool>("IsConfirm")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("OrderID")
-                        .HasColumnType("int");
-
                     b.Property<double>("Total")
                         .HasColumnType("float");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
                     b.HasIndex("DiscountId");
-
-                    b.HasIndex("OrderID");
 
                     b.ToTable("Orders");
                 });
@@ -392,10 +362,18 @@ namespace BusinessObjects.Migrations
             modelBuilder.Entity("BusinessObjects.OrderDetail", b =>
                 {
                     b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(2);
 
                     b.Property<int>("BookId")
+                        .HasColumnType("int")
+                        .HasColumnOrder(1);
+
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("OrderId", "BookId");
 
@@ -416,23 +394,18 @@ namespace BusinessObjects.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PublisherId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PublisherId");
 
                     b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("BusinessObjects.Review", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("BookId")
                         .HasColumnType("int");
@@ -447,54 +420,36 @@ namespace BusinessObjects.Migrations
                     b.Property<int>("Rate")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.HasIndex("BookId");
 
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("BookStore.Models.Cart", b =>
-                {
-                    b.HasOne("BusinessObjects.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("BusinessObjects.Author", b =>
-                {
-                    b.HasOne("BusinessObjects.Author", null)
-                        .WithMany("Authors")
-                        .HasForeignKey("AuthorId");
-                });
-
             modelBuilder.Entity("BusinessObjects.Book", b =>
                 {
                     b.HasOne("BusinessObjects.Author", "Author")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessObjects.Book", null)
-                        .WithMany("Books")
-                        .HasForeignKey("BookID");
-
                     b.HasOne("BusinessObjects.Genre", "Genre")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BusinessObjects.Language", "Language")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("BusinessObjects.Publisher", null)
+                        .WithMany("Books")
+                        .HasForeignKey("PublisherId");
 
                     b.Navigation("Author");
 
@@ -511,43 +466,22 @@ namespace BusinessObjects.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Book");
-                });
+                    b.HasOne("BookStore.Models.Cart", null)
+                        .WithMany("CartDetails")
+                        .HasForeignKey("CartId");
 
-            modelBuilder.Entity("BusinessObjects.Discount", b =>
-                {
-                    b.HasOne("BusinessObjects.Discount", null)
-                        .WithMany("Discounts")
-                        .HasForeignKey("DiscountId");
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("BusinessObjects.Favourite", b =>
                 {
                     b.HasOne("BusinessObjects.Book", "Book")
-                        .WithMany()
+                        .WithMany("Favourites")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessObjects.Favourite", null)
-                        .WithMany("Favourites")
-                        .HasForeignKey("FavouriteID");
-
                     b.Navigation("Book");
-                });
-
-            modelBuilder.Entity("BusinessObjects.Genre", b =>
-                {
-                    b.HasOne("BusinessObjects.Genre", null)
-                        .WithMany("Categories")
-                        .HasForeignKey("GenreId");
-                });
-
-            modelBuilder.Entity("BusinessObjects.Language", b =>
-                {
-                    b.HasOne("BusinessObjects.Language", null)
-                        .WithMany("Languages")
-                        .HasForeignKey("LanguageId");
                 });
 
             modelBuilder.Entity("BusinessObjects.Order", b =>
@@ -559,14 +493,10 @@ namespace BusinessObjects.Migrations
                         .IsRequired();
 
                     b.HasOne("BusinessObjects.Discount", "Discount")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("DiscountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("BusinessObjects.Order", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("OrderID");
 
                     b.Navigation("Book");
 
@@ -576,13 +506,13 @@ namespace BusinessObjects.Migrations
             modelBuilder.Entity("BusinessObjects.OrderDetail", b =>
                 {
                     b.HasOne("BusinessObjects.Book", "Book")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BusinessObjects.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -592,17 +522,10 @@ namespace BusinessObjects.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("BusinessObjects.Publisher", b =>
-                {
-                    b.HasOne("BusinessObjects.Publisher", null)
-                        .WithMany("Publishers")
-                        .HasForeignKey("PublisherId");
-                });
-
             modelBuilder.Entity("BusinessObjects.Review", b =>
                 {
                     b.HasOne("BusinessObjects.Book", "Book")
-                        .WithMany()
+                        .WithMany("Reviews")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -610,44 +533,48 @@ namespace BusinessObjects.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("BusinessObjects.Author", b =>
+            modelBuilder.Entity("BookStore.Models.Cart", b =>
                 {
-                    b.Navigation("Authors");
+                    b.Navigation("CartDetails");
                 });
 
-            modelBuilder.Entity("BusinessObjects.Book", b =>
+            modelBuilder.Entity("BusinessObjects.Author", b =>
                 {
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("BusinessObjects.Discount", b =>
-                {
-                    b.Navigation("Discounts");
-                });
-
-            modelBuilder.Entity("BusinessObjects.Favourite", b =>
+            modelBuilder.Entity("BusinessObjects.Book", b =>
                 {
                     b.Navigation("Favourites");
+
+                    b.Navigation("OrderDetails");
+
+                    b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("BusinessObjects.Genre", b =>
-                {
-                    b.Navigation("Categories");
-                });
-
-            modelBuilder.Entity("BusinessObjects.Language", b =>
-                {
-                    b.Navigation("Languages");
-                });
-
-            modelBuilder.Entity("BusinessObjects.Order", b =>
+            modelBuilder.Entity("BusinessObjects.Discount", b =>
                 {
                     b.Navigation("Orders");
                 });
 
+            modelBuilder.Entity("BusinessObjects.Genre", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("BusinessObjects.Language", b =>
+                {
+                    b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("BusinessObjects.Order", b =>
+                {
+                    b.Navigation("OrderDetails");
+                });
+
             modelBuilder.Entity("BusinessObjects.Publisher", b =>
                 {
-                    b.Navigation("Publishers");
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

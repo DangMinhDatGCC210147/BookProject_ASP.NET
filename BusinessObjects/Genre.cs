@@ -19,6 +19,6 @@ namespace BusinessObjects
 		public string Description { get; set; }
 		[Required]
 		public GenerApproval ApprovalStatus { get; set; }
-		public ICollection<Genre> Categories { get; set;}
+		public ICollection<Book>? Books { get; set;}
 	}
 }

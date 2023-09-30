@@ -11,10 +11,10 @@ namespace BusinessObjects
 	public class Favourite
 	{
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int ID { get; set; }
+		public int Id { get; set; }
 		[Required]
 		public int BookId { get; set; }
-		public Book Book { get; set; }
-		public ICollection<Favourite> Favourites { get; set; }
+		[ForeignKey("BookId")]
+		public virtual Book? Book { get; set; }
 	}
 }

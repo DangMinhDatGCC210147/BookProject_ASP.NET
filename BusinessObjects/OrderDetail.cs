@@ -16,10 +16,13 @@ namespace BusinessObjects
 		[Key]
 		[Column(Order = 2)]
 		public int OrderId { get; set; }
+		[Required]
+		public int Quantity { get; set; }
+		[Required]
+		public Decimal TotalPrice { get; set; }
 		[ForeignKey("BookId")]
 		public virtual Book? Book { get; set; }
 		[ForeignKey("OrderId")]
 		public virtual Order? Order { get; set; }
 	}
-
 }

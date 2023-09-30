@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-	public class ProductDAO
+	public class BookDAO
 	{
 		public static List<Book> GetProducts()
 		{
@@ -16,7 +16,7 @@ namespace DataAccess
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					listProducts = context.Products.ToList();
+					listProducts = context.Books.ToList();
 				}
 
 			}
@@ -34,7 +34,7 @@ namespace DataAccess
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					product = context.Products.Find(id);
+					product = context.Books.Find(id);
 				}
 
 			}
@@ -44,13 +44,13 @@ namespace DataAccess
 			}
 			return product;
 		}
-		public static void SaveProduct(Book product)
+		public static void SaveProduct(Book book)
 		{
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					context.Products.Add(product);
+					context.Books.Add(book);
 					context.SaveChanges();
 				}
 
@@ -60,13 +60,13 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-		public static void UpdateProduct(Book product)
+		public static void UpdateProduct(Book book)
 		{
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					context.Entry<Book>(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+					context.Entry<Book>(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 					context.SaveChanges();
 				}
 
@@ -77,13 +77,13 @@ namespace DataAccess
 			}
 		}
 
-		public static void DeleteProduct(Book product)
+		public static void DeleteProduct(Book book)
 		{
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					context.Products.Remove(FindProductById(product.ID));
+					context.Books.Remove(FindProductById(book.ID));
 					context.SaveChanges();
 				}
 
