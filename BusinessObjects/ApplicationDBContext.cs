@@ -1,4 +1,5 @@
 ﻿using BookStore.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace BusinessObjects
 {
-	public class ApplicationDBContext : DbContext
+	public class ApplicationDBContext : IdentityDbContext<AppUser>
 	{
 		public ApplicationDBContext() { }
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
