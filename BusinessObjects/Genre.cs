@@ -18,7 +18,9 @@ namespace BusinessObjects
 		[Required]
 		public string Description { get; set; }
 		[Required]
-		public GenerApproval ApprovalStatus { get; set; }
+        public DateTime AddDate { get; set; }
+        [Required]
+        public GenerApproval ApprovalStatus { get; set; }
 		public ICollection<Book>? Books { get; set;}
 	}
 }

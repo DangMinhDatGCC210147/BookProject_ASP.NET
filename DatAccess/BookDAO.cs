@@ -83,7 +83,7 @@ namespace DataAccess
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					context.Books.Remove(FindProductById(book.ID));
+					context.Books.Remove(FindProductById(book.Id));
 					context.SaveChanges();
 				}
 
