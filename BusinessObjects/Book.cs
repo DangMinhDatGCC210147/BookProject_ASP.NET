@@ -38,9 +38,9 @@ namespace BusinessObjects
 		[ForeignKey("GenreId")]
 		public virtual Genre? Genre { get; set; }
 
-		public ICollection<Favourite>? Favourites { get; set;}
-		public ICollection<OrderDetail>? OrderDetails { get; set;}
-		public ICollection<Review>? Reviews { get; set; }
+		public virtual ICollection<Favourite>? Favourites { get; set;}
+		public virtual ICollection<OrderDetail>? OrderDetails { get; set;}
+		public virtual ICollection<Review>? Reviews { get; set; }
 
 	}
 }

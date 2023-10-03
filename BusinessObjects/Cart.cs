@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookStore.Models
 {
@@ -8,10 +9,12 @@ namespace BookStore.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         public DateTime CreatedDate { get; set; }
-		public ICollection<CartDetail>? CartDetails { get; set;}
+		[ForeignKey("UserId")]
+		public virtual AppUser? User { get; set; }
+		public virtual ICollection<CartDetail>? CartDetails { get; set;}
 
 	}
 }

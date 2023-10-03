@@ -21,20 +21,22 @@ namespace BusinessObjects
 		public DateTime DeliveryDate { get; set; }
 		[Required]
 		public string DeleveryLocal { get; set; }
-		[Required]
-		public int CustomerId { get; set; }
+		/*[Required]*/
+		public string? UserId { get; set; }
 		[Required]
 		public string CustomerName { get; set; }
 		[Required]
 		public string CustomerPhone { get; set; }
 		[Required]
-		public double Total { get; set; }
+		public decimal Total { get; set; }
 		[Required]
 		public Boolean IsConfirm { get; set; }
 		[Required]
 		public int DiscountId { get; set; }
 		[ForeignKey("DiscountId")]
 		public virtual Discount Discount { get; set; }
-		public ICollection<OrderDetail>? OrderDetails { get;}
+		[ForeignKey("UserId")]
+		public virtual AppUser? User { get; set; }
+		public virtual ICollection<OrderDetail>? OrderDetails { get; set; }
 	}
 }

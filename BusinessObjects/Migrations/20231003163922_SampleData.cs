@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BusinessObjects.Migrations
 {
     /// <inheritdoc />
-    public partial class User : Migration
+    public partial class SampleData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -256,18 +256,18 @@ namespace BusinessObjects.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Carts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Carts_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_Carts_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -351,16 +351,17 @@ namespace BusinessObjects.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BookId = table.Column<int>(type: "int", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Favourites", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Favourites_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_Favourites_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Favourites_Books_BookId",
                         column: x => x.BookId,
@@ -378,20 +379,19 @@ namespace BusinessObjects.Migrations
                     BookId = table.Column<int>(type: "int", nullable: false),
                     DeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeleveryLocal = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CustomerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CustomerPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Total = table.Column<double>(type: "float", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsConfirm = table.Column<bool>(type: "bit", nullable: false),
-                    DiscountId = table.Column<int>(type: "int", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    DiscountId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_Orders_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
@@ -414,20 +414,21 @@ namespace BusinessObjects.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BookId = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Rate = table.Column<int>(type: "int", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reviews_AspNetUsers_AppUserId",
-                        column: x => x.AppUserId,
+                        name: "FK_Reviews_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reviews_Books_BookId",
                         column: x => x.BookId,
@@ -461,18 +462,70 @@ namespace BusinessObjects.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Authors",
+                columns: new[] { "Id", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Description for Author 1", "Author 1" },
+                    { 2, "Description for Author 2", "Author 2" },
+                    { 3, "Description for Author 3", "Author 3" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Discounts",
+                columns: new[] { "Id", "DiscountName", "EndDate", "StartDate" },
+                values: new object[,]
+                {
+                    { 1, "Discount 1", new DateTime(2023, 10, 10, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9541), new DateTime(2023, 9, 26, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9526) },
+                    { 2, "Discount 2", new DateTime(2023, 10, 13, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9543), new DateTime(2023, 9, 30, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9542) },
+                    { 3, "Discount 3", new DateTime(2023, 10, 8, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9544), new DateTime(2023, 10, 2, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9544) }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Genres",
+                columns: new[] { "Id", "ApprovalStatus", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, 0, "Description for Fiction", "Fiction" },
+                    { 2, 1, "Description for Mystery", "Mystery" },
+                    { 3, 2, "Description for Science Fiction", "Science Fiction" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Languages",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Language 1" },
-                    { 2, "Language 2" },
-                    { 3, "Language 3" },
-                    { 4, "Language 4" },
-                    { 5, "Language 5" },
-                    { 6, "Language 6" },
-                    { 7, "Language 7" },
-                    { 8, "Language 8" }
+                    { 1, "English" },
+                    { 2, "Spanish" },
+                    { 3, "French" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Books",
+                columns: new[] { "Id", "AuthorId", "Description", "GenreId", "ISBN", "Image", "IsSale", "LanguageId", "OriginalPrice", "PageCount", "PublicationYear", "PublisherId", "SellingPrice", "Title" },
+                values: new object[,]
+                {
+                    { 1, 1, "Description for Book 1", 1, "123456789", "book1.jpg", true, 1, 19.99m, 300, 2020, null, 14.99m, "Book 1" },
+                    { 2, 2, "Description for Book 2", 2, "987654321", "book2.jpg", false, 2, 24.99m, 400, 2019, null, 19.99m, "Book 2" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Orders",
+                columns: new[] { "Id", "BookId", "CustomerName", "CustomerPhone", "DeleveryLocal", "DeliveryDate", "DiscountId", "IsConfirm", "Total", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1, "Customer 1", "123-456-7890", "123 Delivery St", new DateTime(2023, 10, 10, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9574), 1, false, 100.00m, null },
+                    { 2, 2, "Customer 2", "987-654-3210", "456 Delivery St", new DateTime(2023, 10, 8, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9577), 2, true, 75.50m, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "OrderDetails",
+                columns: new[] { "BookId", "OrderId", "Quantity", "TotalPrice" },
+                values: new object[,]
+                {
+                    { 1, 1, 2, 50.00m },
+                    { 2, 2, 3, 60.00m }
                 });
 
             migrationBuilder.CreateIndex(
@@ -545,14 +598,9 @@ namespace BusinessObjects.Migrations
                 column: "CartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Carts_AppUserId",
+                name: "IX_Carts_UserId",
                 table: "Carts",
-                column: "AppUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Favourites_AppUserId",
-                table: "Favourites",
-                column: "AppUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Favourites_BookId",
@@ -560,14 +608,14 @@ namespace BusinessObjects.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Favourites_UserId",
+                table: "Favourites",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OrderDetails_BookId",
                 table: "OrderDetails",
                 column: "BookId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Orders_AppUserId",
-                table: "Orders",
-                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_BookId",
@@ -580,14 +628,19 @@ namespace BusinessObjects.Migrations
                 column: "DiscountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_AppUserId",
-                table: "Reviews",
-                column: "AppUserId");
+                name: "IX_Orders_UserId",
+                table: "Orders",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_BookId",
                 table: "Reviews",
                 column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
+                column: "UserId");
         }
 
         /// <inheritdoc />
