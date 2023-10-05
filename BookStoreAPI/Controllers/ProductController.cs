@@ -14,8 +14,18 @@ namespace BookStoreAPI.Controllers
 
 		[HttpGet]
 		public ActionResult<IEnumerable<Book>> GetProducts() => repository.GetProducts();
-				
-		[HttpPost]
+
+        [HttpGet("{id}")]
+        public ActionResult<Book> GetBookById(int id)
+        {
+            var book = repository.GetProductById(id);
+            if (book == null)
+                return NotFound();
+
+            return Ok(book);
+        }
+
+        [HttpPost]
 		public IActionResult PostProducts(Book product)
 		{
 			repository.SaveProduct(product);

@@ -209,6 +209,9 @@ namespace BusinessObjects.Migrations
                     b.Property<int>("PublicationYear")
                         .HasColumnType("int");
 
+                    b.Property<int>("Publisher")
+                        .HasColumnType("int");
+
                     b.Property<int?>("PublisherId")
                         .HasColumnType("int");
 
@@ -245,6 +248,7 @@ namespace BusinessObjects.Migrations
                             OriginalPrice = 19.99m,
                             PageCount = 300,
                             PublicationYear = 2020,
+                            Publisher = 0,
                             SellingPrice = 14.99m,
                             Title = "Book 1"
                         },
@@ -261,6 +265,7 @@ namespace BusinessObjects.Migrations
                             OriginalPrice = 24.99m,
                             PageCount = 400,
                             PublicationYear = 2019,
+                            Publisher = 0,
                             SellingPrice = 19.99m,
                             Title = "Book 2"
                         });
@@ -319,22 +324,22 @@ namespace BusinessObjects.Migrations
                         {
                             Id = 1,
                             DiscountName = "Discount 1",
-                            EndDate = new DateTime(2023, 10, 12, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6586),
-                            StartDate = new DateTime(2023, 9, 28, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6567)
+                            EndDate = new DateTime(2023, 10, 12, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3393),
+                            StartDate = new DateTime(2023, 9, 28, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3390)
                         },
                         new
                         {
                             Id = 2,
                             DiscountName = "Discount 2",
-                            EndDate = new DateTime(2023, 10, 15, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6588),
-                            StartDate = new DateTime(2023, 10, 2, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6587)
+                            EndDate = new DateTime(2023, 10, 15, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3394),
+                            StartDate = new DateTime(2023, 10, 2, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3394)
                         },
                         new
                         {
                             Id = 3,
                             DiscountName = "Discount 3",
-                            EndDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6589),
-                            StartDate = new DateTime(2023, 10, 4, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6588)
+                            EndDate = new DateTime(2023, 10, 10, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3395),
+                            StartDate = new DateTime(2023, 10, 4, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3395)
                         });
                 });
 
@@ -425,6 +430,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 1,
+                            AddDate = new DateTime(2023, 10, 5, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3368),
                             ApprovalStatus = 0,
                             Description = "Description for Fiction",
                             Name = "Fiction"
@@ -432,6 +438,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 2,
+                            AddDate = new DateTime(2023, 10, 5, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3378),
                             ApprovalStatus = 1,
                             Description = "Description for Mystery",
                             Name = "Mystery"
@@ -439,6 +446,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 3,
+                            AddDate = new DateTime(2023, 10, 5, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3379),
                             ApprovalStatus = 2,
                             Description = "Description for Science Fiction",
                             Name = "Science Fiction"
@@ -529,7 +537,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 1",
                             CustomerPhone = "123-456-7890",
                             DeleveryLocal = "123 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6619),
+                            DeliveryDate = new DateTime(2023, 10, 10, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3419),
                             DiscountId = 1,
                             IsConfirm = false,
                             Total = 100.00m
@@ -540,7 +548,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 2",
                             CustomerPhone = "987-654-3210",
                             DeleveryLocal = "456 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6621),
+                            DeliveryDate = new DateTime(2023, 10, 10, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3422),
                             DiscountId = 2,
                             IsConfirm = true,
                             Total = 75.50m
@@ -551,7 +559,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 3",
                             CustomerPhone = "111-222-3333",
                             DeleveryLocal = "789 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 13, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6623),
+                            DeliveryDate = new DateTime(2023, 10, 13, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3423),
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 90.00m
@@ -562,7 +570,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 4",
                             CustomerPhone = "444-555-6666",
                             DeleveryLocal = "101 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 11, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6628),
+                            DeliveryDate = new DateTime(2023, 10, 11, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3424),
                             DiscountId = 2,
                             IsConfirm = false,
                             Total = 85.75m
@@ -573,7 +581,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 5",
                             CustomerPhone = "777-888-9999",
                             DeleveryLocal = "202 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 14, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6629),
+                            DeliveryDate = new DateTime(2023, 10, 14, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3425),
                             DiscountId = 1,
                             IsConfirm = false,
                             Total = 120.25m
@@ -584,7 +592,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 6",
                             CustomerPhone = "555-666-7777",
                             DeleveryLocal = "303 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 12, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6630),
+                            DeliveryDate = new DateTime(2023, 10, 12, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3426),
                             DiscountId = 2,
                             IsConfirm = true,
                             Total = 110.50m
@@ -595,7 +603,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 7",
                             CustomerPhone = "888-999-0000",
                             DeleveryLocal = "404 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 16, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6631),
+                            DeliveryDate = new DateTime(2023, 10, 16, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3427),
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 95.00m
@@ -606,7 +614,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 8",
                             CustomerPhone = "333-444-5555",
                             DeleveryLocal = "505 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 15, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6632),
+                            DeliveryDate = new DateTime(2023, 10, 15, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3428),
                             DiscountId = 2,
                             IsConfirm = false,
                             Total = 65.25m
@@ -617,7 +625,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 9",
                             CustomerPhone = "999-000-1111",
                             DeleveryLocal = "606 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 19, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6633),
+                            DeliveryDate = new DateTime(2023, 10, 19, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3429),
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 135.75m
@@ -628,7 +636,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 10",
                             CustomerPhone = "666-777-8888",
                             DeleveryLocal = "707 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 17, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6634),
+                            DeliveryDate = new DateTime(2023, 10, 17, 19, 11, 33, 594, DateTimeKind.Local).AddTicks(3430),
                             DiscountId = 2,
                             IsConfirm = false,
                             Total = 70.00m
