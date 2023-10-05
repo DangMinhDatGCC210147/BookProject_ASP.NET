@@ -14,10 +14,6 @@ namespace BusinessObjects
 		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 		[Required]
-		public int BookId { get; set; }
-		[ForeignKey("BookId")]
-		public virtual Book? Book { get; set; }
-		[Required]
 		public DateTime DeliveryDate { get; set; }
 		[Required]
 		public string DeleveryLocal { get; set; }

@@ -1,14 +1,42 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BookStoreAPI.Models;
+using BusinessObjects;
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace BookStoreWebClient.Controllers
 {
     public class AdminController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-        public IActionResult Category()
+		private readonly IConfiguration _configuration;
+		private readonly HttpClient client = null;
+		private string StatisticApiUrl = "";
+
+		public AdminController(IConfiguration configuration)
+		{
+			_configuration = configuration;
+			client = new HttpClient();
+			client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+			var contentType = new MediaTypeWithQualityHeaderValue("application/json");
+			client.DefaultRequestHeaders.Accept.Add(contentType);
+			StatisticApiUrl = "/api/Statistics";
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Index()
+		{
+            DateTime now = DateTime.Now;
+			HttpResponseMessage httpResponse = await client.GetAsync(StatisticApiUrl + "?currentDate=" + now); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
+
+			string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
+
+			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //phân tích cú pháp JSON không phân biệt hoa/thường của tên thuộc tính
+
+            StatisticView statistics = JsonSerializer.Deserialize<StatisticView>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
+
+			return View(statistics);
+		}
+		public IActionResult Category()
         {
             return View();
         }

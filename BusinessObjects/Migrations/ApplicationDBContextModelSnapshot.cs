@@ -319,22 +319,22 @@ namespace BusinessObjects.Migrations
                         {
                             Id = 1,
                             DiscountName = "Discount 1",
-                            EndDate = new DateTime(2023, 10, 10, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9541),
-                            StartDate = new DateTime(2023, 9, 26, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9526)
+                            EndDate = new DateTime(2023, 10, 12, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6586),
+                            StartDate = new DateTime(2023, 9, 28, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6567)
                         },
                         new
                         {
                             Id = 2,
                             DiscountName = "Discount 2",
-                            EndDate = new DateTime(2023, 10, 13, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9543),
-                            StartDate = new DateTime(2023, 9, 30, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9542)
+                            EndDate = new DateTime(2023, 10, 15, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6588),
+                            StartDate = new DateTime(2023, 10, 2, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6587)
                         },
                         new
                         {
                             Id = 3,
                             DiscountName = "Discount 3",
-                            EndDate = new DateTime(2023, 10, 8, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9544),
-                            StartDate = new DateTime(2023, 10, 2, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9544)
+                            EndDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6589),
+                            StartDate = new DateTime(2023, 10, 4, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6588)
                         });
                 });
 
@@ -484,9 +484,6 @@ namespace BusinessObjects.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -516,8 +513,6 @@ namespace BusinessObjects.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BookId");
-
                     b.HasIndex("DiscountId");
 
                     b.HasIndex("UserId");
@@ -528,11 +523,10 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 1,
-                            BookId = 1,
                             CustomerName = "Customer 1",
                             CustomerPhone = "123-456-7890",
                             DeleveryLocal = "123 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 10, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9574),
+                            DeliveryDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6619),
                             DiscountId = 1,
                             IsConfirm = false,
                             Total = 100.00m
@@ -540,14 +534,101 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 2,
-                            BookId = 2,
                             CustomerName = "Customer 2",
                             CustomerPhone = "987-654-3210",
                             DeleveryLocal = "456 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 8, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9577),
+                            DeliveryDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6621),
                             DiscountId = 2,
                             IsConfirm = true,
                             Total = 75.50m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CustomerName = "Customer 3",
+                            CustomerPhone = "111-222-3333",
+                            DeleveryLocal = "789 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 13, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6623),
+                            DiscountId = 1,
+                            IsConfirm = true,
+                            Total = 90.00m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CustomerName = "Customer 4",
+                            CustomerPhone = "444-555-6666",
+                            DeleveryLocal = "101 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 11, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6628),
+                            DiscountId = 2,
+                            IsConfirm = false,
+                            Total = 85.75m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CustomerName = "Customer 5",
+                            CustomerPhone = "777-888-9999",
+                            DeleveryLocal = "202 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 14, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6629),
+                            DiscountId = 1,
+                            IsConfirm = false,
+                            Total = 120.25m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CustomerName = "Customer 6",
+                            CustomerPhone = "555-666-7777",
+                            DeleveryLocal = "303 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 12, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6630),
+                            DiscountId = 2,
+                            IsConfirm = true,
+                            Total = 110.50m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CustomerName = "Customer 7",
+                            CustomerPhone = "888-999-0000",
+                            DeleveryLocal = "404 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 16, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6631),
+                            DiscountId = 1,
+                            IsConfirm = true,
+                            Total = 95.00m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CustomerName = "Customer 8",
+                            CustomerPhone = "333-444-5555",
+                            DeleveryLocal = "505 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 15, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6632),
+                            DiscountId = 2,
+                            IsConfirm = false,
+                            Total = 65.25m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CustomerName = "Customer 9",
+                            CustomerPhone = "999-000-1111",
+                            DeleveryLocal = "606 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 19, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6633),
+                            DiscountId = 1,
+                            IsConfirm = true,
+                            Total = 135.75m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CustomerName = "Customer 10",
+                            CustomerPhone = "666-777-8888",
+                            DeleveryLocal = "707 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 17, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6634),
+                            DiscountId = 2,
+                            IsConfirm = false,
+                            Total = 70.00m
                         });
                 });
 
@@ -587,6 +668,62 @@ namespace BusinessObjects.Migrations
                             BookId = 2,
                             Quantity = 3,
                             TotalPrice = 60.00m
+                        },
+                        new
+                        {
+                            OrderId = 3,
+                            BookId = 1,
+                            Quantity = 1,
+                            TotalPrice = 40.00m
+                        },
+                        new
+                        {
+                            OrderId = 4,
+                            BookId = 2,
+                            Quantity = 2,
+                            TotalPrice = 55.50m
+                        },
+                        new
+                        {
+                            OrderId = 5,
+                            BookId = 2,
+                            Quantity = 2,
+                            TotalPrice = 48.00m
+                        },
+                        new
+                        {
+                            OrderId = 6,
+                            BookId = 1,
+                            Quantity = 1,
+                            TotalPrice = 35.25m
+                        },
+                        new
+                        {
+                            OrderId = 7,
+                            BookId = 2,
+                            Quantity = 3,
+                            TotalPrice = 75.00m
+                        },
+                        new
+                        {
+                            OrderId = 8,
+                            BookId = 1,
+                            Quantity = 2,
+                            TotalPrice = 42.00m
+                        },
+                        new
+                        {
+                            OrderId = 9,
+                            BookId = 1,
+                            Quantity = 1,
+                            TotalPrice = 65.75m
+                        },
+                        new
+                        {
+                            OrderId = 10,
+                            BookId = 1,
+                            Quantity = 3,
+                            TotalPrice = 45.00m
                         });
                 });
 
@@ -852,12 +989,6 @@ namespace BusinessObjects.Migrations
 
             modelBuilder.Entity("BusinessObjects.Order", b =>
                 {
-                    b.HasOne("BusinessObjects.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BusinessObjects.Discount", "Discount")
                         .WithMany("Orders")
                         .HasForeignKey("DiscountId")
@@ -867,8 +998,6 @@ namespace BusinessObjects.Migrations
                     b.HasOne("BusinessObjects.AppUser", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Book");
 
                     b.Navigation("Discount");
 

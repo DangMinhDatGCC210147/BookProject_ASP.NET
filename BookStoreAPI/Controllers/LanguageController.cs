@@ -6,23 +6,14 @@ using Repositories.Interfaces;
 
 namespace BookStoreAPI.Controllers
 {
-	[Route("api/Laguages")]
+	[Route("api/Languages")]
 	[ApiController]
 	public class LanguageController : ControllerBase
 	{
-		private readonly ILanguageRepository repository;
-
-		public LanguageController(ILanguageRepository languageRepository)
-		{
-			repository = languageRepository;
-		}
+		private readonly ILanguageRepository repository = new LanguageRepository();
 
 		[HttpGet]
-		public ActionResult<IEnumerable<Language>> GetLanguages()
-		{
-			var languages = repository.GetLanguages();
-			return Ok(languages);
-		}
+		public ActionResult<IEnumerable<Language>> GetLanguages() => repository.GetLanguages();
 
 		[HttpGet("{id}")]
 		public ActionResult<Language> GetLanguageById(int id)
@@ -38,6 +29,16 @@ namespace BookStoreAPI.Controllers
 		public IActionResult CreateLanguage(Language language)
 		{
 			repository.SaveLanguage(language);
+			return Ok();
+		}
+
+		[HttpDelete("id")]
+		public IActionResult DeleteLanguages(int id)
+		{
+			var product = repository.GetLanguageById(id);
+			if (product == null)
+				return NotFound();
+			repository.DeleteLanguageById(product);
 			return Ok();
 		}
 

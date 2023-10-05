@@ -20,5 +20,5 @@ namespace BusinessObjects
 		[Required]
 		public GenerApproval ApprovalStatus { get; set; }
 		public virtual ICollection<Book>? Books { get; set;}
-	}
+    }
 }

@@ -271,6 +271,37 @@ namespace BusinessObjects.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleveryLocal = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CustomerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    IsConfirm = table.Column<bool>(type: "bit", nullable: false),
+                    DiscountId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_Discounts_DiscountId",
+                        column: x => x.DiscountId,
+                        principalTable: "Discounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Books",
                 columns: table => new
                 {
@@ -371,39 +402,27 @@ namespace BusinessObjects.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "OrderDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     BookId = table.Column<int>(type: "int", nullable: false),
-                    DeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DeleveryLocal = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CustomerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsConfirm = table.Column<bool>(type: "bit", nullable: false),
-                    DiscountId = table.Column<int>(type: "int", nullable: false)
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_OrderDetails", x => new { x.OrderId, x.BookId });
                     table.ForeignKey(
-                        name: "FK_Orders_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Books_BookId",
+                        name: "FK_OrderDetails_Books_BookId",
                         column: x => x.BookId,
                         principalTable: "Books",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_Discounts_DiscountId",
-                        column: x => x.DiscountId,
-                        principalTable: "Discounts",
+                        name: "FK_OrderDetails_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -437,30 +456,6 @@ namespace BusinessObjects.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "OrderDetails",
-                columns: table => new
-                {
-                    BookId = table.Column<int>(type: "int", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderDetails", x => new { x.OrderId, x.BookId });
-                    table.ForeignKey(
-                        name: "FK_OrderDetails_Books_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Books",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_OrderDetails_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id");
-                });
-
             migrationBuilder.InsertData(
                 table: "Authors",
                 columns: new[] { "Id", "Description", "Name" },
@@ -476,9 +471,9 @@ namespace BusinessObjects.Migrations
                 columns: new[] { "Id", "DiscountName", "EndDate", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "Discount 1", new DateTime(2023, 10, 10, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9541), new DateTime(2023, 9, 26, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9526) },
-                    { 2, "Discount 2", new DateTime(2023, 10, 13, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9543), new DateTime(2023, 9, 30, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9542) },
-                    { 3, "Discount 3", new DateTime(2023, 10, 8, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9544), new DateTime(2023, 10, 2, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9544) }
+                    { 1, "Discount 1", new DateTime(2023, 10, 12, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6586), new DateTime(2023, 9, 28, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6567) },
+                    { 2, "Discount 2", new DateTime(2023, 10, 15, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6588), new DateTime(2023, 10, 2, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6587) },
+                    { 3, "Discount 3", new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6589), new DateTime(2023, 10, 4, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6588) }
                 });
 
             migrationBuilder.InsertData(
@@ -512,11 +507,19 @@ namespace BusinessObjects.Migrations
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "Id", "BookId", "CustomerName", "CustomerPhone", "DeleveryLocal", "DeliveryDate", "DiscountId", "IsConfirm", "Total", "UserId" },
+                columns: new[] { "Id", "CustomerName", "CustomerPhone", "DeleveryLocal", "DeliveryDate", "DiscountId", "IsConfirm", "Total", "UserId" },
                 values: new object[,]
                 {
-                    { 1, 1, "Customer 1", "123-456-7890", "123 Delivery St", new DateTime(2023, 10, 10, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9574), 1, false, 100.00m, null },
-                    { 2, 2, "Customer 2", "987-654-3210", "456 Delivery St", new DateTime(2023, 10, 8, 23, 39, 22, 508, DateTimeKind.Local).AddTicks(9577), 2, true, 75.50m, null }
+                    { 1, "Customer 1", "123-456-7890", "123 Delivery St", new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6619), 1, false, 100.00m, null },
+                    { 2, "Customer 2", "987-654-3210", "456 Delivery St", new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6621), 2, true, 75.50m, null },
+                    { 3, "Customer 3", "111-222-3333", "789 Delivery St", new DateTime(2023, 10, 13, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6623), 1, true, 90.00m, null },
+                    { 4, "Customer 4", "444-555-6666", "101 Delivery St", new DateTime(2023, 10, 11, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6628), 2, false, 85.75m, null },
+                    { 5, "Customer 5", "777-888-9999", "202 Delivery St", new DateTime(2023, 10, 14, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6629), 1, false, 120.25m, null },
+                    { 6, "Customer 6", "555-666-7777", "303 Delivery St", new DateTime(2023, 10, 12, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6630), 2, true, 110.50m, null },
+                    { 7, "Customer 7", "888-999-0000", "404 Delivery St", new DateTime(2023, 10, 16, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6631), 1, true, 95.00m, null },
+                    { 8, "Customer 8", "333-444-5555", "505 Delivery St", new DateTime(2023, 10, 15, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6632), 2, false, 65.25m, null },
+                    { 9, "Customer 9", "999-000-1111", "606 Delivery St", new DateTime(2023, 10, 19, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6633), 1, true, 135.75m, null },
+                    { 10, "Customer 10", "666-777-8888", "707 Delivery St", new DateTime(2023, 10, 17, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6634), 2, false, 70.00m, null }
                 });
 
             migrationBuilder.InsertData(
@@ -525,7 +528,15 @@ namespace BusinessObjects.Migrations
                 values: new object[,]
                 {
                     { 1, 1, 2, 50.00m },
-                    { 2, 2, 3, 60.00m }
+                    { 2, 2, 3, 60.00m },
+                    { 1, 3, 1, 40.00m },
+                    { 2, 4, 2, 55.50m },
+                    { 2, 5, 2, 48.00m },
+                    { 1, 6, 1, 35.25m },
+                    { 2, 7, 3, 75.00m },
+                    { 1, 8, 2, 42.00m },
+                    { 1, 9, 1, 65.75m },
+                    { 1, 10, 3, 45.00m }
                 });
 
             migrationBuilder.CreateIndex(
@@ -618,11 +629,6 @@ namespace BusinessObjects.Migrations
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_BookId",
-                table: "Orders",
-                column: "BookId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Orders_DiscountId",
                 table: "Orders",
                 column: "DiscountId");
@@ -686,10 +692,10 @@ namespace BusinessObjects.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Books");
 
             migrationBuilder.DropTable(
-                name: "Books");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Discounts");
