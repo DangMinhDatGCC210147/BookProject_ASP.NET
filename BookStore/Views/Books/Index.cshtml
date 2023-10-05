@@ -73,9 +73,13 @@
                                                     <label for="publisher">Publisher</label>
                                                     <!-- <input type="text" class="form-control" id="publisher" placeholder="Enter publisher"> -->
                                                     <select class="form-control" id="publisher">
-                                                        <option value="">Publisher 1</option>
+                                                        @* <option value="">Publisher 1</option>
                                                         <option value="">Publisher 2</option>
-                                                        <option value="">Publisher 3</option>
+                                                        <option value="">Publisher 3</option> *@
+                                                        @foreach (var language in Model)
+                                                        {
+                                                            <option value="@language.LanguageId">@language.Language</option>
+                                                        }
                                                     </select>
                                                 </div>
                                             </div>
