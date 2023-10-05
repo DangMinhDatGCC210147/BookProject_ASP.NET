@@ -165,6 +165,30 @@ namespace BusinessObjects.Migrations
                             Id = 3,
                             Description = "Description for Author 3",
                             Name = "Author 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Description for Author 4",
+                            Name = "Author 4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Description for Author 5",
+                            Name = "Author 5"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Description for Author 6",
+                            Name = "Author 6"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Description for Author 7",
+                            Name = "Author 7"
                         });
                 });
 
@@ -209,7 +233,7 @@ namespace BusinessObjects.Migrations
                     b.Property<int>("PublicationYear")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PublisherId")
+                    b.Property<int>("PublisherId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("SellingPrice")
@@ -245,6 +269,7 @@ namespace BusinessObjects.Migrations
                             OriginalPrice = 19.99m,
                             PageCount = 300,
                             PublicationYear = 2020,
+                            PublisherId = 1,
                             SellingPrice = 14.99m,
                             Title = "Book 1"
                         },
@@ -261,8 +286,145 @@ namespace BusinessObjects.Migrations
                             OriginalPrice = 24.99m,
                             PageCount = 400,
                             PublicationYear = 2019,
+                            PublisherId = 2,
                             SellingPrice = 19.99m,
                             Title = "Book 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AuthorId = 3,
+                            Description = "Description for Book 3",
+                            GenreId = 1,
+                            ISBN = "987654322",
+                            Image = "book3.jpg",
+                            IsSale = true,
+                            LanguageId = 1,
+                            OriginalPrice = 29.99m,
+                            PageCount = 350,
+                            PublicationYear = 2021,
+                            PublisherId = 1,
+                            SellingPrice = 24.99m,
+                            Title = "Book 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AuthorId = 1,
+                            Description = "Description for Book 4",
+                            GenreId = 3,
+                            ISBN = "123456790",
+                            Image = "book4.jpg",
+                            IsSale = true,
+                            LanguageId = 3,
+                            OriginalPrice = 18.99m,
+                            PageCount = 280,
+                            PublicationYear = 2018,
+                            PublisherId = 3,
+                            SellingPrice = 15.99m,
+                            Title = "Book 4"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AuthorId = 2,
+                            Description = "Description for Book 5",
+                            GenreId = 2,
+                            ISBN = "987654323",
+                            Image = "book5.jpg",
+                            IsSale = false,
+                            LanguageId = 2,
+                            OriginalPrice = 34.99m,
+                            PageCount = 450,
+                            PublicationYear = 2022,
+                            PublisherId = 2,
+                            SellingPrice = 29.99m,
+                            Title = "Book 5"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AuthorId = 4,
+                            Description = "Description for Book 6",
+                            GenreId = 1,
+                            ISBN = "123456791",
+                            Image = "book6.jpg",
+                            IsSale = false,
+                            LanguageId = 1,
+                            OriginalPrice = 14.99m,
+                            PageCount = 240,
+                            PublicationYear = 2017,
+                            PublisherId = 1,
+                            SellingPrice = 11.99m,
+                            Title = "Book 6"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AuthorId = 5,
+                            Description = "Description for Book 7",
+                            GenreId = 1,
+                            ISBN = "987654324",
+                            Image = "book7.jpg",
+                            IsSale = true,
+                            LanguageId = 3,
+                            OriginalPrice = 22.99m,
+                            PageCount = 320,
+                            PublicationYear = 2019,
+                            PublisherId = 3,
+                            SellingPrice = 18.99m,
+                            Title = "Book 7"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AuthorId = 2,
+                            Description = "Description for Book 8",
+                            GenreId = 2,
+                            ISBN = "123456792",
+                            Image = "book8.jpg",
+                            IsSale = true,
+                            LanguageId = 2,
+                            OriginalPrice = 26.99m,
+                            PageCount = 380,
+                            PublicationYear = 2021,
+                            PublisherId = 2,
+                            SellingPrice = 21.99m,
+                            Title = "Book 8"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AuthorId = 3,
+                            Description = "Description for Book 9",
+                            GenreId = 1,
+                            ISBN = "987654325",
+                            Image = "book9.jpg",
+                            IsSale = false,
+                            LanguageId = 1,
+                            OriginalPrice = 17.99m,
+                            PageCount = 260,
+                            PublicationYear = 2020,
+                            PublisherId = 1,
+                            SellingPrice = 14.99m,
+                            Title = "Book 9"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AuthorId = 4,
+                            Description = "Description for Book 10",
+                            GenreId = 3,
+                            ISBN = "123456793",
+                            Image = "book10.jpg",
+                            IsSale = true,
+                            LanguageId = 3,
+                            OriginalPrice = 31.99m,
+                            PageCount = 420,
+                            PublicationYear = 2022,
+                            PublisherId = 3,
+                            SellingPrice = 26.99m,
+                            Title = "Book 10"
                         });
                 });
 
@@ -319,22 +481,22 @@ namespace BusinessObjects.Migrations
                         {
                             Id = 1,
                             DiscountName = "Discount 1",
-                            EndDate = new DateTime(2023, 10, 12, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6586),
-                            StartDate = new DateTime(2023, 9, 28, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6567)
+                            EndDate = new DateTime(2023, 10, 13, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(947),
+                            StartDate = new DateTime(2023, 9, 29, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(929)
                         },
                         new
                         {
                             Id = 2,
                             DiscountName = "Discount 2",
-                            EndDate = new DateTime(2023, 10, 15, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6588),
-                            StartDate = new DateTime(2023, 10, 2, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6587)
+                            EndDate = new DateTime(2023, 10, 16, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(950),
+                            StartDate = new DateTime(2023, 10, 3, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(950)
                         },
                         new
                         {
                             Id = 3,
                             DiscountName = "Discount 3",
-                            EndDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6589),
-                            StartDate = new DateTime(2023, 10, 4, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6588)
+                            EndDate = new DateTime(2023, 10, 11, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(952),
+                            StartDate = new DateTime(2023, 10, 5, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(952)
                         });
                 });
 
@@ -403,9 +565,6 @@ namespace BusinessObjects.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("AddDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("ApprovalStatus")
                         .HasColumnType("int");
 
@@ -442,6 +601,55 @@ namespace BusinessObjects.Migrations
                             ApprovalStatus = 2,
                             Description = "Description for Science Fiction",
                             Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ApprovalStatus = 0,
+                            Description = "Description for Fantasy",
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ApprovalStatus = 1,
+                            Description = "Description for Romance",
+                            Name = "Romance"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ApprovalStatus = 0,
+                            Description = "Description for Horror",
+                            Name = "Horror"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ApprovalStatus = 1,
+                            Description = "Description for Adventure",
+                            Name = "Adventure"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ApprovalStatus = 2,
+                            Description = "Description for Non-fiction",
+                            Name = "Non-fiction"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ApprovalStatus = 0,
+                            Description = "Description for Biography",
+                            Name = "Biography"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ApprovalStatus = 1,
+                            Description = "Description for History",
+                            Name = "History"
                         });
                 });
 
@@ -529,7 +737,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 1",
                             CustomerPhone = "123-456-7890",
                             DeleveryLocal = "123 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6619),
+                            DeliveryDate = new DateTime(2023, 10, 11, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(1007),
                             DiscountId = 1,
                             IsConfirm = false,
                             Total = 100.00m
@@ -540,7 +748,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 2",
                             CustomerPhone = "987-654-3210",
                             DeleveryLocal = "456 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6621),
+                            DeliveryDate = new DateTime(2023, 10, 11, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(1009),
                             DiscountId = 2,
                             IsConfirm = true,
                             Total = 75.50m
@@ -551,7 +759,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 3",
                             CustomerPhone = "111-222-3333",
                             DeleveryLocal = "789 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 13, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6623),
+                            DeliveryDate = new DateTime(2023, 10, 14, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(1011),
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 90.00m
@@ -562,7 +770,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 4",
                             CustomerPhone = "444-555-6666",
                             DeleveryLocal = "101 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 11, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6628),
+                            DeliveryDate = new DateTime(2023, 10, 12, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(1012),
                             DiscountId = 2,
                             IsConfirm = false,
                             Total = 85.75m
@@ -573,7 +781,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 5",
                             CustomerPhone = "777-888-9999",
                             DeleveryLocal = "202 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 14, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6629),
+                            DeliveryDate = new DateTime(2023, 10, 15, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(1013),
                             DiscountId = 1,
                             IsConfirm = false,
                             Total = 120.25m
@@ -584,7 +792,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 6",
                             CustomerPhone = "555-666-7777",
                             DeleveryLocal = "303 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 12, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6630),
+                            DeliveryDate = new DateTime(2023, 10, 13, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(1014),
                             DiscountId = 2,
                             IsConfirm = true,
                             Total = 110.50m
@@ -595,7 +803,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 7",
                             CustomerPhone = "888-999-0000",
                             DeleveryLocal = "404 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 16, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6631),
+                            DeliveryDate = new DateTime(2023, 10, 17, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(1015),
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 95.00m
@@ -606,7 +814,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 8",
                             CustomerPhone = "333-444-5555",
                             DeleveryLocal = "505 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 15, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6632),
+                            DeliveryDate = new DateTime(2023, 10, 16, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(1016),
                             DiscountId = 2,
                             IsConfirm = false,
                             Total = 65.25m
@@ -617,7 +825,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 9",
                             CustomerPhone = "999-000-1111",
                             DeleveryLocal = "606 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 19, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6633),
+                            DeliveryDate = new DateTime(2023, 10, 20, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(1017),
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 135.75m
@@ -628,7 +836,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 10",
                             CustomerPhone = "666-777-8888",
                             DeleveryLocal = "707 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 17, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6634),
+                            DeliveryDate = new DateTime(2023, 10, 18, 0, 2, 41, 528, DateTimeKind.Local).AddTicks(1018),
                             DiscountId = 2,
                             IsConfirm = false,
                             Total = 70.00m
@@ -745,6 +953,58 @@ namespace BusinessObjects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Publishers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "English"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Spanish"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "French"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "German"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Italian"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Chinese"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Japanese"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Korean"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Russian"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Arabic"
+                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.Review", b =>
@@ -945,15 +1205,19 @@ namespace BusinessObjects.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessObjects.Publisher", null)
+                    b.HasOne("BusinessObjects.Publisher", "Publisher")
                         .WithMany("Books")
-                        .HasForeignKey("PublisherId");
+                        .HasForeignKey("PublisherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Author");
 
                     b.Navigation("Genre");
 
                     b.Navigation("Language");
+
+                    b.Navigation("Publisher");
                 });
 
             modelBuilder.Entity("BusinessObjects.CartDetail", b =>
