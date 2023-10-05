@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessObjects.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20231002183906_User")]
-    partial class User
+    [Migration("20231005062348_SampleData")]
+    partial class SampleData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,18 +33,16 @@ namespace BusinessObjects.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -151,6 +149,26 @@ namespace BusinessObjects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Description for Author 1",
+                            Name = "Author 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Description for Author 2",
+                            Name = "Author 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Description for Author 3",
+                            Name = "Author 3"
+                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.Book", b =>
@@ -215,6 +233,40 @@ namespace BusinessObjects.Migrations
                     b.HasIndex("PublisherId");
 
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AuthorId = 1,
+                            Description = "Description for Book 1",
+                            GenreId = 1,
+                            ISBN = "123456789",
+                            Image = "book1.jpg",
+                            IsSale = true,
+                            LanguageId = 1,
+                            OriginalPrice = 19.99m,
+                            PageCount = 300,
+                            PublicationYear = 2020,
+                            SellingPrice = 14.99m,
+                            Title = "Book 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AuthorId = 2,
+                            Description = "Description for Book 2",
+                            GenreId = 2,
+                            ISBN = "987654321",
+                            Image = "book2.jpg",
+                            IsSale = false,
+                            LanguageId = 2,
+                            OriginalPrice = 24.99m,
+                            PageCount = 400,
+                            PublicationYear = 2019,
+                            SellingPrice = 19.99m,
+                            Title = "Book 2"
+                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.CartDetail", b =>
@@ -264,6 +316,29 @@ namespace BusinessObjects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Discounts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DiscountName = "Discount 1",
+                            EndDate = new DateTime(2023, 10, 12, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6586),
+                            StartDate = new DateTime(2023, 9, 28, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6567)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DiscountName = "Discount 2",
+                            EndDate = new DateTime(2023, 10, 15, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6588),
+                            StartDate = new DateTime(2023, 10, 2, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6587)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DiscountName = "Discount 3",
+                            EndDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6589),
+                            StartDate = new DateTime(2023, 10, 4, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6588)
+                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.Favourite", b =>
@@ -274,17 +349,18 @@ namespace BusinessObjects.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Favourites");
                 });
@@ -344,6 +420,29 @@ namespace BusinessObjects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ApprovalStatus = 0,
+                            Description = "Description for Fiction",
+                            Name = "Fiction"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ApprovalStatus = 1,
+                            Description = "Description for Mystery",
+                            Name = "Mystery"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ApprovalStatus = 2,
+                            Description = "Description for Science Fiction",
+                            Name = "Science Fiction"
+                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.Language", b =>
@@ -366,42 +465,17 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Language 1"
+                            Name = "English"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Language 2"
+                            Name = "Spanish"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Language 3"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Language 4"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Language 5"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Language 6"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Language 7"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "Language 8"
+                            Name = "French"
                         });
                 });
 
@@ -412,15 +486,6 @@ namespace BusinessObjects.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
 
                     b.Property<string>("CustomerName")
                         .IsRequired()
@@ -443,18 +508,131 @@ namespace BusinessObjects.Migrations
                     b.Property<bool>("IsConfirm")
                         .HasColumnType("bit");
 
-                    b.Property<double>("Total")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
-                    b.HasIndex("BookId");
-
                     b.HasIndex("DiscountId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CustomerName = "Customer 1",
+                            CustomerPhone = "123-456-7890",
+                            DeleveryLocal = "123 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6619),
+                            DiscountId = 1,
+                            IsConfirm = false,
+                            Total = 100.00m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CustomerName = "Customer 2",
+                            CustomerPhone = "987-654-3210",
+                            DeleveryLocal = "456 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 10, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6621),
+                            DiscountId = 2,
+                            IsConfirm = true,
+                            Total = 75.50m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CustomerName = "Customer 3",
+                            CustomerPhone = "111-222-3333",
+                            DeleveryLocal = "789 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 13, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6623),
+                            DiscountId = 1,
+                            IsConfirm = true,
+                            Total = 90.00m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CustomerName = "Customer 4",
+                            CustomerPhone = "444-555-6666",
+                            DeleveryLocal = "101 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 11, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6628),
+                            DiscountId = 2,
+                            IsConfirm = false,
+                            Total = 85.75m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CustomerName = "Customer 5",
+                            CustomerPhone = "777-888-9999",
+                            DeleveryLocal = "202 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 14, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6629),
+                            DiscountId = 1,
+                            IsConfirm = false,
+                            Total = 120.25m
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CustomerName = "Customer 6",
+                            CustomerPhone = "555-666-7777",
+                            DeleveryLocal = "303 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 12, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6630),
+                            DiscountId = 2,
+                            IsConfirm = true,
+                            Total = 110.50m
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CustomerName = "Customer 7",
+                            CustomerPhone = "888-999-0000",
+                            DeleveryLocal = "404 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 16, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6631),
+                            DiscountId = 1,
+                            IsConfirm = true,
+                            Total = 95.00m
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CustomerName = "Customer 8",
+                            CustomerPhone = "333-444-5555",
+                            DeleveryLocal = "505 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 15, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6632),
+                            DiscountId = 2,
+                            IsConfirm = false,
+                            Total = 65.25m
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CustomerName = "Customer 9",
+                            CustomerPhone = "999-000-1111",
+                            DeleveryLocal = "606 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 19, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6633),
+                            DiscountId = 1,
+                            IsConfirm = true,
+                            Total = 135.75m
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CustomerName = "Customer 10",
+                            CustomerPhone = "666-777-8888",
+                            DeleveryLocal = "707 Delivery St",
+                            DeliveryDate = new DateTime(2023, 10, 17, 13, 23, 48, 798, DateTimeKind.Local).AddTicks(6634),
+                            DiscountId = 2,
+                            IsConfirm = false,
+                            Total = 70.00m
+                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.OrderDetail", b =>
@@ -478,6 +656,78 @@ namespace BusinessObjects.Migrations
                     b.HasIndex("BookId");
 
                     b.ToTable("OrderDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            OrderId = 1,
+                            BookId = 1,
+                            Quantity = 2,
+                            TotalPrice = 50.00m
+                        },
+                        new
+                        {
+                            OrderId = 2,
+                            BookId = 2,
+                            Quantity = 3,
+                            TotalPrice = 60.00m
+                        },
+                        new
+                        {
+                            OrderId = 3,
+                            BookId = 1,
+                            Quantity = 1,
+                            TotalPrice = 40.00m
+                        },
+                        new
+                        {
+                            OrderId = 4,
+                            BookId = 2,
+                            Quantity = 2,
+                            TotalPrice = 55.50m
+                        },
+                        new
+                        {
+                            OrderId = 5,
+                            BookId = 2,
+                            Quantity = 2,
+                            TotalPrice = 48.00m
+                        },
+                        new
+                        {
+                            OrderId = 6,
+                            BookId = 1,
+                            Quantity = 1,
+                            TotalPrice = 35.25m
+                        },
+                        new
+                        {
+                            OrderId = 7,
+                            BookId = 2,
+                            Quantity = 3,
+                            TotalPrice = 75.00m
+                        },
+                        new
+                        {
+                            OrderId = 8,
+                            BookId = 1,
+                            Quantity = 2,
+                            TotalPrice = 42.00m
+                        },
+                        new
+                        {
+                            OrderId = 9,
+                            BookId = 1,
+                            Quantity = 1,
+                            TotalPrice = 65.75m
+                        },
+                        new
+                        {
+                            OrderId = 10,
+                            BookId = 1,
+                            Quantity = 3,
+                            TotalPrice = 45.00m
+                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.Publisher", b =>
@@ -505,9 +755,6 @@ namespace BusinessObjects.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
@@ -521,11 +768,15 @@ namespace BusinessObjects.Migrations
                     b.Property<int>("Rate")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews");
                 });
@@ -665,9 +916,13 @@ namespace BusinessObjects.Migrations
 
             modelBuilder.Entity("BookStore.Models.Cart", b =>
                 {
-                    b.HasOne("BusinessObjects.AppUser", null)
+                    b.HasOne("BusinessObjects.AppUser", "User")
                         .WithMany("Carts")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BusinessObjects.Book", b =>
@@ -718,40 +973,38 @@ namespace BusinessObjects.Migrations
 
             modelBuilder.Entity("BusinessObjects.Favourite", b =>
                 {
-                    b.HasOne("BusinessObjects.AppUser", null)
-                        .WithMany("Favourites")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("BusinessObjects.Book", "Book")
                         .WithMany("Favourites")
                         .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BusinessObjects.AppUser", "User")
+                        .WithMany("Favourites")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BusinessObjects.Order", b =>
                 {
-                    b.HasOne("BusinessObjects.AppUser", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("BusinessObjects.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BusinessObjects.Discount", "Discount")
                         .WithMany("Orders")
                         .HasForeignKey("DiscountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Book");
+                    b.HasOne("BusinessObjects.AppUser", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Discount");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("BusinessObjects.OrderDetail", b =>
@@ -775,17 +1028,21 @@ namespace BusinessObjects.Migrations
 
             modelBuilder.Entity("BusinessObjects.Review", b =>
                 {
-                    b.HasOne("BusinessObjects.AppUser", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("BusinessObjects.Book", "Book")
                         .WithMany("Reviews")
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BusinessObjects.AppUser", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Book");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

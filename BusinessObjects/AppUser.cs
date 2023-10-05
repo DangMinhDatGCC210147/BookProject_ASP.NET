@@ -15,9 +15,9 @@ namespace BusinessObjects
 		public string Address { get; set; }
 		public string? GoogleId { get; set; }
 		public string? FacebookId { get; set; }
-		public ICollection<Cart>? Carts { get; set; }
-		public ICollection<Favourite>? Favourites { get; set; }
-		public ICollection<Review>? Reviews { get; set; }
-		public ICollection<Order>? Orders { get; set; }
+		public virtual ICollection<Cart>? Carts { get; set; }
+		public virtual ICollection<Favourite>? Favourites { get; set; }
+		public virtual ICollection<Review>? Reviews { get; set; }
+		public virtual ICollection<Order>? Orders { get; set; }
 	}
 }

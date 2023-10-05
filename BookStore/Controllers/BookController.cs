@@ -21,6 +21,8 @@ namespace BookStoreWebClient.Controllers
             client.DefaultRequestHeaders.Accept.Add(contentType);
             ProductApiUrl = "/api/Products";
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 

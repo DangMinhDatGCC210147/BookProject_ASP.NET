@@ -14,8 +14,7 @@ namespace BookStoreAPI.Controllers
 
 		[HttpGet]
 		public ActionResult<IEnumerable<Book>> GetProducts() => repository.GetProducts();
-
-		
+				
 		[HttpPost]
 		public IActionResult PostProducts(Book product)
 		{

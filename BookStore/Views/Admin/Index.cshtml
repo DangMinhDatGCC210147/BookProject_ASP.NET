@@ -3,6 +3,8 @@
     ViewData["Title"] = "Index";
 }
 
+@model BookStoreAPI.Models.StatisticView
+
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -33,7 +35,7 @@
                                         <i class="bi bi-cart"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>145</h6>
+                                        <h6>@Model.RevenueByDay</h6>
                                         <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
                                     </div>
@@ -53,7 +55,7 @@
                                         <i class="bi bi-currency-dollar"></i>
                                     </div>
                                     <div class="ps-3">
-                                        <h6>$3,264</h6>
+                                        <h6>@Model.RevenueByMonth</h6>
                                         <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
                                     </div>
@@ -117,15 +119,15 @@
 
                                         <!-- Bar Chart -->
                                         <canvas id="barChart" style="max-height: 400px;"></canvas>
-                                        <script>
+                                        <script type="text/javascript">
                                             document.addEventListener("DOMContentLoaded", () => {
                                                 new Chart(document.querySelector('#barChart'), {
                                                     type: 'bar',
                                                     data: {
-                                                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                                                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Octorber', 'November', 'December'],
                                                         datasets: [{
                                                             label: 'Bar Chart',
-                                                            data: [65, 59, 80, 81, 56, 55, 40],
+                                                            data: [65, 59, 80],
                                                             backgroundColor: [
                                                                 'rgba(255, 99, 132, 0.2)',
                                                                 'rgba(255, 159, 64, 0.2)',
