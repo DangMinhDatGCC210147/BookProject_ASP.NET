@@ -12,7 +12,9 @@ namespace Repositories.Interfaces
 	{
 		decimal ByDay(DateTime currentDate);
 		decimal ByMonth(DateTime currentDate);
-		List<Order> PerDayOfMonth(DateTime currentDate);
-        List<MonthlyRevenueByGenre> ByGenres(DateTime currentDate);
+		List<DailyRevenue> PerDayOfMonth(DateTime currentDate);
+        List<RevenueByGenre> ByGenres(DateTime currentDate);
+        List<RevenueByPublisher> ByPublisher(DateTime currentDate);
+        List<RevenueBestSelling> BestSelling(DateTime currentDate);
 	}
 }

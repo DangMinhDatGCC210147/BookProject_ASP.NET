@@ -1,267 +1,146 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+	ViewData["Title"] = "Index";
 }
 
 @model BookStoreAPI.Models.StatisticView
 
 <main id="main" class="main">
 
-    <div class="pagetitle">
-        <h1>Dashboard</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
+	<div class="pagetitle">
+		<h1>Dashboard</h1>
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a asp-controller="Admin" asp-action="Index">Home</a></li>
+				<li class="breadcrumb-item active">Dashboard</li>
+			</ol>
+		</nav>
+	</div><!-- End Page Title -->
 
-    <section class="section dashboard">
-        <div class="row">
+	<section class="section dashboard">
+		<div class="row">
 
-            <!-- Left side columns -->
-            <div class="col-lg-12">
-                <div class="row">
+			<!-- Left side columns -->
+			<div class="col-lg-12">
+				<div class="row">
 
-                    <!-- Sales Card -->
-                    <div class="col-xxl-6 col-md-6">
-                        <div class="card info-card sales-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Sales <span>| Today</span></h5>
+					<!-- Sales Card -->
+					<div class="col-xxl-6 col-md-6">
+						<div class="card info-card sales-card">
+							<div class="card-body">
+								<h5 class="card-title">Sales <span>| Today</span></h5>
 
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-cart"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>@Model.RevenueByDay</h6>
-                                        <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+								<div class="d-flex align-items-center">
+									<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+										<i class="bi bi-cart"></i>
+									</div>
+									<div class="ps-3">
+										<h6>@Model.RevenueByDay</h6>
+										<span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
-                                    </div>
-                                </div>
-                            </div>
+									</div>
+								</div>
+							</div>
 
-                        </div>
-                    </div><!-- End Sales Card -->
-                    <!-- Revenue Card -->
-                    <div class="col-xxl-6 col-md-6">
-                        <div class="card info-card revenue-card">
-                            <div class="card-body">
-                                <h5 class="card-title">Revenue <span>| This Month</span></h5>
+						</div>
+					</div><!-- End Sales Card -->
+					<!-- Revenue Card -->
+					<div class="col-xxl-6 col-md-6">
+						<div class="card info-card revenue-card">
+							<div class="card-body">
+								<h5 class="card-title">Revenue <span>| This Month</span></h5>
 
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-currency-dollar"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>@Model.RevenueByMonth</h6>
-                                        <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+								<div class="d-flex align-items-center">
+									<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+										<i class="bi bi-currency-dollar"></i>
+									</div>
+									<div class="ps-3">
+										<h6>@Model.RevenueByMonth</h6>
+										<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
-                                    </div>
-                                </div>
-                            </div>
+									</div>
+								</div>
+							</div>
 
-                        </div>
-                    </div><!-- End Revenue Card -->
-                    <!-- Reports -->
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="col-lg-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Line Chart - Total revenue per day of the month</h5>
+						</div>
+					</div><!-- End Revenue Card -->
+					<!-- Reports -->
+					<div class="col-12">
+						<div class="card">
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-body">
+										<h5 class="card-title">Line Chart - Total revenue per day of the month</h5>
 
-                                        <!-- Line Chart -->
-                                        <div id="lineChart"></div>
+										<!-- Line Chart -->
+										<div id="lineChart"></div>
+										<!-- End Line Chart -->
 
-                                        <script>
-                                            document.addEventListener("DOMContentLoaded", () => {
-                                                new ApexCharts(document.querySelector("#lineChart"), {
-                                                    series: [{
-                                                        name: "Desktops",
-                                                        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-                                                    }],
-                                                    chart: {
-                                                        height: 350,
-                                                        type: 'line',
-                                                        zoom: {
-                                                            enabled: false
-                                                        }
-                                                    },
-                                                    dataLabels: {
-                                                        enabled: false
-                                                    },
-                                                    stroke: {
-                                                        curve: 'straight'
-                                                    },
-                                                    grid: {
-                                                        row: {
-                                                            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                                                            opacity: 0.5
-                                                        },
-                                                    },
-                                                    xaxis: {
-                                                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-                                                    }
-                                                }).render();
-                                            });
-                                        </script>
-                                        <!-- End Line Chart -->
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-body">
+										<h5 class="card-title">Bar Chart - Statistics on the number of products by each category</h5>
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Bar Chart - Statistics on the number of products by each category</h5>
+										<!-- Bar Chart -->
+										<canvas id="barChart" style="max-height: 400px;"></canvas>									
+										<!-- End Bar CHart -->
 
-                                        <!-- Bar Chart -->
-                                        <canvas id="barChart" style="max-height: 400px;"></canvas>
-                                        <script type="text/javascript">
-                                            document.addEventListener("DOMContentLoaded", () => {
-                                                new Chart(document.querySelector('#barChart'), {
-                                                    type: 'bar',
-                                                    data: {
-                                                        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'Octorber', 'November', 'December'],
-                                                        datasets: [{
-                                                            label: 'Bar Chart',
-                                                            data: [65, 59, 80],
-                                                            backgroundColor: [
-                                                                'rgba(255, 99, 132, 0.2)',
-                                                                'rgba(255, 159, 64, 0.2)',
-                                                                'rgba(255, 205, 86, 0.2)',
-                                                                'rgba(75, 192, 192, 0.2)',
-                                                                'rgba(54, 162, 235, 0.2)',
-                                                                'rgba(153, 102, 255, 0.2)',
-                                                                'rgba(201, 203, 207, 0.2)'
-                                                            ],
-                                                            borderColor: [
-                                                                'rgb(255, 99, 132)',
-                                                                'rgb(255, 159, 64)',
-                                                                'rgb(255, 205, 86)',
-                                                                'rgb(75, 192, 192)',
-                                                                'rgb(54, 162, 235)',
-                                                                'rgb(153, 102, 255)',
-                                                                'rgb(201, 203, 207)'
-                                                            ],
-                                                            borderWidth: 2
-                                                        }]
-                                                    },
-                                                    options: {
-                                                        scales: {
-                                                            y: {
-                                                                beginAtZero: true
-                                                            }
-                                                        }
-                                                    }
-                                                });
-                                            });
-                                        </script>
-                                        <!-- End Bar CHart -->
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-body">
+										<h5 class="card-title">Pie Chart - Statistics on the number of products by each publisher</h5>
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Pie Chart - Statistics on the number of products by each publisher</h5>
+										<!-- Pie Chart -->
+										<div id="pieChart"></div>
+										<!-- End Pie Chart -->
 
-                                        <!-- Pie Chart -->
-                                        <div id="pieChart"></div>
-                                        <script>
-                                            document.addEventListener("DOMContentLoaded", () => {
-                                                new ApexCharts(document.querySelector("#pieChart"), {
-                                                    series: [44, 55, 13, 43, 22],
-                                                    chart: {
-                                                        height: 350,
-                                                        type: 'pie',
-                                                        toolbar: {
-                                                            show: true
-                                                        }
-                                                    },
-                                                    labels: ['Dat A', 'Dat B', 'Dat C', 'Dat D', 'Dat E']
-                                                }).render();
-                                            });
-                                        </script>
-                                        <!-- End Pie Chart -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div><!-- End Reports -->
+					<!-- Top Selling -->
+					<div class="col-12">
+						<div class="card top-selling overflow-auto">
 
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!-- End Reports -->
-                    <!-- Top Selling -->
-                    <div class="col-12">
-                        <div class="card top-selling overflow-auto">
+							<div class="card-body pb-0">
+								<h5 class="card-title">Top Selling - Top most purchased products</h5>
 
-                            <div class="card-body pb-0">
-                                <h5 class="card-title">Top Selling - Top most purchased products</h5>
+								<table class="table table-borderless">
+									<thead>
+										<tr>
+											<th scope="col">Preview</th>
+											<th scope="col">Product</th>
+											<th scope="col">Price</th>
+											<th scope="col">Sold</th>
+											<th scope="col">Revenue</th>
+										</tr>
+									</thead>
+									<tbody id="table_bestselling">
+																		
+									</tbody>
+								</table>
 
-                                <table class="table table-borderless">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Preview</th>
-                                            <th scope="col">Product</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Sold</th>
-                                            <th scope="col">Revenue</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row"><a href="#"><img src="" alt=""></a></th>
-                                            <td><a href="#" class="text-primary fw-bold">Ut inventore ipsa voluptas nulla</a></td>
-                                            <td>$64</td>
-                                            <td class="fw-bold">124</td>
-                                            <td>$5,828</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#"><img src="assets/img/product-2.jpg" alt=""></a></th>
-                                            <td><a href="#" class="text-primary fw-bold">Exercitationem similique doloremque</a></td>
-                                            <td>$46</td>
-                                            <td class="fw-bold">98</td>
-                                            <td>$4,508</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#"><img src="assets/img/product-3.jpg" alt=""></a></th>
-                                            <td><a href="#" class="text-primary fw-bold">Doloribus nisi exercitationem</a></td>
-                                            <td>$59</td>
-                                            <td class="fw-bold">74</td>
-                                            <td>$4,366</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#"><img src="assets/img/product-4.jpg" alt=""></a></th>
-                                            <td><a href="#" class="text-primary fw-bold">Officiis quaerat sint rerum error</a></td>
-                                            <td>$32</td>
-                                            <td class="fw-bold">63</td>
-                                            <td>$2,016</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#"><img src="assets/img/product-5.jpg" alt=""></a></th>
-                                            <td><a href="#" class="text-primary fw-bold">Sit unde debitis delectus repellendus</a></td>
-                                            <td>$79</td>
-                                            <td class="fw-bold">41</td>
-                                            <td>$3,239</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+							</div>
 
-                            </div>
+						</div>
+					</div><!-- End Top Selling -->
 
-                        </div>
-                    </div><!-- End Top Selling -->
+				</div>
+			</div><!-- End Left side columns -->
 
-                </div>
-            </div><!-- End Left side columns -->
-
-        </div><!-- End Right side columns -->
-    </section>
+		</div><!-- End Right side columns -->
+	</section>
 </main><!-- End #main -->
 @section Scripts{
-    <script src="~/js/js-admin/main.js"></script>
+	<script src="~/js/js-admin/main.js"></script>
+	<script src="~/js/dashboard.js"></script>
+
 }
 
 

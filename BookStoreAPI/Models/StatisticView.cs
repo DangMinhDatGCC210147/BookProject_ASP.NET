@@ -6,7 +6,9 @@ namespace BookStoreAPI.Models
 	{
 		public decimal RevenueByDay { get; set; }
 		public decimal RevenueByMonth { get; set; }
-		public MonthlyRevenueByGenre[] RevenueByGenre { get; set; }
-        public decimal PerDayOfMonth { get; set; }
+		public List<DailyRevenue> PerDayOfMonth { get; set; }
+		public List<RevenueByGenre> RevenueByGenre { get; set; }
+		public List<RevenueByPublisher> RevenueByPublisher { get; set; }	
+		public List<RevenueBestSelling> BestSelling { get; set; }	
     }
 }
