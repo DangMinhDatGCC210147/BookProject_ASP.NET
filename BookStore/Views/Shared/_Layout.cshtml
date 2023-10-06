@@ -8,7 +8,6 @@
     <title>@ViewData["Title"] - Book WonderLand</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-
     <!-- Favicons -->
     <link href="~/img/favicon.png" rel="icon">
     <link href="~/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -268,34 +267,34 @@
                 </a>
                 <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
-                        <a asp-controller="Genres" asp-action="Index"><i class="bi bi-circle"></i><span>Genre</span></a>
+                        <a asp-controller="Admin" asp-action="Category"><i class="bi bi-circle"></i><span>Category</span></a>
                     </li>
                     <li>
-                        <a asp-controller="Books" asp-action="Index"><i class="bi bi-circle"></i><span>Book</span></a>
+                        <a asp-controller="Admin" asp-action="Book"><i class="bi bi-circle"></i><span>Book</span></a>
                     </li>
                     <li>
                         <a asp-controller="Admin" asp-action="User"><i class="bi bi-circle"></i><span>User</span></a>
                     </li>
                     <li>
-                        <a asp-controller="Languages" asp-action="Index"><i class="bi bi-circle"></i><span>Language</span></a>
+                        <a asp-controller="Admin" asp-action="Language"><i class="bi bi-circle"></i><span>Language</span></a>
                     </li>
                     <li>
-                        <a asp-controller="FeedBacks" asp-action="Index"><i class="bi bi-circle"></i><span>Feedbacks</span></a>
+                        <a asp-controller="Admin" asp-action="Feedback"><i class="bi bi-circle"></i><span>Feedbacks</span></a>
                     </li>
                     <li>
                         <a asp-controller="Admin" asp-action="Order"><i class="bi bi-circle"></i><span>Orders</span></a>
                     </li>
                     <li>
-                        <a asp-controller="Reviews" asp-action="Index"><i class="bi bi-circle"></i><span>Reviews</span></a>
+                        <a asp-controller="Admin" asp-action="Review"><i class="bi bi-circle"></i><span>Reviews</span></a>
                     </li>
                     <li>
-                        <a asp-controller="Authors" asp-action="Index"><i class="bi bi-circle"></i><span>Authors</span></a>
+                        <a asp-controller="Admin" asp-action="Author"><i class="bi bi-circle"></i><span>Authors</span></a>
                     </li>
                     <li>
-                        <a asp-controller="Publishers" asp-action="Index"><i class="bi bi-circle"></i><span>Publishers</span></a>
+                        <a asp-controller="Admin" asp-action="Publisher"><i class="bi bi-circle"></i><span>Publishers</span></a>
                     </li>
                     <li>
-                        <a asp-controller="Discounts" asp-action="Index"><i class="bi bi-circle"></i><span>Discounts</span></a>
+                        <a asp-controller="Admin" asp-action="Discount"><i class="bi bi-circle"></i><span>Discounts</span></a>
                     </li>
                 </ul>
             </li><!-- End Tables Nav -->
@@ -340,6 +339,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!--  Link jquery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+            integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 <!-- ======= Footer ======= -->

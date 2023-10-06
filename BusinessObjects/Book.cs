@@ -24,10 +24,12 @@ namespace BusinessObjects
 		[Required]
 		public bool IsSale { get; set; }
         [Required]
-        public int Publisher { get; set; }
-        [Required]
 		public int PublicationYear { get; set; }
-		[Required]
+        [Required]
+        public int PublisherId { get; set; }
+        [ForeignKey("PublisherId")]
+        public virtual Publisher? Publisher { get; set; }
+        [Required]
 		public int LanguageId { get; set; }
 		[ForeignKey("LanguageId")]
 		public virtual Language? Language { get; set; }

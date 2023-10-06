@@ -12,7 +12,7 @@ namespace Repositories
 	public class StatisticRepository : IStatisticRepository
 	{
 		public StatisticDAO statisticDAO = new StatisticDAO();
-		public List<MonthlyRevenueByGenre> ByGenres(DateTime currentDate)
+		public List<RevenueByGenre> ByGenres(DateTime currentDate)
 		{
 			return statisticDAO.GetRevenueByGenres(currentDate);
         }
@@ -28,9 +28,22 @@ namespace Repositories
 			return statisticDAO.GetRevenueForCurrentMonth(currentDate);
 		}
 
-		public List<Order> PerDayOfMonth(DateTime currentDate)
+        public List<RevenueByPublisher> ByPublisher(DateTime currentDate)
+        {
+            StatisticDAO statisticDAO = new StatisticDAO();
+            return statisticDAO.GetRevenueByPublisher(currentDate);
+        }
+
+        public List<DailyRevenue> PerDayOfMonth(DateTime currentDate)
 		{
-			throw new NotImplementedException();
+			StatisticDAO statisticDAO = new StatisticDAO();
+			return statisticDAO.GetPerDayOfMonth(currentDate);
+		}
+
+        public List<RevenueBestSelling> BestSelling(DateTime currentDate)
+		{
+			StatisticDAO statisticDAO = new StatisticDAO();
+			return statisticDAO.GetBestSelling(currentDate);
 		}
 	}
 }

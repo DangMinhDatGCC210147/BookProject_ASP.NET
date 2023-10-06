@@ -19,7 +19,7 @@ namespace BusinessObjects
 		[Required]
 		public int Quantity { get; set; }
 		[Required]
-		public Decimal TotalPrice { get; set; }
+		public Decimal UnitPrice { get; set; }
 		[ForeignKey("BookId")]
 		public virtual Book? Book { get; set; }
 		[ForeignKey("OrderId")]

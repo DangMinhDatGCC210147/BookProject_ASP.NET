@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusinessObjects
 {
-    public class MonthlyRevenueByGenre
+    public class RevenueByPublisher
     {
-        public string GenreName { get; set; }
+        public string Publisher { get; set; }
         public decimal TotalRevenue { get; set; }
-        public string ByDay { get; set; }
     }
 }
