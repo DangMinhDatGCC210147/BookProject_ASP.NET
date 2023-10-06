@@ -18,7 +18,9 @@ namespace BusinessObjects
 		[Required]
 		public string Description { get; set; }
 		[Required]
+		public DateTime AddDate { get; set; } = DateTime.Now;
+		[Required]
 		public GenerApproval ApprovalStatus { get; set; }
-		public virtual ICollection<Book>? Books { get; set;}
-    }
+		public ICollection<Book>? Books { get; set; }
+	}
 }

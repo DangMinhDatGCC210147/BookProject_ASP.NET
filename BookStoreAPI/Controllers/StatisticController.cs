@@ -18,11 +18,11 @@ namespace BookStoreAPI.Controllers
             StatisticView statistic = new StatisticView();
             statistic.RevenueByMonth = repository.ByMonth(currentDate);
             statistic.RevenueByDay = repository.ByDay(currentDate);
-            statistic.PerDayOfMonth = repository.PerDayOfMonth(currentDate);
-            statistic.RevenueByGenre = repository.ByGenres(currentDate);
-            statistic.RevenueByPublisher = repository.ByPublisher(currentDate);
-            statistic.BestSelling = repository.BestSelling(currentDate);
-            return statistic;
+			statistic.PerDayOfMonth = repository.PerDayOfMonth(currentDate);
+			statistic.RevenueByGenre = repository.ByGenres(currentDate);
+			statistic.RevenueByPublisher = repository.ByPublisher(currentDate);
+			statistic.BestSelling = repository.BestSelling(currentDate);
+			return statistic;
         }
     }
 }

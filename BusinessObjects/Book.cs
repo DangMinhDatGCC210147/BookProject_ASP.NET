@@ -23,7 +23,7 @@ namespace BusinessObjects
 		public int PageCount { get; set; }
 		[Required]
 		public bool IsSale { get; set; }
-		[Required]
+        [Required]
 		public int PublicationYear { get; set; }
         [Required]
         public int PublisherId { get; set; }
