@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BusinessObjects.Migrations
 {
     /// <inheritdoc />
-    public partial class Addnewgenre : Migration
+    public partial class DB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -316,6 +316,7 @@ namespace BusinessObjects.Migrations
                     ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PageCount = table.Column<int>(type: "int", nullable: false),
                     IsSale = table.Column<bool>(type: "bit", nullable: false),
+                    Publisher = table.Column<int>(type: "int", nullable: false),
                     PublicationYear = table.Column<int>(type: "int", nullable: false),
                     LanguageId = table.Column<int>(type: "int", nullable: false),
                     AuthorId = table.Column<int>(type: "int", nullable: false),
@@ -472,9 +473,9 @@ namespace BusinessObjects.Migrations
                 columns: new[] { "Id", "DiscountName", "EndDate", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "Discount 1", new DateTime(2023, 10, 12, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4842), new DateTime(2023, 9, 28, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4837) },
-                    { 2, "Discount 2", new DateTime(2023, 10, 15, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4844), new DateTime(2023, 10, 2, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4843) },
-                    { 3, "Discount 3", new DateTime(2023, 10, 10, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4845), new DateTime(2023, 10, 4, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4844) }
+                    { 1, "Discount 1", new DateTime(2023, 10, 13, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5229), new DateTime(2023, 9, 29, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5223) },
+                    { 2, "Discount 2", new DateTime(2023, 10, 16, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5231), new DateTime(2023, 10, 3, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5230) },
+                    { 3, "Discount 3", new DateTime(2023, 10, 11, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5233), new DateTime(2023, 10, 5, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5232) }
                 });
 
             migrationBuilder.InsertData(
@@ -482,9 +483,9 @@ namespace BusinessObjects.Migrations
                 columns: new[] { "Id", "AddDate", "ApprovalStatus", "Description", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 10, 5, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4816), 0, "Description for Fiction", "Fiction" },
-                    { 2, new DateTime(2023, 10, 5, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4827), 1, "Description for Mystery", "Mystery" },
-                    { 3, new DateTime(2023, 10, 5, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4828), 2, "Description for Science Fiction", "Science Fiction" }
+                    { 1, new DateTime(2023, 10, 6, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5188), 0, "Description for Fiction", "Fiction" },
+                    { 2, new DateTime(2023, 10, 6, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5203), 1, "Description for Mystery", "Mystery" },
+                    { 3, new DateTime(2023, 10, 6, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5204), 2, "Description for Science Fiction", "Science Fiction" }
                 });
 
             migrationBuilder.InsertData(
@@ -499,11 +500,11 @@ namespace BusinessObjects.Migrations
 
             migrationBuilder.InsertData(
                 table: "Books",
-                columns: new[] { "Id", "AuthorId", "Description", "GenreId", "ISBN", "Image", "IsSale", "LanguageId", "OriginalPrice", "PageCount", "PublicationYear", "PublisherId", "SellingPrice", "Title" },
+                columns: new[] { "Id", "AuthorId", "Description", "GenreId", "ISBN", "Image", "IsSale", "LanguageId", "OriginalPrice", "PageCount", "PublicationYear", "Publisher", "PublisherId", "SellingPrice", "Title" },
                 values: new object[,]
                 {
-                    { 1, 1, "Description for Book 1", 1, "123456789", "book1.jpg", true, 1, 19.99m, 300, 2020, null, 14.99m, "Book 1" },
-                    { 2, 2, "Description for Book 2", 2, "987654321", "book2.jpg", false, 2, 24.99m, 400, 2019, null, 19.99m, "Book 2" }
+                    { 1, 1, "Description for Book 1", 1, "123456789", "book1.jpg", true, 1, 19.99m, 300, 2020, 0, null, 14.99m, "Book 1" },
+                    { 2, 2, "Description for Book 2", 2, "987654321", "book2.jpg", false, 2, 24.99m, 400, 2019, 0, null, 19.99m, "Book 2" }
                 });
 
             migrationBuilder.InsertData(
@@ -511,16 +512,16 @@ namespace BusinessObjects.Migrations
                 columns: new[] { "Id", "CustomerName", "CustomerPhone", "DeleveryLocal", "DeliveryDate", "DiscountId", "IsConfirm", "Total", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Customer 1", "123-456-7890", "123 Delivery St", new DateTime(2023, 10, 10, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4870), 1, false, 100.00m, null },
-                    { 2, "Customer 2", "987-654-3210", "456 Delivery St", new DateTime(2023, 10, 10, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4872), 2, true, 75.50m, null },
-                    { 3, "Customer 3", "111-222-3333", "789 Delivery St", new DateTime(2023, 10, 13, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4874), 1, true, 90.00m, null },
-                    { 4, "Customer 4", "444-555-6666", "101 Delivery St", new DateTime(2023, 10, 11, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4875), 2, false, 85.75m, null },
-                    { 5, "Customer 5", "777-888-9999", "202 Delivery St", new DateTime(2023, 10, 14, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4876), 1, false, 120.25m, null },
-                    { 6, "Customer 6", "555-666-7777", "303 Delivery St", new DateTime(2023, 10, 12, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4877), 2, true, 110.50m, null },
-                    { 7, "Customer 7", "888-999-0000", "404 Delivery St", new DateTime(2023, 10, 16, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4879), 1, true, 95.00m, null },
-                    { 8, "Customer 8", "333-444-5555", "505 Delivery St", new DateTime(2023, 10, 15, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4880), 2, false, 65.25m, null },
-                    { 9, "Customer 9", "999-000-1111", "606 Delivery St", new DateTime(2023, 10, 19, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4881), 1, true, 135.75m, null },
-                    { 10, "Customer 10", "666-777-8888", "707 Delivery St", new DateTime(2023, 10, 17, 17, 2, 38, 39, DateTimeKind.Local).AddTicks(4905), 2, false, 70.00m, null }
+                    { 1, "Customer 1", "123-456-7890", "123 Delivery St", new DateTime(2023, 10, 11, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5310), 1, false, 100.00m, null },
+                    { 2, "Customer 2", "987-654-3210", "456 Delivery St", new DateTime(2023, 10, 11, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5315), 2, true, 75.50m, null },
+                    { 3, "Customer 3", "111-222-3333", "789 Delivery St", new DateTime(2023, 10, 14, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5317), 1, true, 90.00m, null },
+                    { 4, "Customer 4", "444-555-6666", "101 Delivery St", new DateTime(2023, 10, 12, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5319), 2, false, 85.75m, null },
+                    { 5, "Customer 5", "777-888-9999", "202 Delivery St", new DateTime(2023, 10, 15, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5320), 1, false, 120.25m, null },
+                    { 6, "Customer 6", "555-666-7777", "303 Delivery St", new DateTime(2023, 10, 13, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5322), 2, true, 110.50m, null },
+                    { 7, "Customer 7", "888-999-0000", "404 Delivery St", new DateTime(2023, 10, 17, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5324), 1, true, 95.00m, null },
+                    { 8, "Customer 8", "333-444-5555", "505 Delivery St", new DateTime(2023, 10, 16, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5325), 2, false, 65.25m, null },
+                    { 9, "Customer 9", "999-000-1111", "606 Delivery St", new DateTime(2023, 10, 20, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5327), 1, true, 135.75m, null },
+                    { 10, "Customer 10", "666-777-8888", "707 Delivery St", new DateTime(2023, 10, 18, 9, 23, 12, 758, DateTimeKind.Local).AddTicks(5328), 2, false, 70.00m, null }
                 });
 
             migrationBuilder.InsertData(
