@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -60,5 +61,6 @@ namespace BookStoreWebClient.Controllers
         {
             return View(id);
         }
+
     }
 }
