@@ -33,7 +33,8 @@ namespace BusinessObjects.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<bool>(type: "bit", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GoogleId = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -478,9 +479,9 @@ namespace BusinessObjects.Migrations
                 columns: new[] { "Id", "DiscountName", "EndDate", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "Discount 1", new DateTime(2023, 10, 15, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9233), new DateTime(2023, 10, 1, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9216) },
-                    { 2, "Discount 2", new DateTime(2023, 10, 18, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9235), new DateTime(2023, 10, 5, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9234) },
-                    { 3, "Discount 3", new DateTime(2023, 10, 13, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9236), new DateTime(2023, 10, 7, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9236) }
+                    { 1, "Discount 1", new DateTime(2023, 10, 15, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3048), new DateTime(2023, 10, 1, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3032) },
+                    { 2, "Discount 2", new DateTime(2023, 10, 18, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3059), new DateTime(2023, 10, 5, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3058) },
+                    { 3, "Discount 3", new DateTime(2023, 10, 13, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3060), new DateTime(2023, 10, 7, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3060) }
                 });
 
             migrationBuilder.InsertData(
@@ -532,16 +533,16 @@ namespace BusinessObjects.Migrations
                 columns: new[] { "Id", "AuthorId", "Description", "GenreId", "ISBN", "Image", "IsSale", "LanguageId", "OriginalPrice", "PageCount", "PublicationYear", "PublisherId", "SellingPrice", "Title" },
                 values: new object[,]
                 {
-                    { 1, 1, "Description for Book 1", 1, "123456789", "book1.jpg", true, 1, 19.99m, 300, 2020, 1, 14.99m, "Book 1" },
-                    { 2, 2, "Description for Book 2", 2, "987654321", "book2.jpg", false, 2, 24.99m, 400, 2019, 2, 19.99m, "Book 2" },
-                    { 3, 3, "Description for Book 3", 1, "987654322", "book3.jpg", true, 1, 29.99m, 350, 2021, 1, 24.99m, "Book 3" },
-                    { 4, 1, "Description for Book 4", 3, "123456790", "book4.jpg", true, 3, 18.99m, 280, 2018, 3, 15.99m, "Book 4" },
-                    { 5, 2, "Description for Book 5", 2, "987654323", "book5.jpg", false, 2, 34.99m, 450, 2022, 2, 29.99m, "Book 5" },
-                    { 6, 4, "Description for Book 6", 1, "123456791", "book6.jpg", false, 1, 14.99m, 240, 2017, 1, 11.99m, "Book 6" },
-                    { 7, 5, "Description for Book 7", 1, "987654324", "book7.jpg", true, 3, 22.99m, 320, 2019, 3, 18.99m, "Book 7" },
-                    { 8, 2, "Description for Book 8", 2, "123456792", "book8.jpg", true, 2, 26.99m, 380, 2021, 2, 21.99m, "Book 8" },
-                    { 9, 3, "Description for Book 9", 1, "987654325", "book9.jpg", false, 1, 17.99m, 260, 2020, 1, 14.99m, "Book 9" },
-                    { 10, 4, "Description for Book 10", 3, "123456793", "book10.jpg", true, 3, 31.99m, 420, 2022, 3, 26.99m, "Book 10" }
+                    { 1, 1, "Description for Book 1", 1, "123456789", "1.jpg", true, 1, 19.99m, 300, 2020, 1, 14.99m, "Book 1" },
+                    { 2, 2, "Description for Book 2", 2, "987654321", "2.jpg", false, 2, 24.99m, 400, 2019, 2, 19.99m, "Book 2" },
+                    { 3, 3, "Description for Book 3", 1, "987654322", "3.jpg", true, 1, 29.99m, 350, 2021, 1, 24.99m, "Book 3" },
+                    { 4, 1, "Description for Book 4", 3, "123456790", "4.jpg", true, 3, 18.99m, 280, 2018, 3, 15.99m, "Book 4" },
+                    { 5, 2, "Description for Book 5", 2, "987654323", "5.jpg", false, 2, 34.99m, 450, 2022, 2, 29.99m, "Book 5" },
+                    { 6, 4, "Description for Book 6", 1, "123456791", "6.jpg", false, 1, 14.99m, 240, 2017, 1, 11.99m, "Book 6" },
+                    { 7, 5, "Description for Book 7", 1, "987654324", "7.jpg", true, 3, 22.99m, 320, 2019, 3, 18.99m, "Book 7" },
+                    { 8, 2, "Description for Book 8", 2, "123456792", "8.jpg", true, 2, 26.99m, 380, 2021, 2, 21.99m, "Book 8" },
+                    { 9, 3, "Description for Book 9", 1, "987654325", "9.jpg", false, 1, 17.99m, 260, 2020, 1, 14.99m, "Book 9" },
+                    { 10, 4, "Description for Book 10", 3, "123456793", "10.jpg", true, 3, 31.99m, 420, 2022, 3, 26.99m, "Book 10" }
                 });
 
             migrationBuilder.InsertData(
@@ -549,16 +550,16 @@ namespace BusinessObjects.Migrations
                 columns: new[] { "Id", "CustomerName", "CustomerPhone", "DeleveryLocal", "DeliveryDate", "DiscountId", "IsConfirm", "Total", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Customer 1", "123-456-7890", "123 Delivery St", new DateTime(2023, 10, 13, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9268), 1, false, 100.00m, null },
-                    { 2, "Customer 2", "987-654-3210", "456 Delivery St", new DateTime(2023, 10, 13, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9270), 2, true, 75.50m, null },
-                    { 3, "Customer 3", "111-222-3333", "789 Delivery St", new DateTime(2023, 10, 16, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9272), 1, true, 90.00m, null },
-                    { 4, "Customer 4", "444-555-6666", "101 Delivery St", new DateTime(2023, 10, 14, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9273), 2, false, 85.75m, null },
-                    { 5, "Customer 5", "777-888-9999", "202 Delivery St", new DateTime(2023, 10, 17, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9274), 1, false, 120.25m, null },
-                    { 6, "Customer 6", "555-666-7777", "303 Delivery St", new DateTime(2023, 10, 15, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9276), 2, true, 110.50m, null },
-                    { 7, "Customer 7", "888-999-0000", "404 Delivery St", new DateTime(2023, 10, 19, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9277), 1, true, 95.00m, null },
-                    { 8, "Customer 8", "333-444-5555", "505 Delivery St", new DateTime(2023, 10, 18, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9278), 2, false, 65.25m, null },
-                    { 9, "Customer 9", "999-000-1111", "606 Delivery St", new DateTime(2023, 10, 22, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9279), 1, true, 135.75m, null },
-                    { 10, "Customer 10", "666-777-8888", "707 Delivery St", new DateTime(2023, 10, 20, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9280), 2, false, 70.00m, null }
+                    { 1, "Customer 1", "123-456-7890", "123 Delivery St", new DateTime(2023, 10, 13, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3134), 1, false, 100.00m, null },
+                    { 2, "Customer 2", "987-654-3210", "456 Delivery St", new DateTime(2023, 10, 13, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3138), 2, true, 75.50m, null },
+                    { 3, "Customer 3", "111-222-3333", "789 Delivery St", new DateTime(2023, 10, 16, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3139), 1, true, 90.00m, null },
+                    { 4, "Customer 4", "444-555-6666", "101 Delivery St", new DateTime(2023, 10, 14, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3142), 2, false, 85.75m, null },
+                    { 5, "Customer 5", "777-888-9999", "202 Delivery St", new DateTime(2023, 10, 17, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3143), 1, false, 120.25m, null },
+                    { 6, "Customer 6", "555-666-7777", "303 Delivery St", new DateTime(2023, 10, 15, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3145), 2, true, 110.50m, null },
+                    { 7, "Customer 7", "888-999-0000", "404 Delivery St", new DateTime(2023, 10, 19, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3146), 1, true, 95.00m, null },
+                    { 8, "Customer 8", "333-444-5555", "505 Delivery St", new DateTime(2023, 10, 18, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3148), 2, false, 65.25m, null },
+                    { 9, "Customer 9", "999-000-1111", "606 Delivery St", new DateTime(2023, 10, 22, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3149), 1, true, 135.75m, null },
+                    { 10, "Customer 10", "666-777-8888", "707 Delivery St", new DateTime(2023, 10, 20, 22, 40, 12, 699, DateTimeKind.Local).AddTicks(3150), 2, false, 70.00m, null }
                 });
 
             migrationBuilder.InsertData(
