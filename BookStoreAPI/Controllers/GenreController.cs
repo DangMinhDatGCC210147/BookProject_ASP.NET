@@ -27,11 +27,23 @@ namespace BookStoreAPI.Controllers
         [HttpPost]
         public IActionResult CreateGenre(Genre genre)
         {
-            repository.SaveGenre(genre);
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                repository.SaveGenre(genre);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"An error occurred: {ex.Message}");
+            }
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteGenres(int id)
         {
             var genre = repository.GetGenreById(id);
