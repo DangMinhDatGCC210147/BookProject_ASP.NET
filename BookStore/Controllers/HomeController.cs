@@ -42,21 +42,18 @@ namespace BookStore.Controllers
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             return View();
         }
-        public async Task<IActionResult> Shop()
+        public IActionResult Shop()
         {
-            HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
-            string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-            List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).           
-            return View(books);
+            return View();
         }
 		public async Task<IActionResult> Search(string title)
 		{
-			HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl + "/Search/" + title); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
-			string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
+			HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl + "/Search/" + title); 
+            string data = await httpResponse.Content.ReadAsStringAsync();
 			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-			List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).           
-			return View("Shop", books);
+			List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);
+
+            return View(books);
 		}
 		public async Task<IActionResult> Contact()
         {

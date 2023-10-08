@@ -37,7 +37,7 @@ namespace BookStoreWebClient.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Language p)
+        public async Task<IActionResult> Create( Language p)
         {
             HttpResponseMessage response = await client.GetAsync(LanguageApiUrl);
             string strData = await response.Content.ReadAsStringAsync();

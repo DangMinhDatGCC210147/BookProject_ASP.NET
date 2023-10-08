@@ -109,7 +109,7 @@ $("#search").on("input", function () {
                 grid_sidebar2.innerHTML = ``;
             } else {
                 console.log(data.Count);
-                label_title.innerHTML = `<p>Book Name "${searchName}" Found of <span>50</span></p>`;
+                label_title.innerHTML = `<p>Book Name "${searchName}" Found of <span>${data.length}</span></p>`;
                 ShowData(data);
             }
         },
