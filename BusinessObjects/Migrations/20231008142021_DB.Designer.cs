@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessObjects.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20231006144610_DB1")]
-    partial class DB1
+    [Migration("20231008142021_DB")]
+    partial class DB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,89 +45,6 @@ namespace BusinessObjects.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("BusinessObjects.AppUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FacebookId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GoogleId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("BusinessObjects.Author", b =>
@@ -484,22 +401,22 @@ namespace BusinessObjects.Migrations
                         {
                             Id = 1,
                             DiscountName = "Discount 1",
-                            EndDate = new DateTime(2023, 10, 13, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(249),
-                            StartDate = new DateTime(2023, 9, 29, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(244)
+                            EndDate = new DateTime(2023, 10, 15, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9233),
+                            StartDate = new DateTime(2023, 10, 1, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9216)
                         },
                         new
                         {
                             Id = 2,
                             DiscountName = "Discount 2",
-                            EndDate = new DateTime(2023, 10, 16, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(250),
-                            StartDate = new DateTime(2023, 10, 3, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(250)
+                            EndDate = new DateTime(2023, 10, 18, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9235),
+                            StartDate = new DateTime(2023, 10, 5, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9234)
                         },
                         new
                         {
                             Id = 3,
                             DiscountName = "Discount 3",
-                            EndDate = new DateTime(2023, 10, 11, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(251),
-                            StartDate = new DateTime(2023, 10, 5, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(251)
+                            EndDate = new DateTime(2023, 10, 13, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9236),
+                            StartDate = new DateTime(2023, 10, 7, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9236)
                         });
                 });
 
@@ -590,7 +507,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 1,
-                            AddDate = new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(196),
+                            AddDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ApprovalStatus = 0,
                             Description = "Description for Fiction",
                             Name = "Fiction"
@@ -598,7 +515,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 2,
-                            AddDate = new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(210),
+                            AddDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ApprovalStatus = 1,
                             Description = "Description for Mystery",
                             Name = "Mystery"
@@ -606,7 +523,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 3,
-                            AddDate = new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(211),
+                            AddDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ApprovalStatus = 2,
                             Description = "Description for Science Fiction",
                             Name = "Science Fiction"
@@ -614,7 +531,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 4,
-                            AddDate = new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(211),
+                            AddDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ApprovalStatus = 0,
                             Description = "Description for Fantasy",
                             Name = "Fantasy"
@@ -622,7 +539,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 5,
-                            AddDate = new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(212),
+                            AddDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ApprovalStatus = 1,
                             Description = "Description for Romance",
                             Name = "Romance"
@@ -630,7 +547,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 6,
-                            AddDate = new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(212),
+                            AddDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ApprovalStatus = 0,
                             Description = "Description for Horror",
                             Name = "Horror"
@@ -638,7 +555,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 7,
-                            AddDate = new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(213),
+                            AddDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ApprovalStatus = 1,
                             Description = "Description for Adventure",
                             Name = "Adventure"
@@ -646,7 +563,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 8,
-                            AddDate = new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(214),
+                            AddDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ApprovalStatus = 2,
                             Description = "Description for Non-fiction",
                             Name = "Non-fiction"
@@ -654,7 +571,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 9,
-                            AddDate = new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(214),
+                            AddDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ApprovalStatus = 0,
                             Description = "Description for Biography",
                             Name = "Biography"
@@ -662,7 +579,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 10,
-                            AddDate = new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(215),
+                            AddDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ApprovalStatus = 1,
                             Description = "Description for History",
                             Name = "History"
@@ -753,7 +670,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 1",
                             CustomerPhone = "123-456-7890",
                             DeleveryLocal = "123 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 11, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(293),
+                            DeliveryDate = new DateTime(2023, 10, 13, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9268),
                             DiscountId = 1,
                             IsConfirm = false,
                             Total = 100.00m
@@ -764,7 +681,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 2",
                             CustomerPhone = "987-654-3210",
                             DeleveryLocal = "456 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 11, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(296),
+                            DeliveryDate = new DateTime(2023, 10, 13, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9270),
                             DiscountId = 2,
                             IsConfirm = true,
                             Total = 75.50m
@@ -775,7 +692,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 3",
                             CustomerPhone = "111-222-3333",
                             DeleveryLocal = "789 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 14, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(297),
+                            DeliveryDate = new DateTime(2023, 10, 16, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9272),
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 90.00m
@@ -786,7 +703,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 4",
                             CustomerPhone = "444-555-6666",
                             DeleveryLocal = "101 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 12, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(298),
+                            DeliveryDate = new DateTime(2023, 10, 14, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9273),
                             DiscountId = 2,
                             IsConfirm = false,
                             Total = 85.75m
@@ -797,7 +714,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 5",
                             CustomerPhone = "777-888-9999",
                             DeleveryLocal = "202 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 15, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(299),
+                            DeliveryDate = new DateTime(2023, 10, 17, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9274),
                             DiscountId = 1,
                             IsConfirm = false,
                             Total = 120.25m
@@ -808,7 +725,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 6",
                             CustomerPhone = "555-666-7777",
                             DeleveryLocal = "303 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 13, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(300),
+                            DeliveryDate = new DateTime(2023, 10, 15, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9276),
                             DiscountId = 2,
                             IsConfirm = true,
                             Total = 110.50m
@@ -819,7 +736,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 7",
                             CustomerPhone = "888-999-0000",
                             DeleveryLocal = "404 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 17, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(301),
+                            DeliveryDate = new DateTime(2023, 10, 19, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9277),
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 95.00m
@@ -830,7 +747,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 8",
                             CustomerPhone = "333-444-5555",
                             DeleveryLocal = "505 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 16, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(303),
+                            DeliveryDate = new DateTime(2023, 10, 18, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9278),
                             DiscountId = 2,
                             IsConfirm = false,
                             Total = 65.25m
@@ -841,7 +758,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 9",
                             CustomerPhone = "999-000-1111",
                             DeleveryLocal = "606 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 20, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(304),
+                            DeliveryDate = new DateTime(2023, 10, 22, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9279),
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 135.75m
@@ -852,7 +769,7 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 10",
                             CustomerPhone = "666-777-8888",
                             DeleveryLocal = "707 Delivery St",
-                            DeliveryDate = new DateTime(2023, 10, 18, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(305),
+                            DeliveryDate = new DateTime(2023, 10, 20, 21, 20, 21, 547, DateTimeKind.Local).AddTicks(9280),
                             DiscountId = 2,
                             IsConfirm = false,
                             Total = 70.00m
@@ -1109,6 +1026,79 @@ namespace BusinessObjects.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+
+                    b.UseTphMappingStrategy();
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -1188,6 +1178,30 @@ namespace BusinessObjects.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("BusinessObjects.AppUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FacebookId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("GoogleId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("AppUser");
                 });
 
             modelBuilder.Entity("BookStore.Models.Cart", b =>
@@ -1336,7 +1350,7 @@ namespace BusinessObjects.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("BusinessObjects.AppUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1345,7 +1359,7 @@ namespace BusinessObjects.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("BusinessObjects.AppUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1360,7 +1374,7 @@ namespace BusinessObjects.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessObjects.AppUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1369,7 +1383,7 @@ namespace BusinessObjects.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("BusinessObjects.AppUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1379,17 +1393,6 @@ namespace BusinessObjects.Migrations
             modelBuilder.Entity("BookStore.Models.Cart", b =>
                 {
                     b.Navigation("CartDetails");
-                });
-
-            modelBuilder.Entity("BusinessObjects.AppUser", b =>
-                {
-                    b.Navigation("Carts");
-
-                    b.Navigation("Favourites");
-
-                    b.Navigation("Orders");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("BusinessObjects.Author", b =>
@@ -1429,6 +1432,17 @@ namespace BusinessObjects.Migrations
             modelBuilder.Entity("BusinessObjects.Publisher", b =>
                 {
                     b.Navigation("Books");
+                });
+
+            modelBuilder.Entity("BusinessObjects.AppUser", b =>
+                {
+                    b.Navigation("Carts");
+
+                    b.Navigation("Favourites");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }
