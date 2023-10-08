@@ -1,5 +1,4 @@
-﻿
-        // Hàm để làm mới dữ liệu bảng
+﻿ // Hàm để làm mới dữ liệu bảng
     function refreshLanguageList() {
         $.ajax({
             type: 'GET',
@@ -19,31 +18,22 @@
                         '</tr>';
                     // Đổ dòng dữ liệu vào bảng
                     $('#languageList tbody').append(row);
-
-                    // Thêm sự kiện click cho nút "Edit"
-                    $('.edit-language').on('click', function () {
-                        var id = $(this).data('id');
-                        var name = $(this).data('name');
-                        openLanguageModal('edit', id, name);
-                    });
                 });
             },
             error: function (error) {
                 console.error('Error:', error);
             }
         });
-        }
-
+    }
+    //Add
     $(document).ready(function () {
         $('#myForm').submit(function (e) {
             e.preventDefault();
 
             // Get the anti-forgery token value from the hidden input field
             var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
-
             // Get the value from the "Name" input field
             var Name = $('#Name').val();
-
             // Create a JSON data object to send to the API
             var data = {
                 Name: Name
@@ -52,7 +42,6 @@
             // Include the anti-forgery token in the request headers
             var headers = {};
             headers['__RequestVerificationToken'] = antiForgeryToken;
-
             // Use AJAX to send data to the API
             $.ajax({
                 type: 'POST',
@@ -80,7 +69,8 @@
                 }
             });
         });
-        });
+    });
+
     // === Delete ===
     function deleteLanguage(id) {
         // Hiển thị một hộp thoại xác nhận trước khi xóa
@@ -111,7 +101,7 @@
                 });
             }
         });
-        }
+    }
 
 
     $(document).ready(function () {
@@ -141,51 +131,3 @@
             }
         });
     });
-
-    // Định nghĩa hàm EditLanguage(id)
-    //function EditLanguage(id) {
-    //    var name = $('#editLanguageName').val();
-
-    //    var data = {
-    //        Name: name
-    //    };
-
-    //    $.ajax({
-    //        type: 'PUT',
-    //        url: 'api/Languages/' + id,
-    //        data: JSON.stringify(data),
-    //        contentType: 'application/json',
-    //        success: function (response) {
-    //            // Clear input
-    //            $('#editLanguageName').val('');
-    //            // Đóng modal
-    //            $('#editLanguageModal').modal('hide');
-    //            Swal.fire({
-    //                icon: 'success',
-    //                title: 'Your work has been saved',
-    //                showConfirmButton: false,
-    //                timer: 1500
-    //            })
-    //            refreshLanguageList();
-    //        },
-    //        error: function (error) {
-    //            console.error('Error:', error);
-    //            alert('An error occurred while sending data.');
-    //        }
-    //    });
-    //}
-
-//$(document).ready(function () {
-//    $('.edit-language').on('click', function () {
-//        var id = $(this).data('id');
-//        var name = $(this).data('name');
-//        $('#editLanguageId').val(id);
-//        $('#editLanguageName').val(name);
-//        $('#editLanguageModal').modal('show');
-//    });
-
-//    $('#saveEditLanguage').on('click', function () {
-//        var id = $('#editLanguageId').val();
-//        EditLanguage(id); // Gọi hàm EditLanguage(id) khi người dùng nhấp vào nút "Save"
-//    });
-//});

@@ -26,7 +26,7 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateLanguage(Language language)
+        public IActionResult CreateLanguage([FromForm] Language language)
         {
             if (!ModelState.IsValid)
             {
@@ -36,7 +36,8 @@ namespace BookStoreAPI.Controllers
             try
             {
                 repository.SaveLanguage(language);
-                return Ok();
+                //return Ok();
+                return RedirectToAction("Index","Languages");
             }
             catch (Exception ex)
             {

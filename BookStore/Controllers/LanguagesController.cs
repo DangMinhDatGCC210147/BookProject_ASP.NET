@@ -36,7 +36,7 @@ namespace BookStoreWebClient.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Language p)
         {
             HttpResponseMessage response = await client.GetAsync(LanguageApiUrl);
@@ -58,15 +58,7 @@ namespace BookStoreWebClient.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, Language language)
         {
-            language.Id = id;
-            string data = JsonSerializer.Serialize<Language>(language);
-            var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PutAsync(LanguageApiUrl + "/" + id, content);
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index","Language");
-            }
-            return View(language);
+            return View();
         }
     }
 }
