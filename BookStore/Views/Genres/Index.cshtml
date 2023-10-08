@@ -215,6 +215,7 @@
                     headers: headers,
                     success: function (response) {
                         // Handle the response from the API
+                        $('#categoryModal').modal('hide');
                         Swal.fire({
                             icon: 'success',
                             title: 'Your work has been saved',
@@ -226,8 +227,6 @@
                         $('#categoryName').val('');
                         $('#categoryDescription').val('');
 
-                        // Đóng modal
-                        $('#categoryModal').modal('hide');
                         refreshGenreList();
                     },
                     error: function (error) {
