@@ -1,5 +1,6 @@
 ﻿using BookStore.Models;
 using BusinessObjects.Data.Enum;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace BusinessObjects
 {
-	public class ApplicationDBContext : IdentityDbContext<AppUser>
+	public class ApplicationDBContext : IdentityDbContext<IdentityUser>
 	{
 		public ApplicationDBContext() { }
 
@@ -21,6 +22,7 @@ namespace BusinessObjects
 		{
 		}
 
+		public virtual DbSet<AppUser> Users { get; set; }
 		public virtual DbSet<Genre> Genres { get; set; }
 		public virtual DbSet<Language> Languages { get; set; }
 		public virtual DbSet<Book> Books { get; set; }

@@ -1,7 +1,9 @@
 ﻿
 document.addEventListener("DOMContentLoaded", () => {
+    const apiUrl = localStorage.getItem("apiUrl")
+
     $.ajax({
-        url: "https://localhost:7269/api/Statistics?currentDate=" + new Date().toLocaleDateString(),
+        url: apiUrl + "/api/Statistics?currentDate=" + new Date().toLocaleDateString(),
         method: "GET",
         success: function (data) {
             LineChart(data);

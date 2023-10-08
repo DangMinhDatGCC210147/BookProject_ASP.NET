@@ -22,6 +22,7 @@ namespace BookStoreAPI.Controllers
 			statistic.RevenueByGenre = repository.ByGenres(currentDate);
 			statistic.RevenueByPublisher = repository.ByPublisher(currentDate);
 			statistic.BestSelling = repository.BestSelling(currentDate);
+
 			return statistic;
         }
     }
