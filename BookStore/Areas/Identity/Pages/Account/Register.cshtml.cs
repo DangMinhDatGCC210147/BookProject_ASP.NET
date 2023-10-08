@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using BusinessObjects.Data.Enum;
 
 namespace BookStoreWebClient.Areas.Identity.Pages.Account
 {
@@ -29,21 +30,18 @@ namespace BookStoreWebClient.Areas.Identity.Pages.Account
         private readonly IUserStore<AppUser> _userStore;
         private readonly IUserEmailStore<AppUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
             IUserStore<AppUser> userStore,
             SignInManager<AppUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger)
         {
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
         }
 
         /// <summary>
@@ -71,12 +69,19 @@ namespace BookStoreWebClient.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            [Required(ErrorMessage = "Full name can not empty!")]
-            [MinLength(2, ErrorMessage = "Full name must be more than 2 character!")]
-            [MaxLength(100, ErrorMessage = "Full name must be lesser than 100 character!")]
-            [RegularExpression(@"^[a-zA-Z''-'\s]*$", ErrorMessage = "The Full name must be alphabets!")]
-            [Display(Name = "Full name")]
-            public string? FullName { get; set; }
+            [Required(ErrorMessage = "First name can not empty!")]
+            [MinLength(2, ErrorMessage = "First name must be more than 2 character!")]
+            [MaxLength(100, ErrorMessage = "First name must be lesser than 10 character!")]
+            [RegularExpression(@"^[a-zA-Z''-'\s]*$", ErrorMessage = "The First Name must be alphabets!")]
+            [Display(Name = "First Name")]
+            public string? FirstName { get; set; }
+
+            [Required(ErrorMessage = "Last name can not empty!")]
+            [MinLength(2, ErrorMessage = "Last name must be more than 2 character!")]
+            [MaxLength(100, ErrorMessage = "Last name must be lesser than 10 character!")]
+            [RegularExpression(@"^[a-zA-Z''-'\s]*$", ErrorMessage = "The Last Name must be alphabets!")]
+            [Display(Name = "Last Name")]
+            public string? LastName { get; set; }
 
             [Required(ErrorMessage = "Address can not empty!")]
             [MinLength(10, ErrorMessage = "Address must be more than 10 character!")]
@@ -110,6 +115,11 @@ namespace BookStoreWebClient.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Phone]
+            [Display(Name = "Phone number")]
+            [Required(ErrorMessage = "Phone number can not empty!")]
+            public string PhoneNumber { get; set; }
         }
 
 
@@ -127,6 +137,10 @@ namespace BookStoreWebClient.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
+                user.FirstName = Input.FirstName; 
+                user.LastName = Input.LastName;
+                user.Address = Input.Address;
+                user.PhoneNumber = Input.PhoneNumber;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -134,21 +148,22 @@ namespace BookStoreWebClient.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, Roles.Customer.ToString());
                     _logger.LogInformation("User created a new account with password.");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
+                    /*var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+                        protocol: Request.Scheme);*/
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    /*await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");*/
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    /*if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
@@ -156,7 +171,9 @@ namespace BookStoreWebClient.Areas.Identity.Pages.Account
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
-                    }
+                    }*/
+
+                    return RedirectToPage("./Login");
                 }
                 foreach (var error in result.Errors)
                 {
