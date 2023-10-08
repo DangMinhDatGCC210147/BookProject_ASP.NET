@@ -25,7 +25,13 @@ namespace BookStoreAPI.Controllers
             return Ok(book);
         }
 
-        [HttpPost]
+		[HttpGet("Search/{name}")]
+		public ActionResult<IEnumerable<Book>> Search(string name)
+		{
+			return Ok(repository.GetProductByName(name));
+		}
+
+		[HttpPost]
 		public IActionResult PostProducts(Book product)
 		{
 			repository.SaveProduct(product);

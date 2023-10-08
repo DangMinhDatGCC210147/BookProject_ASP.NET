@@ -6,7 +6,9 @@ namespace Repositories.Interfaces
     {
         void SaveProduct(Book p);
         Book GetProductById(int id);
-        void DeleteProductById(Book p);
+		List<Book> GetProductByName(string titleToSearch);
+
+		void DeleteProductById(Book p);
         void UpdateProduct(Book p);
         List<Book> GetProducts();
     }

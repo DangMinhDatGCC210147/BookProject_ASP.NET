@@ -14,5 +14,9 @@ namespace Repositories.Interfaces
         List<GetNameAndQuantity> PublisherAndQuantity();
         List<GetNameAndQuantity> LanguageAndQuantity();
         List<GetNameAndQuantity> AuthorAndQuantity();
+        List<Book> FilterByGenre(int id);
+        List<Book> FilterByPublisher(int id);
+        List<Book> FilterByLanguage(int id);
+        List<Book> FilterByAuthor(int id);
     }
 }

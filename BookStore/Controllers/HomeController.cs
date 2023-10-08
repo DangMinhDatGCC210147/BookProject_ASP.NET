@@ -27,16 +27,11 @@ namespace BookStore.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewData["api"] = _configuration["BaseAddress"];
             HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
-
-            string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
-
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //phân tích cú pháp JSON không phân biệt hoa/thường của tên thuộc tính
-
-            List<Book> clubs = JsonSerializer.Deserialize<List<Book>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
-
-            return View(clubs);
+			string data = await httpResponse.Content.ReadAsStringAsync();
+			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);
+			return View(books);
         }
         public async Task<IActionResult> Wishlist()
         {
@@ -49,14 +44,21 @@ namespace BookStore.Controllers
         }
         public async Task<IActionResult> Shop()
         {
-            ViewData["api"] = _configuration["BaseAddress"];
             HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
             string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
             List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).           
             return View(books);
         }
-        public async Task<IActionResult> Contact()
+		public async Task<IActionResult> Search(string title)
+		{
+			HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl + "/Search/" + title); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
+			string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
+			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).           
+			return View("Shop", books);
+		}
+		public async Task<IActionResult> Contact()
         {
             return View();
         }

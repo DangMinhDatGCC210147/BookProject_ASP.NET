@@ -23,5 +23,18 @@ namespace BookStoreAPI.Controllers
             
             return filters;
         }
-    }
+
+		[HttpGet("/Filter")]
+		public ActionResult<IEnumerable<Book>> FilterByGenre([FromQuery] int filterName, [FromQuery] int filterId)
+		{
+            List<Book> booksFilter = new List<Book>();
+
+			if (filterName == 1) booksFilter = repository.FilterByGenre(filterId);
+			else if (filterName == 2) booksFilter = repository.FilterByPublisher(filterId);
+			else if (filterName == 3) booksFilter = repository.FilterByLanguage(filterId);
+			else if (filterName == 4) booksFilter = repository.FilterByAuthor(filterId);
+
+			return booksFilter;
+		}
+	}
 }
