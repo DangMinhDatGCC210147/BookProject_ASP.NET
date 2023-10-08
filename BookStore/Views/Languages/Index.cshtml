@@ -36,12 +36,13 @@
                                         <div class="modal-body">
                                             <form asp-action="CreateLanguage" asp-controller="Language" id="myForm" method="POST">
                                                 @Html.AntiForgeryToken()
+                                                <input type="hidden" id="Id" name="Id" />
                                                 <div class="form-group">
                                                     <label for="languageName">Language Name</label>
                                                     <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Language Name">
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <button type="submit" class="btn btn-primary" id="submitButton" data-mode="add">Add</button>
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                                 </div>
                                             </form>
@@ -50,6 +51,36 @@
                                     </div>
                                 </div>
                             </div>
+
+                            @* Model For Edit *@
+                            <!-- Modal -->
+                            <div class="modal fade" id="editLanguageModal" tabindex="-1" role="dialog" aria-labelledby="editLanguageModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editLanguageModalLabel">Edit Language</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="editLanguageForm">
+                                                <div class="form-group">
+                                                    <label for="editLanguageName">Language Name</label>
+                                                    <input type="text" class="form-control" id="editLanguageName" name="editLanguageName">
+                                                </div>
+                                                <input type="hidden" id="editLanguageId" name="editLanguageId">
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" id="saveEditLanguage">Save Changes</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>               
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
                         <!-- Small tables -->
                         <table class="table table-sm table-hover" id="languageList" name="languageList">
@@ -72,7 +103,7 @@
                                         <td>
                                             <div class="flex-column align-items-center">
                                                 <button type="button" class="btn btn-danger" onclick="deleteLanguage(@language.Id)">Delete</button>
-                                                <button type="button" class="btn btn-warning">Edit</button>
+                                                <button type="submit" class="btn btn-warning edit-language" onclick="EditLanguage(@language.Id)">Edit</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -88,6 +119,7 @@
     </section>
 </main><!-- End #main -->
 @section Scripts{
+
     <script>
         // Hàm để làm mới dữ liệu bảng
         function refreshLanguageList() {
@@ -104,11 +136,18 @@
                             '<td>' + language.name + '</td>' +
                             '<td><div class="flex-column align-items-center">' +
                             '<button type="button" class="btn btn-danger" style="margin-right: 5px;" onclick="deleteLanguage(' + language.id + ') ">Delete</button>' +
-                            '<button type="button" class="btn btn-warning" onclick="editLanguage(' + language.id + ',' + language.name + ')">Edit</button>' +
+                            '<button type="button" class="btn btn-warning edit-language">Edit</button>' +
                             '</div></td>' +
                             '</tr>';
                         // Đổ dòng dữ liệu vào bảng
                         $('#languageList tbody').append(row);
+
+                        // Thêm sự kiện click cho nút "Edit"
+                        $('.edit-language').on('click', function () {
+                            var id = $(this).data('id');
+                            var name = $(this).data('name');
+                            openLanguageModal('edit',id, name);
+                        });
                     });
                 },
                 error: function (error) {
@@ -116,7 +155,7 @@
                 }
             });
         }
-
+        
         $(document).ready(function () {
             $('#myForm').submit(function (e) {
                 e.preventDefault();
@@ -144,17 +183,16 @@
                     contentType: 'application/json',
                     headers: headers, // Include the headers with the token
                     success: function (response) {
-                        // Handle the response from the API
+                        // Clear input
+                        $('#Name').val('');
+                        // Đóng modal
+                        $('#languageModal').modal('hide');
                         Swal.fire({
                             icon: 'success',
                             title: 'Your work has been saved',
                             showConfirmButton: false,
                             timer: 1500
                         })
-                        // Clear input
-                        $('#Name').val('');
-                        // Đóng modal
-                        $('#myForm').modal('hide');
                         refreshLanguageList();
                     },
                     error: function (error) {
@@ -165,7 +203,7 @@
                 });
             });
         });
-
+        // === Delete ===
         function deleteLanguage(id) {
             // Hiển thị một hộp thoại xác nhận trước khi xóa
             Swal.fire({
@@ -196,6 +234,7 @@
                 }
             });
         }
+
     </script>
     @* === Sreach === *@
     <script>
@@ -227,8 +266,58 @@
             });
         });
     </script>
+
     @* Edit *@
-    
+    <script>
+        // Định nghĩa hàm EditLanguage(id)
+        function EditLanguage(id) {
+            var name = $('#editLanguageName').val();
+
+            var data = {
+                Name: name
+            };
+
+            $.ajax({
+                type: 'PUT',
+                url: 'api/Languages/' + id,
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function (response) {
+                    // Clear input
+                    $('#editLanguageName').val('');
+                    // Đóng modal
+                    $('#editLanguageModal').modal('hide');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    refreshLanguageList();
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while sending data.');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $('.edit-language').on('click', function () {
+                var id = $(this).data('id');
+                var name = $(this).data('name');
+                $('#editLanguageId').val(id);
+                $('#editLanguageName').val(name);
+                $('#editLanguageModal').modal('show');
+            });
+
+            $('#saveEditLanguage').on('click', function () {
+                var id = $('#editLanguageId').val();
+                EditLanguage(id); // Gọi hàm EditLanguage(id) khi người dùng nhấp vào nút "Save"
+            });
+        });
+    </script>
+
     <script src="~/js/js-admin/main.js"></script>
 }
 
