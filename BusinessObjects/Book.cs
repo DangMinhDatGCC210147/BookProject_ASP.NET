@@ -13,7 +13,9 @@ namespace BusinessObjects
 		public string Description { get; set; }
 		[Required]
 		public string Image { get; set; }
-		[Required]
+        [Required]
+        public int Quantity { get; set; }
+        [Required]
 		public decimal OriginalPrice { get; set; }
 		[Required]
 		public decimal SellingPrice { get; set; }

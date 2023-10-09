@@ -15,17 +15,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using BusinessObjects;
+using BusinessObjects.Data.Enum;
 
 namespace BookStoreWebClient.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -116,6 +119,22 @@ namespace BookStoreWebClient.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    var role = await _userManager.GetRolesAsync(user);
+
+                    Roles roles;
+                    if (Enum.TryParse(role[0], out roles))
+                    {
+                        switch (roles)
+                        {
+                            case Roles.StoreOwner:
+                                returnUrl = Url.Content("~/Owner/Dashboard/Index");
+                                break;
+                            case Roles.Admin:
+                                returnUrl = Url.Content("~/Admin/Dashboard/Index");
+                                break;
+                        }
+                    }
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -129,7 +148,7 @@ namespace BookStoreWebClient.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Username or password is invalid.");
                     return Page();
                 }
             }

@@ -16,7 +16,12 @@ namespace Repositories
 
 		public void SaveProduct(Book product) => BookDAO.SaveProduct(product);
 
-		public void UpdateProduct(Book product) => BookDAO.UpdateProduct(product);
+        public List<Book> TopBestSeling()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateProduct(Book product) => BookDAO.UpdateProduct(product);
 
 	}
 }

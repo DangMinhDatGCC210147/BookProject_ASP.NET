@@ -1,13 +1,14 @@
-﻿using BusinessObjects;
+﻿using BookStore.Models;
+using BusinessObjects;
 
 namespace Repositories.Interfaces
 {
-    public interface ILanguageRepository
+    public interface ICartRepository
     {
-        void SaveLanguage(Language p);
-		Language GetLanguageById(int id);
-        void DeleteLanguageById(Language p);
-        void UpdateLanguage(Language p);
-        List<Language> GetLanguages();
+        void SaveCart(Cart cart);
+		Cart FindCartById(int id);
+        void DeleteCartById(Cart cart);
+        void UpdateCart(Cart cart);
+        List<Cart> GetCarts(string userId);
     }
 }

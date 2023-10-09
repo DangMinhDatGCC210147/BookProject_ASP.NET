@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace BookStoreWebClient.Controllers
+namespace BookStoreWebClient.Areas.Owner.Controllers
 {
-    [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "StoreOwner")]
+    [Area("Owner")]
     public class ReviewsController : Controller
     {
         private readonly IConfiguration _configuration;
