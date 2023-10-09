@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BusinessObjects.Data.Enum;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace BookStoreWebClient.Controllers
 {
-	public class UserController : Controller
+    public class UserController : Controller
 	{
 		private readonly IConfiguration _configuration;
 		private readonly HttpClient client = null;

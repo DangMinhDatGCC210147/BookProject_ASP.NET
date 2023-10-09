@@ -18,6 +18,7 @@ function AjaxBarArea() {
         },
     })
 }
+
 var label_title = document.getElementById("found");
 
 function AjaxAllBooks() {

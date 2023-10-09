@@ -29,7 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Identity\Data\" />
+    <Folder Include="Areas\Owner\Data\" />
+    <Folder Include="Areas\Owner\Models\" />
   </ItemGroup>
 
 </Project>

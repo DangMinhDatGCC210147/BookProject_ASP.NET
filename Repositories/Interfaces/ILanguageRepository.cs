@@ -3,12 +3,12 @@ using BusinessObjects;
 
 namespace Repositories.Interfaces
 {
-    public interface ICartRepository
+    public interface ILanguageRepository
     {
-        void SaveCart(Cart p);
-		List<Cart> GetUserCart(string userId);
-		Cart FindCartById(int id);
-        void DeleteCartById(Cart p);
-        void UpdateCart(Cart p);    
+        void SaveLanguage(Language p);
+		List<Language> GetLanguages();
+		Language GetLanguageById(int id);
+        void DeleteLanguageById(Language p);
+        void UpdateLanguage(Language p);    
     }
 }

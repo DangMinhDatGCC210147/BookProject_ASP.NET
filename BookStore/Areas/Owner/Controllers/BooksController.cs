@@ -1,12 +1,16 @@
 ﻿using BusinessObjects;
+using BusinessObjects.Data.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
 
-namespace BookStoreWebClient.Controllers
+namespace BookStoreWebClient.Areas.Owner.Controllers
 {
+    [Authorize(Roles = "StoreOwner")]
+    [Area("Owner")]
     public class BooksController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -32,9 +36,9 @@ namespace BookStoreWebClient.Controllers
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //phân tích cú pháp JSON không phân biệt hoa/thường của tên thuộc tính
 
-            List<Book> clubs = JsonSerializer.Deserialize<List<Book>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
+            List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
 
-            return View(clubs);
+            return View(books);
         }
 
         [HttpPost]
