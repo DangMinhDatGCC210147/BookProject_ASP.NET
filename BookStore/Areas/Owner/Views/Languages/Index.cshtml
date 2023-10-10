@@ -89,7 +89,146 @@
     </section>
 </main><!-- End #main -->
 @section Scripts{
-    <script scr="~/js/js-admin/language.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#addLanguageBtn").click(function () {
+                var languageName = $("#Name").val(); // Lấy giá trị từ input
+
+                // Tạo đối tượng dữ liệu để gửi lên server
+                var languageData = {
+                    Name: languageName
+                };
+
+                // Gửi yêu cầu Ajax đến API
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://localhost:7269/api/Languages',
+                    data: JSON.stringify(languageData),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        // Xử lý phản hồi thành công, ví dụ: đóng modal
+                        $('#languageModal').modal('hide');
+                        // Làm điều gì đó sau khi thêm thành công, ví dụ: làm mới trang
+                        // location.reload();
+                        refreshLanguageList();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Your work has been saved',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    },
+                    error: function (error) {
+                        // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi
+                        alert("Error: " + error.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        // Hàm để làm mới dữ liệu bảng
+        function refreshLanguageList() {
+            $.ajax({
+                type: 'GET',
+                url: '/api/Languages', // Địa chỉ API để tải lại danh sách ngôn ngữ
+                dataType: 'json',
+                success: function (data) {
+                    // Tạo một biến để chứa HTML mới
+                    var html = '';
+
+                    // Duyệt qua danh sách ngôn ngữ và xây dựng HTML cho từng dòng
+                    $.each(data, function (index, language) {
+                        var row = '<tr>' +
+                            '<td>' + language.id + '</td>' +
+                            '<td>' + language.name + '</td>' +
+                            '<td><div class="flex-column align-items-center">' +
+                            '<button type="button" class="btn btn-danger" style="margin-right: 5px;" onclick="deleteLanguage(' + language.id + ')">Delete</button>' +
+                            '<button type="button" class="btn btn-warning edit-language">Edit</button>' +
+                            '</div></td>' +
+                            '</tr>';
+                        // Thêm dòng HTML vào biến html
+                        html += row;
+                    });
+
+                    // Sử dụng innerHTML để cập nhật nội dung của tbody
+                    document.getElementById('languageList').getElementsByTagName('tbody')[0].innerHTML = html;
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        //Add
+        
+
+        // === Delete ===
+        function deleteLanguage(id) {
+            // Hiển thị một hộp thoại xác nhận trước khi xóa
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You won\'t be able to revert this!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Nếu người dùng đồng ý xóa, thực hiện AJAX để gửi yêu cầu xóa
+                    callAjax(id);
+                }
+            });
+        }
+        function callAjax(id) {
+            $.ajax({
+                type: 'DELETE',
+                url: 'https://localhost:7269/api/Languages/' + id,
+                success: function () {
+                    console.log("ABCDEF");
+                    // Nếu xóa thành công, cập nhật giao diện người dùng bằng cách xóa dòng trong bảng
+                    $('#languageList tbody tr[data-id="' + id + '"]').remove();
+                    Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+
+                    // Sau khi xóa thành công, gọi hàm refresh để tải lại dữ liệu mới
+                    refreshLanguageList();
+                },
+                error: function () {
+                    Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            // Xác định sự kiện khi người dùng nhập vào ô tìm kiếm
+            $('#searchInput').on('input', function () {
+                var searchText = $(this).val().toLowerCase();
+                var found = false;
+
+                // Lặp qua từng dòng trong bảng danh sách ngôn ngữ
+                $('#languageList tbody tr').each(function () {
+                    var rowText = $(this).text().toLowerCase();
+
+                    // So sánh văn bản của từng dòng với văn bản tìm kiếm
+                    if (rowText.includes(searchText)) {
+                        $(this).show();
+                        found = true;
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+                // Hiển thị thông báo khi không có kết quả tìm thấy
+                if (!found) {
+                    $('#noResultsMessage').show();
+                } else {
+                    $('#noResultsMessage').hide();
+                }
+            });
+        });
+
+    </script>
     <script src="~/js/js-admin/main.js"></script>
 }
 

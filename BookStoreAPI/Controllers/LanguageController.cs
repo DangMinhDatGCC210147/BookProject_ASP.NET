@@ -26,7 +26,7 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateLanguage([FromForm] Language language)
+        public IActionResult CreateLanguage(Language language)
         {
             if (!ModelState.IsValid)
             {
@@ -37,7 +37,7 @@ namespace BookStoreAPI.Controllers
             {
                 repository.SaveLanguage(language);
                 //return Ok();
-                return RedirectToAction("Index","Languages");
+                return RedirectToAction("Index", "Languages", new { area = "Owner" });
             }
             catch (Exception ex)
             {
@@ -49,10 +49,10 @@ namespace BookStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteLanguages(int id)
         {
-            var product = repository.GetLanguageById(id);
-            if (product == null)
+            var language = repository.GetLanguageById(id);
+            if (language == null)
                 return NotFound();
-            repository.DeleteLanguageById(product);
+            repository.DeleteLanguageById(language);
             return Ok();
         }
 

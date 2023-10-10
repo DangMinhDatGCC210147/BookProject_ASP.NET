@@ -25,7 +25,7 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateGenre([FromForm] Genre genre)
+        public IActionResult CreateGenre(Genre genre)
         {
             if (!ModelState.IsValid)
             {
@@ -36,7 +36,7 @@ namespace BookStoreAPI.Controllers
             {
                 repository.SaveGenre(genre);
                 //return Ok();
-                return RedirectToAction("Index","Genres");
+                return RedirectToAction("Index","Genres", new { area = "Owner" });
             }
             catch (Exception ex)
             {
