@@ -17,8 +17,8 @@ namespace Repositories
 
         public List<Genre> GetGenres() => GenreDAO.GetGenres();
 
-        public void SaveGenre(Genre genre) => GenreDAO.SaveGenre(genre);
+        public Genre SaveGenre(Genre genre) => GenreDAO.SaveGenre(genre);
 
-        public void UpdateGenre(Genre genre) => GenreDAO.UpdateGenre(genre);
+        public Genre UpdateGenre(Genre genre) => GenreDAO.UpdateGenre(genre);
     }
 }

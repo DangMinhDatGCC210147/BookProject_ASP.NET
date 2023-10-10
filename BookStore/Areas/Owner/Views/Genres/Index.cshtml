@@ -20,34 +20,29 @@
                                     </div>
                                 </div>
                             @* </form> *@
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#categoryModal">Add New Genre</button>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#genreModal">Add New Genre</button>
                         </div>
                         <!-- Modal -->
-                        <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="genreModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="categoryModalLabel">Add New Genre</h5>
+                                        <h5 class="modal-title" id="categoryModalLabel">Genre Genre</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="post" asp-action="CreateGenre" asp-controller="Genre" id="myForm">
-                                            @Html.AntiForgeryToken()
+                                        <form method="post" id="myForm">
+                                            <input type="hidden" id="genreId">
                                             <div class="form-group">
-                                                <label for="categoryName">Genre Name</label>
-                                                <input type="text" class="form-control" id="categoryName" placeholder="Enter category name">
+                                                <label for="genreName">Genre Name</label>
+                                                <input type="text" class="form-control" id="genreName" placeholder="Enter genre name">
                                             </div>
                                             <div class="form-group">
-                                                <label for="categoryDescription">Description</label>
-                                                <textarea class="form-control" id="categoryDescription" rows="3" placeholder="Enter category description"></textarea>
+                                                <label for="genreDescription">Description</label>
+                                                <textarea class="form-control" id="genreDescription" rows="3" placeholder="Enter genre description"></textarea>
                                             </div>
-@*                                             <div class="form-group">
-                                                <label for="categoryAddDate">Add Date</label>
-                                                <input type="date" class="form-control" id="categoryAddDate">
-                                            </div> *@
-                                            @* <button type="submit" class="btn btn-primary">Submit</button> *@
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-primary">Submit</button>
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -59,7 +54,7 @@
                             </div>
                         </div>
                         <!-- Small tables -->
-                        <table class="table table-sm table-hover" id="genreList" name="genreList">
+                        <table class="table table-sm table-hover" id="genreTable" name="genreTable">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
@@ -70,13 +65,13 @@
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="genreList">
                                 <div id="noResultsMessage" class="alert alert-warning" style="display: none;">
                                     No available values found.
                                 </div>
                                 @foreach(var genre in Model)
                                 {
-                                    <tr>
+                                    <tr id="row_@genre.Id">
                                         <th scope="row">@genre.Id</th>
                                         <td>@genre.Name</td>
                                         <td>@genre.Description</td>
@@ -106,7 +101,7 @@
                                         <td>
                                             <div class="flex-column align-items-center">
                                                 <button type="button" class="btn btn-danger" onclick="deleteGenre(@genre.Id) ">Delete</button>
-                                                <button type="button" class="btn btn-warning">Edit</button>
+                                                <button type="button" class="btn btn-warning edit-genre" data-toggle="modal" data-target="#genreModal" onclick="handleEditButton(@genre.Id)">Edit</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -114,7 +109,6 @@
                             </tbody>
                         </table>
                         <!-- End small tables -->
-
                     </div>
                 </div>
 
@@ -124,64 +118,7 @@
 
 </main><!-- End #main -->
 @section Scripts{
-    <script>
-        // Add
-        $(document).ready(function () {
-            $('#myForm').submit(function (e) {
-                e.preventDefault();
-
-                // Get the anti-forgery token value from the hidden input field
-                var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
-
-                // Get the value from the "Name" and "Description" input fields
-                var Name = $('#categoryName').val();
-                var Description = $('#categoryDescription').val();
-                var AddDate = new Date().toISOString();
-                var ApprovalStatus = 0;
-                // Create a JSON data object to send to the API
-                var data = {
-                    Name: Name,
-                    Description: Description,
-                    AddDate: AddDate,
-                    ApprovalStatus: ApprovalStatus
-                };
-
-                // Include the anti-forgery token in the request headers
-                var headers = {};
-                headers['__RequestVerificationToken'] = antiForgeryToken;
-                // Use AJAX to send data to the API
-                console.log(data)
-                $.ajax({
-                    type: 'POST',
-                    url: 'https://localhost:7269/api/Genres',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    headers: headers,
-                    success: function (response) {
-                        // Handle the response from the API
-                        $('#categoryModal').modal('hide');
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Your work has been saved',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-
-                        // Clear input
-                        $('#categoryName').val('');
-                        $('#categoryDescription').val('');
-
-                        refreshGenreList();
-                    },
-                    error: function (error) {
-                        // Handle errors (if any)
-                        console.error('Error:', error);
-                        alert('An error occurred while sending data.');
-                    }
-                });
-            });
-        });</script>
-    <script src="~/js/js-admin/genre.js"></script>
-<script src="~/js/js-admin/main.js"></script>
+    <script src="~/js/js-owner/genre.js"></script>
+    <script src="~/js/js-admin/main.js"></script>
 }
 
