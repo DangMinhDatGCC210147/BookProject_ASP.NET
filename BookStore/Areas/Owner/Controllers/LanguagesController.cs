@@ -45,11 +45,7 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
         {
             HttpResponseMessage response = await client.GetAsync(LanguageApiUrl);
             string strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            };
+            var options = new JsonSerializerOptions{PropertyNameCaseInsensitive = true,};
             List<Language> languages = JsonSerializer.Deserialize<List<Language>>(strData, options);
             return View(languages);
         }

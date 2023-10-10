@@ -4,359 +4,356 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
     <title>@ViewData["Title"] - Book WonderLand</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-    <!-- Favicons -->
-    <link href="~/img/favicon.png" rel="icon">
-    <link href="~/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.png">
 
-    <!-- Vendor CSS Files -->
-    <link href=" ~/js/vendor-admin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/quill/quill.snow.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/quill/quill.bubble.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/remixicon/remixicon.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/simple-datatables/style.css" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link href="~/css/style-admin.css" rel="stylesheet">
-    <!-- Link Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- Thêm CSS của SweetAlert -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <!-- Thêm JavaScript của SweetAlert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <!-- all css here -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/css/animate.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/themify-icons.css">
+    <link rel="stylesheet" href="~/css/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="~/css/meanmenu.min.css">
+    <link rel="stylesheet" href="~/css/bundle.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/responsive.css">
+    <script src="~/js/vendor/modernizr-3.11.7.min.js"></script>
 
     @RenderSection("stylesheets", required: false)
 </head>
-<body>
-    <header id="header" class="header fixed-top d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center justify-content-between">
-            <a href="#" class="logo d-flex align-items-center">
-                <img src="~/img/logo.png" alt="">
-                <span class="d-none d-lg-block">Book WonderLand</span>
-            </a>
-            <i class="bi bi-list toggle-sidebar-btn"></i>
-        </div><!-- End Logo -->
-
-        <nav class="header-nav">
-            <ul class="d-flex align-items-center">
-
-                <li class="nav-item d-block d-lg-none">
-                    <a class="nav-link nav-icon search-bar-toggle " href="#">
-                        <i class="bi bi-search"></i>
+<!-- header start -->
+<header class="res-header-sm">
+    <div class="header-top-wrapper theme-bg-2">
+        <div class="container">
+            <div class="header-top d-flex align-items-center">
+                <div class="header-info">
+                    <span>Contact us - (84+) 123456789  or  <a href="#">FPTBookStore@fpt.com.vn</a></span>
+                </div>
+                <partial name="_LoginPartial.cshtml" />
+            </div>
+        </div>
+    </div>
+    <div class="header-bottom clearfix">
+        <div class="container">
+            <div class="header-bottom-wrapper">
+                <div class="logo-2 ptb-40">
+                    <a asp-controller="Home" asp-action="Index">
+                        <img src="~/img/logo/2.png" alt="">
                     </a>
-                </li><!-- End Search Icon-->
-
-                <li class="nav-item dropdown">
-
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number">4</span>
-                    </a><!-- End Notification Icon -->
-
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                        <li class="dropdown-header">
-                            You have 4 new notifications
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-exclamation-circle text-warning"></i>
-                            <div>
-                                <h4>Lorem Ipsum</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>30 min. ago</p>
+                </div>
+                <div class="menu-style-2 book-menu menu-hover">
+                    <nav>
+                        <ul>
+                            <li><a asp-controller="Home" asp-action="Index">home</a></li>
+                            <li><a asp-controller="Home" asp-action="Shop">shop</a></li>
+                            <li><a asp-controller="Home" asp-action="AboutUs">about us</a></li>
+                            <li><a asp-controller="Home" asp-action="Contact">contact</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- Wishlist ICON -->
+                <div class="header-cart-2">
+                    <a class="icon-cart" href="#">
+                        <i class="ti-heart"></i>
+                        <span class="shop-count book-count">10</span>
+                    </a>
+                    <ul class="cart-dropdown">
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="~/img/product/book/1.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h5><a href="#"> Bits Headphone</a></h5>
+                                <h6><a href="#">Black</a></h6>
+                                <span>$80.00 x 1</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#"><i class="ti-trash"></i></a>
                             </div>
                         </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-x-circle text-danger"></i>
-                            <div>
-                                <h4>Atque rerum nesciunt</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>1 hr. ago</p>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="~/img/product/book/2.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h5><a href="#"> Bits Headphone</a></h5>
+                                <h6><a href="#">Black</a></h6>
+                                <span>$80.00 x 1</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#"><i class="ti-trash"></i></a>
                             </div>
                         </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-check-circle text-success"></i>
-                            <div>
-                                <h4>Sit rerum fuga</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>2 hrs. ago</p>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="~/img/product/book/3.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h5><a href="#"> Bits Headphone</a></h5>
+                                <h6><a href="#">Black</a></h6>
+                                <span>$80.00 x 1</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#"><i class="ti-trash"></i></a>
                             </div>
                         </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
+                        <li class="cart-btn-wrapper">
+                            <a class="cart-btn btn-hover" asp-controller="Home" asp-action="Wishlist">view wishlist</a>
+                            <!-- <a class="cart-btn btn-hover" href="checkout.html">checkout</a> -->
                         </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-info-circle text-primary"></i>
-                            <div>
-                                <h4>Dicta reprehenderit</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>4 hrs. ago</p>
+                    </ul>
+                </div>
+                <!-- Cart ICON -->
+                <div class="header-cart-2">
+                    <a class="icon-cart" href="#">
+                        <i class="ti-shopping-cart"></i>
+                        <span class="shop-count book-count">02</span>
+                    </a>
+                    <ul class="cart-dropdown">
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="~/img/cart/1.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h5><a href="#"> Bits Headphone</a></h5>
+                                <h6><a href="#">Black</a></h6>
+                                <span>$80.00 x 1</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#"><i class="ti-trash"></i></a>
                             </div>
                         </li>
-
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="~/img/product/book/7.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h5><a href="#"> Bits Headphone</a></h5>
+                                <h6><a href="#">Black</a></h6>
+                                <span>$80.00 x 1</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#"><i class="ti-trash"></i></a>
+                            </div>
+                        </li>
+                        <li class="single-product-cart">
+                            <div class="cart-img">
+                                <a href="#"><img src="~/img/product/book/14.jpg" alt=""></a>
+                            </div>
+                            <div class="cart-title">
+                                <h5><a href="#"> Bits Headphone</a></h5>
+                                <h6><a href="#">Black</a></h6>
+                                <span>$80.00 x 1</span>
+                            </div>
+                            <div class="cart-delete">
+                                <a href="#"><i class="ti-trash"></i></a>
+                            </div>
+                        </li>
+                        <li class="cart-space">
+                            <div class="cart-sub">
+                                <h4>Subtotal</h4>
+                            </div>
+                            <div class="cart-price">
+                                <h4>$240.00</h4>
+                            </div>
+                        </li>
+                        <li class="cart-btn-wrapper">
+                            <a class="cart-btn btn-hover" asp-controller="Home" asp-action="Cart">view cart</a>
+                            <a class="cart-btn btn-hover" asp-controller="Home" asp-action="CheckOut">checkout</a>
+                        </li>
+                    </ul>
+                </div>
+                @* ICON Search *@
+                <div class="header-cart-2">
+                    <a class="icon-cart" href="#">
+                        <i class="ti-search"></i>
+                    </a>
+                    <ul class="cart-dropdown">
                         <li>
-                            <hr class="dropdown-divider">
+                            <form class="search-form" method="post">
+                                <input class="search-input" type="text" placeholder="Search book">
+                                <button class="search-button" type="submit"><i class="ti-search"></i></button>
+                            </form>
+                            <style>
+                                .cart-dropdown{
+                                    padding-bottom: 20px !important;
+                                }
+                                .search-form {
+                                    display: flex;
+                                    margin: 0 !important;
+                                    padding: 0!important;
+                                    list-style: none;
+                                }
+
+                                .search-input {
+                                    flex: 1;
+                                    padding: 10px;
+                                    border: 1px solid #ccc;
+                                    border-radius: 4px;
+                                    outline: none;
+                                    transition: border-color 0.3s;
+                                }
+                                .search-input:focus {
+                                    border-color: #F44344;
+                                }
+                                .search-button {
+                                    background-color: #F44344;
+                                    color: #fff;
+                                    border: none;
+                                    border-radius: 4px;
+                                    padding: 10px 15px;
+                                    margin-left: 10px;
+                                    cursor: pointer;
+                                }
+                            </style>
                         </li>
-                        <li class="dropdown-footer">
-                            <a href="#">Show all notifications</a>
-                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+            <div class="row">
+                <div class="mobile-menu-area d-md-block col-md-12 col-lg-12 col-12 d-lg-none d-xl-none">
+                    <div class="mobile-menu">
+                        <nav id="mobile-menu-active">
+                            <ul class="menu-overflow">
+                                <li><a asp-controller="Home" asp-action="Index">home</a></li>
+                                <li><a asp-controller="Home" asp-action="Shop">shop</a></li>
+                                <li><a asp-controller="Home" asp-action="AboutUs">about us</a></li>
+                                <li><a asp-controller="Home" asp-action="Contact">contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<body>
+    @RenderBody()
 
-                    </ul><!-- End Notification Dropdown Items -->
-
-                </li><!-- End Notification Nav -->
-
-                <li class="nav-item dropdown">
-
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-chat-left-text"></i>
-                        <span class="badge bg-success badge-number">3</span>
-                    </a><!-- End Messages Icon -->
-
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-                        <li class="dropdown-header">
-                            You have 3 new messages
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
-                                <div>
-                                    <h4>Maria Hudson</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>4 hrs. ago</p>
+<footer class="footer-area">
+    <div class="footer-top-area gray-bg-5 pt-105 pb-65">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget mb-40">
+                        <h3 class="footer-widget-title-2">Book WonderLand</h3>
+                        <div class="footer-info-wrapper">
+                            <div class="footer-address">
+                                <div class="footer-info-icon">
+                                    <i class="ti-location-pin"></i>
                                 </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
-                                <div>
-                                    <h4>Anna Nelson</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>6 hrs. ago</p>
+                                <div class="footer-info-content">
+                                    <p>
+                                            No 160, 30/4 Street, An Phu Wards
+                                            Ninh Kieu District, Can Tho City
+                                    </p>
                                 </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
-                                <div>
-                                    <h4>David Muldon</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>8 hrs. ago</p>
+                            </div>
+                            <div class="footer-address">
+                                <div class="footer-info-icon">
+                                    <i class="ti-headphone-alt"></i>
                                 </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="dropdown-footer">
-                            <a href="#">Show all messages</a>
-                        </li>
-
-                    </ul><!-- End Messages Dropdown Items -->
-
-                </li><!-- End Messages Nav -->
-
-                <li class="nav-item dropdown pe-3">
-
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">Dustin</span>
-                    </a><!-- End Profile Iamge Icon -->
-
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        <li class="dropdown-header">
-                            <h6>Kevin Anderson</h6>
-                            <span>Web Designer</span>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                <i class="bi bi-person"></i>
-                                <span>My Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                <i class="bi bi-gear"></i>
-                                <span>Account Settings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                                <i class="bi bi-question-circle"></i>
-                                <span>Need Help?</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
-                            </a>
-                        </li>
-
-                    </ul><!-- End Profile Dropdown Items -->
-                </li><!-- End Profile Nav -->
-
-            </ul>
-        </nav><!-- End Icons Navigation -->
-    </header><!-- End Header -->
-    <!-- ======= Sidebar ======= -->
-    <aside id="sidebar" class="sidebar">
-        <ul class="sidebar-nav" id="sidebar-nav">
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-controller="Admin" asp-action="Index">
-                    <i class="bi bi-grid"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li><!-- End Dashboard Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse">
-                    <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a asp-controller="Genres" asp-action="Index"><i class="bi bi-circle"></i><span>Genres</span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="Books" asp-action="Index"><i class="bi bi-circle"></i><span>Books</span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="Users" asp-action="Index"><i class="bi bi-circle"></i><span>Users</span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="Languages" asp-action="Index"><i class="bi bi-circle"></i><span>Languages</span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="FeedBacks" asp-action="Index"><i class="bi bi-circle"></i><span>Feedbacks</span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="Admin" asp-action="Order"><i class="bi bi-circle"></i><span>Orders</span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="Reviews" asp-action="Index"><i class="bi bi-circle"></i><span>Reviews</span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="Authors" asp-action="Index"><i class="bi bi-circle"></i><span>Authors</span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="Publishers" asp-action="Index"><i class="bi bi-circle"></i><span>Publishers</span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="Discounts" asp-action="Index"><i class="bi bi-circle"></i><span>Discounts</span></a>
-                    </li>
-                </ul>
-            </li><!-- End Tables Nav -->
-
-            <li class="nav-heading">Pages</li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-controller="Admin" asp-action="Profile">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
-                </a>
-            </li><!-- End Profile Page Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-controller="Admin" asp-action="Register">
-                    <i class="bi bi-card-list"></i>
-                    <span>Register</span>
-                </a>
-            </li><!-- End Register Page Nav -->
-        </ul>
-    </aside><!-- End Sidebar-->
-
-@*     <div class="container">
-        <main role="main" class="pb-3"> *@
-            @RenderBody()
-@*         </main>
-    </div> *@
-
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-    <!-- Vendor JS Files -->
-    <script src="~/js/vendor-admin/apexcharts/apexcharts.min.js"></script>
-    <script src="~/js/vendor-admin/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/vendor-admin/chart.js/chart.umd.js"></script>
-    <script src="~/js/vendor-admin/echarts/echarts.min.js"></script>
-    <script src="~/js/vendor-admin/quill/quill.min.js"></script>
-    <script src="~/js/vendor-admin/simple-datatables/simple-datatables.js"></script>
-    <script src="~/js/vendor-admin/tinymce/tinymce.min.js"></script>
-    <script src="~/js/vendor-admin/php-email-form/validate.js"></script>
-
-    <!-- Link Bootstrap JS and jQuery (required for Bootstrap's JavaScript) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!--  Link jquery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-            integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                                <div class="footer-info-content">
+                                    <p>
+                                        (+84) 123456789
+                                        <br>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="footer-address">
+                                <div class="footer-info-icon">
+                                    <i class="ti-email"></i>
+                                </div>
+                                <div class="footer-info-content">
+                                    <p>
+                                        <a href="#">phuongddmgcc200407@fpt.edu.vn</a>
+                                        <br><a href="#">trannqgcc210042@fpt.edu.vn</a>
+                                        <br><a href="#">datdmgcc210147@fpt.edu.vn</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget mb-40 pl-70">
+                        <h3 class="footer-widget-title-2">USeful Links</h3>
+                        <div class="footer-widget-content-2">
+                            <ul>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="login.html">Login</a></li>
+                                <li><a href="register.html">Register</a></li>
+                                <li><a href="#">Account</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-widget mb-40">
+                        <h3 class="footer-widget-title-2">Shopping</h3>
+                        <div class="footer-widget-content-2">
+                            <ul>
+                                <li><a href="#">How to buy</a></li>
+                                <li><a href="#">Payments</a></li>
+                                <li><a href="#">Shipment</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="#">Terms & Condition</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-widget mb-40 pl-30">
+                        <h3 class="footer-widget-title-2">Find US</h3>
+                        <iframe class="footer-map"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62860.62287780169!2d105.71637040029258!3d10.034268928830112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0629f6de3edb7%3A0x527f09dbfb20b659!2zQ-G6p24gVGjGoSwgTmluaCBLaeG7gXUsIEPhuqduIFRoxqEsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1695227791590!5m2!1svi!2s">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom  gray-bg-6 ptb-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="copyright-2">
+                        <p>
+                            Copyright ©
+                            <a asp-controller="Home" asp-action="Index">Book WonderLan</a> 2023 . All Right Reserved.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="payment-img">
+                        <img src="~/img/icon-img/3.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+    <!-- all js here -->
+    <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/js/popper.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/js/isotope.pkgd.min.js"></script>
+    <script src="~/js/imagesloaded.pkgd.min.js"></script>
+    <script src="~/js/jquery.counterup.min.js"></script>
+    <script src="~/js/waypoints.min.js"></script>
+    <script src="~/js/ajax-mail.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/plugins.js"></script>
+    <script src="~/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-<!-- ======= Footer ======= -->
-<footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>Dat - Tran - Phuong</span></strong>. All Rights Reserved
-    </div>
-</footer><!-- End Footer -->
 </html>
-

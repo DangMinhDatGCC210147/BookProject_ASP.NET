@@ -27,6 +27,7 @@ namespace BookStore.Controllers
 
         public async Task<IActionResult> Index()
         {
+            ViewData["api"] = _configuration["BaseAddress"];
             HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
 			string data = await httpResponse.Content.ReadAsStringAsync();
 			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

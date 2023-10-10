@@ -17,9 +17,9 @@ namespace Repositories
 
 		public List<Language> GetLanguages() => LanguageDAO.GetLanguages();
 
-		public void SaveLanguage(Language language) => LanguageDAO.SaveLanguage(language);
+		public Language SaveLanguage(Language language) => LanguageDAO.SaveLanguage(language);
 
-		public void UpdateLanguage(Language language) => LanguageDAO.UpdateLanguage(language);
+		public Language UpdateLanguage(Language language) => LanguageDAO.UpdateLanguage(language);
 
 	}
 }
