@@ -35,10 +35,10 @@ namespace BookStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteLanguages(int id)
         {
-            var product = repository.GetLanguageById(id);
-            if (product == null)
+            var language = repository.GetLanguageById(id);
+            if (language == null)
                 return NotFound();
-            repository.DeleteLanguageById(product);
+            repository.DeleteLanguageById(language);
             return Ok();
         }
 

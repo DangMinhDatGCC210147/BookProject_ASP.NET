@@ -55,62 +55,6 @@
             });
         }
 
-        // Add
-        $(document).ready(function () {
-            $('#myForm').submit(function (e) {
-                e.preventDefault();
-
-                // Get the anti-forgery token value from the hidden input field
-                var antiForgeryToken = $('input[name="__RequestVerificationToken"]').val();
-
-                // Get the value from the "Name" and "Description" input fields
-                var Name = $('#categoryName').val();
-                var Description = $('#categoryDescription').val();
-                var AddDate = new Date().toISOString();
-                var ApprovalStatus = 0;
-                // Create a JSON data object to send to the API
-                var data = {
-                    Name: Name,
-                    Description: Description,
-                    AddDate: AddDate,
-                    ApprovalStatus: ApprovalStatus
-                };
-
-                // Include the anti-forgery token in the request headers
-                var headers = {};
-                headers['__RequestVerificationToken'] = antiForgeryToken;
-                // Use AJAX to send data to the API
-                $.ajax({
-                    type: 'POST',
-                    url: 'api/Genres',
-                    data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    headers: headers,                
-                    success: function (response) {
-                        // Handle the response from the API
-                        $('#categoryModal').modal('hide');
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Your work has been saved',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-
-                        // Clear input
-                        $('#categoryName').val('');
-                        $('#categoryDescription').val('');
-
-                        refreshGenreList();
-                    },
-                    error: function (error) {
-                        // Handle errors (if any)
-                        console.error('Error:', error);
-                        alert('An error occurred while sending data.');
-                    }
-                });
-            });
-        });
-
         function deleteGenre(id) {
             // Hiển thị một hộp thoại xác nhận trước khi xóa
             Swal.fire({
