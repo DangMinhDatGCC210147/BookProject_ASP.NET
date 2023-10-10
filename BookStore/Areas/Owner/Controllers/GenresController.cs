@@ -40,7 +40,6 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Genre p)
         {
             HttpResponseMessage response = await client.GetAsync(GenreApiUrl);
