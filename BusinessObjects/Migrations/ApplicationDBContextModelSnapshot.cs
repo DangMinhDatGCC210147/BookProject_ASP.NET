@@ -774,7 +774,11 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 9",
                             CustomerPhone = "999-000-1111",
                             DeleveryLocal = "606 Delivery St",
+<<<<<<< HEAD
                             DeliveryDate = new DateTime(2023, 10, 25, 22, 12, 34, 340, DateTimeKind.Local).AddTicks(4563),
+=======
+                            DeliveryDate = new DateTime(2023, 10, 25, 17, 51, 29, 321, DateTimeKind.Local).AddTicks(9922),
+>>>>>>> a092707 (finish fill new request, CRUD User)
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 135.75m
@@ -785,7 +789,11 @@ namespace BusinessObjects.Migrations
                             CustomerName = "Customer 10",
                             CustomerPhone = "666-777-8888",
                             DeleveryLocal = "707 Delivery St",
+<<<<<<< HEAD
                             DeliveryDate = new DateTime(2023, 10, 23, 22, 12, 34, 340, DateTimeKind.Local).AddTicks(4564),
+=======
+                            DeliveryDate = new DateTime(2023, 10, 23, 17, 51, 29, 321, DateTimeKind.Local).AddTicks(9923),
+>>>>>>> a092707 (finish fill new request, CRUD User)
                             DiscountId = 2,
                             IsConfirm = false,
                             Total = 70.00m

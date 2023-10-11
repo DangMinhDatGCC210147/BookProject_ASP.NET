@@ -712,6 +712,7 @@ namespace BusinessObjects.Migrations
                             CustomerPhone = "111-222-3333",
                             DeleveryLocal = "789 Delivery St",
                             DeliveryDate = new DateTime(2023, 10, 19, 22, 12, 34, 340, DateTimeKind.Local).AddTicks(4556),
+
                             DiscountId = 1,
                             IsConfirm = true,
                             Total = 90.00m
