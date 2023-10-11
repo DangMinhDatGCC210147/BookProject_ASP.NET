@@ -8,8 +8,8 @@ namespace BusinessObjects.Data.Enum
 {
 	public enum GenerApproval
 	{
-		Watiting,
-		Confirm,
-		Reject
+		Pending,
+		Accpeted,
+		Rejected
 	}
 }

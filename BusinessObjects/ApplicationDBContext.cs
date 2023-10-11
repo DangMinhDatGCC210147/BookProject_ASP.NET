@@ -71,16 +71,16 @@ namespace BusinessObjects
 			);
 
 			modelBuilder.Entity<Genre>().HasData(
-				new Genre { Id = 1, Name = "Fiction", Description = "Description for Fiction", ApprovalStatus = GenerApproval.Watiting },
-				new Genre { Id = 2, Name = "Mystery", Description = "Description for Mystery", ApprovalStatus = GenerApproval.Confirm },
-				new Genre { Id = 3, Name = "Science Fiction", Description = "Description for Science Fiction", ApprovalStatus = GenerApproval.Reject },
-				new Genre { Id = 4, Name = "Fantasy", Description = "Description for Fantasy", ApprovalStatus = GenerApproval.Watiting },
-				new Genre { Id = 5, Name = "Romance", Description = "Description for Romance", ApprovalStatus = GenerApproval.Confirm },
-				new Genre { Id = 6, Name = "Horror", Description = "Description for Horror", ApprovalStatus = GenerApproval.Watiting },
-				new Genre { Id = 7, Name = "Adventure", Description = "Description for Adventure", ApprovalStatus = GenerApproval.Confirm },
-				new Genre { Id = 8, Name = "Non-fiction", Description = "Description for Non-fiction", ApprovalStatus = GenerApproval.Reject },
-				new Genre { Id = 9, Name = "Biography", Description = "Description for Biography", ApprovalStatus = GenerApproval.Watiting },
-				new Genre { Id = 10, Name = "History", Description = "Description for History", ApprovalStatus = GenerApproval.Confirm }
+				new Genre { Id = 1, Name = "Fiction", Description = "Description for Fiction", ApprovalStatus = GenerApproval.Pending },
+				new Genre { Id = 2, Name = "Mystery", Description = "Description for Mystery", ApprovalStatus = GenerApproval.Accpeted },
+				new Genre { Id = 3, Name = "Science Fiction", Description = "Description for Science Fiction", ApprovalStatus = GenerApproval.Rejected },
+				new Genre { Id = 4, Name = "Fantasy", Description = "Description for Fantasy", ApprovalStatus = GenerApproval.Pending },
+				new Genre { Id = 5, Name = "Romance", Description = "Description for Romance", ApprovalStatus = GenerApproval.Accpeted },
+				new Genre { Id = 6, Name = "Horror", Description = "Description for Horror", ApprovalStatus = GenerApproval.Pending },
+				new Genre { Id = 7, Name = "Adventure", Description = "Description for Adventure", ApprovalStatus = GenerApproval.Accpeted },
+				new Genre { Id = 8, Name = "Non-fiction", Description = "Description for Non-fiction", ApprovalStatus = GenerApproval.Rejected },
+				new Genre { Id = 9, Name = "Biography", Description = "Description for Biography", ApprovalStatus = GenerApproval.Pending },
+				new Genre { Id = 10, Name = "History", Description = "Description for History", ApprovalStatus = GenerApproval.Accpeted }
 			);
 
 			modelBuilder.Entity<Publisher>().HasData(
