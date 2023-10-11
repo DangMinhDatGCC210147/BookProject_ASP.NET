@@ -40,7 +40,7 @@ namespace DatAccess
 			return language;
 		}
 
-		public static void SaveLanguage(Language language)
+		public static Language SaveLanguage(Language language)
 		{
 			try
 			{
@@ -48,6 +48,7 @@ namespace DatAccess
 				{
 					context.Languages.Add(language);
 					context.SaveChanges();
+					return language;
 				}
 
 			}
@@ -55,10 +56,11 @@ namespace DatAccess
 			{
 				Console.WriteLine("Error: " + ex.Message);
 				Console.WriteLine("Inner Exception: " + ex.InnerException?.Message);
+				return null;
 			}
 		}
 
-		public static void UpdateLanguage(Language language)
+		public static Language UpdateLanguage(Language language)
 		{
 			try
 			{
@@ -66,6 +68,7 @@ namespace DatAccess
 				{
 					context.Entry<Language>(language).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 					context.SaveChanges();
+					return language;
 				}
 
 			}

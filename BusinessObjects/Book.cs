@@ -12,7 +12,8 @@ namespace BusinessObjects
 		[Required]
 		public string Description { get; set; }
 		[Required]
-		public string Image { get; set; }
+        [DataType(DataType.Upload)]
+        public string Image { get; set; }
         [Required]
         public int Quantity { get; set; }
         [Required]

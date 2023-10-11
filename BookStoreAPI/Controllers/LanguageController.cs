@@ -26,33 +26,19 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateLanguage([FromForm] Language language)
+        public IActionResult CreateLanguage([FromBody] Language language)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                repository.SaveLanguage(language);
-                //return Ok();
-                return RedirectToAction("Index","Languages", new { area = "Owner"});
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"An error occurred: {ex.Message}");
-            }
+            return Ok(repository.SaveLanguage(language));
         }
 
 
         [HttpDelete("{id}")]
         public IActionResult DeleteLanguages(int id)
         {
-            var product = repository.GetLanguageById(id);
-            if (product == null)
+            var language = repository.GetLanguageById(id);
+            if (language == null)
                 return NotFound();
-            repository.DeleteLanguageById(product);
+            repository.DeleteLanguageById(language);
             return Ok();
         }
 
@@ -63,9 +49,8 @@ namespace BookStoreAPI.Controllers
             if (existingLanguage == null)
                 return NotFound();
 
-            language.Id = id; // Make sure the ID is set to the correct value
-            repository.UpdateLanguage(language);
-            return Ok();
+            language.Id = id; 
+            return Ok(repository.UpdateLanguage(language));
         }
     }
 }

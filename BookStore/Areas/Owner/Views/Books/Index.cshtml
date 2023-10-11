@@ -37,10 +37,18 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="post">
-                                            <div class="form-group">
-                                                <label for="bookName">Book Name</label>
-                                                <input type="text" class="form-control" id="bookName" placeholder="Enter book name">
+                                        <form method="post" id="myForm">
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="bookName">Book Name</label>
+                                                    <input type="text" class="form-control" id="bookName" placeholder="Enter book name">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="control-label">Genres</label>
+                                                    <select class="form-control" id="genreDropdown">
+                                                        <option value="">Select a genre</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="bookDescription">Description</label>
@@ -72,22 +80,28 @@
                                                 <div class="form-group col-md-6">
                                                     <label for="publisher">Publisher</label>
                                                     <!-- <input type="text" class="form-control" id="publisher" placeholder="Enter publisher"> -->
-                                                    <select class="form-control" id="publisher">
-                                                        <option value="">Publisher 1</option>
-                                                        <option value="">Publisher 2</option>
-                                                        <option value="">Publisher 3</option>
+                                                    <select class="form-control" id="publisherDropdown">
+                                                        <option value="">Select a publisher</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-row">
-                                                <div class="form-group col-md-6">
+                                                <div class="form-group col-md-4">
                                                     <label for="dateAdded">Date Add</label>
                                                     <input type="date" class="form-control" id="dateAdded">
                                                 </div>
-                                                <div class="form-group col-md-6">
+                                                <div class="form-group col-md-4">
                                                     <label for="pages">Pages</label>
                                                     <input type="number" class="form-control" id="pages" placeholder="Enter number of pages">
                                                 </div>
+                                                <div class="form-group col-md-4">
+                                                    <label for="fileInput" class="control-label">Image</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" id="fileInput">
+                                                        <label class="custom-file-label" for="fileInput">Choose an image:</label>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                             <dic class="form-row">
                                                 <div class="form-group col-md-6">
@@ -98,11 +112,8 @@
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="discount">Discount</label>
-                                                    <select class="form-control" id="discount">
-                                                        <option value="0">No Discount</option>
-                                                        <option value="5">5% Discount</option>
-                                                        <option value="10">10% Discount</option>
-                                                        <option value="15">15% Discount</option>
+                                                    <select class="form-control" id="discountDropdown">
+                                                        <option value="">Select a discount</option>
                                                     </select>
                                                 </div>
                                             </dic>
@@ -163,7 +174,6 @@
                             </tbody>
                         </table>
                         <!-- End small tables -->
-
                     </div>
                 </div>
 
@@ -173,23 +183,7 @@
 
 </main><!-- End #main -->
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            // Gọi API để lấy danh sách ngôn ngữ và cập nhật dropdownlist
-            $.ajax({
-                url: '/api/Languages',
-                type: 'GET',
-                dataType: 'json',
-                success: function (data) {
-                    var dropdown = $('#languageDropdown');
-                    dropdown.empty();
-                    dropdown.append($('<option>').val('').text('Select a language'));
-                    $.each(data, function (key, entry) {
-                        dropdown.append($('<option>').val(entry.id).text(entry.name));
-                    });
-                }
-            });
-        });</script>
+    <script src="~/js/js-owner/Book.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }
 

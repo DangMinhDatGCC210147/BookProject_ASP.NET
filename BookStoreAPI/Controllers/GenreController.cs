@@ -25,24 +25,11 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateGenre([FromForm] Genre genre)
+        public IActionResult CreateGenre([FromBody] Genre genre)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                repository.SaveGenre(genre);
-                //return Ok();
-                return RedirectToAction("Index","Genres");
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"An error occurred: {ex.Message}");
-            }
+            return Ok(repository.SaveGenre(genre));
         }
+
 
         [HttpDelete("{id}")]
         public IActionResult DeleteGenres(int id)
@@ -62,8 +49,7 @@ namespace BookStoreAPI.Controllers
                 return NotFound();
 
             genre.Id = id; // Make sure the ID is set to the correct value
-            repository.UpdateGenre(genre);
-            return Ok();
+            return Ok(repository.UpdateGenre(genre));
         }
     }
 }

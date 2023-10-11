@@ -37,6 +37,7 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
             List<Language> languages = JsonSerializer.Deserialize<List<Language>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
 
             return View(languages);
+            //return RedirectToAction(languages);
         }
 
         [HttpPost]
@@ -45,11 +46,7 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
         {
             HttpResponseMessage response = await client.GetAsync(LanguageApiUrl);
             string strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            };
+            var options = new JsonSerializerOptions{PropertyNameCaseInsensitive = true,};
             List<Language> languages = JsonSerializer.Deserialize<List<Language>>(strData, options);
             return View(languages);
         }

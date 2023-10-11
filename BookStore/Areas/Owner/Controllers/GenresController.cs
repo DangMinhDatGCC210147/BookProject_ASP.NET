@@ -50,18 +50,27 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
             {
                 PropertyNameCaseInsensitive = true,
             };
-            List<Genre> products = JsonSerializer.Deserialize<List<Genre>>(strData, options);
-            return View(products);
+            List<Genre> genres = JsonSerializer.Deserialize<List<Genre>>(strData, options);
+            return View(genres);
         }
 
+        [HttpPost]
         public ActionResult Detail()
         {
             return View();
         }
 
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> EditAsync(int id, Genre genre)
         {
-            return View(id);
+            genre.Id = id;
+            string data = JsonSerializer.Serialize(genre);
+            var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(GenreApiUrl + "/" + id, content);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Genre");
+            }
+            return View(genre);
         }
     }
 }

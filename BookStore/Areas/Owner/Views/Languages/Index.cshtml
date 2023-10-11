@@ -21,27 +21,27 @@
                                     </div>
                                 </div>
                             @* </form> *@
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#languageModal">Add New Language</button>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#languageModal" onclick="handleAddButton()">Add New Language</button>
 
                             <!-- Modal -->
                             <div class="modal fade" id="languageModal" tabindex="-1" role="dialog" aria-labelledby="languageModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document" id="">
                                     <div class="modal-content" id="">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="languageModalLabel">Add New Language</h5>
+                                            <h5 class="modal-title" id="languageModalLabel">Language Form</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form asp-action="CreateLanguage" asp-controller="Language" id="myForm" method="POST">
-                                                @Html.AntiForgeryToken()
+                                            <form id="myForm" method="POST">
+                                                <input type="hidden" id="languageId">
                                                 <div class="form-group">
                                                     <label for="languageName">Language Name</label>
-                                                    <input type="text" class="form-control" id="Name" name="Name" placeholder="Enter Language Name">
+                                                    <input type="text" class="form-control" id="languageName" placeholder="Enter Language Name">
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">Add</button>
+                                                    <button type="submit" class="btn btn-primary">Save</button>
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                                 </div>
                                             </form>
@@ -53,7 +53,7 @@
 
                         </div>
                         <!-- Small tables -->
-                        <table class="table table-sm table-hover" id="languageList" name="languageList">
+                        <table class="table table-sm table-hover" id="languageTable" name="languageTable">
                             <thead>
                                 <tr>
                                     <th scope="col">Language ID</th>
@@ -61,19 +61,19 @@
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="languageList">
                                 <div id="noResultsMessage" class="alert alert-warning" style="display: none;">
                                     No available values found.
                                 </div>
                                 @foreach (var language in Model)
                                 {
-                                    <tr id="row-@language.Id">
+                                    <tr id="row_@language.Id">
                                         <th scope="row">@language.Id</th>
                                         <td>@language.Name</td>
                                         <td>
                                             <div class="flex-column align-items-center">
                                                 <button type="button" class="btn btn-danger" onclick="deleteLanguage(@language.Id)">Delete</button>
-                                                <button type="submit" class="btn btn-warning edit-language" onclick="EditLanguage(@language.Id)">Edit</button>
+                                                <button type="submit" class="btn btn-warning edit-language" data-toggle="modal" data-target="#languageModal" onclick="handleEditButton(@language.Id)">Edit</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -81,7 +81,6 @@
                             </tbody>
                         </table>
                         <!-- End small tables -->
-
                     </div>
                 </div>
             </div>
@@ -90,7 +89,7 @@
 </main><!-- End #main -->
 
 @section Scripts{
-    <script src="~/js/js-admin/language.js"></script>
+    <script src="~/js/js-owner/language.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }
 
