@@ -11,19 +11,19 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title">Genres table</h5>
                             @* <form class="form-inline" method="POST"> *@
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="searchInput" placeholder="Search..." aria-label="Search">
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-success">Search</button>
-                                        </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Search..." aria-label="Search">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-success">Search</button>
                                     </div>
                                 </div>
+                            </div>
                             @* </form> *@
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#genreModal">Add New Genre</button>
+                            @* <button type="button" class="btn btn-info" data-toggle="modal" data-target="#genreModal">Add New Genre</button> *@
                         </div>
                         <!-- Modal -->
-                        <div class="modal fade" id="genreModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+                        @* <div class="modal fade" id="genreModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -52,7 +52,7 @@
 
                                 </div>
                             </div>
-                        </div>
+                        </div> *@
                         <!-- Small tables -->
                         <table class="table table-sm table-hover" id="genreTable" name="genreTable">
                             <thead>
@@ -69,7 +69,7 @@
                                 <div id="noResultsMessage" class="alert alert-warning" style="display: none;">
                                     No available values found.
                                 </div>
-                                @foreach(var genre in Model)
+                                @foreach (var genre in Model)
                                 {
                                     <tr id="row_@genre.Id">
                                         <th scope="row">@genre.Id</th>
@@ -97,11 +97,10 @@
                                             }
                                             @approvalStatusText
                                         </td>
-
                                         <td>
                                             <div class="flex-column align-items-center">
-                                                <button type="button" class="btn btn-danger" onclick="deleteGenre(@genre.Id) ">Delete</button>
-                                                <button type="button" class="btn btn-warning edit-genre" data-toggle="modal" data-target="#genreModal" onclick="handleEditButton(@genre.Id)">Edit</button>
+                                                <button class="reject-button btn btn-danger" data-id="@genre.Id">Reject</button>
+                                                <button class="accept-button btn btn-success" data-id="@genre.Id">Accept</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -118,7 +117,7 @@
 
 </main><!-- End #main -->
 @section Scripts{
-    <script src="~/js/js-owner/genre.js"></script>
+    <script src="~/js/js-admin/genre.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }
 

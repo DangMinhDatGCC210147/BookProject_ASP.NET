@@ -4,17 +4,20 @@ $(document).ready(function () {
     $('#myForm').submit(function (e) {
         e.preventDefault();
 
-        const languageId = $('#languageId').val()
-        const languageName = $('#languageName').val()
+        const genreId = $('#genreId').val()
+        const genreName = $('#genreName').val()
+        const genreDescription = $('#genreDescription').val()
 
         const data = {
-            name: languageName
+            name: genreName,
+            description: genreDescription,
         }
-
-        if (languageId) {
+        console.log(data)//Test data
+        if (genreId) {
             // Edit state
-            $.ajax({
-                url: apiUrl + '/api/Languages/' + languageId,
+            $.ajax(
+                {
+                url: apiUrl + '/api/Genres/' + genreId,
                 type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
@@ -27,14 +30,19 @@ $(document).ready(function () {
                     })
                     console.log(response);
 
-                    const language = document.getElementById('row_' + languageId);
-                    language.innerHTML = `
-                                        <th scope="row">${languageId}</th>
+                    const genre = document.getElementById('row_' + genreId);
+                    genre.innerHTML = `
+                                        <th scope="row">${genreId}</th>
                                         <td>${response.name}</td>
+                                        <td>${response.description}</td>
+                                        <td>${formatDate(response.addDate)}</td>
+                                        <td>
+                                            ${mapApprovalStatus(response.approvalStatus)}
+                                        </td>
                                         <td>
                                             <div class="flex-column align-items-center">
-                                                <button type="button" class="btn btn-danger" onclick="deleteLanguage(${languageId})">Delete</button>
-                                                <button type="submit" class="btn btn-warning edit-language" data-toggle="modal" data-target="#languageModal" onclick="handleEditButton(${languageId})">Edit</button>
+                                                <button type="button" class="btn btn-danger" onclick="deleteGenre(${genreId})">Delete</button>
+                                                <button type="button" class="btn btn-warning edit-genre" data-toggle="modal" data-target="#genreModal" onclick="handleEditButton(${genre.Id})">Edit</button>
                                             </div>
                                         </td>
                     `;
@@ -52,7 +60,7 @@ $(document).ready(function () {
         } else {
             // Add state
             $.ajax({
-                url: apiUrl + '/api/Languages',
+                url: apiUrl + '/api/Genres',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
@@ -66,25 +74,34 @@ $(document).ready(function () {
                     console.log(response);
                     const id = response.id;
                     const name = response.name;
+                    const description = response.description;
+                    const addDate = formatDate(response.addDate);
+                    const approvalStatusText = mapApprovalStatus(response.approvalStatus);
 
-                    const newLanguage = document.createElement('tr');
-                    newLanguage.setAttribute('id', 'row_' + id);
-                    newLanguage.innerHTML = `
+                    const newGenre = document.createElement('tr');
+                    newGenre.setAttribute('id', 'row_' + id);
+                    newGenre.innerHTML = `
                                         <th scope="row">${id}</th>
                                         <td>${name}</td>
+                                        <td>${description}</td>
+                                        <td>${addDate}</td>
+                                        <td>
+                                            ${approvalStatusText}
+                                        </td>
                                         <td>
                                             <div class="flex-column align-items-center">
-                                                <button type="button" class="btn btn-danger" onclick="deleteLanguage(${id})">Delete</button>
-                                                <button type="submit" class="btn btn-warning edit-language" data-toggle="modal" data-target="#languageModal" onclick="handleEditButton(${id})">Edit</button>
+                                                <button type="button" class="btn btn-danger" onclick="deleteGenre(${id})">Delete</button>
+                                                <button type="submit" class="btn btn-warning edit-genre" data-toggle="modal" data-target="#genreModal" onclick="handleEditButton(${id})">Edit</button>
                                             </div>
                                         </td>
                     `;
-                    const table = document.getElementById('languageList');
+                    const table = document.getElementById('genreList');
                     const firstRow = table.getElementsByTagName('tr')[0]; // Get the first row of the table
-                    table.insertBefore(newLanguage, firstRow);
+                    table.insertBefore(newGenre, firstRow);
 
                     // Clear input in Popup 
-                    $('#languageName').val('');
+                    $('#genreName').val('');
+                    $('#genreDescription').val('');
                     // Close the modal
                     var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
                     closeButton.click();
@@ -97,14 +114,26 @@ $(document).ready(function () {
             });
         }
     });
-
+    //Xử lý hiển thị approval status
+    function mapApprovalStatus(approvalStatus) {
+        switch (approvalStatus) {
+            case 0:
+                return "Pending";
+            case 1:
+                return "Accepted";
+            case 2:
+                return "Rejected";
+            default:
+                return "Unknown"; // Xử lý giá trị không hợp lệ (nếu có)
+        }
+    }
     // Xác định sự kiện khi người dùng nhập vào ô tìm kiếm
     $('#searchInput').on('input', function () {
         var searchText = $(this).val().toLowerCase();
         var found = false;
 
         // Lặp qua từng dòng trong bảng danh sách ngôn ngữ
-        $('#languageTable tbody tr').each(function () {
+        $('#genreTable tbody tr').each(function () {
             var rowText = $(this).text().toLowerCase();
 
             // So sánh văn bản của từng dòng với văn bản tìm kiếm
@@ -124,9 +153,23 @@ $(document).ready(function () {
         }
     });
 });
-    
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
 // === Delete ===
-function deleteLanguage(id) {
+function deleteGenre(id) {
     // Hiển thị một hộp thoại xác nhận trước khi xóa
     Swal.fire({
         title: 'Are you sure?',
@@ -140,7 +183,7 @@ function deleteLanguage(id) {
             // Nếu người dùng đồng ý xóa, thực hiện AJAX để gửi yêu cầu xóa
             $.ajax({
                 type: 'DELETE',
-                url: apiUrl + '/api/Languages/' + id,
+                url: apiUrl + '/api/Genres/' + id,
                 success: function () {
                     // Nếu xóa thành công, cập nhật giao diện người dùng bằng cách xóa dòng trong bảng
                     $('#row_' + id).remove();
@@ -158,8 +201,9 @@ function deleteLanguage(id) {
 
 // Clear all input when user click on Add new button
 function handleAddButton() {
-    $("#languageId").val("");
-    $("#languageName").val("");
+    $("#genreId").val("");
+    $("#genreName").val("");
+    $("#genreDescription").val("");
 }
 
 
@@ -167,13 +211,15 @@ function handleAddButton() {
 function handleEditButton(id) {
     $.ajax({
         type: 'GET',
-        url: apiUrl + '/api/Languages/' + id,
+        url: apiUrl + '/api/Genres/' + id,
         success: function (response) {
             console.log(response)
             const id = response.id
             const name = response.name;
-            $('#languageId').val(id)
-            $('#languageName').val(name)
+            const description = response.description;
+            $("#genreId").val(id);
+            $("#genreName").val(name);
+            $("#genreDescription").val(description);
         },
         error: function (xhr, status, error) {
             console.log(xhr)

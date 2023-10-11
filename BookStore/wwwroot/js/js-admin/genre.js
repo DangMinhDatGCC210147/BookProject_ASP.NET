@@ -1,115 +1,117 @@
-﻿
-        // Refresh
-        function refreshGenreList() {
-            $.ajax({
-                type: 'GET',
-                url: '/api/Genres', // Địa chỉ API để tải lại danh sách thể loại
-                dataType: 'json',
-                success: function (data) {
-                    // Cập nhật phần tử HTML để hiển thị danh sách thể loại
-                    $('#genreList tbody').empty(); // Xóa dữ liệu cũ
-                    $.each(data, function (index, genre) {
-                        var approvalStatusText;
-                        switch (genre.approvalStatus) {
-                            case 0:
-                                approvalStatusText = "Pending";
-                                break;
-                            case 1:
-                                approvalStatusText = "Accepted";
-                                break;
-                            case 2:
-                                approvalStatusText = "Rejected";
-                                break;
-                            default:
-                                approvalStatusText = "Unknown";
-                                break;
-                        }
-                        function formatDate(date) {
-                            var year = date.getFullYear();
-                            var month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to month because it's zero-based
-                            var day = date.getDate().toString().padStart(2, '0');
-                            return year + '-' + month + '-' + day;
-                        }
+﻿const apiUrl = localStorage.getItem("apiUrl")
 
-                        var formattedDate = formatDate(new Date(genre.addDate)); // Format the date
-                        var row = '<tr>' +
-                            '<td>' + genre.id + '</td>' +
-                            '<td>' + genre.name + '</td>' +
-                            '<td>' + genre.description + '</td>' +
-                            '<td>' + formattedDate + '</td>' +
-                            '<td>' + approvalStatusText + '</td>' +
-                            '<td><div class="flex-column align-items-center">' +
-                            '<button type="button" class="btn btn-danger" style="margin-right: 5px;" onclick="deleteGenre(' + genre.id + ') ">Delete</button>' +
-                            '<button type="button" class="btn btn-warning">Edit</button>' +
-                            '</div></td>' +
-                            '</tr>';
-                        // Đổ dòng dữ liệu vào bảng
-                        $('#genreList tbody').append(row);
-                    });
-                    // Đóng modal
-                    $('#genreModal').modal('hide'); // Đóng modal popup
-                },
-                error: function (error) {
-                    console.error('Error:', error);
-                }
-            });
+    //Xử lý hiển thị approval status
+    function mapApprovalStatus(approvalStatus) {
+        switch (approvalStatus) {
+            case 0:
+                return "Pending";
+            case 1:
+                return "Accepted";
+            case 2:
+                return "Rejected";
+            default:
+                return "Unknown"; // Xử lý giá trị không hợp lệ (nếu có)
         }
+    }
+    // Xác định sự kiện khi người dùng nhập vào ô tìm kiếm
+    $('#searchInput').on('input', function () {
+        var searchText = $(this).val().toLowerCase();
+        var found = false;
 
-        function deleteGenre(id) {
-            // Hiển thị một hộp thoại xác nhận trước khi xóa
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'You won\'t be able to revert this!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Nếu người dùng đồng ý xóa, thực hiện AJAX để gửi yêu cầu xóa
-                    $.ajax({
-                        type: 'DELETE',
-                        url: 'api/Genres/' + id,
-                        success: function () {
-                            // Nếu xóa thành công, cập nhật giao diện người dùng bằng cách xóa dòng trong bảng
-                            $('#genreList tbody tr[data-id="' + id + '"]').remove();
-                            Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+        // Lặp qua từng dòng trong bảng danh sách ngôn ngữ
+        $('#genreTable tbody tr').each(function () {
+            var rowText = $(this).text().toLowerCase();
 
-                            // Sau khi xóa thành công, gọi hàm refresh để tải lại dữ liệu mới
-                            refreshGenreList();
-                        },
-                        error: function () {
-                            Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
-                        }
-                    });
-                }
-            });
-        }
-
-    $(document).ready(function () {
-        // Xác định sự kiện khi người dùng nhập vào ô tìm kiếm
-        $('#searchInput').on('input', function () {
-            var searchText = $(this).val().toLowerCase();
-            var found = false;
-
-            // Lặp qua từng dòng trong bảng danh sách ngôn ngữ
-            $('#genreList tbody tr').each(function () {
-                var rowText = $(this).text().toLowerCase();
-
-                // So sánh văn bản của từng dòng với văn bản tìm kiếm
-                if (rowText.includes(searchText)) {
-                    $(this).show();
-                    found = true;
-                } else {
-                    $(this).hide();
-                }
-            });
-
-            // Hiển thị thông báo khi không có kết quả tìm thấy
-            if (!found) {
-                $('#noResultsMessage').show();
+            // So sánh văn bản của từng dòng với văn bản tìm kiếm
+            if (rowText.includes(searchText)) {
+                $(this).show();
+                found = true;
             } else {
-                $('#noResultsMessage').hide();
+                $(this).hide();
             }
         });
+
+        // Hiển thị thông báo khi không có kết quả tìm thấy
+        if (!found) {
+            $('#noResultsMessage').show();
+        } else {
+            $('#noResultsMessage').hide();
+        }
     });
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+// Clear all input when user click on Add new button
+function handleAddButton() {
+    $("#genreId").val("");
+    $("#genreName").val("");
+    $("#genreDescription").val("");
+}
+
+
+// Xử lý nút "Reject"
+$('.reject-button').on('click', function () {
+    const genreId = $(this).data('id'); // Lấy id của genre từ thuộc tính data
+    updateApprovalStatus(genreId, 2); // Gửi yêu cầu Reject
+});
+
+// Xử lý nút "Accept"
+$('.accept-button').on('click', function () {
+    const genreId = $(this).data('id'); // Lấy id của genre từ thuộc tính data
+    updateApprovalStatus(genreId, 1); // Gửi yêu cầu Accept
+});
+
+function updateApprovalStatus(genreId, approvalStatus) {
+    // Gửi yêu cầu Ajax để cập nhật trường ApprovalStatus
+    $.ajax({
+        url: apiUrl + '/api/Genres/' + genreId + '/approvalStatus',
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(approvalStatus),
+        success: function () {
+            // Xử lý thành công
+            Swal.fire({
+                icon: 'success',
+                title: 'Your work has been done',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            const genre = document.getElementById('row_' + genreId);
+            genre.innerHTML = `
+                                        <th scope="row">${genreId}</th>
+                                        <td>${response.name}</td>
+                                        <td>${response.description}</td>
+                                        <td>${formatDate(response.addDate)}</td>
+                                        <td>
+                                            ${mapApprovalStatus(response.approvalStatus)}
+                                        </td>
+                                        <td>
+                                            <div class="flex-column align-items-center">
+                                                <button class="reject-button btn btn-danger" data-id="${genreId}">Reject</button>
+                                                <button class="accept-button btn btn-success" data-id="${genreId}">Accept</button>
+                                            </div>
+                                        </td>
+                    `;
+            console.log('Trạng thái đã được cập nhật thành công.');
+            // Cập nhật giao diện hoặc thực hiện các hành động khác (tuỳ theo yêu cầu)
+        },
+        error: function (xhr, status, error) {
+            // Xử lý lỗi nếu có
+            console.error(error);
+        }
+    });
+}
+
+

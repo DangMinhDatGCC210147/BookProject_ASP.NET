@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Repositories.Interfaces;
 using Repositories;
+using Microsoft.EntityFrameworkCore;
+using BusinessObjects.Data.Enum;
 
 namespace BookStoreAPI.Controllers
 {
@@ -25,11 +27,11 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateGenre(Genre genre)
+        public IActionResult CreateGenre([FromBody] Genre genre)
         {
-            repository.SaveGenre(genre);
-            return Ok();
-        }
+			return Ok(repository.SaveGenre(genre));
+		}
+
 
         [HttpDelete("{id}")]
         public IActionResult DeleteGenres(int id)
@@ -49,8 +51,24 @@ namespace BookStoreAPI.Controllers
                 return NotFound();
 
             genre.Id = id; // Make sure the ID is set to the correct value
+            return Ok(repository.UpdateGenre(genre));
+        }
+        [HttpPut("{id}/approvalStatus")]
+        public IActionResult UpdateApprovalStatus(int id, [FromBody] int approvalStatus)
+        {
+            var genre = repository.GetGenreById(id);
+            if (genre == null)
+            {
+                return NotFound();
+            }
+
+            // Cập nhật trường ApprovalStatus
+            genre.ApprovalStatus = (GenerApproval)approvalStatus;
+
+            // Lưu thay đổi vào cơ sở dữ liệu
             repository.UpdateGenre(genre);
             return Ok();
         }
+
     }
 }

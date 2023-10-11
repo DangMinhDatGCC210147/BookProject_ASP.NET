@@ -44,7 +44,7 @@ namespace DataAccess
             }
             return genre;
         }
-        public static void SaveGenre(Genre genre)
+        public static Genre SaveGenre(Genre genre)
         {
             try
             {
@@ -52,6 +52,7 @@ namespace DataAccess
                 {
                     context.Genres.Add(genre);
                     context.SaveChanges();
+                    return genre;
                 }
 
             }
@@ -60,7 +61,7 @@ namespace DataAccess
                 throw new Exception(ex.Message);
             }
         }
-        public static void UpdateGenre(Genre genre)
+        public static Genre UpdateGenre(Genre genre)
         {
             try
             {
@@ -68,6 +69,7 @@ namespace DataAccess
                 {
                     context.Entry<Genre>(genre).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
+                    return genre;
                 }
 
             }
