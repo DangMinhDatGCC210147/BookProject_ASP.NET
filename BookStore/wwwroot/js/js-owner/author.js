@@ -1,20 +1,21 @@
-﻿const apiUrl = localStorage.getItem("apiUrl")
+const apiUrl = localStorage.getItem("apiUrl");
 
 $(document).ready(function () {
     $('#myForm').submit(function (e) {
         e.preventDefault();
 
-        const languageId = $('#languageId').val()
-        const languageName = $('#languageName').val()
-
+        const authorId = $('#authorId').val()
+        const authorName = $('#authorName').val()
+        const authorDescription = $('#authorDescription').val()
         const data = {
-            name: languageName
+            name: authorName,
+            description: authorDescription,
         }
-
-        if (languageId) {
+        console.log(data)//Test
+        if (authorId) {
             // Edit state
             $.ajax({
-                url: apiUrl + '/api/Languages/' + languageId,
+                url: apiUrl + '/api/Authors/' + authorId,
                 type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
@@ -24,17 +25,18 @@ $(document).ready(function () {
                         title: 'Your work has been edited',
                         showConfirmButton: false,
                         timer: 1500
-                    })
+                    });
                     console.log(response);
 
-                    const language = document.getElementById('row_' + languageId);
-                    language.innerHTML = `
-                                        <th scope="row">${languageId}</th>
-                                        <td>${response.name}</td>
+                    const author = document.getElementById('row_' + authorId);
+                    author.innerHTML = `
+                                        <th scope="row">${authorId}</th>
+                                        <td>${authorName}</td>
+                                        <td>${authorDescription}</td>
                                         <td>
                                             <div class="flex-column align-items-center">
-                                                <button type="button" class="btn btn-danger" onclick="deleteLanguage(${languageId})">Delete</button>
-                                                <button type="submit" class="btn btn-warning edit-language" data-toggle="modal" data-target="#languageModal" onclick="handleEditButton(${languageId})">Edit</button>
+                                                <button type="button" class="btn btn-danger" onclick="deleteAuthor(${authorId})">Delete</button>
+                                                <button type="submit" class="btn btn-warning edit-author" data-toggle="modal" data-target="#authorModal" onclick="handleEditButton(${author.id})">Edit</button>
                                             </div>
                                         </td>
                     `;
@@ -51,8 +53,9 @@ $(document).ready(function () {
             });
         } else {
             // Add state
+            console.log(data)
             $.ajax({
-                url: apiUrl + '/api/Languages',
+                url: apiUrl + '/api/Authors',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
@@ -62,29 +65,31 @@ $(document).ready(function () {
                         title: 'Your work has been saved',
                         showConfirmButton: false,
                         timer: 1500
-                    })
-                   
-                    const id = response.id;
-                    const name = response.name;
+                    });
+                    console.log(response)
+                    const id = response.id
+                    const name = response.name
+                    const description = response.description
 
-                    const newLanguage = document.createElement('tr');
-                    newLanguage.setAttribute('id', 'row_' + id);
-                    newLanguage.innerHTML = `
+                    const newAuthor = document.createElement('tr');
+                    newAuthor.setAttribute('id', 'row_' + id);
+                    newAuthor.innerHTML = `
                                         <th scope="row">${id}</th>
                                         <td>${name}</td>
+                                        <td>${description}</td>
                                         <td>
                                             <div class="flex-column align-items-center">
-                                                <button type="button" class="btn btn-danger" onclick="deleteLanguage(${id})">Delete</button>
-                                                <button type="submit" class="btn btn-warning edit-language" data-toggle="modal" data-target="#languageModal" onclick="handleEditButton(${id})">Edit</button>
+                                                <button type="button" class="btn btn-danger" onclick="deleteAuthor(${id})">Delete</button>
+                                                <button type="submit" class="btn btn-warning edit-author" data-toggle="modal" data-target="#authorModal" onclick="handleEditButton(${id})">Edit</button>
                                             </div>
                                         </td>
                     `;
-                    const table = document.getElementById('languageList');
+                    const table = document.getElementById('authorList');
                     const firstRow = table.getElementsByTagName('tr')[0]; // Get the first row of the table
-                    table.insertBefore(newLanguage, firstRow);
+                    table.insertBefore(newAuthor, firstRow);
 
                     // Clear input in Popup 
-                    $('#languageName').val('');
+                    $('#authorName').val('');
                     // Close the modal
                     var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
                     closeButton.click();
@@ -98,16 +103,16 @@ $(document).ready(function () {
         }
     });
 
-    // Xác định sự kiện khi người dùng nhập vào ô tìm kiếm
+    // Search event when user types into the search input
     $('#searchInput').on('input', function () {
         var searchText = $(this).val().toLowerCase();
         var found = false;
 
-        // Lặp qua từng dòng trong bảng danh sách ngôn ngữ
-        $('#languageTable tbody tr').each(function () {
+        // Loop through each row in the authors table
+        $('#authorTable tbody tr').each(function () {
             var rowText = $(this).text().toLowerCase();
 
-            // So sánh văn bản của từng dòng với văn bản tìm kiếm
+            // Compare text of each row with the search text
             if (rowText.includes(searchText)) {
                 $(this).show();
                 found = true;
@@ -116,7 +121,7 @@ $(document).ready(function () {
             }
         });
 
-        // Hiển thị thông báo khi không có kết quả tìm thấy
+        // Display message when no results are found
         if (!found) {
             $('#noResultsMessage').show();
         } else {
@@ -124,10 +129,10 @@ $(document).ready(function () {
         }
     });
 });
-    
+
 // === Delete ===
-function deleteLanguage(id) {
-    // Hiển thị một hộp thoại xác nhận trước khi xóa
+function deleteAuthor(id) {
+    // Show a confirmation dialog before deletion
     Swal.fire({
         title: 'Are you sure?',
         text: 'You won\'t be able to revert this!',
@@ -137,18 +142,17 @@ function deleteLanguage(id) {
         cancelButtonText: 'No, cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            // Nếu người dùng đồng ý xóa, thực hiện AJAX để gửi yêu cầu xóa
+            // If the user agrees to delete, perform an AJAX request to send the delete request
             $.ajax({
                 type: 'DELETE',
-                url: apiUrl + '/api/Languages/' + id,
+                url: apiUrl + '/api/Authors/' + id,
                 success: function () {
-                    // Nếu xóa thành công, cập nhật giao diện người dùng bằng cách xóa dòng trong bảng
+                    // If deletion is successful, update the user interface by removing the row from the table
                     $('#row_' + id).remove();
                     Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
-
                 },
                 error: function (xhr, status, error) {
-                    console.log(xhr)
+                    console.log(xhr);
                     Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
                 }
             });
@@ -156,28 +160,30 @@ function deleteLanguage(id) {
     });
 }
 
-// Clear all input when user click on Add new button
+// Clear all input when user clicks on Add new button
 function handleAddButton() {
-    $("#languageId").val("");
-    $("#languageName").val("");
+    $("#authorId").val("");
+    $("#authorName").val("");
+    $("#authorDescription").val("");
 }
 
-
-// Fill data in input when user click on Edit button
+// Fill data in input when user clicks on Edit button
 function handleEditButton(id) {
     $.ajax({
         type: 'GET',
-        url: apiUrl + '/api/Languages/' + id,
+        url: apiUrl + '/api/Authors/' + id,
         success: function (response) {
-            console.log(response)
+            //console.log(response)
             const id = response.id
             const name = response.name;
-            $('#languageId').val(id)
-            $('#languageName').val(name)
+            const description = response.description;
+            $('#authorId').val(id);
+            $('#authorName').val(name);
+            $('#authorDescription').val(description);
         },
         error: function (xhr, status, error) {
-            console.log(xhr)
+            console.log(xhr);
             Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
-        }
+        }   
     });
 }

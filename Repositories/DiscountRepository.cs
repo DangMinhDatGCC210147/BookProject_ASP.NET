@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using DataAccess;
+using DatAccess;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,8 @@ namespace Repositories
 
         public List<Discount> GetDiscounts() => DiscountDAO.GetDiscounts();
 
-        public void SaveDiscount(Discount discount) => DiscountDAO.SaveDiscount(discount);
+        public Discount SaveDiscount(Discount discount) => DiscountDAO.SaveDiscount(discount);
 
-        public void UpdateDiscount(Discount discount) => DiscountDAO.UpdateDiscount(discount);
+        public Discount UpdateDiscount(Discount discount) => DiscountDAO.UpdateDiscount(discount);
     }
 }

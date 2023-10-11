@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.Data.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
@@ -8,49 +9,50 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
 {
     [Authorize(Roles = "StoreOwner")]
     [Area("Owner")]
-    public class FeedBacksController : Controller
+    public class FeedbacksController : Controller
     {
         private readonly IConfiguration _configuration;
         private readonly HttpClient client = null;
-        private string FeedBackApiUrl = "";
+        private string FeedbackApiUrl = "";
 
-        public FeedBacksController(IConfiguration configuration)
+        public FeedbacksController(IConfiguration configuration)
         {
             _configuration = configuration;
             client = new HttpClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            FeedBackApiUrl = "/api/Feedbacks";
+            FeedbackApiUrl = "/api/Feedbacks"; // Adjust the API endpoint for Feedbacks
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            HttpResponseMessage httpResponse = await client.GetAsync(FeedBackApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
+            HttpResponseMessage httpResponse = await client.GetAsync(FeedbackApiUrl);
 
-            string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
+            string data = await httpResponse.Content.ReadAsStringAsync();
 
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //phân tích cú pháp JSON không phân biệt hoa/thường của tên thuộc tính
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            List<FeedBack> feedBacks = JsonSerializer.Deserialize<List<FeedBack>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
+            List<FeedBack> feedbacks = JsonSerializer.Deserialize<List<FeedBack>>(data, options);
 
-            return View(feedBacks);
+            return View(feedbacks);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(FeedBack p)
+        public async Task<IActionResult> Create(FeedBack feedback) // Adjust the parameter type to Feedback
         {
-            HttpResponseMessage response = await client.GetAsync(FeedBackApiUrl);
-            string strData = await response.Content.ReadAsStringAsync();
+            string data = JsonSerializer.Serialize(feedback);
+            var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync(FeedbackApiUrl, content);
 
-            var options = new JsonSerializerOptions
+            if (response.IsSuccessStatusCode)
             {
-                PropertyNameCaseInsensitive = true,
-            };
-            List<FeedBack> feedBacks = JsonSerializer.Deserialize<List<FeedBack>>(strData, options);
-            return View(feedBacks);
+                return RedirectToAction("Index", "Feedbacks"); // Adjust the redirect action and controller
+            }
+
+            return View(feedback);
         }
 
         public ActionResult Detail()
@@ -58,9 +60,20 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
             return View();
         }
 
-        public ActionResult Edit(int id)
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, FeedBack feedback) // Adjust the parameter type to Feedback
         {
-            return View(id);
+            feedback.Id = id;
+            string data = JsonSerializer.Serialize(feedback);
+            var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(FeedbackApiUrl + "/" + id, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Feedbacks"); // Adjust the redirect action and controller
+            }
+
+            return View(feedback);
         }
     }
 }

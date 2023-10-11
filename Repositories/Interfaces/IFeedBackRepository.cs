@@ -1,18 +1,14 @@
-﻿using BusinessObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookStore.Models;
+using BusinessObjects;
 
 namespace Repositories.Interfaces
 {
     public interface IFeedBackRepository
     {
-        void SaveFeedBack(FeedBack feedBack);
-        FeedBack GetFeedBackById(int id);
-        void DeleteFeedBackById(FeedBack feedBack);
-        void UpdateFeedBack(FeedBack feedBack);
-        List<FeedBack> GetFeedBacks();
+        FeedBack SaveFeedback(FeedBack feedback);
+        List<FeedBack> GetFeedbacks();
+        FeedBack GetFeedbackById(int id);
+        void DeleteFeedbackById(FeedBack feedback);
+        FeedBack UpdateFeedback(FeedBack feedback);
     }
 }

@@ -1,11 +1,6 @@
 ﻿using BusinessObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataAccess
+namespace DatAccess
 {
     public class PublisherDAO
     {
@@ -44,7 +39,8 @@ namespace DataAccess
             }
             return publisher;
         }
-        public static void SavePublisher(Publisher publisher)
+
+        public static Publisher SavePublisher(Publisher publisher)
         {
             try
             {
@@ -52,15 +48,19 @@ namespace DataAccess
                 {
                     context.Publishers.Add(publisher);
                     context.SaveChanges();
+                    return publisher;
                 }
 
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Console.WriteLine("Error: " + ex.Message);
+                Console.WriteLine("Inner Exception: " + ex.InnerException?.Message);
+                return null;
             }
         }
-        public static void UpdatePublisher(Publisher publisher)
+
+        public static Publisher UpdatePublisher(Publisher publisher)
         {
             try
             {
@@ -68,6 +68,7 @@ namespace DataAccess
                 {
                     context.Entry<Publisher>(publisher).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
+                    return publisher;
                 }
 
             }
@@ -93,5 +94,6 @@ namespace DataAccess
                 throw new Exception(ex.Message);
             }
         }
+
     }
 }

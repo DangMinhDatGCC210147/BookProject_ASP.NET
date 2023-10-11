@@ -27,11 +27,10 @@ namespace BookStoreAPI.Controllers
         [HttpPost]
         public IActionResult CreateReview(Review review)
         {
-            repository.SaveReview(review);
-            return Ok();
+            return Ok(repository.SaveReview(review));
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteReviews(int id)
         {
             var review = repository.GetReviewById(id);
@@ -49,8 +48,7 @@ namespace BookStoreAPI.Controllers
                 return NotFound();
 
             review.Id = id; // Make sure the ID is set to the correct value
-            repository.UpdateReview(review);
-            return Ok();
+            return Ok(repository.UpdateReview(review));
         }
     }
 }

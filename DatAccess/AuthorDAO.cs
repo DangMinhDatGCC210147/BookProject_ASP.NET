@@ -1,11 +1,6 @@
 ﻿using BusinessObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataAccess
+namespace DatAccess
 {
     public class AuthorDAO
     {
@@ -18,7 +13,6 @@ namespace DataAccess
                 {
                     listAuthors = context.Authors.ToList();
                 }
-
             }
             catch (Exception ex)
             {
@@ -36,7 +30,6 @@ namespace DataAccess
                 {
                     author = context.Authors.Find(id);
                 }
-
             }
             catch (Exception ex)
             {
@@ -44,7 +37,8 @@ namespace DataAccess
             }
             return author;
         }
-        public static void SaveAuthor(Author author)
+
+        public static Author SaveAuthor(Author author)
         {
             try
             {
@@ -52,15 +46,18 @@ namespace DataAccess
                 {
                     context.Authors.Add(author);
                     context.SaveChanges();
+                    return author;
                 }
-
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Console.WriteLine("Error: " + ex.Message);
+                Console.WriteLine("Inner Exception: " + ex.InnerException?.Message);
+                return null;
             }
         }
-        public static void UpdateAuthor(Author author)
+
+        public static Author UpdateAuthor(Author author)
         {
             try
             {
@@ -68,8 +65,8 @@ namespace DataAccess
                 {
                     context.Entry<Author>(author).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
+                    return author;
                 }
-
             }
             catch (Exception ex)
             {
@@ -86,7 +83,6 @@ namespace DataAccess
                     context.Authors.Remove(FindAuthorById(author.Id));
                     context.SaveChanges();
                 }
-
             }
             catch (Exception ex)
             {

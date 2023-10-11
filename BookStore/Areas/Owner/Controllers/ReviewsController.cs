@@ -59,9 +59,9 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
             return View();
         }
 
-        public ActionResult Edit(int id)
-        {
-            return View(id);
-        }
+        //public ActionResult Edit(int id)
+        //{
+        //    return View(id);
+        //}
     }
 }
