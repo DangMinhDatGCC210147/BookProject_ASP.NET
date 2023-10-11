@@ -25,6 +25,7 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
+
         public IActionResult CreatePublisher(Publisher publisher)
         {
             repository.SavePublisher(publisher);

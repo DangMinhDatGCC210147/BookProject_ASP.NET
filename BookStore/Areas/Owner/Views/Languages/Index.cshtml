@@ -67,7 +67,7 @@
                                 </div>
                                 @foreach (var language in Model)
                                 {
-                                    <tr>
+                                    <tr id="row-@language.Id">
                                         <th scope="row">@language.Id</th>
                                         <td>@language.Name</td>
                                         <td>
@@ -88,8 +88,9 @@
         </div>
     </section>
 </main><!-- End #main -->
+
 @section Scripts{
-    <script scr="~/js/js-admin/language.js"></script>
+    <script src="~/js/js-admin/language.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }
 

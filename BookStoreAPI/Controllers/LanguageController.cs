@@ -37,7 +37,7 @@ namespace BookStoreAPI.Controllers
             {
                 repository.SaveLanguage(language);
                 //return Ok();
-                return RedirectToAction("Index","Languages");
+                return RedirectToAction("Index","Languages", new { area = "Owner"});
             }
             catch (Exception ex)
             {

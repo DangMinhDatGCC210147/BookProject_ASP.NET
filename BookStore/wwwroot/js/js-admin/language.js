@@ -1,8 +1,10 @@
-﻿ // Hàm để làm mới dữ liệu bảng
+﻿
+
+// Hàm để làm mới dữ liệu bảng
     function refreshLanguageList() {
         $.ajax({
             type: 'GET',
-            url: '/api/Languages', // Địa chỉ API để tải lại danh sách ngôn ngữ
+            url: 'https://localhost:7269/api/Languages', // Địa chỉ API để tải lại danh sách ngôn ngữ
             dataType: 'json',
             success: function (data) {
                 // Cập nhật phần tử HTML để hiển thị danh sách ngôn ngữ
@@ -38,17 +40,13 @@
             var data = {
                 Name: Name
             };
-
             // Include the anti-forgery token in the request headers
-            var headers = {};
-            headers['__RequestVerificationToken'] = antiForgeryToken;
             // Use AJAX to send data to the API
             $.ajax({
                 type: 'POST',
-                url: 'api/Languages',
+                url: 'https://localhost:7269/api/Languages',
                 data: JSON.stringify(data),
                 contentType: 'application/json',
-                headers: headers, // Include the headers with the token
                 success: function (response) {
                     // Clear input
                     $('#Name').val('');
@@ -72,36 +70,40 @@
     });
 
     // === Delete ===
-    function deleteLanguage(id) {
-        // Hiển thị một hộp thoại xác nhận trước khi xóa
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Nếu người dùng đồng ý xóa, thực hiện AJAX để gửi yêu cầu xóa
-                $.ajax({
-                    type: 'DELETE',
-                    url: 'api/Languages/' + id,
-                    success: function () {
-                        // Nếu xóa thành công, cập nhật giao diện người dùng bằng cách xóa dòng trong bảng
-                        $('#languageList tbody tr[data-id="' + id + '"]').remove();
-                        Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+function deleteLanguage(id) {
+    console.log(id)
+    // Hiển thị một hộp thoại xác nhận trước khi xóa
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Nếu người dùng đồng ý xóa, thực hiện AJAX để gửi yêu cầu xóa
+            $.ajax({
+                type: 'DELETE',
+                url: 'https://localhost:7269/api/Languages/' + id,
+                success: function () {
+                    // Nếu xóa thành công, cập nhật giao diện người dùng bằng cách xóa dòng trong bảng
 
-                        // Sau khi xóa thành công, gọi hàm refresh để tải lại dữ liệu mới
-                        refreshLanguageList();
-                    },
-                    error: function () {
-                        Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
-                    }
-                });
-            }
-        });
-    }
+                    var removeRow = document.getElementById("row-" + id);
+                    removeRow.remove();
+                    Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+
+                    // Sau khi xóa thành công, gọi hàm refresh để tải lại dữ liệu mới
+                    refreshLanguageList();
+                },
+                error: function () {
+                    Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+                }
+            });
+        }
+    });
+}
+   
 
 
     $(document).ready(function () {
