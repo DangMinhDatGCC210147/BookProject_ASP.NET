@@ -24,7 +24,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title">Discounts table</h5>
-                            <form class="form-inline" method="POST">
+                            @* <form class="form-inline" method="POST"> *@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
@@ -33,7 +33,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            @* </form> *@
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#discountModal">Add New Discount</button>
 
                             <!-- Modal -->
@@ -47,7 +47,8 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form>
+                                            <form method="POST" id="myForm">
+                                                <input type="hidden" id="discountId">
                                                 <div class="form-group">
                                                     <label for="discountName">Discount Name</label>
                                                     <input type="text" class="form-control" id="discountName" placeholder="Enter Discount Name" required>
@@ -64,12 +65,13 @@
                                                     <label for="endDate">End Date</label>
                                                     <input type="date" class="form-control" id="endDate" required>
                                                 </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                </div>
                                             </form>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary">Save</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                             </div>
@@ -85,46 +87,23 @@
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Discount name 1</td>
-                                    <td>25%</td>
-                                    <td>10-6-2023</td>
-                                    <td>10-7-2023</td>
-                                    <td>
-                                        <div class="flex-column align-items-center">
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                            <button type="button" class="btn btn-warning">Edit</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Discount name 2</td>
-                                    <td>50%</td>
-                                    <td>5-4-2023</td>
-                                    <td>12-4-2023</td>
-                                    <td>
-                                        <div class="flex-column align-items-center">
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                            <button type="button" class="btn btn-warning">Edit</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Discount name 3</td>
-                                    <td>75%</td>
-                                    <td>10-6-2023</td>
-                                    <td>16-6-2023</td>
-                                    <td>
-                                        <div class="flex-column align-items-center">
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                            <button type="button" class="btn btn-warning">Edit</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tbody id="discountList">
+                                @foreach (var discount in Model)
+                                {
+                                    <tr id="row_@discount.Id">
+                                        <th scope="row">@discount.Id</th>
+                                        <td>@discount.DiscountName</td>
+                                        <td>@discount.Percentage</td>
+                                        <td>@discount.StartDate</td>
+                                        <td>@discount.EndDate</td>
+                                        <td>
+                                            <div class="flex-column align-items-center">
+                                                <button type="button" class="btn btn-danger" onclick="deleteDiscount(@discount.Id)">Delete</button>
+                                                <button type="button" class="btn btn-warning edit-discount" data-toggle="modal" data-target="#discountModal" onclick="handleEditButton(@discount.Id)">Edit</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                         <!-- End small tables -->
@@ -138,5 +117,6 @@
 
 </main><!-- End #main -->
 @section Scripts{
+    <script src="~/js/js-owner/discount.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }

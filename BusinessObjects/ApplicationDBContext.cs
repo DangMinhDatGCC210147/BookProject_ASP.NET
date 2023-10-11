@@ -101,6 +101,7 @@ namespace BusinessObjects
 			{
 				Id = 1,
 				DiscountName = "Discount 1",
+				Percentage = 50,
 				StartDate = DateTime.Now.AddDays(-7), // Ngày bắt đầu là 7 ngày trước
 				EndDate = DateTime.Now.AddDays(7) // Ngày kết thúc là 7 ngày sau
 			},
@@ -108,6 +109,7 @@ namespace BusinessObjects
 			{
 				Id = 2,
 				DiscountName = "Discount 2",
+				Percentage = 60,
 				StartDate = DateTime.Now.AddDays(-3), // Ngày bắt đầu là 3 ngày trước
 				EndDate = DateTime.Now.AddDays(10) // Ngày kết thúc là 10 ngày sau
 			},
@@ -115,7 +117,8 @@ namespace BusinessObjects
 			{
 				Id = 3,
 				DiscountName = "Discount 3",
-				StartDate = DateTime.Now.AddDays(-1), // Ngày bắt đầu là 1 ngày trước
+                Percentage = 50,
+                StartDate = DateTime.Now.AddDays(-1), // Ngày bắt đầu là 1 ngày trước
 				EndDate = DateTime.Now.AddDays(5) // Ngày kết thúc là 5 ngày sau
 			}
 		);

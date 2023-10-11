@@ -2,12 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Repositories.Interfaces;
 using Repositories;
+using System.Collections.Generic;
 
 namespace BookStoreAPI.Controllers
 {
     [Route("api/Discounts")]
     [ApiController]
-    public class DiscountController : Controller
+    public class DiscountController : ControllerBase
     {
         private readonly IDiscountRepository repository = new DiscountRepository();
 
@@ -25,14 +26,13 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateDiscount(Discount discount)
+        public IActionResult CreateDiscount([FromBody] Discount discount)
         {
-            repository.SaveDiscount(discount);
-            return Ok();
+            return Ok(repository.SaveDiscount(discount));
         }
 
-        [HttpDelete("id")]
-        public IActionResult DeleteDiscounts(int id)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteDiscount(int id)
         {
             var discount = repository.GetDiscountById(id);
             if (discount == null)
@@ -42,15 +42,14 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateAuthor(int id, Discount discount)
+        public IActionResult UpdateDiscount(int id, Discount discount)
         {
-            var existingAuthor = repository.GetDiscountById(id);
-            if (existingAuthor == null)
+            var existingDiscount = repository.GetDiscountById(id);
+            if (existingDiscount == null)
                 return NotFound();
 
             discount.Id = id; // Make sure the ID is set to the correct value
-            repository.UpdateDiscount(discount);
-            return Ok();
+            return Ok(repository.UpdateDiscount(discount));
         }
     }
 }

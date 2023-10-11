@@ -40,27 +40,27 @@ namespace BookStoreWebClient.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Review p)
-        {
-            HttpResponseMessage response = await client.GetAsync(ReviewApiUrl);
-            string strData = await response.Content.ReadAsStringAsync();
+        //public async Task<IActionResult> Create(Review p)
+        //{
+        //    HttpResponseMessage response = await client.GetAsync(ReviewApiUrl);
+        //    string strData = await response.Content.ReadAsStringAsync();
 
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            };
-            List<Review> reviews = JsonSerializer.Deserialize<List<Review>>(strData, options);
-            return View(reviews);
-        }
+        //    var options = new JsonSerializerOptions
+        //    {
+        //        PropertyNameCaseInsensitive = true,
+        //    };
+        //    List<Review> reviews = JsonSerializer.Deserialize<List<Review>>(strData, options);
+        //    return View(reviews);
+        //}
 
         public ActionResult Detail()
         {
             return View();
         }
 
-        public ActionResult Edit(int id)
-        {
-            return View(id);
-        }
+        //public ActionResult Edit(int id)
+        //{
+        //    return View(id);
+        //}
     }
 }

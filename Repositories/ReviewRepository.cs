@@ -4,8 +4,6 @@ using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repositories
 {
@@ -17,8 +15,8 @@ namespace Repositories
 
         public List<Review> GetReviews() => ReviewDAO.GetReviews();
 
-        public void SaveReview(Review review) => ReviewDAO.SaveReview(review);
+        public Review SaveReview(Review review) => ReviewDAO.SaveReview(review);
 
-        public void UpdateReview(Review review) => ReviewDAO.UpdateReview(review);
+        public Review UpdateReview(Review review) => ReviewDAO.UpdateReview(review);
     }
 }

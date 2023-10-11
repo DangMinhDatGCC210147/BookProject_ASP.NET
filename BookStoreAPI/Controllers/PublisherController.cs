@@ -32,7 +32,7 @@ namespace BookStoreAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public IActionResult DeletePublishers(int id)
         {
             var publisher = repository.GetPublisherById(id);
@@ -50,8 +50,7 @@ namespace BookStoreAPI.Controllers
                 return NotFound();
 
             publisher.Id = id; // Make sure the ID is set to the correct value
-            repository.UpdatePublisher(publisher);
-            return Ok();
+            return Ok(repository.UpdatePublisher(publisher));
         }
     }
 }

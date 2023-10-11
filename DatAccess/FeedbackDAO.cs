@@ -1,92 +1,88 @@
 ﻿using BusinessObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DataAccess
+namespace DatAccess
 {
     public class FeedbackDAO
     {
-        public static List<FeedBack> GetFeedBacks()
+        public static List<FeedBack> GetFeedbacks()
         {
-            var listFeedBacks = new List<FeedBack>();
+            var listFeedbacks = new List<FeedBack>();
             try
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    listFeedBacks = context.FeedBacks.ToList();
+                    listFeedbacks = context.FeedBacks.ToList();
                 }
-
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return listFeedBacks;
+            return listFeedbacks;
         }
 
-        public static FeedBack FindFeedBackById(int id)
+        public static FeedBack FindFeedbackById(int id)
         {
-            var feedBack = new FeedBack();
+            var feedback = new FeedBack();
             try
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    feedBack = context.FeedBacks.Find(id);
+                    feedback = context.FeedBacks.Find(id);
                 }
-
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return feedBack;
+            return feedback;
         }
-        public static void SaveFeedBack(FeedBack feedBack)
+
+        public static FeedBack SaveFeedback(FeedBack feedback)
         {
             try
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    context.FeedBacks.Add(feedBack);
+                    context.FeedBacks.Add(feedback);
+                    context.SaveChanges();
+                    return feedback;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                Console.WriteLine("Inner Exception: " + ex.InnerException?.Message);
+                return null;
+            }
+        }
+
+        public static FeedBack UpdateFeedback(FeedBack feedback)
+        {
+            try
+            {
+                using (var context = new ApplicationDBContext())
+                {
+                    context.Entry<FeedBack>(feedback).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    context.SaveChanges();
+                    return feedback;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static void DeleteFeedbackById(FeedBack feedback)
+        {
+            try
+            {
+                using (var context = new ApplicationDBContext())
+                {
+                    context.FeedBacks.Remove(FindFeedbackById(feedback.Id));
                     context.SaveChanges();
                 }
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public static void UpdateFeedBack(FeedBack feedBack)
-        {
-            try
-            {
-                using (var context = new ApplicationDBContext())
-                {
-                    context.Entry<FeedBack>(feedBack).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                    context.SaveChanges();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public static void DeleteFeedBack(FeedBack feedBack)
-        {
-            try
-            {
-                using (var context = new ApplicationDBContext())
-                {
-                    context.FeedBacks.Remove(FindFeedBackById(feedBack.Id));
-                    context.SaveChanges();
-                }
-
             }
             catch (Exception ex)
             {

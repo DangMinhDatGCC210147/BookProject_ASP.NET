@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using DataAccess;
+using DatAccess;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,16 @@ namespace Repositories
 {
     public class FeedbackRepository : IFeedBackRepository
     {
-        public void DeleteFeedBackById(FeedBack feedBack) => FeedbackDAO.DeleteFeedBack(feedBack);
+        public void DeleteFeedbackById(FeedBack feedBack) => FeedbackDAO.DeleteFeedbackById(feedBack);
 
-        public FeedBack GetFeedBackById(int id) => FeedbackDAO.FindFeedBackById(id);
+        public FeedBack GetFeedbackById(int id) => FeedbackDAO.FindFeedbackById(id);
 
-        public List<FeedBack> GetFeedBacks() => FeedbackDAO.GetFeedBacks();
+        public List<FeedBack> GetFeedbacks() => FeedbackDAO.GetFeedbacks();
 
-        public void SaveFeedBack(FeedBack feedBack) => FeedbackDAO.SaveFeedBack(feedBack);
+        public FeedBack SaveFeedback(FeedBack feedBack) => FeedbackDAO.SaveFeedback(feedBack);
 
-        public void UpdateFeedBack(FeedBack feedBack) => FeedbackDAO.UpdateFeedBack(feedBack);
+        public FeedBack UpdateFeedback(FeedBack feedBack) => FeedbackDAO.UpdateFeedback(feedBack);
     }
 }
+
+
