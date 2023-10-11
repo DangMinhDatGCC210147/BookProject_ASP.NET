@@ -1,4 +1,6 @@
-﻿using Repositories.Interfaces;
+﻿using BusinessObjects;
+using DataAccess;
+using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +11,6 @@ namespace Repositories
 {
     public class HomeRepository : IHomeRepository
     {
+        public Task<List<BookAuthor>> GetBookAuthors() => HomeDAO.TopSixAuthors();
     }
 }

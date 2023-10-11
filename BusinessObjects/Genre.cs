@@ -20,7 +20,7 @@ namespace BusinessObjects
 		[Required]
 		public DateTime AddDate { get; set; } = DateTime.Now;
 		[Required]
-		public GenerApproval ApprovalStatus { get; set; } = GenerApproval.Watiting;
+		public GenerApproval ApprovalStatus { get; set; } = GenerApproval.Pending;
 		public ICollection<Book>? Books { get; set; }
 	}
 }

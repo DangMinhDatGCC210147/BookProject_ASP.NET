@@ -17,7 +17,6 @@ $(document).ready(function () {
 });
 //Lấy ds Genre
 $(document).ready(function () {
-    // Gọi API để lấy danh sách ngôn ngữ và cập nhật dropdownlist
     $.ajax({
         url: '/api/Genres',
         type: 'GET',
@@ -26,12 +25,35 @@ $(document).ready(function () {
             var dropdown = $('#genreDropdown');
             dropdown.empty();
             dropdown.append($('<option>').val('').text('Select a genre'));
-            $.each(data, function (key, entry) {
+
+            // Lọc dữ liệu theo approvalStatus bằng 1 hoặc "Accepted"
+            var filteredData = data.filter(function (entry) {
+                return entry.approvalStatus === 1 || entry.approvalStatus === "Accepted";
+            });
+
+            $.each(filteredData, function (key, entry) {
                 dropdown.append($('<option>').val(entry.id).text(entry.name));
             });
         }
     });
 });
+
+//$(document).ready(function () {
+//    // Gọi API để lấy danh sách ngôn ngữ và cập nhật dropdownlist
+//    $.ajax({
+//        url: '/api/Genres',
+//        type: 'GET',
+//        dataType: 'json',
+//        success: function (data) {
+//            var dropdown = $('#genreDropdown');
+//            dropdown.empty();
+//            dropdown.append($('<option>').val('').text('Select a genre'));
+//            $.each(data, function (key, entry) {
+//                dropdown.append($('<option>').val(entry.id).text(entry.name));
+//            });
+//        }
+//    });
+//});
 //Lấy ds Publisher
 $(document).ready(function () {
     // Gọi API để lấy danh sách ngôn ngữ và cập nhật dropdownlist

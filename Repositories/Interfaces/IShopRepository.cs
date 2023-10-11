@@ -18,5 +18,6 @@ namespace Repositories.Interfaces
         List<Book> FilterByPublisher(int id);
         List<Book> FilterByLanguage(int id);
         List<Book> FilterByAuthor(int id);
+        Book BookDetail(int id);
     }
 }

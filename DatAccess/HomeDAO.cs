@@ -1,76 +1,95 @@
-﻿//using BusinessObjects;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using BusinessObjects;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using static System.Reflection.Metadata.BlobBuilder;
 
-//namespace DataAccess
-//{
-//    public class BestSellingDAO
-//    {
-//        public List<BestSelling> BestSellings()
-//        {
-//            try
-//            {
-//                using (var context = new ApplicationDBContext())
-//                {
+namespace DataAccess
+{
+    public class HomeDAO
+    {
+        public static async Task<List<BookAuthor>> TopSixAuthors()
+        {
+            try
+            {
+                using (var context = new ApplicationDBContext())
+                {
+                    DateTime current = DateTime.Now;
+                    var rankedBooks = await (
+                        from author in context.Authors
+                        join book in context.Books on author.Id equals book.AuthorId
+                        join orderDetail in context.OrderDetails on book.Id equals orderDetail.BookId
+                        join order in context.Orders on orderDetail.OrderId equals order.Id
+                        where order.DeliveryDate.Year == current.Year
+                        group new { author, book, orderDetail } by new
+                        {
+                            AuthorId = author.Id,
+                            AuthorName = author.Name,
+                            BookId = book.Id,
+                            BookImage = book.Image,
+                            BookTitle = book.Title
+                        } into grouped
+                        select new BookAuthor
+                        {
+                            AuthorId = grouped.Key.AuthorId,
+                            AuthorName = grouped.Key.AuthorName,
+                            BookId = grouped.Key.BookId,
+                            BookTitle = grouped.Key.BookTitle,
+                            BookImage = grouped.Key.BookImage,
+                            TotalSold = grouped.Sum(od => od.orderDetail.Quantity)
+                        }).ToListAsync();
 
-//                    var currentDate = DateTime.Now.Year;
+                    var topSellingAuthors = rankedBooks
+                        .GroupBy(rb => rb.AuthorId)
+                        .Select(group => group.First())
+                        .OrderByDescending(author => author.TotalSold)
+                        .Take(6)
+                        .ToList();
 
-//                    var rankedBooks = context.Authors
-//                        .Join(context.Books, a => a.Id, b => b.AuthorId, (a, b) => new { Author = a, Book = b })
-//                        .Join(context.OrderDetails, ab => ab.Book.Id, od => od.BookId, (ab, od) => new { ab.Author, ab.Book, OrderDetail = od })
-//                        .Join(context.Orders, abod => abod.OrderDetail.OrderId, o => o.Id, (abod, o) => new { abod.Author, abod.Book, abod.OrderDetail, Order = o })
-//                        .Where(abodo => abodo.Order.DeliveryDate.Year == currentDate)
-//                        .GroupBy(abodo => new { abodo.Author.Id, abodo.Author.Name, abodo.Book.Id, abodo.Book.Title, abodo.Book.Image })
-//                        .Select(group => new
-//                        {
-//                            AuthorId = group.Key.Id,
-//                            AuthorName = group.Key.Name,
-//                            BookId = group.Key.Id,
-//                            BookTitle = group.Key.Title,
-//                            BookImage = group.Key.Image,
-//                            TotalSold = group.Sum(abodo => abodo.OrderDetail.Quantity),
-//                            RowNum = 0 // Thêm một cột RowNum tạm thời, sẽ được sửa sau
-//                        })
-//                        .OrderByDescending(ab => ab.TotalSold)
-//                        .ToList();
+                    return topSellingAuthors;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Instead of rethrowing the exception, you should log it for debugging purposes.
+                // Also, it's better to return an empty list instead of throwing an exception if there's an error.
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                return new List<BookAuthor>();
+            }
+        }
+    }
+}
 
-//                    // Bây giờ, chúng ta cần sửa cột RowNum
-//                    int rowNum = 1;
-//                    foreach (var book in rankedBooks)
-//                    {
-//                        book.RowNum = rowNum;
-//                        rowNum++;
-//                    }
-
-//                    // Lọc top 6 tác giả
-//                    var topAuthors = rankedBooks
-//                        .Where(book => book.RowNum == 1)
-//                        .Take(6)
-//                        .OrderByDescending(book => book.TotalSold)
-//                        .Select(book => new
-//                        {
-//                            AuthorId = book.AuthorId,
-//                            AuthorName = book.AuthorName,
-//                            BookId = book.BookId,
-//                            BookTitle = book.BookTitle,
-//                            BookImage = book.BookImage,
-//                            TotalSold = book.TotalSold
-//                        })
-//                        .ToList();
-
-
-
-
-//                    return null;
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                throw new Exception(ex.Message);
-//            }
-//        }
-//    }
-//}
+/*WITH RankedBooks AS (
+    SELECT
+        a.Id AS AuthorId,
+        a.Name AS AuthorName,
+        b.Id AS BookId,
+        b.Image as BookImage,
+        b.Title AS BookTitle,
+        SUM(od.Quantity) AS TotalSold,
+        ROW_NUMBER() OVER (PARTITION BY a.Id ORDER BY SUM(od.Quantity) DESC) AS RowNum
+    FROM Authors a
+    JOIN Books b ON b.AuthorId = a.Id
+    JOIN OrderDetails od ON od.BookId = b.Id
+    JOIN Orders o ON o.Id = od.OrderId
+    WHERE YEAR(o.DeliveryDate) = YEAR(GETDATE())
+    GROUP BY a.Id, a.Name, b.Id, b.Title, b.Image as BookImage,
+)
+SELECT TOP 6
+    AuthorId,
+    AuthorName,
+    BookId,
+    BookTitle,
+    TotalSold
+FROM RankedBooks
+WHERE RowNum = 1
+ORDER BY TotalSold DESC;
+*/
