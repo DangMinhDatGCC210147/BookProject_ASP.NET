@@ -29,8 +29,8 @@ namespace BookStoreAPI.Controllers
         [HttpPost]
         public IActionResult CreateGenre([FromBody] Genre genre)
         {
-            return Ok(repository.SaveGenre(genre));
-        }
+			return Ok(repository.SaveGenre(genre));
+		}
 
 
         [HttpDelete("{id}")]

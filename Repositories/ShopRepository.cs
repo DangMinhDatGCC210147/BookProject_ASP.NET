@@ -20,5 +20,6 @@ namespace Repositories
         public List<Book> FilterByPublisher(int id) => shopDAO.GetFilterByPublisher(id);
 		public List<Book> FilterByLanguage(int id) => shopDAO.GetFilterByLanguage(id);
 		public List<Book> FilterByAuthor(int id) => shopDAO.GetFilterByAuthor(id);
+		public Book BookDetail(int id) => shopDAO.GetBookDetail(id);
 	}
 }

@@ -47,14 +47,16 @@ namespace BookStore.Controllers
         {
             return View();
         }
+        
 		public async Task<IActionResult> Search(string title)
 		{
-			HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl + "/Search/" + title); 
+            ViewData["search"] = title;
+            HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl + "/Search/" + title); 
             string data = await httpResponse.Content.ReadAsStringAsync();
 			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 			List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);
 
-            return View(books);
+            return RedirectToAction("Shop", "Home", books);
 		}
 		public async Task<IActionResult> Contact()
         {
@@ -65,6 +67,10 @@ namespace BookStore.Controllers
             return View();
         }
         public async Task<IActionResult> Cart()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Detail()
         {
             return View();
         }
