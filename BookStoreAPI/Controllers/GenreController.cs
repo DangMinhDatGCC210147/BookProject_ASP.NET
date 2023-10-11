@@ -27,21 +27,8 @@ namespace BookStoreAPI.Controllers
         [HttpPost]
         public IActionResult CreateGenre(Genre genre)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                repository.SaveGenre(genre);
-                //return Ok();
-                return RedirectToAction("Index","Genres", new { area = "Owner" });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest($"An error occurred: {ex.Message}");
-            }
+            repository.SaveGenre(genre);
+            return Ok();
         }
 
         [HttpDelete("{id}")]

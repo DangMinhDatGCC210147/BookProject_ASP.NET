@@ -57,7 +57,36 @@
 						<div class="shop-product-content tab-content">
 							<div id="grid-sidebar1" class="tab-pane fade active show">
 								<div class="row" id="result_search_1">
-									@*javascript*@
+									@if (Model.Count() > 0)
+									{
+										@foreach (var book in Model)
+										{
+											<div class="col-lg-6 col-md-6 col-xl-3">
+												<div class="product-wrapper mb-30">
+													<div class="product-img">
+														<a href="/Detail/@book.Id">
+															<img src="/img/product/book/@book.Image" alt="">
+														</a>
+														<div class="product-action">
+															<a class="animate-left" title="Wishlist" href="#">
+																<i class="pe-7s-like"></i>
+															</a>
+															<a class="animate-top" title="Add To Cart" href="#">
+																<i class="pe-7s-cart"></i>
+															</a>
+															<a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
+																<i class="pe-7s-look"></i>
+															</a>
+														</div>
+													</div>
+													<div class="product-content">
+														<h4><a href="#">@book.Title</a></h4>
+														<span>@book.SellingPrice</span>
+													</div>
+												</div>
+											</div>
+										}
+									}									
 								</div>
 							</div>
 							<div id="grid-sidebar2" class="tab-pane fade">

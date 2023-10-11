@@ -185,5 +185,16 @@ namespace DataAccess
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
-	}
+        public Book GetBookDetail(int id)
+        {
+            try
+            {
+                using (var context = new ApplicationDBContext())
+                {
+                    return context.Books.Find(id);
+                }
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
+    }
 }

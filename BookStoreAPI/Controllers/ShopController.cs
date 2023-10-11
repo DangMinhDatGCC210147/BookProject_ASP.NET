@@ -36,5 +36,11 @@ namespace BookStoreAPI.Controllers
 
 			return booksFilter;
 		}
-	}
+
+        [HttpGet("/Detail/{id}")]
+        public ActionResult<Book> Detail(int id)
+        {            
+            return repository.BookDetail(id);
+        }
+    }
 }

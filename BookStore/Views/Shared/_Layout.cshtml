@@ -175,8 +175,8 @@
                     </a>
                     <ul class="cart-dropdown">
                         <li>
-                            <form class="search-form" method="post">
-                                <input class="search-input" type="text" placeholder="Search book">
+                            <form class="search-form" asp-controller="Home" asp-action="Search" method="get">
+                                <input class="search-input" type="text" name="title" placeholder="Search book">
                                 <button class="search-button" type="submit"><i class="ti-search"></i></button>
                             </form>
                             <style>
