@@ -22,37 +22,6 @@
                             @* </form> *@
                             @* <button type="button" class="btn btn-info" data-toggle="modal" data-target="#genreModal">Add New Genre</button> *@
                         </div>
-                        <!-- Modal -->
-                        @* <div class="modal fade" id="genreModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="categoryModalLabel">Genre Genre</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <form method="post" id="myForm">
-                                            <input type="hidden" id="genreId">
-                                            <div class="form-group">
-                                                <label for="genreName">Genre Name</label>
-                                                <input type="text" class="form-control" id="genreName" placeholder="Enter genre name">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="genreDescription">Description</label>
-                                                <textarea class="form-control" id="genreDescription" rows="3" placeholder="Enter genre description"></textarea>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div> *@
                         <!-- Small tables -->
                         <table class="table table-sm table-hover" id="genreTable" name="genreTable">
                             <thead>
@@ -76,7 +45,7 @@
                                         <td>@genre.Name</td>
                                         <td>@genre.Description</td>
                                         <td>@genre.AddDate.ToString("yyyy-MM-dd")</td>
-                                        <td>
+                                        <td class="description">
                                             @{
                                                 string approvalStatusText;
                                                 switch (((int)genre.ApprovalStatus))
@@ -117,7 +86,7 @@
 
 </main><!-- End #main -->
 @section Scripts{
-    <script src="~/js/js-admin/genre.js"></script>
+    <script src="~/js/js-admin/genre-ad.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }
 
