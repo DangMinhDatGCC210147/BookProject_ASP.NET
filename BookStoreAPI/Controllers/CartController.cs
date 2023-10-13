@@ -13,27 +13,27 @@ namespace BookStoreAPI.Controllers
 	{
 		private ICartRepository repository = new CartRepository();
 
-        [HttpGet("{id}")]
-        public ActionResult<Cart> GetCartById(string userId)
-        {
-            var Cart = repository.GetCarts(userId);
-            if (Cart == null)
-                return NotFound();
-
-            return Ok(Cart);
-        }
-
         [HttpPost]
-		public IActionResult SaveCarts(Cart Cart)
+		public IActionResult SaveCarts(string userId)
 		{
-			repository.SaveCart(Cart);
-			return Ok();
+			var cart = repository.FindCartById(userId);
+
+			if (cart == null)
+			{
+                Cart c = new Cart();
+                c.UserId = userId;
+                c.CreatedDate = DateTime.Now;
+
+                return Ok(repository.SaveCart(c));
+            }
+
+			return Ok(cart);
 		}
 
-		[HttpDelete("id")]
-		public IActionResult DeleteCarts(int id)
+		[HttpDelete("DeleteCarts/{userId}")]
+		public IActionResult DeleteCarts(string userId)
 		{
-			var Cart = repository.FindCartById(id);
+			var Cart = repository.FindCartById(userId);
             if (Cart == null)
 				return NotFound();
             repository.DeleteCartById(Cart);

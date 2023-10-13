@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using DataAccess;
 using Repositories.Interfaces;
 using System;
@@ -11,15 +12,14 @@ namespace Repositories
 {
     public class ShopRepository : IShopRepository
     {
-        public ShopDAO shopDAO = new ShopDAO();
-        public List<GetNameAndQuantity> GenreAndQuantity() => shopDAO.GetGenre();
-        public List<GetNameAndQuantity> PublisherAndQuantity() => shopDAO.GetPublisher();
-        public List<GetNameAndQuantity> LanguageAndQuantity() => shopDAO.GetLanguage();
-        public List<GetNameAndQuantity> AuthorAndQuantity() => shopDAO.GetAuthor();
-        public List<Book> FilterByGenre(int id) => shopDAO.GetFilterByGenre(id);
-        public List<Book> FilterByPublisher(int id) => shopDAO.GetFilterByPublisher(id);
-		public List<Book> FilterByLanguage(int id) => shopDAO.GetFilterByLanguage(id);
-		public List<Book> FilterByAuthor(int id) => shopDAO.GetFilterByAuthor(id);
-		public Book BookDetail(int id) => shopDAO.GetBookDetail(id);
+        public List<GetNameAndQuantity> GenreAndQuantity() => ShopDAO.GetGenre();
+        public List<GetNameAndQuantity> PublisherAndQuantity() => ShopDAO.GetPublisher();
+        public List<GetNameAndQuantity> LanguageAndQuantity() => ShopDAO.GetLanguage();
+        public List<GetNameAndQuantity> AuthorAndQuantity() => ShopDAO.GetAuthor();
+        public List<Book> FilterByGenre(int id) => ShopDAO.GetFilterByGenre(id);
+        public List<Book> FilterByPublisher(int id) => ShopDAO.GetFilterByPublisher(id);
+		public List<Book> FilterByLanguage(int id) => ShopDAO.GetFilterByLanguage(id);
+		public List<Book> FilterByAuthor(int id) => ShopDAO.GetFilterByAuthor(id);
+		public BookDetail BookDetail(int id) => ShopDAO.GetBookDetail(id);
 	}
 }

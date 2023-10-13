@@ -1,5 +1,6 @@
 ﻿using BookStore.Models;
 using BusinessObjects;
+using BusinessObjects.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repositories;
@@ -13,30 +14,41 @@ namespace BookStoreAPI.Controllers
     {
         private ICartDetailRepository repository = new CartDetailRepository();
 
-        [HttpPost]
-        public IActionResult SaveCartDetails(CartDetail CartDetail)
+        [HttpGet("{userId}")]
+		public IActionResult GetCartDetails(string userId)
+		{
+            return Ok(repository.GetCartDetails(userId));
+		}
+
+		[HttpPost("{userId}")]
+        public IActionResult SaveCartDetails(CartDetail cartDetail, string userId)
         {
-            repository.SaveCartDetail(CartDetail);
+			CartDetail foundCart = repository.FindBookInCart(cartDetail.BookId, userId);
+            if (foundCart == null) return Ok(repository.SaveCartDetail(cartDetail));
+            else
+            {
+                cartDetail.Id = foundCart.Id;
+                cartDetail.Quantity += foundCart.Quantity;
+                var cd = repository.UpdateCartDetail(cartDetail);
+				return Ok(cd);
+			}
+        }
+
+        [HttpDelete()]
+        public IActionResult DeleteBookInCart(CartQuantity cart)
+        {
+            repository.DeleteCartDetailById(cart.bookId, cart.userId);
             return Ok();
         }
 
-        [HttpDelete("id")]
-        public IActionResult DeleteCartDetails(int id)
+        [HttpPut()]
+        public IActionResult UpdateCartDetails(CartQuantity updateQuantity)
         {
-            CartDetail cartdetail = repository.FindCartDetailById(id);
-            if (cartdetail == null)
-                return NotFound();
-            repository.DeleteCartDetailById(cartdetail);
-            return Ok();
-        }
-
-        [HttpPut("id")]
-        public IActionResult UpdateCartDetails(int id, CartDetail CartDetail)
-        {
-            var checkCartDetail = repository.FindCartDetailById(id);
+            var checkCartDetail = repository.FindBookInCart(updateQuantity.bookId, updateQuantity.userId);
             if (checkCartDetail == null)
                 return NotFound();
-            repository.UpdateCartDetail(CartDetail);
+            checkCartDetail.Quantity = updateQuantity.newQuantity;
+			repository.UpdateCartDetail(checkCartDetail);
             return Ok();
         }
     }

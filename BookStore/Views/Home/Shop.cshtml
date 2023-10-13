@@ -1,19 +1,7 @@
-﻿@model IEnumerable<BusinessObjects.Book>
+﻿@model List<BusinessObjects.Book>
 @{
 	ViewData["Title"] = "Shop";
 }
-<!-- header end -->
-<div class="breadcrumb-area pt-205 breadcrumb-padding pb-210" style="background-image: url('@Url.Content("~/img/product/book/1.png")')">
-	<div class="container-fluid">
-		<div class="breadcrumb-content text-center">
-			<h2> shop</h2>
-			<ul>
-				<li><a asp-controller="Home" asp-action="Index">home</a></li>
-				<li>shop</li>
-			</ul>
-		</div>
-	</div>
-</div>
 <div class="shop-page-wrapper shop-page-padding ptb-100">
 	<div class="container-fluid">
 		<div class="row gy-5">
@@ -57,14 +45,14 @@
 						<div class="shop-product-content tab-content">
 							<div id="grid-sidebar1" class="tab-pane fade active show">
 								<div class="row" id="result_search_1">
-									@if (Model.Count() > 0)
+									@if (Model != null)
 									{
 										@foreach (var book in Model)
 										{
 											<div class="col-lg-6 col-md-6 col-xl-3">
 												<div class="product-wrapper mb-30">
 													<div class="product-img">
-														<a href="/Detail/@book.Id">
+														<a asp-controller="Home" asp-action="Detail" asp-route-id="@book.Id">
 															<img src="/img/product/book/@book.Image" alt="">
 														</a>
 														<div class="product-action">
@@ -86,7 +74,7 @@
 												</div>
 											</div>
 										}
-									}									
+									}
 								</div>
 							</div>
 							<div id="grid-sidebar2" class="tab-pane fade">

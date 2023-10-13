@@ -2,7 +2,7 @@
 using Repositories.Interfaces;
 using Repositories;
 using BusinessObjects;
-using DataAccess;
+using BusinessObjects.DTO;
 
 namespace BookStoreAPI.Controllers
 {
@@ -24,7 +24,7 @@ namespace BookStoreAPI.Controllers
             return filters;
         }
 
-		[HttpGet("/Filter")]
+		[HttpGet("Filter")]
 		public ActionResult<IEnumerable<Book>> FilterByGenre([FromQuery] int filterName, [FromQuery] int filterId)
 		{
             List<Book> booksFilter = new List<Book>();
@@ -37,10 +37,10 @@ namespace BookStoreAPI.Controllers
 			return booksFilter;
 		}
 
-        [HttpGet("/Detail/{id}")]
-        public ActionResult<Book> Detail(int id)
-        {            
-            return repository.BookDetail(id);
+        [HttpGet("Detail/{bookId}")]
+        public ActionResult<BookDetail> Detail(int bookId)
+        {
+            return repository.BookDetail(bookId);
         }
     }
 }
