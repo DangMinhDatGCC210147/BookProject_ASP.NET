@@ -3,7 +3,7 @@ using BusinessObjects.DTO;
 
 namespace Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserDetailRepository
     {
 		AppUser SaveAppUser(AppUser appUser);
         AppUser FindAppUserById(string id);
