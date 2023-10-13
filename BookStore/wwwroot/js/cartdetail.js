@@ -58,11 +58,19 @@ $(window).on("load", function () {
 								<td class="product-name"><a href="#" id="product-name_${item.bookId}">${item.title}</a></td>
 								<td class="product-price-cart"><span class="amount" id="price_${item.bookId}">$${item.price}</span></td>
 								<td class="product-quantity">
-									<div class="cart-plus-minus">
-										<div class="inc qtybutton" onclick="UpdateQuantity('plus_${item.bookId}')">+</div>
-										<div class="inc qtybutton" onclick="UpdateQuantity('minus_${item.bookId}')">-</div>
-										<span id="quantity_${item.bookId}">${item.quantity}</span>
-									</div>
+                                <div class="input-quantity">
+                                      <div class="input-group-append">
+                                          <div class="cart-plus-minus">
+                                            <div class="inc qtybutton" onclick="UpdateQuantity('plus_${item.bookId}')">+</div>
+                                          </div> 
+                                      </div>
+                                      <span id="quantity_${item.bookId}" class="form-control text-center input_quantity_box">${item.quantity}</span>
+                                      <div class="input-group-append">  
+                                          <div class="cart-plus-minus">
+                                            <div class="inc qtybutton" onclick="UpdateQuantity('minus_${item.bookId}')">-</div>
+                                          </div>
+                                      </div>
+                                </div>
 								</td>
 								<td class="product-subtotal" id="unitTotal_${item.bookId}">$${item.subTotal}</td>
 							</tr>
