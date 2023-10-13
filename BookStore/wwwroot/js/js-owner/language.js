@@ -63,7 +63,7 @@ $(document).ready(function () {
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    console.log(response);
+                   
                     const id = response.id;
                     const name = response.name;
 

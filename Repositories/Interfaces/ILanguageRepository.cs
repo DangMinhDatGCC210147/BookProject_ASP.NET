@@ -1,14 +1,14 @@
-﻿using BookStore.Models;
-using BusinessObjects;
+﻿    using BookStore.Models;
+    using BusinessObjects;
 
-namespace Repositories.Interfaces
-{
-    public interface ILanguageRepository
+    namespace Repositories.Interfaces
     {
-        Language SaveLanguage(Language p);
-		List<Language> GetLanguages();
-		Language GetLanguageById(int id);
-        void DeleteLanguageById(Language p);
-        Language UpdateLanguage(Language p);    
+        public interface ILanguageRepository
+        {
+            Language SaveLanguage(Language p);
+		    List<Language> GetLanguages();
+		    Language GetLanguageById(int id);
+            void DeleteLanguageById(Language p);
+            Language UpdateLanguage(Language p);    
+        }
     }
-}

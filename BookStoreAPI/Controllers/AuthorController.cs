@@ -25,13 +25,12 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateAuthor(Author author)
+        public IActionResult CreateAuthor([FromBody] Author author)
         {
-            repository.SaveAuthor(author);
-            return Ok();
+            return Ok(repository.SaveAuthor(author));
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteAuthors(int id)
         {
             var author = repository.GetAuthorById(id);
@@ -54,3 +53,6 @@ namespace BookStoreAPI.Controllers
         }
     }
 }
+
+
+

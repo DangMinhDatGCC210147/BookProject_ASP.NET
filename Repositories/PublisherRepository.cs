@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using DataAccess;
+using DatAccess;
 using Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,8 @@ namespace Repositories
 
         public List<Publisher> GetPublishers() => PublisherDAO.GetPublishers();
 
-        public void SavePublisher(Publisher publisher) => PublisherDAO.SavePublisher(publisher);
+        public Publisher SavePublisher(Publisher publisher) => PublisherDAO.SavePublisher(publisher);
 
-        public void UpdatePublisher(Publisher publisher) => PublisherDAO.UpdatePublisher(publisher);
+        public Publisher UpdatePublisher(Publisher publisher) => PublisherDAO.UpdatePublisher(publisher);
     }
 }

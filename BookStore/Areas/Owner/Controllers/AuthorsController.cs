@@ -1,5 +1,6 @@
 ﻿using BusinessObjects;
 using BusinessObjects.Data.Enum;
+using Humanizer.Localisation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -60,9 +61,17 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
             return View();
         }
 
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> EditAsync(int id, Author author)
         {
-            return View(id);
+            author.Id = id;
+            string data = JsonSerializer.Serialize(author);
+            var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(AuthorApiUrl + "/" + id, content);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Author");
+            }
+            return View(author);
         }
     }
 }

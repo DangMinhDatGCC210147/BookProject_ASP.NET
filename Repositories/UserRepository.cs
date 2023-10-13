@@ -11,26 +11,16 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-	public class UserRepository : IUserRepository
-	{
-		public void DeleteAppUser(AppUser appUser, string userId)
-		{
-			throw new NotImplementedException();
-		}
+    public class UserRepository : IUserRepository
+    {
+        public void DeleteUserById(AppUser user) => UserDAO.DeleteUser(user);
 
-		public AppUser FindAppUserById(string id)
-		{
-			throw new NotImplementedException();
-		}
+        public AppUser GetUserById(string id) => UserDAO.FindUserById(id);
 
-		public AppUser SaveAppUser(AppUser appUser)
-		{
-			throw new NotImplementedException();
-		}
+        public List<AppUser> GetUsers() => UserDAO.GetUsers();
 
-		public AppUser UpdateAppUser(AppUser appUser)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public AppUser SaveUser(AppUser user) => UserDAO.SaveUser(user);
+
+        public AppUser UpdateUser(AppUser user) => UserDAO.UpdateUser(user);
+    }
 }

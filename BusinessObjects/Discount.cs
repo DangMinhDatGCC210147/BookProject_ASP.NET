@@ -15,6 +15,8 @@ namespace BusinessObjects
 		[Required]
 		public string DiscountName { get; set; }
 		[Required]
+		public int Percentage { get; set; }
+		[Required]
 		public DateTime StartDate { get; set; }
 		[Required]
 		public DateTime EndDate { get; set; }

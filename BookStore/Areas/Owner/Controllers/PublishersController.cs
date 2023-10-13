@@ -28,13 +28,13 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            HttpResponseMessage httpResponse = await client.GetAsync(PublisherApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
+            HttpResponseMessage httpResponse = await client.GetAsync(PublisherApiUrl);
 
-            string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
+            string data = await httpResponse.Content.ReadAsStringAsync();
 
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //phân tích cú pháp JSON không phân biệt hoa/thường của tên thuộc tính
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
-            List<Publisher> publishers = JsonSerializer.Deserialize<List<Publisher>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
+            List<Publisher> publishers = JsonSerializer.Deserialize<List<Publisher>>(data, options);
 
             return View(publishers);
         }
@@ -45,11 +45,7 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
         {
             HttpResponseMessage response = await client.GetAsync(PublisherApiUrl);
             string strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            };
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, };
             List<Publisher> publishers = JsonSerializer.Deserialize<List<Publisher>>(strData, options);
             return View(publishers);
         }
@@ -59,9 +55,18 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
             return View();
         }
 
-        public ActionResult Edit(int id)
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, Publisher publisher)
         {
-            return View(id);
+            publisher.Id = id;
+            string data = JsonSerializer.Serialize(publisher);
+            var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(PublisherApiUrl + "/" + id, content);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Publishers");
+            }
+            return View(publisher);
         }
     }
 }

@@ -1,98 +1,99 @@
-﻿using BusinessObjects;
+﻿	using BusinessObjects;
 
-namespace DatAccess
-{
-	public class LanguageDAO
+	namespace DatAccess
 	{
-		public static List<Language> GetLanguages()
+		public class LanguageDAO
 		{
-			var listLanguages = new List<Language>();
-			try
-			{
-				using (var context = new ApplicationDBContext())
+				public static List<Language> GetLanguages()
 				{
-					listLanguages = context.Languages.ToList();
+					var listLanguages = new List<Language>();
+					try
+					{
+						using (var context = new ApplicationDBContext())
+						{
+							listLanguages = context.Languages.ToList();
+						}
+
+					}
+					catch (Exception ex)
+					{
+						throw new Exception(ex.Message);
+					}
+					return listLanguages;
 				}
 
-			}
-			catch (Exception ex)
+			public static Language FindLanguageById(int id)
 			{
-				throw new Exception(ex.Message);
-			}
-			return listLanguages;
-		}
-
-		public static Language FindLanguageById(int id)
-		{
-			var language = new Language();
-			try
-			{
-				using (var context = new ApplicationDBContext())
+				var language = new Language();
+				try
 				{
-					language = context.Languages.Find(id);
+					using (var context = new ApplicationDBContext())
+					{
+						language = context.Languages.Find(id);
+					}
+
 				}
-
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(ex.Message);
-			}
-			return language;
-		}
-
-		public static Language SaveLanguage(Language language)
-		{
-			try
-			{
-				using (var context = new ApplicationDBContext())
+				catch (Exception ex)
 				{
-					context.Languages.Add(language);
-					context.SaveChanges();
-					return language;
+					throw new Exception(ex.Message);
 				}
-
+				return language;
 			}
-			catch (Exception ex)
-			{
-				Console.WriteLine("Error: " + ex.Message);
-				Console.WriteLine("Inner Exception: " + ex.InnerException?.Message);
-				return null;
-			}
-		}
 
-		public static Language UpdateLanguage(Language language)
-		{
-			try
+			public static Language SaveLanguage(Language language)
 			{
-				using (var context = new ApplicationDBContext())
+				try
 				{
-					context.Entry<Language>(language).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-					context.SaveChanges();
-					return language;
+					using (var context = new ApplicationDBContext())
+					{
+						context.Languages.Add(language);
+						context.SaveChanges();
+						return language;
+					}
+
 				}
-
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(ex.Message);
-			}
-		}
-
-		public static void DeleteLanguage(Language language)
-		{
-			try
-			{
-				using (var context = new ApplicationDBContext())
+				catch (Exception ex)
 				{
-					context.Languages.Remove(FindLanguageById(language.Id));
-					context.SaveChanges();
+					Console.WriteLine("Error: " + ex.Message);
+					Console.WriteLine("Inner Exception: " + ex.InnerException?.Message);
+					return null;
 				}
+			}
 
-			}
-			catch (Exception ex)
+			public static Language UpdateLanguage(Language language)
 			{
-				throw new Exception(ex.Message);
+				try
+				{
+					using (var context = new ApplicationDBContext())
+					{
+						context.Entry<Language>(language).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+						context.SaveChanges();
+						return language;
+					}
+
+				}
+				catch (Exception ex)
+				{
+					throw new Exception(ex.Message);
+				}
 			}
+
+			public static void DeleteLanguage(Language language)
+			{
+				try
+				{
+					using (var context = new ApplicationDBContext())
+					{
+						context.Languages.Remove(FindLanguageById(language.Id));
+						context.SaveChanges();
+					}
+
+				}
+				catch (Exception ex)
+				{
+					throw new Exception(ex.Message);
+				}
+			}
+
 		}
 	}
-}

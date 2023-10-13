@@ -1,9 +1,4 @@
 ﻿using BusinessObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess
 {
@@ -18,7 +13,6 @@ namespace DataAccess
                 {
                     listReviews = context.Reviews.ToList();
                 }
-
             }
             catch (Exception ex)
             {
@@ -36,7 +30,6 @@ namespace DataAccess
                 {
                     review = context.Reviews.Find(id);
                 }
-
             }
             catch (Exception ex)
             {
@@ -44,7 +37,8 @@ namespace DataAccess
             }
             return review;
         }
-        public static void SaveReview(Review review)
+
+        public static Review SaveReview(Review review)
         {
             try
             {
@@ -52,15 +46,18 @@ namespace DataAccess
                 {
                     context.Reviews.Add(review);
                     context.SaveChanges();
+                    return review;
                 }
-
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Console.WriteLine("Error: " + ex.Message);
+                Console.WriteLine("Inner Exception: " + ex.InnerException?.Message);
+                return null;
             }
         }
-        public static void UpdateReview(Review review)
+
+        public static Review UpdateReview(Review review)
         {
             try
             {
@@ -68,8 +65,8 @@ namespace DataAccess
                 {
                     context.Entry<Review>(review).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
+                    return review;
                 }
-
             }
             catch (Exception ex)
             {
@@ -86,7 +83,6 @@ namespace DataAccess
                     context.Reviews.Remove(FindReviewById(review.Id));
                     context.SaveChanges();
                 }
-
             }
             catch (Exception ex)
             {
