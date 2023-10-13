@@ -1,7 +1,4 @@
-﻿const apiUrl = localStorage.getItem("apiUrl")
-const userId = localStorage.getItem("userId")
-
-function AddToCart(bookId) {
+﻿function AddToCart(bookId) {
     if (userId) {
         $.ajax({
             url: apiUrl + "/api/Carts/?userId=" + userId,
@@ -26,6 +23,7 @@ function AddToCart(bookId) {
                             showConfirmButton: false,
                             timer: 1500
                         })
+                        AjaxCallCart();
                     },
                     error: function (error) {
                         console.log(error)
@@ -228,9 +226,8 @@ function ShowData(results) {
                     </div>
                     <div class="product-content-list">
                         <div class="product-list-info">
-                            <h4><a href="#">${item.title}</a></h4>
-                            <span>${item.sellingPrice}</span>
-                            <p>Lorem ipsum dolor sit amet, mana consectetur adipisicing elit, sed do eiusmod tempor labore. </p>
+                            <h4><a href="/Home/Detail/${item.id}">${item.title}</a></h4>
+                            <span href="/Home/Detail/${item.id}">${item.sellingPrice}</span>
                         </div>
                         <div class="product-list-cart-wishlist">
                             <div class="product-list-cart">
