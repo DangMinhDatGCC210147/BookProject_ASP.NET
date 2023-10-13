@@ -4,23 +4,23 @@ namespace DatAccess
 {
 	public class LanguageDAO
 	{
-			public static List<Language> GetLanguages()
+		public static List<Language> GetLanguages()
+		{
+			var listLanguages = new List<Language>();
+			try
 			{
-				var listLanguages = new List<Language>();
-				try
+				using (var context = new ApplicationDBContext())
 				{
-					using (var context = new ApplicationDBContext())
-					{
-						listLanguages = context.Languages.ToList();
-					}
+					listLanguages = context.Languages.ToList();
+				}
 
-				}
-				catch (Exception ex)
-				{
-					throw new Exception(ex.Message);
-				}
-				return listLanguages;
 			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+			return listLanguages;
+		}
 
 		public static Language FindLanguageById(int id)
 		{
@@ -94,6 +94,5 @@ namespace DatAccess
 				throw new Exception(ex.Message);
 			}
 		}
-
 	}
 }
