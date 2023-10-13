@@ -14,9 +14,8 @@ namespace Repositories
 	public class CartRepository : ICartRepository
 	{
 		public void DeleteCartById(Cart Cart) => CartDAO.DeleteCart(Cart);
-		public Cart FindCartById(int id) => CartDAO.FindCartById(id);
-		public List<Cart> GetCarts(string userId) => CartDAO.UserCart(userId);
-		public void SaveCart(Cart Cart) => CartDAO.SaveCart(Cart);
+		public Cart FindCartById(string userId) => CartDAO.FindCartById(userId);
+		public Cart SaveCart(Cart Cart) => CartDAO.SaveCart(Cart);
 		public void UpdateCart(Cart Cart) => CartDAO.UpdateCart(Cart);
 
 	}

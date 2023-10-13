@@ -1,4 +1,5 @@
-﻿using BusinessObjects;
+﻿using BookStore.Models;
+using BusinessObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace DataAccess
             }
             return user;
         }
+
         public static AppUser SaveUser(AppUser user)
         {
             try
@@ -61,6 +63,7 @@ namespace DataAccess
                 throw new Exception(ex.Message);
             }
         }
+
         public static AppUser UpdateUser(AppUser user)
         {
             try

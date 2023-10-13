@@ -1,4 +1,4 @@
-﻿using BusinessObjects;
+﻿using BusinessObjects.DTO;
 using DataAccess;
 using Repositories.Interfaces;
 using System;

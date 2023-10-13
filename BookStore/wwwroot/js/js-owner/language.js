@@ -7,9 +7,9 @@ $(document).ready(function () {
         const languageId = $('#languageId').val()
         const languageName = $('#languageName').val()
 
-        const data = {
-            name: languageName
-        }
+            const data = {
+                name: languageName
+            }
 
         if (languageId) {
             // Edit state

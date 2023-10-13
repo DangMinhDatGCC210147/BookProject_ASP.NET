@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessObjects
+namespace BusinessObjects.DTO
 {
-    public class RevenueByPublisher
+    public class DailyRevenue
     {
-        public string Publisher { get; set; }
+        public string Date { get; set; }
         public decimal TotalRevenue { get; set; }
     }
 }

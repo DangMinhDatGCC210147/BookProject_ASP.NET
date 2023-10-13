@@ -1,43 +1,5 @@
-﻿function AddToCart(bookId) {
-    if (userId) {
-        $.ajax({
-            url: apiUrl + "/api/Carts/?userId=" + userId,
-            type: "POST",
-            success: function (response) {
-                const quantity = $("#quantity").val();
-                const data = {
-                    bookId: bookId,
-                    quantity: quantity,
-                    cartId: response.id
-                }
-
-                $.ajax({
-                    url: apiUrl + "/api/CartDetails/" + userId,
-                    type: "POST",
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'The book has been added to the cart.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                    },
-                    error: function (error) {
-                        console.log(error)
-                    },
-                })
-            },
-            error: function (error) {
-                console.log(error)
-            },
-        })
-    }
-    else {
-        window.location.href = "/Identity/Account/Login";
-    }
-}
+﻿const apiUrl = localStorage.getItem("apiUrl")
+const userId = localStorage.getItem("userId")
 
 // Cart Header
 AjaxCallCart();
@@ -108,6 +70,3 @@ function AjaxCallCart() {
         return calculate;
     }
 }
-
-
-

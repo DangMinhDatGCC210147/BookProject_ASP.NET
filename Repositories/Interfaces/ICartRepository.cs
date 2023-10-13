@@ -5,10 +5,9 @@ namespace Repositories.Interfaces
 {
     public interface ICartRepository
     {
-        void SaveCart(Cart cart);
-		Cart FindCartById(int id);
+        Cart SaveCart(Cart cart);
+		Cart FindCartById(string userId);
         void DeleteCartById(Cart cart);
         void UpdateCart(Cart cart);
-        List<Cart> GetCarts(string userId);
     }
 }

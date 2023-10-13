@@ -20,11 +20,11 @@ namespace BusinessObjects
 		public int Rate { get; set; }
 		[Required]
 		public string UserId { get; set; }
-		[ForeignKey("UserId")]
-		public virtual AppUser? User { get; set; }
 		[Required]
 		public int BookId { get; set; }
 		[ForeignKey("BookId")]
 		public virtual Book? Book { get; set; }
+		[ForeignKey("UserId")]
+		public virtual AppUser? User { get; set; }
 	}
 }

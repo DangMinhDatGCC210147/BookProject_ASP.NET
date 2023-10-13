@@ -50,7 +50,7 @@ namespace DataAccess
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    context.Genres.Add(genre);
+                    context.Genres.Add(genre);  
                     context.SaveChanges();
                     return genre;
                 }

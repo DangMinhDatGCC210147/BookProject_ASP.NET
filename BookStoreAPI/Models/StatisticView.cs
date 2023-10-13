@@ -1,8 +1,8 @@
-﻿using BusinessObjects;
+﻿using BusinessObjects.DTO;
 
 namespace BookStoreAPI.Models
 {
-	public class StatisticView
+    public class StatisticView
 	{
 		public decimal RevenueByDay { get; set; }
 		public decimal RevenueByMonth { get; set; }
