@@ -13,12 +13,16 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
     [Area("Owner")]
     public class BooksController : Controller
     {
+        //private readonly IWebHostEnvironment environment2;
+
         private readonly IConfiguration _configuration;
         private readonly HttpClient client = null;
         private string ProductApiUrl = "";
 
         public BooksController(IConfiguration configuration)
         {
+            //this.environment2 = environment2;
+
             _configuration = configuration;
             client = new HttpClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
@@ -61,9 +65,17 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
             return View();
         }
 
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id, Book book)
         {
-            return View(id);
+            book.Id = id;
+            string data = JsonSerializer.Serialize(book);
+            var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(ProductApiUrl + "/" + id, content);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index", "Products");
+            }
+            return View(book);
         }
 
     }

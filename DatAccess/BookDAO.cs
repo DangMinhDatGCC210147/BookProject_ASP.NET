@@ -59,7 +59,7 @@ namespace DataAccess
 			}
 			return product;
 		}
-		public static void SaveProduct(Book book)
+		public static Book SaveProduct(Book book)
 		{
 			try
 			{
@@ -67,6 +67,7 @@ namespace DataAccess
 				{
 					context.Books.Add(book);
 					context.SaveChanges();
+					return book;
 				}
 
 			}
@@ -75,7 +76,7 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-		public static void UpdateProduct(Book book)
+		public static Book UpdateProduct(Book book)
 		{
 			try
 			{
@@ -83,6 +84,7 @@ namespace DataAccess
 				{
 					context.Entry<Book>(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 					context.SaveChanges();
+					return book;
 				}
 
 			}
