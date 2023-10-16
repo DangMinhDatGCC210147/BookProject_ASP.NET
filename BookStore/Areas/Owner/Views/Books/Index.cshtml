@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BusinessObjects.Book>
+﻿@model List<BusinessObjects.Book>
 @{
     ViewData["Title"] = "Book";
 }
@@ -14,16 +14,16 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title">Books table</h5>
-                            <form class="form-inline" method="POST">
+                            @* <form class="form-inline" method="POST"> *@
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Search..." aria-label="Search">
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-success">Search</button>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            @* </form> *@
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#bookModal">Add New Book</button>
                         </div>
                         <!-- Modal -->
@@ -38,6 +38,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form method="post" id="myForm">
+                                            <input type="hidden" id="bookId">
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="bookName">Book Name</label>
@@ -75,7 +76,7 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="datePublished">Publication Year</label>
-                                                    <input type="date" class="form-control" id="datePublished">
+                                                    <input type="number" min="1900" max="2099" step="1" class="form-control" id="datePublished">
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="publisher">Publisher</label>
@@ -86,48 +87,53 @@
                                                 </div>
                                             </div>
                                             <div class="form-row">
-                                                <div class="form-group col-md-4">
-                                                    <label for="dateAdded">Date Add</label>
-                                                    <input type="date" class="form-control" id="dateAdded">
-                                                </div>
-                                                <div class="form-group col-md-4">
+                                                <div class="form-group col-md-6">
                                                     <label for="pages">Pages</label>
                                                     <input type="number" class="form-control" id="pages" placeholder="Enter number of pages">
                                                 </div>
-                                                <div class="form-group col-md-4">
+                                                <div class="form-group col-md-6">
                                                     <label for="fileInput" class="control-label">Image</label>
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input" id="fileInput">
+                                                        <input type="file" class="custom-file-input" id="fileInput" onchange="updateLabel(this)">
                                                         <label class="custom-file-label" for="fileInput">Choose an image:</label>
                                                     </div>
                                                 </div>
 
                                             </div>
                                             <dic class="form-row">
-                                                <div class="form-group col-md-6">
+                                                <div class="form-group col-md-4">
                                                     <label class="control-label">Language</label>
                                                     <select class="form-control" id="languageDropdown">
                                                         <option value="">Select a language</option>
                                                     </select>
                                                 </div>
-                                                <div class="form-group col-md-6">
-                                                    <label for="discount">Discount</label>
-                                                    <select class="form-control" id="discountDropdown">
-                                                        <option value="">Select a discount</option>
+                                                <div class="form-group col-md-4">
+                                                    <label for="author">Author</label>
+                                                    <select class="form-control" id="authorDropdown">
+                                                        <option value="">Select a author</option>
+                                                    </select>
+                                                </div>                  
+                                                <div class="form-group col-md-4">
+                                                    <label for="author">Is Sale</label>
+                                                    <select class="form-control" id="saleDropdown">
+                                                        <option value="">Select a author</option>
+                                                        <option value="true">Are trading</option>
+                                                        <option value="false">Not trading</option>
                                                     </select>
                                                 </div>
                                             </dic>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            </div>
                                         </form>
                                     </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-primary">Submit</button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    </div>
+
                                 </div>
                             </div>
                         </div>
                         <!-- Small tables -->
-                        <table class="table table-sm table-hover">
+                        <table class="table table-sm table-hover" id="bookTable" name="bookTable">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
@@ -146,27 +152,30 @@
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="bookList">
+                                <div id="noResultsMessage" class="alert alert-warning" style="display: none;">
+                                    No available values found.
+                                </div>
                                 @foreach (var book in Model)
                                 {
-                                    <tr>
+                                    <tr id="row_@book.Id">
                                         <th scope="row">@book.Id</th>
-                                        <td>@book.Image</td>
+                                        <td id="imageContainer_@book.Title"></td>
                                         <td>@book.Title</td>
                                         <td>@book.Description</td>
                                         <td>@book.OriginalPrice</td>
                                         <td>@book.SellingPrice</td>
                                         <td>@book.IsSale</td>
-                                        <td>Quantity</td>
+                                        <td>@book.Quantity</td>
                                         <td>@book.ISBN</td>
                                         <td>@book.PublicationYear</td>
-                                        <td>@book.Publisher</td>
+                                        <td>@book.PublisherId</td>
                                         <td>@book.PageCount</td>
                                         <td>@book.LanguageId</td>
                                         <td>
                                             <div class="flex-column align-items-center">
-                                                <button type="button" class="btn btn-danger">Delete</button>
-                                                <button type="button" class="btn btn-warning">Edit</button>
+                                                <button type="button" class="btn btn-danger" onclick="deleteBook(@book.Id)">Delete</button>
+                                                <button type="submit" class="btn btn-warning edit-book" data-toggle="modal" data-target="#bookModal" onclick="handleEditButton(@book.Id)">Edit</button>
                                             </div>
                                         </td>
                                     </tr>
