@@ -12,7 +12,6 @@ namespace BusinessObjects
 		public string Title { get; set; }
 		[Required]
 		public string Description { get; set; }
-        [StringLength(50)]
         public string? Image { get; set; }
         [NotMapped]
         public IFormFile ImageFile { get; set; }

@@ -92,6 +92,9 @@ namespace BookStore.Controllers
         public async Task<IActionResult> CheckOut()
         {
             return View();
+        }public async Task<IActionResult> Profile()
+        {
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

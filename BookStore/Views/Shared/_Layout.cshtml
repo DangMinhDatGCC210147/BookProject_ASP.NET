@@ -112,6 +112,12 @@
 						</ul>
 					</div>
 				}
+				@* PROFILE ICON *@
+				<div class="header-cart-2">
+					<a class="icon-cart" asp-controller="Home" asp-action="Profile" asp-route-userId="">
+						<i class="ti-user"></i>
+					</a>
+				</div>
 				@* ICON Search *@
 				<div class="header-cart-2">
 					<a class="icon-cart" href="#">
@@ -301,6 +307,7 @@
 	<script src="~/js/owl.carousel.min.js"></script>
 	<script src="~/js/plugins.js"></script>
 	<script src="~/js/main.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	@if (SignInManager.IsSignedIn(User))
 	{
 		<script src="~/js/header.js"></script>
