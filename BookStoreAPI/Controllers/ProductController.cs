@@ -155,7 +155,7 @@ namespace BookStoreAPI.Controllers
             catch (Exception ex)
             {
                 // Xử lý lỗi ở đây nếu cần
-                return StatusCode(500, "Đã xảy ra lỗi khi truy cập danh sách Titles.");
+                return StatusCode(500, "Error when accessing the titles.");
             }
         }
 
