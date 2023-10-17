@@ -323,6 +323,10 @@ label{
     max-width: 566px;
 }
 
+/* css start */
+.bi-star-fill, .bi-star-half {
+    color: yellow; /* Đặt màu vàng */
+}
 /* 2.3 Currency style */
 
 .currency {
@@ -9534,7 +9538,7 @@ input.cart-plus-minus-box {
     float: left;
     font-size: 16px;
     height: 25px;
-    margin: 0;
+    margin-top: 5px;
     padding: 0;
     text-align: center;
     width: 25px;
@@ -9548,7 +9552,10 @@ input.cart-plus-minus-box {
     border: 1px solid #dcdcdc;
     overflow: hidden;
     padding: 0px 0 4px 4px;
-    width: 30px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .quickview-plus-minus {
     display: flex;
@@ -9582,7 +9589,7 @@ input.cart-plus-minus-box {
     margin: 0 30px;
 }
 .qtybutton.inc {
-    margin-top: 2px;
+    margin: 5px;
 }
 .price {
     margin: 9px 0 8px;

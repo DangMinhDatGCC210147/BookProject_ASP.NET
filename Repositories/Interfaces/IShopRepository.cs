@@ -22,5 +22,6 @@ namespace Repositories.Interfaces
         BookDetail BookDetail(int id);
         Task<List<BookList>> GetProducts();
         Task<List<BookList>> GetProductsByFavoutite(string userId);
+        List<Book> RelatedProduct(int id);
 	}
 }

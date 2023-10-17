@@ -15,7 +15,7 @@ namespace BusinessObjects
 		[Required]
 		public string Comment { get; set; }
 		[Required]
-		public DateTime Date { get; set; }
+		public DateTime Date { get; set; } = DateTime.Now;
 		[Required]
 		public int Rate { get; set; }
 		[Required]

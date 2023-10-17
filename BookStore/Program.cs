@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObjects;
 using BookStoreWebClient.Areas.Identity.Pages;
 using BookStoreWebClient.Data;
+using Microsoft.Extensions.Hosting.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDBContextConnection' not found.");
@@ -33,6 +34,8 @@ if (!app.Environment.IsDevelopment())
 	app.UseHsts();
 }
 
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -44,7 +47,7 @@ app.UseAuthorization();
 app.MapAreaControllerRoute(
     name: "areas",
     areaName: "Owner",
-    pattern: "Owner/{controller=Order}/{action=Index}/{id?}");
+    pattern: "Owner/{controller=Language}/{action=Index}/{id?}");
 
 app.MapAreaControllerRoute(
     name: "areas",

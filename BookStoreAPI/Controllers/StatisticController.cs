@@ -12,7 +12,7 @@ namespace BookStoreAPI.Controllers
     {
         private readonly IStatisticRepository repository = new StatisticRepository();
 
-        [HttpGet]
+        /*[HttpGet]
         public ActionResult<StatisticView> GetSatistics(DateTime currentDate)
         {
             StatisticView statistic = new StatisticView();
@@ -24,6 +24,6 @@ namespace BookStoreAPI.Controllers
 			statistic.BestSelling = repository.BestSelling(currentDate);
 
 			return statistic;
-        }
+        }*/
     }
 }

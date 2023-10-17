@@ -131,6 +131,7 @@ function getBooks(topGenres, genreId) {
     return book;
 }
 
+// Display rate
 function checkRate(rate, star, count) {
     if (count == 0) { return star; }
 

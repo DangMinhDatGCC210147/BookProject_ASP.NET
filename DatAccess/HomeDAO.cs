@@ -49,7 +49,7 @@ namespace DataAccess
 						group new { b, g, a, reviewGroup, od, favorites } by new
 						{
 							GenreId = g.Id,
-							g.Name,
+							GenreName =g.Name,
 							AuthorId = a.Id,
 							AuthorName = a.Name,
 							BookId = b.Id,
@@ -60,9 +60,9 @@ namespace DataAccess
 						select new BookGenre
 						{
 							GenreId = grouped.Key.GenreId,
-							GenreName = grouped.Key.Name,
+							GenreName = grouped.Key.GenreName,
 							AuthorId = grouped.Key.AuthorId,
-							AuthorName = grouped.Key.Name,
+							AuthorName = grouped.Key.AuthorName,
 							BookId = grouped.Key.BookId,
 							BookTitle = grouped.Key.Title,
 							BookImage = grouped.Key.Image,

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Repositories.Interfaces;
 using Repositories;
+using OfficeOpenXml;
 
 namespace BookStoreAPI.Controllers
 {
@@ -27,11 +28,10 @@ namespace BookStoreAPI.Controllers
         [HttpPost]
         public IActionResult CreateFeedBack(FeedBack feedBack)
         {
-            repository.SaveFeedback(feedBack);
-            return Ok();
+           return Ok(repository.SaveFeedback(feedBack));
         }
 
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public IActionResult DeleteFeedBacks(int id)
         {
             var feedBack = repository.GetFeedbackById(id);
@@ -49,8 +49,31 @@ namespace BookStoreAPI.Controllers
                 return NotFound();
 
             feedBack.Id = id; // Make sure the ID is set to the correct value
-            repository.UpdateFeedback(feedBack);
-            return Ok();
+            return Ok(repository.UpdateFeedback(feedBack));
+        }
+
+        //////////////////////////////////////////////////////////////////////////////
+
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportV2(CancellationToken cancellationToken)
+        {
+            // query data from database  
+            await Task.Yield();
+
+            var list = repository.GetFeedbacks().ToList();
+            var stream = new MemoryStream();
+
+            using (var package = new ExcelPackage(stream))
+            {
+                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+                workSheet.Cells.LoadFromCollection(list, true);
+                package.Save();
+            }
+            stream.Position = 0;
+            string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+
+            //return File(stream, "application/octet-stream", excelName);  
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
     }
 }

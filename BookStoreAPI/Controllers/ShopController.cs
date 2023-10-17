@@ -58,5 +58,10 @@ namespace BookStoreAPI.Controllers
 		{
 			return repository.BookDetail(bookId);
 		}
+		[HttpGet("Related")]
+		public ActionResult<BookDetail> ByGenre(int genreId)
+		{
+			return repository.BookDetail(genreId);
+		}
 	}
 }

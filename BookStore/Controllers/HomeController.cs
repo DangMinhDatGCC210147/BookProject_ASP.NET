@@ -3,6 +3,7 @@ using BusinessObjects;
 using BusinessObjects.Data.Enum;
 using BusinessObjects.DTO;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Net.Http.Headers;
@@ -18,6 +19,7 @@ namespace BookStore.Controllers
         private string ShopApiUrl = "";
         private string CartDetailApiUrl = "";
         private string WishlistApiUrl = "";
+        private string UserApiUrl = "";
 
         public HomeController(IConfiguration configuration)
         {
@@ -30,7 +32,8 @@ namespace BookStore.Controllers
             ShopApiUrl = "/api/Shops";
             CartDetailApiUrl = "/api/CartDetails";
             WishlistApiUrl = "/api/Wishlists";
-        }
+			UserApiUrl = "/api/Users";
+		}
 
         public IActionResult Index()
         {
@@ -94,6 +97,36 @@ namespace BookStore.Controllers
         public async Task<IActionResult> CheckOut()
         {
             return View();
+        }
+
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> Profile(string userId)
+		{
+			HttpResponseMessage httpResponse = await client.GetAsync(UserApiUrl + "/" + userId);
+			string data = await httpResponse.Content.ReadAsStringAsync();
+			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			AppUser Users = JsonSerializer.Deserialize<AppUser>(data, options);
+			return View(Users);
+		}
+        [Authorize(Roles = "Customer")]
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(string userId, AppUser user)
+        {
+            user.Id = userId;
+            string data = JsonSerializer.Serialize(userId);
+            var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PutAsync(UserApiUrl + "/" + userId, content);
+            return RedirectToAction("Profile", userId);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(string userId, AppUser user)
+        {
+            HttpResponseMessage httpResponse = await client.GetAsync(UserApiUrl + "/" + userId);
+            string data = await httpResponse.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            AppUser Users = JsonSerializer.Deserialize<AppUser>(data, options);
+            return RedirectToAction("Profile", userId);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

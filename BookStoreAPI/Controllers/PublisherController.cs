@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Repositories.Interfaces;
 using Repositories;
+using OfficeOpenXml;
 
 namespace BookStoreAPI.Controllers
 {
@@ -51,6 +52,31 @@ namespace BookStoreAPI.Controllers
 
             publisher.Id = id; // Make sure the ID is set to the correct value
             return Ok(repository.UpdatePublisher(publisher));
+        }
+
+
+        /////////////////////////////////////////////////////////////////////////////
+
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportV2(CancellationToken cancellationToken)
+        {
+            // query data from database  
+            await Task.Yield();
+
+            var list = repository.GetPublishers().ToList();
+            var stream = new MemoryStream();
+
+            using (var package = new ExcelPackage(stream))
+            {
+                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+                workSheet.Cells.LoadFromCollection(list, true);
+                package.Save();
+            }
+            stream.Position = 0;
+            string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+
+            //return File(stream, "application/octet-stream", excelName);  
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
     }
 }

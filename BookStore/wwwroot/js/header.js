@@ -18,7 +18,7 @@ function AjaxCart() {
                 `
                 <a class="icon-cart" href="#">
 				    <i class="ti-shopping-cart"></i>
-				    <span class="shop-count book-count" id="count_cart">${response.length}</span>
+				    <span class="shop-count book-count">${response.length}</span>
 			    </a>
                 <ul class="cart-dropdown" id="row_cart_dropdown"> </ul>   
             `;
@@ -116,13 +116,14 @@ function AjaxWishlist() {
         type: "GET",
         success: function (response) {
             document.getElementById("wishlist").innerHTML =
-                `
+                `<div class="header-cart-2">
                     <a class="icon-cart" href="#">
-						    <i class="ti-heart"></i>
-						    <span class="shop-count book-count">${response.length}</span>
-				    </a>
-                    <ul class="cart-dropdown" id="row_wishlist_dropdown"></ul>   
-                `;
+                        <i class="ti-heart"></i>
+                        <span class="shop-count book-count">${response.length}</span>
+                    </a>
+                    <ul class="cart-dropdown" id="row_wishlist_dropdown">
+                    </ul>
+                </div>`;    
             var row = "";
             response.forEach(item => {
                 row += `

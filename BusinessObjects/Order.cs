@@ -17,7 +17,7 @@ namespace BusinessObjects
 		public DateTime DeliveryDate { get; set; }
 		[Required]
 		public string DeleveryLocal { get; set; }
-		/*[Required]*/
+		[Required]
 		public string? UserId { get; set; }
 		[Required]
 		public string CustomerName { get; set; }

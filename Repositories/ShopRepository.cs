@@ -19,6 +19,7 @@ namespace Repositories
         public List<Book> FilterByGenre(int id) => ShopDAO.GetFilterByGenre(id);
         public List<Book> FilterByPublisher(int id) => ShopDAO.GetFilterByPublisher(id);
 		public List<Book> FilterByLanguage(int id) => ShopDAO.GetFilterByLanguage(id);
+		public List<Book> RelatedProduct(int id) => ShopDAO.GetRelatedProduct(id);
 		public List<Book> FilterByAuthor(int id) => ShopDAO.GetFilterByAuthor(id);
 		public BookDetail BookDetail(int id) => ShopDAO.GetBookDetail(id);
         public Task<List<BookList>> GetProducts() => ShopDAO.GetProducts();

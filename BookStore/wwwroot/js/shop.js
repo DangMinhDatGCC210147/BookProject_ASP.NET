@@ -140,7 +140,7 @@ function PerformFilter(filter_title, filter_name) {
         url: apiUrl + "/api/Shops/Filter?filterName=" + filter_title + "&filterId=" + filter_name,
         method: "GET",
         success: function (data) {
-            ShowData(data);         
+            ShowData(data);
         },
         error: function (error) {
             console.log(error)
@@ -163,7 +163,7 @@ function ShowData(results) {
                         </a>
                         <div class="product-action">
                             <a class="animate-left" title="Wishlist">
-                                 ${item.isFavorite == 1 ? '<i class="bi bi-suit-heart-fill" onclick="DeleteWishlist(' + item.id + ')"></i>' : '<i class="bi bi-suit-heart icon_heart_' + item.id +'" onclick="AddToWishlist(' + item.id +')"></i>'}
+                                 ${item.isFavorite == 1 ? '<i class="bi bi-suit-heart-fill" onclick="DeleteWishlist(' + item.id + ')"></i>' : '<i class="bi bi-suit-heart icon_heart_' + item.id + '" onclick="AddToWishlist(' + item.id + ')"></i>'}
                             </a>
                             <a class="animate-top" title="Add To Cart" onclick="AddToCart(${item.id})">
                                 <i class="pe-7s-cart"></i>
@@ -177,10 +177,11 @@ function ShowData(results) {
                     <input type='hidden' id='quantity' runat='server' value="1">
                         <h4><a href="#">${item.title}</a></h4>
                         <span>$${item.sellingPrice}</span>
+                        <div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">${checkRate(item.rate, "", 5)}</div>
                     </div>
                 </div>
             </div>
-        `        
+        `
     })
 
     results.forEach(item => {
@@ -202,6 +203,7 @@ function ShowData(results) {
                         <div class="product-list-info">
                             <h4><a href="/Home/Detail/${item.id}">${item.title}</a></h4>
                             <span href="/Home/Detail/${item.id}">${item.sellingPrice}</span>
+                            <div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">${checkRate(item.rate, "", 5)}</div>
                         </div>
                         <div class="product-list-cart-wishlist">
                             <div class="product-list-cart">
@@ -221,4 +223,15 @@ function ShowData(results) {
 
     grid_sidebar1.innerHTML = SearchResults_1;
     grid_sidebar2.innerHTML = SearchResults_2;
+}
+
+// Display rate
+function checkRate(rate, star, count) {
+    if (count == 0) { return star; }
+
+    if (rate <= 0) { star += "<i class=\"bi bi-star\"></i>"; }
+    else if (rate < 1) { star += "<i class=\"bi bi-star-half\"></i>"; }
+    else { star += "<i class=\"bi bi-star-fill\"></i>"; }
+
+    return checkRate(rate - 1, star, count - 1);
 }

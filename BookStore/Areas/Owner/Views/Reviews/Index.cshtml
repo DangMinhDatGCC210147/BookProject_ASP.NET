@@ -26,6 +26,7 @@
                                 <div id="noResultsMessage" class="alert alert-warning" style="display: none;">
                                     No available values found.
                                 </div>
+                                <button onclick="exportToExcel()" class="btn btn-secondary">Export Excel</button>
                                 @foreach (var review in Model)
                                 {
                                     <tr id="row_@review.Id">
@@ -52,6 +53,41 @@
 </main>
 
 @section Scripts{
+    <script>
+        function exportToExcel() {
+            Swal.fire({
+                title: 'Export Excel',
+                text: 'Are you sure you want to export data to Excel?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, export it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: apiUrl + '/api/Reviews/export',
+                        type: 'GET',
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function (data) {
+                            var a = document.createElement('a');
+                            var url = window.URL.createObjectURL(data);
+                            a.href = url;
+                            a.download = 'exportedFile.xlsx';
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            document.body.removeChild(a);
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
     <script src="~/js/js-owner/review.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }

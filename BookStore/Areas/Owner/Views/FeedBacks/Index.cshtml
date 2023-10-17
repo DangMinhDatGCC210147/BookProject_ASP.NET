@@ -23,8 +23,8 @@
                             </div>
 
                             <!-- Add new feedback button -->
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#feedbackModal" onclick="handleAddButton()">Add New Feedback</button>
-
+                            @* <button type="button" class="btn btn-info" data-toggle="modal" data-target="#feedbackModal" onclick="handleAddButton()">Add New Feedback</button> *@
+                            <button onclick="exportToExcel()" class="btn btn-secondary">Export Excel</button>
                             <!-- Modal -->
                             <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
                                 <!-- Modal content goes here -->
@@ -36,7 +36,11 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Feedback ID</th>
-                                    <th scope="col" class="w-50">Feedback</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Telephone</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col" class="w-50">Comment</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -49,10 +53,14 @@
                                     <tr id="row_@feedback.Id">
                                         <th scope="row">@feedback.Id</th>
                                         <td>@feedback.Name</td>
+                                        <td>@feedback.Email</td>
+                                        <td>@feedback.Telephone</td>
+                                        <td>@feedback.Subject</td>
+                                        <td>@feedback.Comment</td>
                                         <td>
                                             <div class="flex-column align-items-center">
                                                 <button type="button" class="btn btn-danger" onclick="deleteFeedback(@feedback.Id)">Delete</button>
-                                                <button type="submit" class="btn btn-warning edit-feedback" data-toggle="modal" data-target="#feedbackModal" onclick="handleEditButton(@feedback.Id)">Edit</button>
+                                                @* <button type="submit" class="btn btn-warning edit-feedback" data-toggle="modal" data-target="#feedbackModal" onclick="handleEditButton(@feedback.Id)">Edit</button> *@
                                             </div>
                                         </td>
                                     </tr>
@@ -68,6 +76,44 @@
 </main>
 
 @section Scripts{
+    <script>
+        function exportToExcel() {
+            Swal.fire({
+                title: 'Export Excel',
+                text: 'Are you sure you want to export data to Excel?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, export it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: apiUrl + '/api/FeedBacks/export',
+                        type: 'GET',
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function (data) {
+                            var a = document.createElement('a');
+                            var url = window.URL.createObjectURL(data);
+                            a.href = url;
+                            a.download = 'exportedFile.xlsx';
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            document.body.removeChild(a);
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                        }
+                    });
+                }
+            });
+        }
+
+
+    </script>
+
     <script src="~/js/js-owner/feedback.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }

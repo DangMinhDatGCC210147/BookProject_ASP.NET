@@ -362,5 +362,10 @@ namespace DataAccess
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
+
+		public static List<Book> GetRelatedProduct(int id)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
