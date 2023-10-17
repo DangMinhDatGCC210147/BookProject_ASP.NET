@@ -36,9 +36,10 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
 
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //phân tích cú pháp JSON không phân biệt hoa/thường của tên thuộc tính
 
-            StatisticView statistics = JsonSerializer.Deserialize<StatisticView>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
+            /*StatisticView statistics = JsonSerializer.Deserialize<StatisticView>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
 
-            return View(statistics);
+            return View(statistics);*/
+            return View();
         }
         public IActionResult Category()
         {

@@ -1,55 +1,56 @@
 ﻿using BusinessObjects;
 using Microsoft.AspNetCore.Mvc;
-using Repositories.Interfaces;
-using Repositories;
 using OfficeOpenXml;
+using Repositories;
+using Repositories.Interfaces;
+using System.Collections.Generic;
 
 namespace BookStoreAPI.Controllers
 {
-    [Route("api/Reviews")]
+    [Route("api/Orders")]
     [ApiController]
-    public class ReviewController : Controller
+    public class OrderController : ControllerBase
     {
-        private readonly IReviewRepository repository = new ReviewRepository();
+        private readonly IOrderRepository repository = new OrderRepository();
 
         [HttpGet]
-        public ActionResult<IEnumerable<Review>> GetReviews() => repository.GetReviews();
+        public ActionResult<IEnumerable<Order>> GetOrders() => repository.GetOrders();
 
         [HttpGet("{id}")]
-        public ActionResult<Review> GetReviewById(int id)
+        public ActionResult<Order> GetOrderById(int id)
         {
-            var review = repository.GetReviewById(id);
-            if (review == null)
+            var order = repository.GetOrderById(id);
+            if (order == null)
                 return NotFound();
 
-            return Ok(review);
+            return Ok(order);
         }
 
         [HttpPost]
-        public IActionResult CreateReview(Review review)
+        public IActionResult CreateOrder([FromBody] Order order)
         {
-            return Ok(repository.SaveReview(review));
+            return Ok(repository.SaveOrder(order));
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteReviews(int id)
+        public IActionResult DeleteOrder(int id)
         {
-            var review = repository.GetReviewById(id);
-            if (review == null)
+            var order = repository.GetOrderById(id);
+            if (order == null)
                 return NotFound();
-            repository.DeleteReviewById(review);
+            repository.DeleteOrderById(order);
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateReview(int id, Review review)
+        public IActionResult UpdateOrder(int id, Order order)
         {
-            var existingReview = repository.GetReviewById(id);
-            if (existingReview == null)
+            var existingOrder = repository.GetOrderById(id);
+            if (existingOrder == null)
                 return NotFound();
 
-            review.Id = id; // Make sure the ID is set to the correct value
-            return Ok(repository.UpdateReview(review));
+            order.Id = id;
+            return Ok(repository.UpdateOrder(order));
         }
 
         /////////////////////////////////////////////////////////////////////////////
@@ -60,7 +61,7 @@ namespace BookStoreAPI.Controllers
             // query data from database  
             await Task.Yield();
 
-            var list = repository.GetReviews().ToList();
+            var list = repository.GetOrders().ToList();
             var stream = new MemoryStream();
 
             using (var package = new ExcelPackage(stream))

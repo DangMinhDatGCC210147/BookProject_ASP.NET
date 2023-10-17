@@ -19,6 +19,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <button onclick="exportToExcel()" class="btn btn-secondary">Export Excel</button>
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#publisherModal" onclick="handleAddButton()">Add New Publisher</button>
 
                             <div class="modal fade" id="publisherModal" tabindex="-1" role="dialog" aria-labelledby="publisherModalLabel" aria-hidden="true">
@@ -82,6 +83,41 @@
 </main>
 
 @section Scripts{
+    <script>
+        function exportToExcel() {
+            Swal.fire({
+                title: 'Export Excel',
+                text: 'Are you sure you want to export data to Excel?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, export it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: apiUrl + '/api/Publishers/export',
+                        type: 'GET',
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function (data) {
+                            var a = document.createElement('a');
+                            var url = window.URL.createObjectURL(data);
+                            a.href = url;
+                            a.download = 'exportedFile.xlsx';
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            document.body.removeChild(a);
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
     <script src="~/js/js-owner/publisher.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }

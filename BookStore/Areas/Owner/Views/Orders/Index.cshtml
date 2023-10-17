@@ -1,4 +1,5 @@
 ﻿@model List<BusinessObjects.Order>
+
 @{
     ViewData["Title"] = "Order";
 }
@@ -11,58 +12,92 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title">Orders table</h5>
-                            <form class="form-inline" method="POST">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-success">Search</button>
-                                        </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Search..." aria-label="Search">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-success">Search</button>
                                     </div>
                                 </div>
-                            </form>
-                            <!-- <button type="button" class="btn btn-info">Add New Brand</button> -->
+                            </div>
+                            <button onclick="exportToExcel()" class="btn btn-secondary">Export Excel</button>
+                            @* <button type="button" class="btn btn-info" data-toggle="modal" data-target="#orderModal">Add New Order</button> *@
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="orderModalLabel">Order Form</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="post" id="myForm">
+                                            <input type="hidden" id="orderId">
+                                            <div class="form-group">
+                                                <label for="orderName">Order Name</label>
+                                                <input type="text" class="form-control" id="orderName" placeholder="Enter order name">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="orderDescription">Description</label>
+                                                <textarea class="form-control" id="orderDescription" rows="3" placeholder="Enter order description"></textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                         <!-- Small tables -->
-                        <table class="table table-sm table-hover">
+                        <table class="table table-sm table-hover" id="orderTable" name="orderTable">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
-                                    <th scope="col">Deliver Date</th>
-                                    <th scope="col">Deliver Local</th>
+                                    <th scope="col">DeliveryDate</th>
+                                    <th scope="col">DeleveryLocal</th>
                                     <th scope="col">Customer Name</th>
                                     <th scope="col">Customer Phone</th>
                                     <th scope="col">Total</th>
-                                    <th scope="col">Confirm</th>
-                                    <th scope="col">Detail</th>
+                                    <th scope="col">IsConfirm</th>
+                                    <th scope="col">Discount ID</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach(var order in Model)
+                            <tbody id="orderList">
+                                <div id="noResultsMessage" class="alert alert-warning" style="display: none;">
+                                    No available values found.
+                                </div>
+                                @foreach (var order in Model)
                                 {
-                                <tr>
-                                    <th scope="row">@order.Id</th>
-                                    <td>@order.DeliveryDate</td>
-                                    <td>@order.DeleveryLocal</td>
-                                    <td>@order.CustomerName</td>
-                                    <td>@order.CustomerPhone</td>
-                                    <td>@order.Total</td>
-                                    <td><p class="btn btn-info">@order.IsConfirm</p></td>
-                                    <td>@order.OrderDetails</td>
-                                    <td>
-                                        <div class="flex-column align-items-center">
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                            <button type="button" class="btn btn-warning">Edit</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                }
+                                    <tr id="row_@order.Id">
+                                        <th scope="row">@order.Id</th>
+                                        <td>@order.DeliveryDate.ToString("yyyy-MM-dd")</td>
+                                        <td>@order.DeleveryLocal</td>
+                                        <td>@order.CustomerName</td>
+                                        <td>@order.CustomerPhone</td>
+                                        <td>@order.Total</td>
+                                        <td>@order.IsConfirm</td>
+                                        <td>@order.DiscountId</td>
+                                                                             
+                                                                            
 
+                                        <td>
+                                            <div class="flex-column align-items-center">
+                                                <button type="button" class="btn btn-danger" onclick="deleteOrder(@order.Id) ">Delete</button>
+                                                @* <button type="button" class="btn btn-warning edit-order" data-toggle="modal" data-target="#orderModal" onclick="handleEditButton(@order.Id)">Edit</button> *@
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                         <!-- End small tables -->
-
                     </div>
                 </div>
 
@@ -72,6 +107,43 @@
 
 </main><!-- End #main -->
 @section Scripts{
+
+    <script>
+        function exportToExcel() {
+            Swal.fire({
+                title: 'Export Excel',
+                text: 'Are you sure you want to export data to Excel?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, export it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: apiUrl + '/api/Orders/export',
+                        type: 'GET',
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function (data) {
+                            var a = document.createElement('a');
+                            var url = window.URL.createObjectURL(data);
+                            a.href = url;
+                            a.download = 'exportedFile.xlsx';
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            document.body.removeChild(a);
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+
+    <script src="~/js/js-owner/order.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }
-
