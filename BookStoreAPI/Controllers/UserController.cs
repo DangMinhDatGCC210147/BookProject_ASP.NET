@@ -49,7 +49,7 @@ namespace BookStoreAPI.Controllers
             var existingUser = repository.GetUserById(id);
             if (existingUser == null)
                 return NotFound();
-            user.Id = id; // Make sure the ID is set to the correct value
+            user.Id = id; 
             return Ok(repository.UpdateUser(user));
         }
     }

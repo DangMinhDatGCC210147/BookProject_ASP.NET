@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 
 namespace Repositories.Interfaces
 {
@@ -10,7 +11,6 @@ namespace Repositories.Interfaces
 
 		void DeleteProductById(Book p);
         void UpdateProduct(Book p);
-        List<Book> GetProducts();
         List<Book> TopBestSeling();
     }
 }

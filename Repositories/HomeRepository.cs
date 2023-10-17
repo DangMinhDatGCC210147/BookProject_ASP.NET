@@ -12,5 +12,6 @@ namespace Repositories
     public class HomeRepository : IHomeRepository
     {
         public Task<List<BookAuthor>> GetBookAuthors() => HomeDAO.TopSixAuthors();
+        public Task<List<BookGenre>> GetBookGenres() => HomeDAO.TopGenres();
     }
 }

@@ -6,12 +6,156 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DataAccess
 {
-    public class ShopDAO
+	public class ShopDAO
 	{
+		public static async Task<List<BookList>> GetProductsWithFavoutite(string userId)
+		{
+			try
+			{
+				using (var context = new ApplicationDBContext())
+				{
+
+					/*SELECT
+					b.Id AS Id,
+					b.Title AS Title,
+					b.Image AS Image,
+					b.SellingPrice AS Price,
+					b.Quantity AS Quantity,
+					COALESCE(AVG(r.Rate), 0) AS Rate,
+					MAX(CASE WHEN f.BookId IS NOT NULL THEN 1 ELSE 0 END) AS IsFavorite
+				FROM Books AS b
+				LEFT JOIN Reviews AS r ON b.Id = r.BookId
+				LEFT JOIN (
+					SELECT BookId
+					FROM Favourites
+					WHERE UserId = '0ed5b7ce-e781-4990-8817-6d738ee99ce5'
+				) AS f ON b.Id = f.BookId
+				GROUP BY b.Id, b.Title, b.Image, b.SellingPrice, b.Quantity;*/
+
+					var averageReviewRates = await (
+						from book in context.Books
+						join review in context.Reviews on book.Id equals review.BookId into reviews
+						from review in reviews.DefaultIfEmpty()
+						group review by book.Id into bookGroup
+						select new
+						{
+							BookId = bookGroup.Key,
+							AverageRate = bookGroup.Average(r => r != null ? r.Rate : 0)
+						}
+					).ToDictionaryAsync(r => r.BookId, r => r.AverageRate);
+
+					List<BookList> query = await (
+						from b in context.Books
+						join r in context.Reviews on b.Id equals r.BookId into reviews
+						from review in reviews.DefaultIfEmpty()
+						join f in context.Favourites on b.Id equals f.BookId into favorites
+						from favorite in favorites.DefaultIfEmpty()
+						select new BookList
+						{
+							Id = b.Id,
+							Title = b.Title,
+							Image = b.Image,
+							SellingPrice = b.SellingPrice,
+							Quantity = b.Quantity,
+							Rate = review != null ? averageReviewRates.ContainsKey(b.Id) ? averageReviewRates[b.Id] : 0 : 0,
+							IsFavorite = favorite.UserId == userId ? 1 : 0
+						}
+					).ToListAsync();
+
+					List<BookList> books = query
+					.GroupBy(book => book.Id)
+					.Select(group =>
+					{
+						var book = group.First(); // Lấy một cuốn sách từ mỗi nhóm
+						return new BookList
+						{
+							Id = book.Id,
+							Title = book.Title,
+							Image = book.Image,
+							SellingPrice = book.SellingPrice,
+							Quantity = book.Quantity,
+							Rate = group.Average(b => b.Rate), // Tính trung bình của tất cả cuốn sách trong nhóm
+							IsFavorite = group.Max(b => b.IsFavorite) == 1 ? 1 : 0 // Kiểm tra xem có ít nhất một cuốn sách trong nhóm được đánh dấu là yêu thích
+						};
+					})
+					.ToList();
+
+					return books;
+				}
+
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+		public static async Task<List<BookList>> GetProducts()
+		{
+			try
+			{
+				using (var context = new ApplicationDBContext())
+				{
+					var averageReviewRates = await (
+						from book in context.Books
+						join review in context.Reviews on book.Id equals review.BookId into reviews
+						from review in reviews.DefaultIfEmpty()
+						group review by book.Id into bookGroup
+						select new
+						{
+							BookId = bookGroup.Key,
+							AverageRate = bookGroup.Average(r => r != null ? r.Rate : 0)
+						}
+					).ToDictionaryAsync(r => r.BookId, r => r.AverageRate);
+
+					List<BookList> query = await (
+						from b in context.Books
+						join r in context.Reviews on b.Id equals r.BookId into reviews
+						from review in reviews.DefaultIfEmpty()
+						select new BookList
+						{
+							Id = b.Id,
+							Title = b.Title,
+							Image = b.Image,
+							SellingPrice = b.SellingPrice,
+							Quantity = b.Quantity,
+							Rate = review != null ? averageReviewRates.ContainsKey(b.Id) ? averageReviewRates[b.Id] : 0 : 0,
+						}
+					).ToListAsync();
+
+					List<BookList> books = query
+					.GroupBy(book => book.Id)
+					.Select(group =>
+					{
+						var book = group.First(); // Lấy một cuốn sách từ mỗi nhóm
+						return new BookList
+						{
+							Id = book.Id,
+							Title = book.Title,
+							Image = book.Image,
+							SellingPrice = book.SellingPrice,
+							Quantity = book.Quantity,
+							Rate = group.Average(b => b.Rate), // Tính trung bình của tất cả cuốn sách trong nhóm
+							IsFavorite = 0 
+						};
+					})
+					.ToList();
+
+					return books;
+				}
+
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
 		public static List<GetNameAndQuantity> GetGenre()
 		{
 			try
@@ -188,35 +332,35 @@ namespace DataAccess
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
-        public static BookDetail GetBookDetail(int bookId)
-        {
-            try
-            {
-                using (var context = new ApplicationDBContext())
-                {
-                    var bookDetail = context.Books
+		public static BookDetail GetBookDetail(int bookId)
+		{
+			try
+			{
+				using (var context = new ApplicationDBContext())
+				{
+					var bookDetail = context.Books
 						.Where(b => b.Id == bookId)
 						.Select(b => new BookDetail
 						{
-                            Id = b.Id,
-                            Title = b.Title,
-                            Description = b.Description,
-                            Image = b.Image,
-                            Quantity = b.Quantity,
-                            SellingPrice = b.SellingPrice,
-                            ISBN = b.ISBN,
-                            PageCount = b.PageCount,
-                            PublicationYear = b.PublicationYear,
-                            Genre = b.Genre.Name,
-                            Publisher = b.Publisher.Name,
-                            Language = b.Language.Name,
-                            Author = b.Author.Name
-                        })
+							Id = b.Id,
+							Title = b.Title,
+							Description = b.Description,
+							Image = b.Image,
+							Quantity = b.Quantity,
+							SellingPrice = b.SellingPrice,
+							ISBN = b.ISBN,
+							PageCount = b.PageCount,
+							PublicationYear = b.PublicationYear,
+							Genre = b.Genre.Name,
+							Publisher = b.Publisher.Name,
+							Language = b.Language.Name,
+							Author = b.Author.Name
+						})
 						.FirstOrDefault();
 					return bookDetail;
-                }
-            }
-            catch (Exception ex) { throw new Exception(ex.Message); }
-        }
-    }
+				}
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+	}
 }

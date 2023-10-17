@@ -1,47 +1,4 @@
-﻿function AddToCart(bookId) {
-    if (userId) {
-        $.ajax({
-            url: apiUrl + "/api/Carts/?userId=" + userId,
-            type: "POST",
-            success: function (response) {
-                const quantity = $("#quantity").val();
-                const data = {
-                    bookId: bookId,
-                    quantity: quantity,
-                    cartId: response.id
-                }
-
-                $.ajax({
-                    url: apiUrl + "/api/CartDetails/" + userId,
-                    type: "POST",
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'The book has been added to the cart.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        AjaxCallCart();
-                    },
-                    error: function (error) {
-                        console.log(error)
-                    },
-                })
-            },
-            error: function (error) {
-                console.log(error)
-            },
-        })
-    }
-    else {
-        window.location.href = "/Identity/Account/Login";
-    }
-}
-
-
-//Show on Shop
+﻿//Show on Shop
 $(window).on("load", function () {
     AjaxBarArea();
     AjaxAllBooks();
@@ -64,16 +21,33 @@ var label_title = document.getElementById("found");
 
 function AjaxAllBooks() {
     label_title.innerHTML = `<p>All Books</p>`;
-    $.ajax({
-        url: apiUrl + "/api/Products",
-        method: "GET",
-        success: function (data) {
-            ShowData(data);
-        },
-        error: function (error) {
-            console.log(error)
-        },
-    })
+    var userId = $("#userId").val();
+    if (userId != "") {
+        $.ajax({
+            url: apiUrl + "/api/Shops/" + userId,
+            method: "GET",
+            success: function (response) {
+                console.log(response)
+                ShowData(response);
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
+    } else {
+        userId = "getAll";
+        $.ajax({
+            url: apiUrl + "/api/Shops/" + userId,
+            method: "GET",
+            success: function (response) {
+                console.log(response)
+                ShowData(response);
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
+    }
 }
 
 function DisplayBarArea(data) {
@@ -144,15 +118,15 @@ $("#search").on("input", function () {
     $.ajax({
         url: apiUrl + "/api/Products/Search/" + searchName,
         method: "GET",
-        success: function (data) {
-            if (data == "") {
+        success: function (response) {
+            console.log(response)
+            if (response == "") {
                 label_title.innerHTML = `<p>Book Name "${searchName}" Not Found</p>`;
                 grid_sidebar1.innerHTML = ``;
                 grid_sidebar2.innerHTML = ``;
             } else {
-                console.log(data.Count);
-                label_title.innerHTML = `<p>Book Name "${searchName}" Found of <span>${data.length}</span></p>`;
-                ShowData(data);
+                label_title.innerHTML = `<p>Book Name "${searchName}" Found of <span>${response.length}</span></p>`;
+                ShowData(response);
             }
         },
         error: function (error) {
@@ -163,10 +137,10 @@ $("#search").on("input", function () {
 
 function PerformFilter(filter_title, filter_name) {
     $.ajax({
-        url: apiUrl + "/Filter?filterName=" + filter_title + "&filterId=" + filter_name,
+        url: apiUrl + "/api/Shops/Filter?filterName=" + filter_title + "&filterId=" + filter_name,
         method: "GET",
         success: function (data) {
-            ShowData(data);
+            ShowData(data);         
         },
         error: function (error) {
             console.log(error)
@@ -188,8 +162,8 @@ function ShowData(results) {
                             <img src="/img/product/book/${item.image}" alt="">
                         </a>
                         <div class="product-action">
-                            <a class="animate-left" title="Wishlist" href="#">
-                                <i class="pe-7s-like"></i>
+                            <a class="animate-left" title="Wishlist">
+                                 ${item.isFavorite == 1 ? '<i class="bi bi-suit-heart-fill" onclick="DeleteWishlist(' + item.id + ')"></i>' : '<i class="bi bi-suit-heart icon_heart_' + item.id +'" onclick="AddToWishlist(' + item.id +')"></i>'}
                             </a>
                             <a class="animate-top" title="Add To Cart" onclick="AddToCart(${item.id})">
                                 <i class="pe-7s-cart"></i>
@@ -202,11 +176,11 @@ function ShowData(results) {
                     <div class="product-content">
                     <input type='hidden' id='quantity' runat='server' value="1">
                         <h4><a href="#">${item.title}</a></h4>
-                        <span>${item.sellingPrice}</span>
+                        <span>$${item.sellingPrice}</span>
                     </div>
                 </div>
             </div>
-        `
+        `        
     })
 
     results.forEach(item => {
@@ -235,7 +209,7 @@ function ShowData(results) {
                             </div>
                             <div class="product-list-wishlist">
                                 <a class="btn-hover list-btn-wishlist" href="#">
-                                    <i class="pe-7s-like"></i>
+                                    ${item.isFavorite == 1 ? '<i class="bi bi-suit-heart-fill"></i>' : '<i class="bi bi-suit-heart"></i>'}
                                 </a>
                             </div>
                         </div>

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace BusinessObjects.DTO
 {
-    public class BookGenre
+    public class BookAuthor
     {
-        public int GenreId { get; set; }
-        public string GenreName { get; set; }
         public int AuthorId { get; set; }
         public string AuthorName { get; set; }
         public int BookId { get; set; }
@@ -17,6 +15,5 @@ namespace BusinessObjects.DTO
         public string BookImage { get; set; }
         public double ReviewRate { get; set; }
         public int TotalSold { get; set; }
-        public int IsFavourite { get; set; }
     }
 }

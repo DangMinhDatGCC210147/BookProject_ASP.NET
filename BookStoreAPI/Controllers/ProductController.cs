@@ -1,8 +1,10 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repositories;
 using Repositories.Interfaces;
+using System.Collections.Generic;
 
 namespace BookStoreAPI.Controllers
 {
@@ -12,18 +14,15 @@ namespace BookStoreAPI.Controllers
 	{
 		private IProductRepository repository = new ProductRepository();
 
-		[HttpGet]
-		public ActionResult<IEnumerable<Book>> GetProducts() => repository.GetProducts();
+		[HttpGet("{id}")]
+		public ActionResult<Book> GetBookById(int id)
+		{
+			var book = repository.GetProductById(id);
+			if (book == null)
+				return NotFound();
 
-        [HttpGet("{id}")]
-        public ActionResult<Book> GetBookById(int id)
-        {
-            var book = repository.GetProductById(id);
-            if (book == null)
-                return NotFound();
-
-            return Ok(book);
-        }
+			return Ok(book);
+		}
 
 		[HttpGet("Search/{name}")]
 		public ActionResult<IEnumerable<Book>> Search(string name)
@@ -42,9 +41,9 @@ namespace BookStoreAPI.Controllers
 		public IActionResult DeleteProducts(int id)
 		{
 			var product = repository.GetProductById(id);
-            if (product == null)
+			if (product == null)
 				return NotFound();
-            repository.DeleteProductById(product);
+			repository.DeleteProductById(product);
 			return Ok();
 		}
 

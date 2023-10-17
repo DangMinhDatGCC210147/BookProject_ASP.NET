@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using DataAccess;
 using DatAccess;
 using Repositories.Interfaces;
@@ -11,8 +12,6 @@ namespace Repositories
 
 		public Book GetProductById(int id) => BookDAO.FindProductById(id);
 		public List<Book> GetProductByName(string titleToSearch) => BookDAO.FindProductByName(titleToSearch);
-
-		public List<Book> GetProducts() => BookDAO.GetProducts();
 
 		public void SaveProduct(Book product) => BookDAO.SaveProduct(product);
 

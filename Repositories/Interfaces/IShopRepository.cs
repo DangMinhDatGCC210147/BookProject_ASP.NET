@@ -20,5 +20,7 @@ namespace Repositories.Interfaces
         List<Book> FilterByLanguage(int id);
         List<Book> FilterByAuthor(int id);
         BookDetail BookDetail(int id);
-    }
+        Task<List<BookList>> GetProducts();
+        Task<List<BookList>> GetProductsByFavoutite(string userId);
+	}
 }

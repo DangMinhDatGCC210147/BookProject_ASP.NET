@@ -2,31 +2,35 @@
 const userId = localStorage.getItem("userId")
 
 // Cart Header
-AjaxCallCart();
-function AjaxCallCart() {
+if (userId) {
+    AjaxCart();
+    AjaxWishlist();
+} 
+
+//Display cart in header
+function AjaxCart() {
     $.ajax({
         url: apiUrl + "/api/CartDetails/" + userId,
         type: "GET",
         contentType: 'application/json',
         success: function (response) {
-            console.log(response);
             document.getElementById("cart").innerHTML =
                 `
                 <a class="icon-cart" href="#">
 				    <i class="ti-shopping-cart"></i>
-				    <span class="shop-count book-count">${response.length}</span>
+				    <span class="shop-count book-count" id="count_cart">${response.length}</span>
 			    </a>
                 <ul class="cart-dropdown" id="row_cart_dropdown"> </ul>   
             `;
             var row = "";
             response.forEach(item => {
                 row += `
-                            <li class="single-product-cart">
+                            <li class="single-product-cart" id="row_cart_${item.bookId}">
                                 <div class="cart-img">
-                                    <a href="/Home/Detail/${item.id}"><img src="/img/product/book/${item.image}" alt=""></a>
+                                    <a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
                                 </div>
                                 <div class="cart-title">
-                                    <h5><a href="/Home/Detail/${item.id}"> ${item.title}</a></h5>
+                                    <h5><a id="product-name_${item.bookId}" href="/Home/Detail/${item.bookId}"> ${item.title}</a></h5>
                                     <span>${item.quantity} x ${item.price}</span>
                                     <span class="subtotal">$${item.subTotal}</span>
                                 </div>
@@ -53,20 +57,229 @@ function AjaxCallCart() {
                 </li>
             `
             document.getElementById("row_cart_dropdown").innerHTML = row;
-            SubTotal();
+            UpdateCartNumber();
         },
         error: function (error) {
             console.log(error)
         },
     });
+}
 
-    function SubTotal() {
-        var elements = document.querySelectorAll("span.subtotal");
-        var calculate = 0;
-        for (var i = 0; i < elements.length; i++) {
-            calculate += parseFloat(elements[i].textContent.replace('$', ''));
-        }
-        $("#price").text(calculate.toFixed(2));
-        return calculate;
+// Add to cart
+function AddToCart(bookId) {
+    if (userId) {
+        $.ajax({
+            url: apiUrl + "/api/Carts/?userId=" + userId,
+            type: "POST",
+            success: function (response) {
+                const quantity = $("#quantity").val();
+
+                const data = {
+                    bookId: bookId,
+                    quantity: quantity,
+                    cartId: response.id
+                }
+
+                $.ajax({
+                    url: apiUrl + "/api/CartDetails/" + userId,
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Added successfully!',
+                            showConfirmButton: false,
+                            timer: 800
+                        })
+                        AjaxCart();
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    },
+                })
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
     }
+    else {
+        window.location.href = "/Identity/Account/Login";
+    }
+}
+
+//Display wishlist in header
+function AjaxWishlist() {
+    $.ajax({
+        url: apiUrl + "/api/Wishlists/" + userId,
+        type: "GET",
+        success: function (response) {
+            document.getElementById("wishlist").innerHTML =
+                `
+                    <a class="icon-cart" href="#">
+						    <i class="ti-heart"></i>
+						    <span class="shop-count book-count">${response.length}</span>
+				    </a>
+                    <ul class="cart-dropdown" id="row_wishlist_dropdown"></ul>   
+                `;
+            var row = "";
+            response.forEach(item => {
+                row += `
+                            <li class="single-product-cart" id="row_${item.bookId}">
+                                <div class="cart-img">
+                                    <a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
+                                </div>
+                                <div class="cart-title">
+                                    <h5><a id="product-name_${item.bookId}" href="/Home/Detail/${item.bookId}"> ${item.title}</a></h5>
+                                    <span>$${item.sellingPrice}</span>
+                                </div>
+                                <div class="cart-delete">
+                                    <a onclick="DeleteCart(${item.bookId})"><i class="ti-trash"></i></a>
+                                </div>
+                            </li>
+                        `
+
+            })
+            row +=
+                `
+                <li class="cart-btn-wrapper">
+						<a class="cart-btn btn-hover" href="/Home/Wishlist?userId=${userId}">view wishlist</a>
+				</li>
+            `
+
+            document.getElementById("row_wishlist_dropdown").innerHTML = row;
+        },
+        error: function (error) {
+            console.log(error)
+        },
+    })
+}
+
+// Delete Cart
+function DeleteCart(bookId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Book \"' + $("#product-name_" + bookId).text() + '\" will be removed in your cart',
+        icon: 'warning',
+        showConfirmButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel'
+    }).then((result) => {   
+        if (result.isConfirmed) {            
+            Swal.fire({
+                icon: 'success',
+                title: 'Book \"' + $("#product-name_" + bookId).text() + '\" was removed in your cart',
+                showConfirmButton: false,
+                timer: 1000
+            })            
+
+            const data = {
+                bookId: bookId,
+                newQuantity: 0,
+                userId: userId
+            }
+            $.ajax({
+                type: 'DELETE',
+                url: apiUrl + '/api/CartDetails',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function () {
+                    var count = document.getElementById("count_cart");
+                    count.textContent = (parseInt(count.textContent) - 1).toString();
+                    document.getElementById("row_cart_" + bookId).remove();
+                    
+                    UpdateCartNumber();
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr)
+                    Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+                }
+            });
+        }
+    });
+}
+
+// add to wishlist
+function AddToWishlist(bookId) {
+
+    if (userId) {
+        const data = {
+            bookId: bookId,
+            userId: userId
+        }
+        $.ajax({
+            url: apiUrl + "/api/Wishlists",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'The book has been added to the wishlist.',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+                AjaxWishlist();
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
+    }
+    else {
+        window.location.href = "/Identity/Account/Login";
+    }
+}
+
+// Delete Wishlist
+function DeleteWishlist(bookId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Book \"' + $("#product-name_" + bookId).text() + '\" will be removed in your Wishlist',
+        icon: 'warning',
+        showConfirmButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire('Deleted!', 'Book \"' + $("#product-name_" + bookId).text() + '\" was removed in your Wishlist', 'success');
+            
+            const data = {
+                bookId: bookId,
+                newQuantity: 0,
+                userId: userId
+            }
+
+            $.ajax({
+                type: 'DELETE',
+                url: apiUrl + '/api/Wishlists',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function () {
+                    $('#row_' + bookId).remove();
+
+                    UpdateWishlistNumber();
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr)
+                    Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+                }
+            });
+        }
+    });
+}
+
+function UpdateCartNumber() {
+    var subtotalElements = document.querySelectorAll(".subtotal");
+    var total = 0;
+    for (var i = 0; i < subtotalElements.length; i++) {
+        total += parseFloat(subtotalElements[i].textContent.replace('$', ''));
+    }
+    $("#price").text(total.toFixed(2));
+}
+
+function UpdateWishlistNumber() {
+    var countElements = document.querySelectorAll(".single-product-cart");
+    $(".book-count").text(countElements.length);
 }
