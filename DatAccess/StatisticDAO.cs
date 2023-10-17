@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess
 {
-	public class StatisticDAO
+    public class StatisticDAO
 	{
 		public decimal GetRevenueForCurrentDay(DateTime currentDate)
 		{

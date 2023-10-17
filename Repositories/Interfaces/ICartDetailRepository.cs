@@ -1,12 +1,15 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 
 namespace Repositories.Interfaces
 {
     public interface ICartDetailRepository
     {
-        void SaveCartDetail(CartDetail cartDetail);
+		CartDetail SaveCartDetail(CartDetail cartDetail);
         CartDetail FindCartDetailById(int id);
-        void DeleteCartDetailById(CartDetail cartDetail);
-        void UpdateCartDetail(CartDetail cartDetail);
+        void DeleteCartDetailById(int bookId, string userId);
+		CartDetail UpdateCartDetail(CartDetail cartDetail);
+        CartDetail FindBookInCart(int id, string userId);
+        List<BookCart> GetCartDetails(string userId);
     }
 }

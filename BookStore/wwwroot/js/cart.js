@@ -1,68 +1,113 @@
-﻿$(window).on("load", function () {
-    const apiUrl = localStorage.getItem("apiUrl")
+﻿function AddToCart(bookId) {
+    if (userId) {
+        $.ajax({
+            url: apiUrl + "/api/Carts/?userId=" + userId,
+            type: "POST",
+            success: function (response) {
+                const quantity = $("#quantity").val();
+                const data = {
+                    bookId: bookId,
+                    quantity: quantity,
+                    cartId: response.id
+                }
+
+                $.ajax({
+                    url: apiUrl + "/api/CartDetails/" + userId,
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'The book has been added to the cart.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    },
+                })
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
+    }
+    else {
+        window.location.href = "/Identity/Account/Login";
+    }
+}
+
+// Cart Header
+AjaxCallCart();
+function AjaxCallCart() {
     $.ajax({
-        url: apiUrl + "/api/Carts",
-        method: "GET",
-        success: function (data) {
-            console.log(data)
-            showAllBooks(data);
+        url: apiUrl + "/api/CartDetails/" + userId,
+        type: "GET",
+        contentType: 'application/json',
+        success: function (response) {
+            console.log(response);
+            document.getElementById("cart").innerHTML =
+                `
+                <a class="icon-cart" href="#">
+				    <i class="ti-shopping-cart"></i>
+				    <span class="shop-count book-count">${response.length}</span>
+			    </a>
+                <ul class="cart-dropdown" id="row_cart_dropdown"> </ul>   
+            `;
+            var row = "";
+            response.forEach(item => {
+                row += `
+                            <li class="single-product-cart">
+                                <div class="cart-img">
+                                    <a href="/Home/Detail/${item.id}"><img src="/img/product/book/${item.image}" alt=""></a>
+                                </div>
+                                <div class="cart-title">
+                                    <h5><a href="/Home/Detail/${item.id}"> ${item.title}</a></h5>
+                                    <span>${item.quantity} x ${item.price}</span>
+                                    <span class="subtotal">$${item.subTotal}</span>
+                                </div>
+                                <div class="cart-delete">
+                                    <a onclick="DeleteCart(${item.bookId})"><i class="ti-trash"></i></a>
+                                </div>
+                            </li>
+                        `
+
+            })
+            row +=
+                `
+                <li class="cart-space">
+								<div class="cart-sub">
+									<h4>Subtotal</h4>
+								</div>
+								<div class="cart-price" id="price">
+									<h4>$0.00</h4>
+								</div>
+							</li >
+                <li class="cart-btn-wrapper">
+                    <a class="cart-btn btn-hover" href="/Home/Cart?userId=${userId}">view cart</a>
+                    <a class="cart-btn btn-hover" asp-controller="Home" asp-action="CheckOut">checkout</a>
+                </li>
+            `
+            document.getElementById("row_cart_dropdown").innerHTML = row;
+            SubTotal();
         },
         error: function (error) {
             console.log(error)
         },
-    })
-});
-
-function showAllBooks(data) {
-    var filterGenres = data.genres;
-    var filterPublishers = data.publishers;
-    var filterLanguages = data.languages;
-    var filterAuthors = data.authors;
-    let filterGenre = "";
-    let filterPublisher = "";
-    let filterLanguage = "";
-    let filterAuthor = "";
-
-    //Genres
-    filterGenres.forEach(item => {
-        filterGenre += `<li><a href="#">> ${item.name} <span>${item.quantity} </span></a></li>`
     });
-    document.getElementById("genres").innerHTML = `<h3 class="sidebar-title">Genres</h3>
-                        <div class="sidebar-categories">
-                            <ul>
-                                ${filterGenre}
-                            </ul>
-                        </div>`
-    //Publisher
-    filterPublishers.forEach(item => {
-        filterPublisher += `<li><a href="#">> ${item.name} <span>${item.quantity} </span></a></li>`
-    });
-    document.getElementById("publishers").innerHTML = `<h3 class="sidebar-title">Publishers</h3>
-                        <div class="sidebar-categories">
-                            <ul>
-                                ${filterPublisher}
-                            </ul>
-                        </div>`
 
-    //Languages
-    filterLanguages.forEach(item => {
-        filterLanguage += `<li><a href="#">> ${item.name} <span>${item.quantity} </span></a></li>`
-    });
-    document.getElementById("languages").innerHTML = `<h3 class="sidebar-title">Languages</h3>
-                        <div class="sidebar-categories">
-                            <ul>
-                                ${filterLanguage}
-                            </ul>
-                        </div>`
-
-    //Authors
-    filterAuthors.forEach(item => {
-        filterAuthor += `<li><a href="#">> ${item.name} <span>${item.quantity} </span></a></li>`
-    });
-    document.getElementById("authors").innerHTML = `<h3 class="sidebar-title">Authors</h3>
-                        <div class="sidebar-categories">
-                            <ul>
-                                ${filterAuthor}
-                            </ul>
-                        </div>`
+    function SubTotal() {
+        var elements = document.querySelectorAll("span.subtotal");
+        var calculate = 0;
+        for (var i = 0; i < elements.length; i++) {
+            calculate += parseFloat(elements[i].textContent.replace('$', ''));
+        }
+        $("#price").text(calculate.toFixed(2));
+        return calculate;
+    }
 }
+
+
+

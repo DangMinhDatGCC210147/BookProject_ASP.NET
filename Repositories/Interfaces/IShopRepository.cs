@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using DataAccess;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,6 @@ namespace Repositories.Interfaces
         List<Book> FilterByPublisher(int id);
         List<Book> FilterByLanguage(int id);
         List<Book> FilterByAuthor(int id);
-        Book BookDetail(int id);
+        BookDetail BookDetail(int id);
     }
 }

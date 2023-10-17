@@ -1,4 +1,4 @@
-﻿using BusinessObjects;
+﻿using BusinessObjects.DTO;
 using DataAccess;
 using Repositories.Interfaces;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-	public class StatisticRepository : IStatisticRepository
+    public class StatisticRepository : IStatisticRepository
 	{
 		public StatisticDAO statisticDAO = new StatisticDAO();
 		public List<RevenueByGenre> ByGenres(DateTime currentDate)

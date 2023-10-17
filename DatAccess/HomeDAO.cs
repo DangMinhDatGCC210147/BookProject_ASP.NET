@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;

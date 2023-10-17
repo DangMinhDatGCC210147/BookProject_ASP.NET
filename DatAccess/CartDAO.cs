@@ -10,14 +10,14 @@ namespace DataAccess
 {
 	public class CartDAO
 	{		
-		public static Cart FindCartById(int id)
+		public static Cart FindCartById(string userId)
 		{
 			var cart = new Cart();
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					cart = context.Carts.Find(id);
+					cart = context.Carts.Where(cart => cart.UserId == userId).FirstOrDefault();
 				}
 
 			}
@@ -27,7 +27,7 @@ namespace DataAccess
 			}
 			return cart;
 		}
-		public static void SaveCart(Cart cart)
+		public static Cart SaveCart(Cart cart)
 		{
 			try
 			{
@@ -35,6 +35,7 @@ namespace DataAccess
 				{
 					context.Carts.Add(cart);
 					context.SaveChanges();
+					return cart;
 				}
 
 			}
@@ -66,7 +67,7 @@ namespace DataAccess
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					context.Carts.Remove(FindCartById(cart.Id));
+					context.Carts.Remove(FindCartById(cart.UserId));
 					context.SaveChanges();
 				}
 

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using BusinessObjects;
 using BookStoreWebClient.Areas.Identity.Pages;
 using BookStoreWebClient.Data;
+using Microsoft.Extensions.Hosting.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDBContextConnection' not found.");
@@ -32,6 +33,8 @@ if (!app.Environment.IsDevelopment())
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

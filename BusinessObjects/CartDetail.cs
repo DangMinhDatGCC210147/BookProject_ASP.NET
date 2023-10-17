@@ -15,13 +15,13 @@ namespace BusinessObjects
 		public int Id { get; set; }
 		[Required]
 		public int BookId { get; set; }
-		[ForeignKey("BookId")]
-		public virtual Book? Book { get; set; }
 		[Required]
 		public int Quantity { get; set; }
 		[Required]
 		public int CartId { get; set; }
-        [ForeignKey("CartId")]
+		[ForeignKey("BookId")]
+		public virtual Book? Book { get; set; }
+		[ForeignKey("CartId")]
         public virtual Cart? Cart { get; set; }
     }
 }

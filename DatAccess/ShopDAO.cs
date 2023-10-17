@@ -1,15 +1,18 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccess
 {
-	public class ShopDAO
+    public class ShopDAO
 	{
-		public List<GetNameAndQuantity> GetGenre()
+		public static List<GetNameAndQuantity> GetGenre()
 		{
 			try
 			{
@@ -36,7 +39,7 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-		public List<GetNameAndQuantity> GetPublisher()
+		public static List<GetNameAndQuantity> GetPublisher()
 		{
 			try
 			{
@@ -63,7 +66,7 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-		public List<GetNameAndQuantity> GetLanguage()
+		public static List<GetNameAndQuantity> GetLanguage()
 		{
 			try
 			{
@@ -90,7 +93,7 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-		public List<GetNameAndQuantity> GetAuthor()
+		public static List<GetNameAndQuantity> GetAuthor()
 		{
 			try
 			{
@@ -118,7 +121,7 @@ namespace DataAccess
 			}
 		}
 
-		public List<Book> GetFilterByGenre(int id)
+		public static List<Book> GetFilterByGenre(int id)
 		{
 			try
 			{
@@ -137,7 +140,7 @@ namespace DataAccess
 			}
 		}
 
-		public List<Book> GetFilterByPublisher(int id)
+		public static List<Book> GetFilterByPublisher(int id)
 		{
 			try
 			{
@@ -155,7 +158,7 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-		public List<Book> GetFilterByLanguage(int id)
+		public static List<Book> GetFilterByLanguage(int id)
 		{
 			try
 			{
@@ -173,7 +176,7 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-		public List<Book> GetFilterByAuthor(int id)
+		public static List<Book> GetFilterByAuthor(int id)
 		{
 			try
 			{
@@ -185,13 +188,32 @@ namespace DataAccess
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
-        public Book GetBookDetail(int id)
+        public static BookDetail GetBookDetail(int bookId)
         {
             try
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    return context.Books.Find(id);
+                    var bookDetail = context.Books
+						.Where(b => b.Id == bookId)
+						.Select(b => new BookDetail
+						{
+                            Id = b.Id,
+                            Title = b.Title,
+                            Description = b.Description,
+                            Image = b.Image,
+                            Quantity = b.Quantity,
+                            SellingPrice = b.SellingPrice,
+                            ISBN = b.ISBN,
+                            PageCount = b.PageCount,
+                            PublicationYear = b.PublicationYear,
+                            Genre = b.Genre.Name,
+                            Publisher = b.Publisher.Name,
+                            Language = b.Language.Name,
+                            Author = b.Author.Name
+                        })
+						.FirstOrDefault();
+					return bookDetail;
                 }
             }
             catch (Exception ex) { throw new Exception(ex.Message); }

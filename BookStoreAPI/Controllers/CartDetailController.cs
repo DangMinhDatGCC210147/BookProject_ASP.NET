@@ -1,5 +1,6 @@
 ﻿using BookStore.Models;
 using BusinessObjects;
+using BusinessObjects.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repositories;
@@ -11,33 +12,53 @@ namespace BookStoreAPI.Controllers
     [ApiController]
     public class CartDetailDetailController : ControllerBase
     {
-        private ICartDetailRepository repository = new CartDetailRepository();
+        private ICartDetailRepository cartRepository = new CartDetailRepository();
+        private ICartDetailRepository userRepository = new CartDetailRepository();
 
-        [HttpPost]
-        public IActionResult SaveCartDetails(CartDetail CartDetail)
+        [HttpGet("{userId}")]
+		public IActionResult GetCartDetails(string userId)
+		{
+            return Ok(cartRepository.GetCartDetails(userId));
+		}
+
+		[HttpPost("{userId}")]
+        public IActionResult SaveCartDetails(CartDetail cartDetail, string userId)
         {
-            repository.SaveCartDetail(CartDetail);
+			CartDetail foundCart = cartRepository.FindBookInCart(cartDetail.BookId, userId);
+            if (foundCart == null) return Ok(cartRepository.SaveCartDetail(cartDetail));
+            else
+            {
+                cartDetail.Id = foundCart.Id;
+                cartDetail.Quantity += foundCart.Quantity;
+                var cd = cartRepository.UpdateCartDetail(cartDetail);
+				return Ok(cd);
+			}
+        }
+
+        [HttpDelete()]
+        public IActionResult DeleteBookInCart(CartQuantity cart)
+        {
+            cartRepository.DeleteCartDetailById(cart.bookId, cart.userId);
             return Ok();
         }
 
-        [HttpDelete("id")]
-        public IActionResult DeleteCartDetails(int id)
+        [HttpPut()]
+        public IActionResult UpdateCartDetails(CartQuantity updateQuantity)
         {
-            CartDetail cartdetail = repository.FindCartDetailById(id);
-            if (cartdetail == null)
-                return NotFound();
-            repository.DeleteCartDetailById(cartdetail);
-            return Ok();
-        }
-
-        [HttpPut("id")]
-        public IActionResult UpdateCartDetails(int id, CartDetail CartDetail)
-        {
-            var checkCartDetail = repository.FindCartDetailById(id);
+            var checkCartDetail = cartRepository.FindBookInCart(updateQuantity.bookId, updateQuantity.userId);
             if (checkCartDetail == null)
                 return NotFound();
-            repository.UpdateCartDetail(CartDetail);
+            checkCartDetail.Quantity = updateQuantity.newQuantity;
+			cartRepository.UpdateCartDetail(checkCartDetail);
             return Ok();
         }
-    }
+
+		[HttpPost("CheckOut")]
+		public IActionResult DisplayCheckOut(string userId)
+		{
+            CheckOut checkOut = new CheckOut();
+            checkOut.ListBooks = cartRepository.GetCartDetails(userId);
+			return Ok(checkOut);
+		}
+	}
 }

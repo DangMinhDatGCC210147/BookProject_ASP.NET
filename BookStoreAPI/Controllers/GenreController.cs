@@ -62,7 +62,6 @@ namespace BookStoreAPI.Controllers
             {
                 return NotFound();
             }
-
             // Cập nhật trường ApprovalStatus
             genre.ApprovalStatus = (GenerApproval)approvalStatus;
 

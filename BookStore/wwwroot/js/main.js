@@ -1,7 +1,6 @@
 (function ($) {
     "use strict";
     
-    
     /* jQuery MeanMenu */
     $('#mobile-menu-active').meanmenu({
         meanScreenWidth: "991",
@@ -628,13 +627,7 @@
         $('.notification-section').slideUp();
     });
     
-    
-    /*----------------------------
-    	Cart Plus Minus Button
-    ------------------------------ */
-    $(".cart-plus-minus").prepend('<div class="dec qtybutton">-</div>');
-    $(".cart-plus-minus").append('<div class="inc qtybutton">+</div>');
-    $(".qtybutton").on("click", function() {
+    $(".qtybutton").on("click", function () {
         var $button = $(this);
         var oldValue = $button.parent().find("input").val();
         if ($button.text() == "+") {
@@ -707,9 +700,4 @@
            $(this).siblings('.handicraft-content').addClass('open');
         }
     })
-    
-    
-
-
-
 })(jQuery);

@@ -14,14 +14,13 @@ namespace Repositories
 
 		public List<Book> GetProducts() => BookDAO.GetProducts();
 
-		public void SaveProduct(Book product) => BookDAO.SaveProduct(product);
+		public Book SaveProduct(Book product) => BookDAO.SaveProduct(product);
 
         public List<Book> TopBestSeling()
         {
             throw new NotImplementedException();
         }
-
-        public void UpdateProduct(Book product) => BookDAO.UpdateProduct(product);
+        public Book UpdateProduct(Book product) => BookDAO.UpdateProduct(product);
 
 	}
 }

@@ -2,7 +2,7 @@
 using Repositories.Interfaces;
 using Repositories;
 using BusinessObjects;
-using DataAccess;
+using BusinessObjects.DTO;
 
 namespace BookStoreAPI.Controllers
 {
@@ -37,7 +37,7 @@ namespace BookStoreAPI.Controllers
             }
         }
 
-		[HttpGet("/Search")]
+		[HttpGet("Search")]
 		public ActionResult<IEnumerable<Book>> FilterByGenre([FromQuery] int filterName, [FromQuery] int filterId)
 		{
             List<Book> booksFilter = new List<Book>();

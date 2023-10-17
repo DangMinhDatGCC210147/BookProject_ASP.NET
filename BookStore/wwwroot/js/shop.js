@@ -1,4 +1,45 @@
-﻿const apiUrl = localStorage.getItem("apiUrl")
+﻿function AddToCart(bookId) {
+    if (userId) {
+        $.ajax({
+            url: apiUrl + "/api/Carts/?userId=" + userId,
+            type: "POST",
+            success: function (response) {
+                const quantity = $("#quantity").val();
+                const data = {
+                    bookId: bookId,
+                    quantity: quantity,
+                    cartId: response.id
+                }
+
+                $.ajax({
+                    url: apiUrl + "/api/CartDetails/" + userId,
+                    type: "POST",
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function () {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'The book has been added to the cart.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        AjaxCallCart();
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    },
+                })
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
+    }
+    else {
+        window.location.href = "/Identity/Account/Login";
+    }
+}
+
 
 //Show on Shop
 $(window).on("load", function () {
@@ -143,14 +184,14 @@ function ShowData(results) {
            <div class="col-lg-6 col-md-6 col-xl-3">
                 <div class="product-wrapper mb-30">
                     <div class="product-img">
-                        <a href="/Detail/${item.id}">
+                        <a href="/Home/Detail/${item.id}">
                             <img src="/img/product/book/${item.image}" alt="">
                         </a>
                         <div class="product-action">
                             <a class="animate-left" title="Wishlist" href="#">
                                 <i class="pe-7s-like"></i>
                             </a>
-                            <a class="animate-top" title="Add To Cart" href="#">
+                            <a class="animate-top" title="Add To Cart" onclick="AddToCart(${item.id})">
                                 <i class="pe-7s-cart"></i>
                             </a>
                             <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
@@ -159,6 +200,7 @@ function ShowData(results) {
                         </div>
                     </div>
                     <div class="product-content">
+                    <input type='hidden' id='quantity' runat='server' value="1">
                         <h4><a href="#">${item.title}</a></h4>
                         <span>${item.sellingPrice}</span>
                     </div>
@@ -172,7 +214,7 @@ function ShowData(results) {
             `    <div class="col-lg-12 col-xl-6">
                 <div class="product-wrapper mb-30 single-product-list product-list-right-pr mb-60">
                     <div class="product-img list-img-width">
-                        <a href="/Detail/${item.id}">
+                        <a href="/Home/Detail/${item.id}">
                             <img src="/img/product/book/${item.image}" alt="">
                         </a>
                         <span>hot</span>
@@ -184,9 +226,8 @@ function ShowData(results) {
                     </div>
                     <div class="product-content-list">
                         <div class="product-list-info">
-                            <h4><a href="#">${item.title}</a></h4>
-                            <span>${item.sellingPrice}</span>
-                            <p>Lorem ipsum dolor sit amet, mana consectetur adipisicing elit, sed do eiusmod tempor labore. </p>
+                            <h4><a href="/Home/Detail/${item.id}">${item.title}</a></h4>
+                            <span href="/Home/Detail/${item.id}">${item.sellingPrice}</span>
                         </div>
                         <div class="product-list-cart-wishlist">
                             <div class="product-list-cart">

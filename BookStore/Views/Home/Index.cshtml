@@ -1635,6 +1635,12 @@
         
         const api = "@ViewBag.api"
         localStorage.setItem("apiUrl", api);
-        console.log(api);
+        if($("#userId").length > 0){
+            if(!localStorage.getItem("userId")){
+                localStorage.setItem("userId", $("#userId").val());
+            }                
+        }else{
+            localStorage.removeItem("userId");
+        }
     </script>
 }

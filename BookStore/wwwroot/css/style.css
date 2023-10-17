@@ -456,6 +456,9 @@ label{
     margin-bottom: 20px;
     padding-bottom: 20px;
 }
+.single-product-cart .cart-img a img{
+    max-width: 85px;
+}
 .single-product-cart:last-child {
     border-bottom: 0px solid #f6f6f6;
     margin-bottom: 0px;
@@ -6691,6 +6694,8 @@ h1.cart-heading {
 }
 .table-content table td.product-thumbnail {
     width: 130px;
+}.table-content table td.product-thumbnail a img {
+    width: 100px;
 }
 .table-content table td.product-remove i {
     color: #919191;
@@ -6700,6 +6705,7 @@ h1.cart-heading {
     line-height: 40px;
     text-align: center;
     width: 40px;
+    cursor: pointer;
 }
 .table-content table .product-price .amount {
     color: #555;
@@ -6710,6 +6716,18 @@ h1.cart-heading {
 }
 .table-content table td.product-quantity {
     width: 180px;
+}
+.input_quantity_box {
+    max-width: 50px;
+    border-radius: 0px;
+    padding: 1px;
+    border-left: none;
+    border-right: none;
+}
+.input-quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .table-content table td.product-remove {
     width: 150px;
@@ -9516,7 +9534,7 @@ input.cart-plus-minus-box {
     float: left;
     font-size: 16px;
     height: 25px;
-    margin: 0;
+    margin-top: 5px;
     padding: 0;
     text-align: center;
     width: 25px;
@@ -9529,8 +9547,11 @@ input.cart-plus-minus-box {
 .cart-plus-minus {
     border: 1px solid #dcdcdc;
     overflow: hidden;
-    padding: 12px 0 8px 5px;
+    padding: 0px 0 4px 4px;
     width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .quickview-plus-minus {
     display: flex;
@@ -9564,7 +9585,7 @@ input.cart-plus-minus-box {
     margin: 0 30px;
 }
 .qtybutton.inc {
-    margin-top: 2px;
+    margin: 5px;
 }
 .price {
     margin: 9px 0 8px;
