@@ -69,15 +69,14 @@
 				<!-- Wishlist ICON -->
 				@if (SignInManager.IsSignedIn(User))
 				{
-					var user = await UserManager.GetUserAsync(User);
-					<div class="header-cart-2" id="cart"> </div>
-					<div class="header-cart-2" id="wishlist"> </div>
+					<div class="header-cart-2" id="cart"></div>
+					<div class="header-cart-2" id="wishlist"></div>
 					@* PROFILE ICON *@
-				<div class="header-cart-2">
-					<a class="icon-cart" asp-controller="Home" asp-action="Profile" asp-route-userId="">
-						<i class="ti-user"></i>
-					</a>
-				</div>
+					<div class="header-cart-2">
+						<a class="icon-cart" asp-controller="Home" asp-action="Profile">
+							<i class="ti-user"></i>
+						</a>
+					</div>
 				}
 				@* ICON Search *@
 				<div class="header-cart-2">

@@ -22,7 +22,6 @@ namespace BookStoreAPI.Controllers
             var user = repository.GetUserById(id);
             if (user == null)
                 return NotFound();
-
             return Ok(user);
         }
 

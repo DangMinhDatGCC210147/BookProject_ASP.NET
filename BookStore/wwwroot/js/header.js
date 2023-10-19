@@ -18,7 +18,7 @@ function AjaxCart() {
                 `
                 <a class="icon-cart" href="#">
 				    <i class="ti-shopping-cart"></i>
-				    <span class="shop-count book-count">${response.length}</span>
+				    <span class="shop-count book-count cart_count">${response.length}</span>
 			    </a>
                 <ul class="cart-dropdown" id="row_cart_dropdown"> </ul>   
             `;
@@ -53,7 +53,7 @@ function AjaxCart() {
 							</li >
                 <li class="cart-btn-wrapper">
                     <a class="cart-btn btn-hover" href="/Home/Cart?userId=${userId}">view cart</a>
-                    <a class="cart-btn btn-hover" asp-controller="Home" asp-action="CheckOut">checkout</a>
+                    <a class="cart-btn btn-hover" href="/Home/CheckOut?userId=${userId}">checkout</a>
                 </li>
             `
             document.getElementById("row_cart_dropdown").innerHTML = row;
@@ -119,7 +119,7 @@ function AjaxWishlist() {
                 `<div class="header-cart-2">
                     <a class="icon-cart" href="#">
                         <i class="ti-heart"></i>
-                        <span class="shop-count book-count">${response.length}</span>
+                        <span class="shop-count book-count wishlist_count">${response.length}</span>
                     </a>
                     <ul class="cart-dropdown" id="row_wishlist_dropdown">
                     </ul>
@@ -127,7 +127,7 @@ function AjaxWishlist() {
             var row = "";
             response.forEach(item => {
                 row += `
-                            <li class="single-product-cart" id="row_${item.bookId}">
+                            <li class="single-product-wishlist" id="row_wishlist_${item.bookId}">
                                 <div class="cart-img">
                                     <a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
                                 </div>
@@ -136,7 +136,7 @@ function AjaxWishlist() {
                                     <span>$${item.sellingPrice}</span>
                                 </div>
                                 <div class="cart-delete">
-                                    <a onclick="DeleteCart(${item.bookId})"><i class="ti-trash"></i></a>
+                                    <a onclick="DeleteWishlist(${item.bookId})"><i class="ti-trash"></i></a>
                                 </div>
                             </li>
                         `
@@ -165,7 +165,7 @@ function DeleteCart(bookId) {
         icon: 'warning',
         showConfirmButton: true,
         confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel'
+        cancelButtonText: 'No, cancel',
     }).then((result) => {   
         if (result.isConfirmed) {            
             Swal.fire({
@@ -186,10 +186,7 @@ function DeleteCart(bookId) {
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 success: function () {
-                    var count = document.getElementById("count_cart");
-                    count.textContent = (parseInt(count.textContent) - 1).toString();
-                    document.getElementById("row_cart_" + bookId).remove();
-                    
+                    document.getElementById("row_cart_" + bookId).remove();                    
                     UpdateCartNumber();
                 },
                 error: function (xhr, status, error) {
@@ -241,7 +238,7 @@ function DeleteWishlist(bookId) {
         icon: 'warning',
         showConfirmButton: true,
         confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel'
+        cancelButtonText: 'No, cancel',
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire('Deleted!', 'Book \"' + $("#product-name_" + bookId).text() + '\" was removed in your Wishlist', 'success');
@@ -258,8 +255,7 @@ function DeleteWishlist(bookId) {
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 success: function () {
-                    $('#row_' + bookId).remove();
-
+                    $('#row_wishlist_' + bookId).remove();
                     UpdateWishlistNumber();
                 },
                 error: function (xhr, status, error) {
@@ -272,6 +268,10 @@ function DeleteWishlist(bookId) {
 }
 
 function UpdateCartNumber() {
+    var countElements = document.querySelectorAll(".single-product-cart");
+    console.log(countElements.length);
+    $(".cart_count").text(countElements.length);
+
     var subtotalElements = document.querySelectorAll(".subtotal");
     var total = 0;
     for (var i = 0; i < subtotalElements.length; i++) {
@@ -281,6 +281,7 @@ function UpdateCartNumber() {
 }
 
 function UpdateWishlistNumber() {
-    var countElements = document.querySelectorAll(".single-product-cart");
-    $(".book-count").text(countElements.length);
+    var countElements = document.querySelectorAll(".single-product-wishlist");
+    console.log(countElements.length);
+    $(".wishlist_count").text(countElements.length);
 }

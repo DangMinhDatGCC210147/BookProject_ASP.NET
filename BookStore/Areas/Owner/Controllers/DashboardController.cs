@@ -30,17 +30,12 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
         public async Task<IActionResult> Index()
         {
             DateTime now = DateTime.Now;
-            HttpResponseMessage httpResponse = await client.GetAsync(StatisticApiUrl + "?currentDate=" + now); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
-
-            string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
-
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //phân tích cú pháp JSON không phân biệt hoa/thường của tên thuộc tính
-
-            /*StatisticView statistics = JsonSerializer.Deserialize<StatisticView>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
-
-            return View(statistics);*/
-            return View();
-        }
+            HttpResponseMessage httpResponse = await client.GetAsync(StatisticApiUrl + "?currentDate=" + now);
+            string data = await httpResponse.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			List<StatisticView> books = JsonSerializer.Deserialize<List<StatisticView>>(data, options);
+			return View(books);
+		}
         public IActionResult Category()
         {
             return View();

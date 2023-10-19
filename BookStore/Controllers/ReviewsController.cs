@@ -1,5 +1,4 @@
 ﻿using BusinessObjects;
-using BusinessObjects;
 using BusinessObjects.Data.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

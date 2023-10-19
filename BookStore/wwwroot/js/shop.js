@@ -168,16 +168,13 @@ function ShowData(results) {
                             <a class="animate-top" title="Add To Cart" onclick="AddToCart(${item.id})">
                                 <i class="pe-7s-cart"></i>
                             </a>
-                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                <i class="pe-7s-look"></i>
-                            </a>
                         </div>
                     </div>
                     <div class="product-content">
                     <input type='hidden' id='quantity' runat='server' value="1">
+                        <div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">${checkRate(item.rate, "", 5)}</div>
                         <h4><a href="#">${item.title}</a></h4>
                         <span>$${item.sellingPrice}</span>
-                        <div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">${checkRate(item.rate, "", 5)}</div>
                     </div>
                 </div>
             </div>
@@ -193,17 +190,12 @@ function ShowData(results) {
                             <img src="/img/product/book/${item.image}" alt="">
                         </a>
                         <span>hot</span>
-                        <div class="product-action-list-style">
-                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                <i class="pe-7s-look"></i>
-                            </a>
-                        </div>
                     </div>
                     <div class="product-content-list">
                         <div class="product-list-info">
                             <h4><a href="/Home/Detail/${item.id}">${item.title}</a></h4>
+                            <div class="product-rating-2" style="display: flex; justify-content:start; align-items:left;">${checkRate(item.rate, "", 5)}</div>
                             <span href="/Home/Detail/${item.id}">${item.sellingPrice}</span>
-                            <div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">${checkRate(item.rate, "", 5)}</div>
                         </div>
                         <div class="product-list-cart-wishlist">
                             <div class="product-list-cart">
@@ -223,15 +215,18 @@ function ShowData(results) {
 
     grid_sidebar1.innerHTML = SearchResults_1;
     grid_sidebar2.innerHTML = SearchResults_2;
+
 }
 
 // Display rate
 function checkRate(rate, star, count) {
     if (count == 0) { return star; }
 
-    if (rate <= 0) { star += "<i class=\"bi bi-star\"></i>"; }
-    else if (rate < 1) { star += "<i class=\"bi bi-star-half\"></i>"; }
-    else { star += "<i class=\"bi bi-star-fill\"></i>"; }
+    if (rate <= 0) { star += "<i class=\"bi bi-star\" style=\"color: gold;\"></i>"; }
+    else if (rate < 1) { star += "<i class=\"bi bi-star-half\" style=\"color: gold;\"></i>"; }
+    else {
+        star += "<i class=\"bi bi-star-fill\" style=\"color: gold; background - color: gold; \"></i>";
+    }
 
     return checkRate(rate - 1, star, count - 1);
 }

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BusinessObjects;
-using BookStoreWebClient.Areas.Identity.Pages;
 using BookStoreWebClient.Data;
 using Microsoft.Extensions.Hosting.Internal;
 
