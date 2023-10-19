@@ -68,6 +68,9 @@ namespace BookStore.Controllers
         public IActionResult AboutUs()
         {
             return View();
+        }public IActionResult Help()
+        {
+            return View();
         }
 
 		[Authorize(Roles = "Customer")]
@@ -92,7 +95,8 @@ namespace BookStore.Controllers
         public async Task<IActionResult> CheckOut()
         {
             return View();
-        }public async Task<IActionResult> Profile()
+        }
+        public async Task<IActionResult> Profile()
         {
             return View();
         }

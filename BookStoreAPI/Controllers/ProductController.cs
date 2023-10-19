@@ -1,6 +1,9 @@
-﻿using BusinessObjects;
+﻿using Azure;
+using BusinessObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using OfficeOpenXml;
 using Repositories;
 using Repositories.Interfaces;
 
@@ -39,9 +42,9 @@ namespace BookStoreAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> PostProducts([FromForm] Book book)
         {
-                APIResponse responses = new APIResponse();
-                try
-                {
+            APIResponse responses = new APIResponse();
+            try
+            {
                 // Lưu sản phẩm vào cơ sở dữ liệu (đảm bảo rằng bạn đã có phương thức để thực hiện việc này)
                 //var newProduct = new Book
                 //{
@@ -64,33 +67,33 @@ namespace BookStoreAPI.Controllers
                 // Gọi phương thức để thêm sản phẩm mới vào cơ sở dữ liệu
                 repository.SaveProduct(book);
 
-                    // Tiếp theo, lưu hình ảnh theo cách bạn đã thực hiện trong phương thức gốc của bạn
-                    string Filepath = GetFilepath(book.Title);
-                    if (!System.IO.Directory.Exists(Filepath))
-                    {
-                        System.IO.Directory.CreateDirectory(Filepath);
-                    }
-                    string imagepath = Filepath + "\\" + book.Title + ".png";
-                    if (!System.IO.File.Exists(imagepath))
-                    {
-                        System.IO.File.Delete(imagepath);
-                    }
-
-                    using (FileStream stream = System.IO.File.Create(imagepath))
-                    {
-                        await book.ImageFile.CopyToAsync(stream);
-                        responses.ResponseCode = 200;
-                        responses.Result = "pass";
-                    }
-                    book.Image = "upload\\" + book.Title + "\\" + book.Title + ".png";
-
-                    
-                    return Ok(repository.UpdateProduct(book));
-                }
-                catch (Exception ex)
+                // Tiếp theo, lưu hình ảnh theo cách bạn đã thực hiện trong phương thức gốc của bạn
+                string Filepath = GetFilepath(book.Title);
+                if (!System.IO.Directory.Exists(Filepath))
                 {
-                    responses.Errormessage = ex.Message;
+                    System.IO.Directory.CreateDirectory(Filepath);
                 }
+                string imagepath = Filepath + "\\" + book.Title + ".png";
+                if (!System.IO.File.Exists(imagepath))
+                {
+                    System.IO.File.Delete(imagepath);
+                }
+
+                using (FileStream stream = System.IO.File.Create(imagepath))
+                {
+                    await book.ImageFile.CopyToAsync(stream);
+                    responses.ResponseCode = 200;
+                    responses.Result = "pass";
+                }
+                book.Image = "upload\\" + book.Title + "\\" + book.Title + ".png";
+
+
+                return Ok(repository.UpdateProduct(book));
+            }
+            catch (Exception ex)
+            {
+                responses.Errormessage = ex.Message;
+            }
             return Ok();
         }
 
@@ -106,12 +109,45 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProducts([FromForm] int id, Book book)
+        public async Task<IActionResult> UpdateProducts(int id, [FromForm] Book book)
         {
             var checkProduct = repository.GetProductById(id);
             if (checkProduct == null)
                 return NotFound();
+
+            var oldImagePath = checkProduct.Image;
             book.Id = id;
+            if (book.ImageFile == null)
+            {
+                book.Image = checkProduct.Image;
+            }
+            else
+            {                
+                // Tiếp theo, lưu hình ảnh theo cách bạn đã thực hiện trong phương thức gốc của bạn
+                string Filepath = GetFilepath(book.Title);
+                if (!System.IO.Directory.Exists(Filepath))
+                {
+                    System.IO.Directory.CreateDirectory(Filepath);
+                }
+                string imagepath = Filepath + "\\" + book.Title + ".png";
+                if (!System.IO.File.Exists(imagepath))
+                {
+                    System.IO.File.Delete(imagepath);
+                }
+                // Kiểm tra và xoá ảnh cũ nếu tồn tại
+                if (!string.IsNullOrEmpty(oldImagePath) && System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+
+                using (FileStream stream = System.IO.File.Create(imagepath))
+                {
+                    await book.ImageFile.CopyToAsync(stream);
+                }
+                book.Image = "upload\\" + book.Title + "\\" + book.Title + ".png";
+
+
+            }
             return Ok(repository.UpdateProduct(book));
         }
         [NonAction]
@@ -159,5 +195,26 @@ namespace BookStoreAPI.Controllers
             }
         }
 
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportV2(CancellationToken cancellationToken)
+        {
+            // query data from database  
+            await Task.Yield();
+
+            var list = repository.GetProducts().ToList();
+            var stream = new MemoryStream();
+
+            using (var package = new ExcelPackage(stream))
+            {
+                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+                workSheet.Cells.LoadFromCollection(list, true);
+                package.Save();
+            }
+            stream.Position = 0;
+            string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+
+            //return File(stream, "application/octet-stream", excelName);  
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+        }
     }
 }
