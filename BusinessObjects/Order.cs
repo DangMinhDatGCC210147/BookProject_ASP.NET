@@ -18,7 +18,7 @@ namespace BusinessObjects
 		[Required]
 		public string DeleveryLocal { get; set; }
 		[Required]
-		public string? UserId { get; set; }
+		public string UserId { get; set; }
 		[Required]
 		public string CustomerName { get; set; }
 		[Required]
