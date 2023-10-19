@@ -67,9 +67,9 @@ namespace BookStoreAPI.Controllers
             var list = repository.GetAuthors().ToList();
             var stream = new MemoryStream();
 
-            using (var package = new ExcelPackage(stream))
+            using (var package = new ExcelPackage(stream)) 
             {
-                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+                var workSheet = package.Workbook.Worksheets.Add("Author"); 
                 workSheet.Cells.LoadFromCollection(list, true);
                 package.Save();
             }
