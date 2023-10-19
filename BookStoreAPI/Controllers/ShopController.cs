@@ -12,23 +12,21 @@ namespace BookStoreAPI.Controllers
 	{
 		private readonly IShopRepository repository = new ShopRepository();
 
-		[HttpGet("{userId}")]
-		public async Task<ActionResult<IEnumerable<BookList>>> GetProducts(string userId)
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<BookList>>> GetProducts()
 		{
-			List<BookList> books = new List<BookList>();
-			if (userId == "getAll")
-			{
-				books = await repository.GetProducts();
-			}
-			else
-			{
-				books = await repository.GetProductsByFavoutite(userId);
-			}
-
+			List<BookList> books = await repository.GetProducts();
 			return Ok(books);	
 		}
 
-		[HttpGet]
+		[HttpGet("{userId}")]
+		public async Task<ActionResult<IEnumerable<BookList>>> GetProductsByFavoutite(string userId)
+		{
+			List<BookList> books = await repository.GetProductsByFavoutite(userId);
+			return Ok(books);
+		}
+
+		[HttpGet("NavBar")]
 		public ActionResult<Filter> GetFilter()
 		{
 			Filter filters = new Filter();

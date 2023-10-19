@@ -1,4 +1,5 @@
-﻿@{
+﻿@model BusinessObjects.DTO.BookHome
+@{
 	ViewData["Title"] = "Home Page";
 }
 
@@ -66,11 +67,51 @@
 			</div>
 			<div class="best-product-style">
 				<div id="genre_name" class="product-tab-list2 text-center mb-95 nav product-menu-mrg" role="tablist">
-					@*Javascript*@
+					@foreach (var item in Model.topGenres)
+					{
+						<a href="#home_@item.GenreId" data-bs-toggle="tab" role="tab">
+							<h4>@item.GenreName</h4>
+						</a>
+					}
 				</div>
 
 				<div class="tab-content" id="books_in_genre">
-					@*Javascript*@
+					@foreach (var item in Model.topGenres)
+					{
+						<div class="tab-pane show fade" id="home_@item.GenreId" role="tabpanel">
+							<div class="custom-row">
+								@foreach (var book in Model.topGenres)
+								{
+									<div class="custom-col-5 custom-col-style mb-95">
+										<div class="product-wrapper">
+											<div class="product-img-2">
+												<a href="Home/Detail/@book.BookId">
+													<img src="/img/product/book/@book.BookImage" alt="">
+												</a>
+												<div class="product-action-2">
+													<a class="animate-left add-style-2" title="Add To Cart" onclick="AddToCart(@book.BookId)">Add to Cart <i class="ti-shopping-cart"></i></a>
+													<a class="animate-right wishlist-style-2" title="wishlist" onclick="AddToWishlist(@book.BookId)">
+														<i class="ti-heart"></i>
+													</a>
+												</div>
+											</div>
+											<div class="product-content-2 text-center">
+												<input type="hidden" id="quantity" runat="server" value="1">
+												<h4><a href="Home/Detail/@book.BookId">@book.BookTitle</a></h4>
+												<span>By: @book.AuthorName</span>
+												<div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">
+													@for (int i = 0; i < book.ReviewRate; i++)
+													{
+														<i class="ti-star"></i>
+													}
+												</div>
+											</div>
+										</div>
+									</div>
+								}
+							</div>
+						</div>
+					}
 				</div>
 			</div>
 		</div>
@@ -85,72 +126,53 @@
 		</div>
 		<div class="row">
 			<div class="col-md-4" id="theBestAuthor">
-				@*Javascript*@
+				<div class="writer-wrapper">
+					<a href="/Home/Detail/@Model.topAuthors[0].BookId">
+						<img src="~/img/product/book/@Model.topAuthors[0].BookImage" alt="">
+					</a>
+					<div class="writer-content">
+						<input type="hidden" id="quantity" runat="server" value="1">
+						<h4>@Model.topAuthors[0].BookTitle</h4>
+						<span>@Model.topAuthors[0].AuthorName</span>
+					</div>
+					<div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">
+						@for (int i = 0; i < Model.topAuthors[0].ReviewRate; i++)
+						{
+							<i class="ti-star"></i>
+						}
+					</div>
+				</div>
 			</div>
 
 
 			<div class="col-md-8">
 				<div class="book-list-hover">
 					<div class="book-list-active owl-carousel">
-						<div class="product-wrapper">
-							<div class="product-img-2">
-								<a href="#">
-									<img src="~/img/product/book/12.jpg" alt="">
-								</a>
-								<div class="product-action-2">
-									<a class="animate-left add-style-2" title="Add To Cart" href="#">Add to Cart <i class="ti-shopping-cart"></i></a>
-									<a class="animate-right wishlist-style-2" title="wishlist" href="#">
-										<i class="ti-heart"></i>
+						@foreach (var item in Model.topAuthors)
+						{
+							<div class="product-wrapper">
+								<div class="product-img-2">
+									<a href="/Home/Detail/@item.BookId">
+										<img src="~/img/product/book/@item.BookImage" alt="">
 									</a>
+									<div class="product-action-2">
+										<a class="animate-left add-style-2" title="Add To Cart" href="#">Add to Cart <i class="ti-shopping-cart"></i></a>
+										<a class="animate-right wishlist-style-2" title="wishlist" href="#">
+											<i class="ti-heart"></i>
+										</a>
+									</div>
+								</div>
+								<div class="product-content-3 text-center">
+									<h4><a href="/Home/Detail/@item.BookId">@item.BookTitle</a></h4>
+									<div class="product-rating-2">
+										@for (int i = 0; i < item.ReviewRate; i++)
+										{
+											<i class="ti-star"></i>
+										}
+									</div>
 								</div>
 							</div>
-							<div class="product-content-3 text-center">
-								<h4><a href="#">Be like Me  (magazine)</a></h4>
-								<div class="product-rating-2">
-									<i class="ti-star"></i>
-									<i class="ti-star"></i>
-									<i class="ti-star"></i>
-									<i class="ti-star"></i>
-									<i class="ti-star"></i>
-								</div>
-							</div>
-						</div>
-						<div class="product-wrapper">
-							<div class="product-img-2">
-								<a href="#">
-									<img src="~/img/product/book/13.jpg" alt="">
-								</a>
-								<div class="product-action-2">
-									<a class="animate-left add-style-2" title="Add To Cart" href="#">Add to Cart <i class="ti-shopping-cart"></i></a>
-									<a class="animate-right wishlist-style-2" title="wishlist" href="#">
-										<i class="ti-heart"></i>
-									</a>
-								</div>
-							</div>
-							<div class="product-content-3 text-center">
-								<h4><a href="#">Sky Fall  (Book)</a></h4>
-								<div class="product-rating-2">
-									<i class="ti-star"></i>
-									<i class="ti-star"></i>
-									<i class="ti-star"></i>
-									<i class="ti-star"></i>
-									<i class="ti-star"></i>
-								</div>
-							</div>
-						</div>
-						<div class="product-wrapper">
-							<div class="product-img-2">
-								<a href="#">
-									<img src="~/img/product/book/12.jpg" alt="">
-								</a>
-								<div class="product-action-2">
-									<a class="animate-left add-style-2" title="Add To Cart" href="#">Add to Cart <i class="ti-shopping-cart"></i></a>
-									<a class="animate-right wishlist-style-2" title="wishlist" href="#">
-										<i class="ti-heart"></i>
-									</a>
-								</div>
-							</div>							
-						</div>
+						}
 					</div>
 				</div>
 			</div>
@@ -197,8 +219,19 @@
 		} else {
 			localStorage.removeItem("userId");
 		}
+
+		// Display rate
+		function checkRate(rate, star, count) {
+			if (count == 0) { return star; }
+
+			if (rate <= 0) { star += "<i class=\"bi bi-star\"></i>"; }
+			else if (rate < 1) { star += "<i class=\"bi bi-star-half\"></i>"; }
+			else { star += "<i class=\"bi bi-star-fill\"></i>"; }
+
+			return checkRate(rate - 1, star, count - 1);
+		}
 	</script>
 	<script src="~/js/main.js"></script>
-	<script src="~/js/header.js"></script>
+	@*<script src="~/js/header.js"></script>*@
 	<script src="~/js/homepage.js"></script>
-		}
+}

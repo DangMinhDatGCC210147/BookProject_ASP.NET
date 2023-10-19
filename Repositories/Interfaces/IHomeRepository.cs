@@ -11,6 +11,5 @@ namespace Repositories.Interfaces
     {
         Task<List<BookAuthor>> GetBookAuthors();
         Task<List<BookGenre>> GetBookGenres();
-
 	}
 }

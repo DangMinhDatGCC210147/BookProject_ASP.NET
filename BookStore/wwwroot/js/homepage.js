@@ -1,4 +1,6 @@
-﻿//Show on Shop
+﻿/*const apiUrl = localStorage.getItem("apiUrl")
+
+//Show on Shop
 $(window).on("load", function () {    
     $.ajax({
         url: apiUrl + "/api/Home",
@@ -30,7 +32,7 @@ $(window).on("load", function () {
 							</a>
                             <div class="writer-content">
                                  <input type='hidden' id='quantity' runat='server' value="1">
-k                                <h4>${response.topAuthors[0].bookTitle}</h4>
+                                <h4>${response.topAuthors[0].bookTitle}</h4>
                                 <span>${response.topAuthors[0].authorName}</span>
                             </div>
                         <div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">${checkRate(response.topAuthors[0].reviewRate, "", 5)}</div>
@@ -67,7 +69,7 @@ k                                <h4>${response.topAuthors[0].bookTitle}</h4>
             console.log(error)
         },
     })
-});
+});*/
 
 // TOP BOOK BY GENRE
 function getBookByGenre(topGenres, listBooks, i) {
@@ -129,16 +131,5 @@ function getBooks(topGenres, genreId) {
         }
     }
     return book;
-}
-
-// Display rate
-function checkRate(rate, star, count) {
-    if (count == 0) { return star; }
-
-    if (rate <= 0) { star += "<i class=\"bi bi-star\"></i>"; }
-    else if (rate < 1) { star += "<i class=\"bi bi-star-half\"></i>"; }
-    else { star += "<i class=\"bi bi-star-fill\"></i>"; }
-
-    return checkRate(rate - 1, star, count - 1);
 }
 

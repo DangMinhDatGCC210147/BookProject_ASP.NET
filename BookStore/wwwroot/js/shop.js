@@ -1,7 +1,24 @@
-﻿//Show on Shop
+﻿
+function DisplayRate(rate, bookId) {
+    console.log(checkRate(rate, "", 5));
+    document.getElementById("rate_book_" + bookId).innerHTML = checkRate(rate, "", 5);
+    document.getElementById("rate_book_id_" + bookId).innerHTML = checkRate(rate, "", 5);
+}
+
+// Display rate
+function checkRate(rate, star, count) {
+    if (count == 0) { return star; }
+
+    if (rate <= 0) { star += "<i class=\"bi bi-star\" style=\"color: gold;\"></i>"; }
+    else if (rate < 1) { star += "<i class=\"bi bi-star-half\" style=\"color: gold;\"></i>"; }
+    else star += "<i class=\"bi bi-star-fill\" style=\"color: gold; background - color: gold; \"></i>";
+    return checkRate(rate - 1, star, count - 1);
+}
+/*
+//Show on Shop
 $(window).on("load", function () {
     AjaxBarArea();
-    AjaxAllBooks();
+    //AjaxAllBooks();
 });
 
 function AjaxBarArea() {
@@ -163,7 +180,7 @@ function ShowData(results) {
                         </a>
                         <div class="product-action">
                             <a class="animate-left" title="Wishlist">
-                                 ${item.isFavorite == 1 ? '<i class="bi bi-suit-heart-fill" onclick="DeleteWishlist(' + item.id + ')"></i>' : '<i class="bi bi-suit-heart icon_heart_' + item.id + '" onclick="AddToWishlist(' + item.id + ')"></i>'}
+                                 ${item.isFavorite == 1 ? '<i class="bi bi-suit-heart-fill" id="icon_heart_' + item.id + '" onclick="DeleteWishlist(' + item.id + ')"></i>' : '<i class="bi bi-suit-heart" id="icon_heart_' + item.id + '" onclick="AddToWishlist(' + item.id + ')"></i>'}
                             </a>
                             <a class="animate-top" title="Add To Cart" onclick="AddToCart(${item.id})">
                                 <i class="pe-7s-cart"></i>
@@ -217,16 +234,4 @@ function ShowData(results) {
     grid_sidebar2.innerHTML = SearchResults_2;
 
 }
-
-// Display rate
-function checkRate(rate, star, count) {
-    if (count == 0) { return star; }
-
-    if (rate <= 0) { star += "<i class=\"bi bi-star\" style=\"color: gold;\"></i>"; }
-    else if (rate < 1) { star += "<i class=\"bi bi-star-half\" style=\"color: gold;\"></i>"; }
-    else {
-        star += "<i class=\"bi bi-star-fill\" style=\"color: gold; background - color: gold; \"></i>";
-    }
-
-    return checkRate(rate - 1, star, count - 1);
-}
+*/

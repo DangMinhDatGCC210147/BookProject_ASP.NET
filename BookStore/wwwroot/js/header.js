@@ -219,6 +219,11 @@ function AddToWishlist(bookId) {
                     timer: 1000
                 })
                 AjaxWishlist();
+                var icon = document.getElementById("icon_heart_" + bookId);
+                if (icon.className == "bi bi-suit-heart") {
+                    icon.classList.remove("bi-suit-heart");
+                    icon.classList.add("bi-suit-heart-fill");
+                }
             },
             error: function (error) {
                 console.log(error)
@@ -257,6 +262,12 @@ function DeleteWishlist(bookId) {
                 success: function () {
                     $('#row_wishlist_' + bookId).remove();
                     UpdateWishlistNumber();
+
+                    var icon = document.getElementById("icon_heart_" + bookId);
+                    if (icon.className == "bi bi-suit-heart-fill") {
+                        icon.classList.remove("bi-suit-heart-fill");
+                        icon.classList.add("bi-suit-heart");
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.log(xhr)

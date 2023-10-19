@@ -59,8 +59,17 @@
 				<div class="menu-style-2 book-menu menu-hover">
 					<nav>
 						<ul>
-							<li><a asp-controller="Home" asp-action="Index">home</a></li>
-							<li><a asp-controller="Home" asp-action="Shop">shop</a></li>
+							@if (SignInManager.IsSignedIn(User))
+							{
+								var user = await UserManager.GetUserAsync(User);
+								<li><a asp-controller="Home" asp-action="Index" asp-route-userId="@user.Id">home</a></li>
+								<li><a asp-controller="Home" asp-action="Shop" asp-route-userId="@user.Id">shop</a></li>
+							}
+							else
+							{
+								<li><a asp-controller="Home" asp-action="Index">home</a></li>
+								<li><a asp-controller="Home" asp-action="Shop">shop</a></li>								
+							}
 							<li><a asp-controller="Home" asp-action="AboutUs">about us</a></li>
 							<li><a asp-controller="Home" asp-action="Contact">contact</a></li>
 						</ul>

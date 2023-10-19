@@ -25,8 +25,7 @@ namespace BookStoreAPI.Controllers
 			var found = repository.FindWishlistById(favourite.BookId, favourite.UserId);
             if (found != null)
 				return NotFound();
-			repository.SaveWishlist(favourite);
-			return Ok();
+			return Ok(repository.SaveWishlist(favourite));
 		}
 
 		[HttpDelete]
