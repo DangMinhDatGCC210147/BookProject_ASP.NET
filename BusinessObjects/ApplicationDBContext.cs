@@ -307,7 +307,7 @@ namespace BusinessObjects
 			);
 
 
-			modelBuilder.Entity<Order>().HasData(
+			/*modelBuilder.Entity<Order>().HasData(
 				new Order
 				{
 					Id = 1,
@@ -442,7 +442,7 @@ namespace BusinessObjects
 				new OrderDetail { BookId = 9, OrderId = 8, Quantity = 2, UnitPrice = 42.00M },
 				new OrderDetail { BookId = 10, OrderId = 9, Quantity = 1, UnitPrice = 65.75M },
 				new OrderDetail { BookId = 5, OrderId = 10, Quantity = 3, UnitPrice = 45.00M }
-			);
+			);*/
 		}
 	}
 }
