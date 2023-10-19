@@ -133,7 +133,10 @@ namespace BookStoreWebClient.Areas.Identity.Pages.Account
                             case Roles.Admin:
                                 returnUrl = Url.Content("~/Admin/Dashboard/Index");
                                 break;
-                        }
+							case Roles.Customer:
+								returnUrl = Url.Content("~/Home/Index/?userId=" + user.Id);
+								break;
+						}
                     }
                     return LocalRedirect(returnUrl);
                 }

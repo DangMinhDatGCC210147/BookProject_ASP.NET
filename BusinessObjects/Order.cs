@@ -18,7 +18,7 @@ namespace BusinessObjects
 		[Required]
 		public string DeleveryLocal { get; set; }
 		[Required]
-		public string? UserId { get; set; }
+		public string UserId { get; set; }
 		[Required]
 		public string CustomerName { get; set; }
 		[Required]
@@ -30,7 +30,7 @@ namespace BusinessObjects
 		[Required]
 		public int DiscountId { get; set; }
 		[ForeignKey("DiscountId")]
-		public virtual Discount Discount { get; set; }
+		public virtual Discount? Discount { get; set; }
 		[ForeignKey("UserId")]
 		public virtual AppUser? User { get; set; }
 		public virtual ICollection<OrderDetail>? OrderDetails { get; set; }

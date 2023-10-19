@@ -68,7 +68,7 @@ namespace BookStoreAPI.Controllers
 
             using (var package = new ExcelPackage(stream))
             {
-                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+                var workSheet = package.Workbook.Worksheets.Add("Publisher"); 
                 workSheet.Cells.LoadFromCollection(list, true);
                 package.Save();
             }

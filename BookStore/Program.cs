@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BusinessObjects;
-using BookStoreWebClient.Areas.Identity.Pages;
 using BookStoreWebClient.Data;
 using Microsoft.Extensions.Hosting.Internal;
 
@@ -47,7 +46,7 @@ app.UseAuthorization();
 app.MapAreaControllerRoute(
     name: "areas",
     areaName: "Owner",
-    pattern: "Owner/{controller=Language}/{action=Index}/{id?}");
+    pattern: "Owner/{controller=Dashboard}/{action=Index}/{id?}");
 
 app.MapAreaControllerRoute(
     name: "areas",

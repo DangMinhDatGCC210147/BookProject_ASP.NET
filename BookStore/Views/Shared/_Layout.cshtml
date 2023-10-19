@@ -27,7 +27,7 @@
 	<link rel="stylesheet" href="~/css/style.css">
 	<link rel="stylesheet" href="~/css/responsive.css">
 	<script src="~/js/vendor/modernizr-3.11.7.min.js"></script>
-
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 	@RenderSection("stylesheets", required: false)
 
 </head>
@@ -59,8 +59,17 @@
 				<div class="menu-style-2 book-menu menu-hover">
 					<nav>
 						<ul>
-							<li><a asp-controller="Home" asp-action="Index">home</a></li>
-							<li><a asp-controller="Home" asp-action="Shop">shop</a></li>
+							@if (SignInManager.IsSignedIn(User))
+							{
+								var user = await UserManager.GetUserAsync(User);
+								<li><a asp-controller="Home" asp-action="Index" asp-route-userId="@user.Id">home</a></li>
+								<li><a asp-controller="Home" asp-action="Shop" asp-route-userId="@user.Id">shop</a></li>
+							}
+							else
+							{
+								<li><a asp-controller="Home" asp-action="Index">home</a></li>
+								<li><a asp-controller="Home" asp-action="Shop">shop</a></li>								
+							}
 							<li><a asp-controller="Home" asp-action="AboutUs">about us</a></li>
 							<li><a asp-controller="Home" asp-action="Contact">contact</a></li>
 							<li><a asp-controller="Home" asp-action="Help">help</a></li>
@@ -70,55 +79,15 @@
 				<!-- Wishlist ICON -->
 				@if (SignInManager.IsSignedIn(User))
 				{
-					var user = await UserManager.GetUserAsync(User);
-
-					<div class="header-cart-2" id="cart"> </div>
-
-					<!-- Cart ICON -->
+					<div class="header-cart-2" id="cart"></div>
+					<div class="header-cart-2" id="wishlist"></div>
+					@* PROFILE ICON *@
 					<div class="header-cart-2">
-						<a class="icon-cart" href="#">
-							<i class="ti-heart"></i>
-							<span class="shop-count book-count">10</span>
+						<a class="icon-cart" asp-controller="Home" asp-action="Profile">
+							<i class="ti-user"></i>
 						</a>
-						<ul class="cart-dropdown">
-							<li class="single-product-cart">
-								<div class="cart-img">
-									<a href="#"><img src="~/img/product/book/1.jpg" alt=""></a>
-								</div>
-								<div class="cart-title">
-									<h5><a href="#"> Bits Headphone</a></h5>
-									<h6><a href="#">Black</a></h6>
-									<span>$80.00 x 1</span>
-								</div>
-								<div class="cart-delete">
-									<a href="#"><i class="ti-trash"></i></a>
-								</div>
-							</li>
-							<li class="single-product-cart">
-								<div class="cart-img">
-									<a href="#"><img src="~/img/product/book/3.jpg" alt=""></a>
-								</div>
-								<div class="cart-title">
-									<h5><a href="#"> Bits Headphone</a></h5>
-									<h6><a href="#">Black</a></h6>
-									<span>$80.00 x 1</span>
-								</div>
-								<div class="cart-delete">
-									<a href="#"><i class="ti-trash"></i></a>
-								</div>
-							</li>
-							<li class="cart-btn-wrapper">
-								<a class="cart-btn btn-hover" asp-controller="Home" asp-action="Wishlist" asp-route-userId="@user.Id">view wishlist</a>
-							</li>
-						</ul>
 					</div>
 				}
-				@* PROFILE ICON *@
-				<div class="header-cart-2">
-					<a class="icon-cart" asp-controller="Home" asp-action="Profile" asp-route-userId="">
-						<i class="ti-user"></i>
-					</a>
-				</div>
 				@* ICON Search *@
 				<div class="header-cart-2">
 					<a class="icon-cart" href="#">
@@ -163,6 +132,10 @@
 									padding: 10px 15px;
 									margin-left: 10px;
 									cursor: pointer;
+								}
+
+								.bi-suit-heart-fill {
+									color: red;
 								}
 							</style>
 						</li>
@@ -313,6 +286,7 @@
 	@if (SignInManager.IsSignedIn(User))
 	{
 		<script src="~/js/header.js"></script>
+		<script src="~/js/cart.js"></script>
 	}
 	@await RenderSectionAsync("Scripts", required: false)
 </body>

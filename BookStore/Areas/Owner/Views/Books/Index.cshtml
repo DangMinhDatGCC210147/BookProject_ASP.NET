@@ -23,6 +23,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            <button onclick="exportToExcel()" class="btn btn-secondary">Export Excel</button>
                             @* </form> *@
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#bookModal">Add New Book</button>
                         </div>
@@ -195,6 +196,45 @@
 
 </main><!-- End #main -->
 @section Scripts{
+
+    <script>
+        function exportToExcel() {
+            Swal.fire({
+                title: 'Export Excel',
+                text: 'Are you sure you want to export data to Excel?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, export it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => { 
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: apiUrl + '/api/Books/export',
+                        type: 'GET',
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function (data) {
+                            var a = document.createElement('a');
+                            var url = window.URL.createObjectURL(data);
+                            a.href = url;
+                            a.download = 'Books.xlsx';
+                            document.body.appendChild(a);
+                            a.click();
+                            window.URL.revokeObjectURL(url);
+                            document.body.removeChild(a);
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                        }
+                    });
+                }
+            });
+        }
+
+
+        </script>
+
     <script src="~/js/js-owner/Book.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }

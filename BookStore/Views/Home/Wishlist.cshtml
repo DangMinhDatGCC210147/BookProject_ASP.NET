@@ -17,47 +17,10 @@
                                     <th>images</th>
                                     <th>Product</th>
                                     <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="product-remove"><a href="#"><i class="pe-7s-close"></i></a></td>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="~/img/cart/1.jpg" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Wooden Furniture </a></td>
-                                    <td class="product-price-cart"><span class="amount">$165.00</span></td>
-                                    <td class="product-quantity">
-                                        <input value="1" min="1" type="number">
-                                    </td>
-                                    <td class="product-subtotal">$165.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="product-remove"><a href="#"><i class="pe-7s-close"></i></a></td>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="~/img/cart/2.jpg" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Vestibulum dictum</a></td>
-                                    <td class="product-price-cart"><span class="amount">$150.00</span></td>
-                                    <td class="product-quantity">
-                                        <input value="1" min="1" type="number">
-                                    </td>
-                                    <td class="product-subtotal">$150.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="product-remove"><a href="#"><i class="pe-7s-close"></i></a></td>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="~/img/cart/3.jpg" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Vestibulum dictum</a></td>
-                                    <td class="product-price-cart"><span class="amount">$150.00</span></td>
-                                    <td class="product-quantity">
-                                        <input value="1" min="1" type="number">
-                                    </td>
-                                    <td class="product-subtotal">$150.00</td>
-                                </tr>
+                            <tbody id="listWishlist">
+                                
                             </tbody>
                         </table>
                     </div>
@@ -69,5 +32,6 @@
 <!-- shopping-cart-area end -->
 @section Scripts {
     <script src="~/js/main.js"></script>
+    <script src="~/js/wishlist.js"></script>
 }
 

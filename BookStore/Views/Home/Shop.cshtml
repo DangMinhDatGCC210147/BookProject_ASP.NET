@@ -1,7 +1,8 @@
-﻿@model List<BusinessObjects.Book>
+﻿@model BusinessObjects.DTO.ShopView
 @{
 	ViewData["Title"] = "Shop";
 }
+
 <div class="shop-page-wrapper shop-page-padding ptb-100">
 	<div class="container-fluid">
 		<div class="row gy-5">
@@ -47,7 +48,7 @@
 								<div class="row" id="result_search_1">
 									@if (Model != null)
 									{
-										@foreach (var book in Model)
+										@foreach (var book in Model.Books)
 										{
 											<div class="col-lg-6 col-md-6 col-xl-3">
 												<div class="product-wrapper mb-30">
@@ -56,10 +57,18 @@
 															<img src="/img/product/book/@book.Image" alt="">
 														</a>
 														<div class="product-action">
+															<p>@book.IsFavorite</p>
 															<a class="animate-left" title="Wishlist" href="#">
-																<i class="pe-7s-like"></i>
+																@if (@book.IsFavorite == 1)
+																{
+																	<i class="bi bi-suit-heart-fill" id="icon_heart_@book.Id" onclick="DeleteWishlist(@book.Id)"></i>
+																}
+																else
+																{
+																	<i class="bi bi-suit-heart" id="icon_heart_@book.Id" onclick="AddToWishlist(@book.Id)"></i>
+																}
 															</a>
-															<a class="animate-top" title="Add To Cart" href="#">
+															<a class="animate-top" title="Add To Cart" onclick="AddToCart(@book.Id)">
 																<i class="pe-7s-cart"></i>
 															</a>
 															<a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
@@ -68,6 +77,7 @@
 														</div>
 													</div>
 													<div class="product-content">
+														<div class="product-rating-2" id="rate_book_@book.Id" onload="DisplayRate(@book.Rate, @book.Id)"></div>
 														<h4><a href="#">@book.Title</a></h4>
 														<span>@book.SellingPrice</span>
 													</div>
@@ -79,13 +89,52 @@
 							</div>
 							<div id="grid-sidebar2" class="tab-pane fade">
 								<div class="row" id="result_search_2">
-									@*javascript*@
+									@if (Model != null)
+									{
+										@foreach (var book in Model.Books)
+										{
+											<div class="col-lg-12 col-xl-6">
+												<div class="product-wrapper mb-30 single-product-list product-list-right-pr mb-60">
+													<div class="product-img list-img-width">
+														<a href="/Home/Detail/@book.Id">
+															<img src="/img/product/book/@book.Image" alt="">
+														</a>
+														<span>hot</span>
+													</div>
+													<div class="product-content-list">
+														<div class="product-list-info">
+															<h4><a href="/Home/Detail/@book.Id">@book.Title</a></h4>
+															<div class="product-rating-2" id="rate_book_id_@book.Id" onload="DisplayRate(@book.Rate, @book.Id)"></div>
+															<span href="/Home/Detail/@book.Id">@book.SellingPrice</span>
+														</div>
+														<div class="product-list-cart-wishlist">
+															<div class="product-list-cart">
+																<a class="btn-hover list-btn-style" onclick="AddToCart(@book.Id)">add to cart</a>
+															</div>
+															<div class="product-list-wishlist">
+																<a class="btn-hover list-btn-wishlist" href="#">
+																	@if (@book.IsFavorite == 1)
+																	{
+																		<i class="bi bi-suit-heart-fill" id="icon_heart_@book.Id" onclick="DeleteWishlist(@book.Id)"></i>
+																	}
+																	else
+																	{
+																		<i class="bi bi-suit-heart" id="icon_heart_@book.Id" onclick="AddToWishlist(@book.Id)"></i>
+																	}
+																</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										}
+									}
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="pagination-style mt-30 text-center">
+				@*<div class="pagination-style mt-30 text-center">
 					<ul>
 						<li><a href="#"><i class="ti-angle-left"></i></a></li>
 						<li><a href="#">1</a></li>
@@ -94,7 +143,7 @@
 						<li><a href="#">19</a></li>
 						<li class="active"><a href="#"><i class="ti-angle-right"></i></a></li>
 					</ul>
-				</div>
+				</div>*@
 			</div>
 		</div>
 	</div>
@@ -103,5 +152,6 @@
 	<script src="~/js/main.js"></script>
 	<script src="~/js/header.js"></script>
 	<script src="~/js/shop.js"></script>
+	<script src="~/js/cart.js"></script>
 }
 

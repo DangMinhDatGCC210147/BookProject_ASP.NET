@@ -53,8 +53,6 @@ namespace BookStoreAPI.Controllers
             return Ok(repository.UpdateOrder(order));
         }
 
-        /////////////////////////////////////////////////////////////////////////////
-
         [HttpGet("export")]
         public async Task<IActionResult> ExportV2(CancellationToken cancellationToken)
         {
@@ -66,7 +64,7 @@ namespace BookStoreAPI.Controllers
 
             using (var package = new ExcelPackage(stream))
             {
-                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
+                var workSheet = package.Workbook.Worksheets.Add("Order"); 
                 workSheet.Cells.LoadFromCollection(list, true);
                 package.Save();
             }
