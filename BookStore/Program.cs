@@ -46,7 +46,7 @@ app.UseAuthorization();
 app.MapAreaControllerRoute(
     name: "areas",
     areaName: "Owner",
-    pattern: "Owner/{controller=Language}/{action=Index}/{id?}");
+    pattern: "Owner/{controller=Dashboard}/{action=Index}/{id?}");
 
 app.MapAreaControllerRoute(
     name: "areas",

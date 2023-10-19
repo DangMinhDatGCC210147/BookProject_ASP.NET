@@ -16,20 +16,20 @@ namespace BookStoreAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<OrderDetail>> GetOrderDetails() => repository.GetOrderDetails();
 
-        [HttpGet()]
-        public ActionResult<OrderDetail> GetOrderDetailById(OrderDetail orderDetail)
+        [HttpGet("{orderId}")]
+        public ActionResult<IEnumerable<OrderDetail>> GetOrderDetailById(int orderId)
         {
-            var OrderDetail = repository.GetOrderDetailById(orderDetail.BookId, orderDetail.OrderId);
-            if (OrderDetail == null)
+            List<OrderDetail> orderDetail = repository.GetOrderDetailById(orderId);
+            if (orderDetail == null)
                 return NotFound();
 
-            return Ok(OrderDetail);
+            return Ok(orderDetail);
         }
 
         [HttpPost]
-        public IActionResult CreateOrderDetail([FromBody] OrderDetail OrderDetail)
+        public IActionResult CreateOrderDetail([FromBody] OrderDetail orderDetail)
         {
-            return Ok(repository.SaveOrderDetail(OrderDetail));
+            return Ok(repository.SaveOrderDetail(orderDetail));
         }
 
         [HttpGet("export")]

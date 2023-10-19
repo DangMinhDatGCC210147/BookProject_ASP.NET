@@ -7,7 +7,7 @@ namespace Repositories.Interfaces
     {
         OrderDetail SaveOrderDetail(OrderDetail OrderDetail);
         List<OrderDetail> GetOrderDetails();
-        OrderDetail GetOrderDetailById(int bookId, int orderId);
+        List<OrderDetail> GetOrderDetailById(int orderId);
         void DeleteOrderDetail(OrderDetail OrderDetail);
         OrderDetail UpdateOrderDetail(OrderDetail OrderDetail);
     }

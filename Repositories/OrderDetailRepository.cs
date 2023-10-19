@@ -9,7 +9,7 @@ namespace Repositories
     {
         public void DeleteOrderDetail(OrderDetail OrderDetail) => OrderDetailDAO.DeleteOrderDetail(OrderDetail);
 
-        public OrderDetail GetOrderDetailById(int bookId, int orderId) => OrderDetailDAO.FindOrderDetail(bookId, orderId);
+        public List<OrderDetail> GetOrderDetailById(int orderId) => OrderDetailDAO.FindOrderDetailById(orderId);
 
         public List<OrderDetail> GetOrderDetails() => OrderDetailDAO.GetOrderDetails();
 

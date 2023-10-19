@@ -22,18 +22,14 @@ namespace DatAccess
             return listOrderDetails;
         }
 
-        public static OrderDetail FindOrderDetail(int bookId, int orderId)
+        public static List<OrderDetail> FindOrderDetailById(int orderId)
         {
             try
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    OrderDetail orderDetail = context.OrderDetails
-                        .Where(od => od.OrderId == orderId && od.BookId == bookId)
-                        .FirstOrDefault();
-                    return orderDetail;
+					return context.OrderDetails.Where(od => od.OrderId == orderId).ToList();
                 }
-
             }
             catch (Exception ex)
             {
@@ -41,7 +37,26 @@ namespace DatAccess
             }
         }
 
-        public static OrderDetail SaveOrderDetail(OrderDetail OrderDetail)
+		public static OrderDetail FindOrderDetail(int bookId, int orderId)
+		{
+			try
+			{
+				using (var context = new ApplicationDBContext())
+				{
+					OrderDetail orderDetail = context.OrderDetails
+						.Where(od => od.OrderId == orderId && od.BookId == bookId)
+						.FirstOrDefault();
+					return orderDetail;
+				}
+
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
+
+		public static OrderDetail SaveOrderDetail(OrderDetail OrderDetail)
         {
             try
             {

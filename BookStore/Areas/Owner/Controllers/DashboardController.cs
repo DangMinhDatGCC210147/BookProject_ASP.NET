@@ -33,8 +33,8 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
             HttpResponseMessage httpResponse = await client.GetAsync(StatisticApiUrl + "?currentDate=" + now);
             string data = await httpResponse.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-			List<StatisticView> books = JsonSerializer.Deserialize<List<StatisticView>>(data, options);
-			return View(books);
+			StatisticView statistics = JsonSerializer.Deserialize<StatisticView>(data, options);
+			return View(statistics);
 		}
         public IActionResult Category()
         {
