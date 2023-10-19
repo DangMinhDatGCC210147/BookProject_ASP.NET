@@ -107,6 +107,7 @@
 </main><!-- End #main -->
 @section Scripts{
    <script>
+
         function exportToExcel() {
             Swal.fire({
                 title: 'Export Excel',
@@ -127,7 +128,7 @@
                             var a = document.createElement('a');
                             var url = window.URL.createObjectURL(data);
                             a.href = url;
-                            a.download = 'exportedFile.xlsx';
+                            a.download = 'Authors.xlsx';
                             document.body.appendChild(a);
                             a.click();
                             window.URL.revokeObjectURL(url);
@@ -140,8 +141,6 @@
                 }
             });
         }
-
-
    </script>
     <script src="~/js/js-owner/author.js"></script>
     <script src="~/js/js-admin/main.js"></script>
