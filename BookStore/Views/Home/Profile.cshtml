@@ -1,64 +1,66 @@
 ﻿
+@model BusinessObjects.DTO.UserProfile
 @{
     ViewData["Title"] = "Profile";
 }
 <div class="container">
-    <h1>User Profile</h1>
-    <br>
-
-    <div class="row">
-        <div class="col-md-6 normal-info">
+    <h2 class="text-center mt-4">Welcome to your profile!</h2>
+    <div asp-validation-summary="ModelOnly" class="text-danger text-center"></div>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="password-tab" data-bs-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">Change Password</a>
+        </li>
+    </ul>
+    <div class="tab-content mt-4" id="myTabContent">
+        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <form>
-                <h2>User Information</h2>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" class="form-control" value="JohnDoe" readonly>
-                </div>
+                <!-- Profile information form here -->
+                @Html.AntiForgeryToken()
                 <div class="form-group">
                     <label for="username">First Name</label>
-                    <input type="text" id="username" class="form-control" value="Doe" readonly>
+                    <input type="text" asp-for="User.FirstName" class="form-control edit" value="@Model.User.FirstName" readonly>
                 </div>
                 <div class="form-group">
                     <label for="username">Last Name</label>
-                    <input type="text" id="username" class="form-control" value="John" readonly>
+                    <input type="text" asp-for="User.LastName" class="form-control edit" value="@Model.User.LastName" readonly>
                 </div>
                 <div class="form-group">
                     <label for="username">Address</label>
-                    <input type="text" id="username" class="form-control" value="Cantho City" readonly>
+                    <input type="text" asp-for="User.Address" class="form-control edit" value="@Model.User.Address" readonly>
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" class="form-control" value="johndoe@example.com" readonly>
+                    <input type="email" asp-for="User.UserName" class="form-control edit" value="@Model.User.UserName" readonly>
                 </div>
             </form>
-                <style>
-                .normal-info{
-                    margin-bottom: 30px;
-                }
-
-                #confirmPassword {
-                    margin-bottom: 30px;
-                }
-                </style>
         </div>
-        <div class="col-md-6 password-info">
-            <h2>Change Password</h2>
-            <form>
+        <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+            <form asp-controller="Home" asp-action="ChangePassword" method="post">
+                <!-- Change password form here -->
                 <div class="form-group">
                     <label for="currentPassword">Current Password</label>
-                    <input type="password" id="currentPassword" class="form-control" required>
+                    <input type="password" asp-for="ChangePassword.OldPassword" class="form-control" required>
+                    <span asp-validation-for="ChangePassword.OldPassword" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label for="newPassword">New Password</label>
-                    <input type="password" id="newPassword" class="form-control" required>
+                    <input type="password" asp-for="ChangePassword.NewPassword" class="form-control" required>
+                    <span asp-validation-for="ChangePassword.NewPassword" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label for="confirmPassword">Confirm New Password</label>
-                    <input type="password" id="confirmPassword" class="form-control" required>
+                    <input type="password" asp-for="ChangePassword.ConfirmPassword" class="form-control" required>
+                    <span asp-validation-for="ChangePassword.ConfirmPassword" class="text-danger"></span>
                 </div>
-                <button type="submit" class="btn btn-primary">Change Password</button>
+                <button type="submit" class="btn btn-dark mt-3">Change Password</button>
             </form>
         </div>
     </div>
 </div>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -2,272 +2,143 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>@ViewData["Title"] - Book WonderLand</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-    <!-- Favicons -->
-    <link href="~/img/favicon.png" rel="icon">
-    <link href="~/img/apple-touch-icon.png" rel="apple-touch-icon">
+	<title>@ViewData["Title"] - Book WonderLand</title>
+	<meta content="" name="description">
+	<meta content="" name="keywords">
+	<!-- Favicons -->
+	<link href="~/img/favicon.png" rel="icon">
+	<link href="~/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<!-- Google Fonts -->
+	<link href="https://fonts.gstatic.com" rel="preconnect">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
-    <!-- Vendor CSS Files -->
-    <link href=" ~/js/vendor-admin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/quill/quill.snow.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/quill/quill.bubble.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/remixicon/remixicon.css" rel="stylesheet">
-    <link href="~/js/vendor-admin/simple-datatables/style.css" rel="stylesheet">
+	<!-- Vendor CSS Files -->
+	<link href=" ~/js/vendor-admin/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="~/js/vendor-admin/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+	<link href="~/js/vendor-admin/boxicons/css/boxicons.min.css" rel="stylesheet">
+	<link href="~/js/vendor-admin/quill/quill.snow.css" rel="stylesheet">
+	<link href="~/js/vendor-admin/quill/quill.bubble.css" rel="stylesheet">
+	<link href="~/js/vendor-admin/remixicon/remixicon.css" rel="stylesheet">
+	<link href="~/js/vendor-admin/simple-datatables/style.css" rel="stylesheet">
 
-    <!-- Template Main CSS File -->
-    <link href="~/css/style-admin.css" rel="stylesheet">
-    <!-- Link Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Template Main CSS File -->
+	<link href="~/css/style-admin.css" rel="stylesheet">
+	<!-- Link Bootstrap CSS -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!-- Thêm CSS của SweetAlert -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <!-- Thêm JavaScript của SweetAlert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<!-- Thêm CSS của SweetAlert -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+	<!-- Thêm JavaScript của SweetAlert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
-    @RenderSection("stylesheets", required: false)
+	@RenderSection("stylesheets", required: false)
 </head>
 <body>
-    <header id="header" class="header fixed-top d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center justify-content-between">
-            <a href="#" class="logo d-flex align-items-center">
-                <img src="~/img/logo.png" alt="">
-                <span class="d-none d-lg-block">Book WonderLand</span>
-            </a>
-            <i class="bi bi-list toggle-sidebar-btn"></i>
-        </div><!-- End Logo -->
+	<header id="header" class="header fixed-top d-flex align-items-center justify-content-between">
+		<div class="d-flex align-items-center justify-content-between">
+			<a asp-controller="Dashboard" asp-action="Index" class="logo d-flex align-items-center">
+				<img src="~/img/logo.png" alt="">
+				<span class="d-none d-lg-block">Book WonderLand</span>
+			</a>
+			<i class="bi bi-list toggle-sidebar-btn"></i>
+		</div><!-- End Logo -->
 
-        <nav class="header-nav">
-            <ul class="d-flex align-items-center">
+		<nav class="header-nav">
+			<ul class="d-flex align-items-center">
 
-                <li class="nav-item d-block d-lg-none">
-                    <a class="nav-link nav-icon search-bar-toggle " href="#">
-                        <i class="bi bi-search"></i>
-                    </a>
-                </li><!-- End Search Icon-->
+				<li class="nav-item d-block d-lg-none">
+					<a class="nav-link nav-icon search-bar-toggle " href="#">
+						<i class="bi bi-search"></i>
+					</a>
+				</li><!-- End Search Icon-->
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number">4</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                    </ul>
-                    <!-- End Notification Dropdown Items -->
+				<li class="nav-item dropdown">
+					<a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+						<i class="bi bi-bell"></i>
+						<span class="badge bg-primary badge-number">4</span>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+					</ul>
+					<!-- End Notification Dropdown Items -->
 
-                </li><!-- End Notification Nav -->
+				</li><!-- End Notification Nav -->
+				
+				<form id="logoutForm" class="nav-link form-inline ml-2" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+					<button id="logout" type="submit" class="nav-link btn btn-link">Logout</button>
+				</form>
 
-                @* <li class="nav-item dropdown">
+			</ul>
+		</nav><!-- End Icons Navigation -->
+	</header><!-- End Header -->
+	<!-- ======= Sidebar ======= -->
+	<aside id="sidebar" class="sidebar">
+		<ul class="sidebar-nav" id="sidebar-nav">
 
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-chat-left-text"></i>
-                        <span class="badge bg-success badge-number">3</span>
-                    </a><!-- End Messages Icon -->
+			<li class="nav-item">
+				<a class="nav-link collapsed" asp-controller="Dashboard" asp-action="Index">
+					<i class="bi bi-grid"></i>
+					<span>Dashboard</span>
+				</a>
+			</li><!-- End Dashboard Nav -->
 
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-                        <li class="dropdown-header">
-                            You have 3 new messages
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+			<li class="nav-item">
+				<a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse">
+					<i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
+				</a>
+				<ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+					<li>
+						<a asp-controller="Genres" asp-action="Index"><i class="bi bi-circle"></i><span>Genres</span></a>
+					</li>
+					<li>
+						<a asp-controller="Users" asp-action="Index"><i class="bi bi-circle"></i><span>Users</span></a>
+					</li>
+				</ul>
+			</li><!-- End Tables Nav -->			
+		</ul>
+	</aside><!-- End Sidebar-->
+	@*     <div class="container">
+	<main role="main" class="pb-3"> *@
+	@RenderBody()
+	@*         </main>
+	</div> *@
 
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
-                                <div>
-                                    <h4>Maria Hudson</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>4 hrs. ago</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+	<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
-                                <div>
-                                    <h4>Anna Nelson</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>6 hrs. ago</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+	<!-- Vendor JS Files -->
+	<script src="~/js/vendor-admin/apexcharts/apexcharts.min.js"></script>
+	<script src="~/js/vendor-admin/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/vendor-admin/chart.js/chart.umd.js"></script>
+	<script src="~/js/vendor-admin/echarts/echarts.min.js"></script>
+	<script src="~/js/vendor-admin/quill/quill.min.js"></script>
+	<script src="~/js/vendor-admin/simple-datatables/simple-datatables.js"></script>
+	<script src="~/js/vendor-admin/tinymce/tinymce.min.js"></script>
+	<script src="~/js/vendor-admin/php-email-form/validate.js"></script>
 
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
-                                <div>
-                                    <h4>David Muldon</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>8 hrs. ago</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                    </ul><!-- End Messages Dropdown Items -->
+	<script src="~/js/js-admin/navbar.js"></script>
+	<!-- Link Bootstrap JS and jQuery (required for Bootstrap's JavaScript) -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-                </li><!-- End Messages Nav --> *@
-
-                <li class="nav-item dropdown pe-3">
-
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-                        <span class="d-none d-md-block dropdown-toggle ps-2">Dustin</span>
-                    </a><!-- End Profile Iamge Icon -->
-
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        <li class="dropdown-header">
-                            <h6>Kevin Anderson</h6>
-                            <span>Web Designer</span>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                <i class="bi bi-person"></i>
-                                <span>My Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                                <i class="bi bi-gear"></i>
-                                <span>Account Settings</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                                <i class="bi bi-question-circle"></i>
-                                <span>Need Help?</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
-                            </a>
-                        </li>
-
-                    </ul><!-- End Profile Dropdown Items -->
-                </li><!-- End Profile Nav -->
-
-            </ul>
-        </nav><!-- End Icons Navigation -->
-    </header><!-- End Header -->
-    <!-- ======= Sidebar ======= -->
-    <aside id="sidebar" class="sidebar">
-        <ul class="sidebar-nav" id="sidebar-nav">
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-controller="Admin" asp-action="Index">
-                    <i class="bi bi-grid"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li><!-- End Dashboard Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link " data-bs-target="#tables-nav" data-bs-toggle="collapse">
-                    <i class="bi bi-layout-text-window-reverse"></i><span>Tables</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="tables-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a asp-controller="Genres" asp-action="Index"><i class="bi bi-circle"></i><span>Genres</span></a>
-                    </li>
-                    <li>
-                        <a asp-controller="Users" asp-action="Index"><i class="bi bi-circle"></i><span>Users</span></a>
-                    </li>
-                </ul>
-            </li><!-- End Tables Nav -->
-
-            <li class="nav-heading">Pages</li>
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-controller="Admin" asp-action="Profile">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
-                </a>
-            </li><!-- End Profile Page Nav -->
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" asp-controller="Admin" asp-action="Register">
-                    <i class="bi bi-card-list"></i>
-                    <span>Register</span>
-                </a>
-            </li><!-- End Register Page Nav -->
-        </ul>
-    </aside><!-- End Sidebar-->
-
-@*     <div class="container">
-        <main role="main" class="pb-3"> *@
-            @RenderBody()
-@*         </main>
-    </div> *@
-
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-    <!-- Vendor JS Files -->
-    <script src="~/js/vendor-admin/apexcharts/apexcharts.min.js"></script>
-    <script src="~/js/vendor-admin/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/vendor-admin/chart.js/chart.umd.js"></script>
-    <script src="~/js/vendor-admin/echarts/echarts.min.js"></script>
-    <script src="~/js/vendor-admin/quill/quill.min.js"></script>
-    <script src="~/js/vendor-admin/simple-datatables/simple-datatables.js"></script>
-    <script src="~/js/vendor-admin/tinymce/tinymce.min.js"></script>
-    <script src="~/js/vendor-admin/php-email-form/validate.js"></script>
-
-    <script src="~/js/js-admin/navbar.js"></script>
-    <!-- Link Bootstrap JS and jQuery (required for Bootstrap's JavaScript) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!--  Link jquery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-            integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+	<!--  Link jquery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+			integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+			crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
-    <div class="copyright">
-        &copy; Copyright <strong><span>Dat - Tran - Phuong</span></strong>. All Rights Reserved
-    </div>
+	<div class="copyright">
+		&copy; Copyright <strong><span>Dat - Tran - Phuong</span></strong>. All Rights Reserved
+	</div>
 </footer><!-- End Footer -->
 </html>
 

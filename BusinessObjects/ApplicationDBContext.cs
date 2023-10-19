@@ -51,6 +51,7 @@ namespace BusinessObjects
 		{
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.Entity<OrderDetail>().HasKey(o => new { o.OrderId, o.BookId });
+			modelBuilder.Entity<CartDetail>().HasKey(c => new { c.BookId, c.CartId });
 
 
 			modelBuilder.Entity<Language>().HasData(
@@ -429,9 +430,9 @@ namespace BusinessObjects
 					IsConfirm = false,
 					DiscountId = 2
 				}
-			);
+			);*/
 
-			modelBuilder.Entity<OrderDetail>().HasData(
+			/*modelBuilder.Entity<OrderDetail>().HasData(
 				new OrderDetail { BookId = 1, OrderId = 1, Quantity = 2, UnitPrice = 50.00M },
 				new OrderDetail { BookId = 2, OrderId = 2, Quantity = 3, UnitPrice = 60.00M },
 				new OrderDetail { BookId = 6, OrderId = 3, Quantity = 1, UnitPrice = 40.00M },

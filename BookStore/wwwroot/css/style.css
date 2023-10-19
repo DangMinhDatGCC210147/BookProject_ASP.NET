@@ -323,6 +323,10 @@ label{
     max-width: 566px;
 }
 
+/* css start */
+.bi-star-fill, .bi-star-half {
+    color: yellow; /* Đặt màu vàng */
+}
 /* 2.3 Currency style */
 
 .currency {

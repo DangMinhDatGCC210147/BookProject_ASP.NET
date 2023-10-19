@@ -1,4 +1,6 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +13,11 @@ namespace DataAccess
 	{
 		public static List<Book> GetProducts()
 		{
-			var listProducts = new List<Book>();
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					listProducts = context.Books.ToList();
+					return context.Books.ToList();
 				}
 
 			}
@@ -24,8 +25,8 @@ namespace DataAccess
 			{
 				throw new Exception(ex.Message);
 			}
-			return listProducts;
 		}
+
 		public static List<Book> FindProductByName(string titleToSearch)
 		{
 			try

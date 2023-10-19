@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using DataAccess;
 using DatAccess;
 using Repositories.Interfaces;
@@ -6,7 +7,7 @@ using Repositories.Interfaces;
 namespace Repositories
 {
 	public class ProductRepository : IProductRepository
-	{
+	{	
 		public void DeleteProductById(Book product) => BookDAO.DeleteProduct(product);
 
 		public Book GetProductById(int id) => BookDAO.FindProductById(id);

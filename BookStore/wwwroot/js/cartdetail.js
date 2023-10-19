@@ -5,7 +5,6 @@ $(window).on("load", function () {
 		type: "GET",
 		contentType: 'application/json',
 		success: function (response) {
-			console.log(response);
 			var table = document.getElementById("listCart");
 			table.innerHTML =
 				`
@@ -53,22 +52,22 @@ $(window).on("load", function () {
 							<tr id="row_${item.bookId}">
 								<td class="product-remove"><a onclick="DeleteCart(${item.bookId})"><i class="pe-7s-close"></i></a></td>
 								<td class="product-thumbnail">
-									<a href="#"><img src="/img/product/book/${item.image}" alt=""></a>
+									<a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
 								</td>
-								<td class="product-name"><a href="#" id="product-name_${item.bookId}">${item.title}</a></td>
+								<td class="product-name"><a href="/Home/Detail/${item.bookId}" id="product-name_${item.bookId}">${item.title}</a></td>
 								<td class="product-price-cart"><span class="amount" id="price_${item.bookId}">$${item.price}</span></td>
 								<td class="product-quantity">
                                 <div class="input-quantity">
                                       <div class="input-group-append">
                                           <div class="cart-plus-minus">
-                                            <div class="inc qtybutton" onclick="UpdateQuantity('plus_${item.bookId}')">+</div>
-                                          </div> 
+                                            <div class="inc qtybutton" onclick="UpdateQuantity('minus_${item.bookId}')">-</div>
+                                          </div>                                          
                                       </div>
                                       <span id="quantity_${item.bookId}" class="form-control text-center input_quantity_box">${item.quantity}</span>
                                       <div class="input-group-append">  
                                           <div class="cart-plus-minus">
-                                            <div class="inc qtybutton" onclick="UpdateQuantity('minus_${item.bookId}')">-</div>
-                                          </div>
+                                            <div class="inc qtybutton" onclick="UpdateQuantity('plus_${item.bookId}')">+</div>
+                                          </div> 
                                       </div>
                                 </div>
 								</td>
@@ -77,48 +76,13 @@ $(window).on("load", function () {
 						`
 			});
 			document.getElementById("table_row").innerHTML = row;
-
+			SubTotal();
 		},
 		error: function (error) {
 			console.log(error)
 		},
 	});
 });
-// Delete Cart
-function DeleteCart(bookId) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'Book \"' + $("#product-name_" + bookId).text() + '\" will be removed in your cart',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'No, cancel'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            const data = {
-                bookId: bookId,
-                newQuantity: 0,
-                userId: userId
-            }
-            $.ajax({
-                type: 'DELETE',
-                url: apiUrl + '/api/CartDetails',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function () {
-                    Swal.fire('Deleted!', 'Book \"' + $("#product-name").text() + '\" was removed in your cart', 'success');
-                    $('#row_' + bookId).remove();
-                    SubTotal();
-                    AjaxCallCart();
-                },
-                error: function (xhr, status, error) {
-                    console.log(xhr)
-                    Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
-                }
-            });
-        }
-    });
-}
 
 //Update quantity
 function UpdateQuantity(action_bookId) {
@@ -148,7 +112,7 @@ function UpdateQuantity(action_bookId) {
             var unitTotal = (quantity * price).toFixed(2);
             $("#unitTotal_" + arr[1]).text("$" + unitTotal);
 			SubTotal();
-			AjaxCallCart();
+            DisplayCartAndWishlist();
         },
         error: function (xhr, status, error) {
             console.log(xhr)
@@ -158,14 +122,11 @@ function UpdateQuantity(action_bookId) {
     });
 }
 
-SubTotal();
-
 function SubTotal() {
-    var subtotalElements = document.querySelectorAll("td.product-subtotal");
-    var total = 0;
-    for (var i = 0; i < subtotalElements.length; i++) {
-        total += parseFloat(subtotalElements[i].textContent.replace('$', ''));
-    }
-    $("#cart_subtotal").text(total.toFixed(2));
-
+	var subtotalElements = document.querySelectorAll(".product-subtotal");
+	var total = 0;
+	for (var i = 0; i < subtotalElements.length; i++) {
+		total += parseFloat(subtotalElements[i].textContent.replace('$', ''));
+	}
+	$("#cart_subtotal").text(total.toFixed(2));
 }

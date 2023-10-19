@@ -1,50 +1,24 @@
-﻿function AddToCart(bookId) {
-    if (userId) {
-        $.ajax({
-            url: apiUrl + "/api/Carts/?userId=" + userId,
-            type: "POST",
-            success: function (response) {
-                const quantity = $("#quantity").val();
-                const data = {
-                    bookId: bookId,
-                    quantity: quantity,
-                    cartId: response.id
-                }
-
-                $.ajax({
-                    url: apiUrl + "/api/CartDetails/" + userId,
-                    type: "POST",
-                    contentType: 'application/json',
-                    data: JSON.stringify(data),
-                    success: function () {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'The book has been added to the cart.',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        AjaxCallCart();
-                    },
-                    error: function (error) {
-                        console.log(error)
-                    },
-                })
-            },
-            error: function (error) {
-                console.log(error)
-            },
-        })
-    }
-    else {
-        window.location.href = "/Identity/Account/Login";
-    }
+﻿
+function DisplayRate(rate, bookId) {
+    console.log(checkRate(rate, "", 5));
+    document.getElementById("rate_book_" + bookId).innerHTML = checkRate(rate, "", 5);
+    document.getElementById("rate_book_id_" + bookId).innerHTML = checkRate(rate, "", 5);
 }
 
+// Display rate
+function checkRate(rate, star, count) {
+    if (count == 0) { return star; }
 
+    if (rate <= 0) { star += "<i class=\"bi bi-star\" style=\"color: gold;\"></i>"; }
+    else if (rate < 1) { star += "<i class=\"bi bi-star-half\" style=\"color: gold;\"></i>"; }
+    else star += "<i class=\"bi bi-star-fill\" style=\"color: gold; background - color: gold; \"></i>";
+    return checkRate(rate - 1, star, count - 1);
+}
+/*
 //Show on Shop
 $(window).on("load", function () {
     AjaxBarArea();
-    AjaxAllBooks();
+    //AjaxAllBooks();
 });
 
 function AjaxBarArea() {
@@ -64,16 +38,33 @@ var label_title = document.getElementById("found");
 
 function AjaxAllBooks() {
     label_title.innerHTML = `<p>All Books</p>`;
-    $.ajax({
-        url: apiUrl + "/api/Products",
-        method: "GET",
-        success: function (data) {
-            ShowData(data);
-        },
-        error: function (error) {
-            console.log(error)
-        },
-    })
+    var userId = $("#userId").val();
+    if (userId != "") {
+        $.ajax({
+            url: apiUrl + "/api/Shops/" + userId,
+            method: "GET",
+            success: function (response) {
+                console.log(response)
+                ShowData(response);
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
+    } else {
+        userId = "getAll";
+        $.ajax({
+            url: apiUrl + "/api/Shops/" + userId,
+            method: "GET",
+            success: function (response) {
+                console.log(response)
+                ShowData(response);
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
+    }
 }
 
 function DisplayBarArea(data) {
@@ -144,15 +135,15 @@ $("#search").on("input", function () {
     $.ajax({
         url: apiUrl + "/api/Products/Search/" + searchName,
         method: "GET",
-        success: function (data) {
-            if (data == "") {
+        success: function (response) {
+            console.log(response)
+            if (response == "") {
                 label_title.innerHTML = `<p>Book Name "${searchName}" Not Found</p>`;
                 grid_sidebar1.innerHTML = ``;
                 grid_sidebar2.innerHTML = ``;
             } else {
-                console.log(data.Count);
-                label_title.innerHTML = `<p>Book Name "${searchName}" Found of <span>${data.length}</span></p>`;
-                ShowData(data);
+                label_title.innerHTML = `<p>Book Name "${searchName}" Found of <span>${response.length}</span></p>`;
+                ShowData(response);
             }
         },
         error: function (error) {
@@ -163,7 +154,7 @@ $("#search").on("input", function () {
 
 function PerformFilter(filter_title, filter_name) {
     $.ajax({
-        url: apiUrl + "/Filter?filterName=" + filter_title + "&filterId=" + filter_name,
+        url: apiUrl + "/api/Shops/Filter?filterName=" + filter_title + "&filterId=" + filter_name,
         method: "GET",
         success: function (data) {
             ShowData(data);
@@ -188,21 +179,19 @@ function ShowData(results) {
                             <img src="/img/product/book/${item.image}" alt="">
                         </a>
                         <div class="product-action">
-                            <a class="animate-left" title="Wishlist" href="#">
-                                <i class="pe-7s-like"></i>
+                            <a class="animate-left" title="Wishlist">
+                                 ${item.isFavorite == 1 ? '<i class="bi bi-suit-heart-fill" id="icon_heart_' + item.id + '" onclick="DeleteWishlist(' + item.id + ')"></i>' : '<i class="bi bi-suit-heart" id="icon_heart_' + item.id + '" onclick="AddToWishlist(' + item.id + ')"></i>'}
                             </a>
                             <a class="animate-top" title="Add To Cart" onclick="AddToCart(${item.id})">
                                 <i class="pe-7s-cart"></i>
-                            </a>
-                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                <i class="pe-7s-look"></i>
                             </a>
                         </div>
                     </div>
                     <div class="product-content">
                     <input type='hidden' id='quantity' runat='server' value="1">
+                        <div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">${checkRate(item.rate, "", 5)}</div>
                         <h4><a href="#">${item.title}</a></h4>
-                        <span>${item.sellingPrice}</span>
+                        <span>$${item.sellingPrice}</span>
                     </div>
                 </div>
             </div>
@@ -218,15 +207,11 @@ function ShowData(results) {
                             <img src="/img/product/book/${item.image}" alt="">
                         </a>
                         <span>hot</span>
-                        <div class="product-action-list-style">
-                            <a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-                                <i class="pe-7s-look"></i>
-                            </a>
-                        </div>
                     </div>
                     <div class="product-content-list">
                         <div class="product-list-info">
                             <h4><a href="/Home/Detail/${item.id}">${item.title}</a></h4>
+                            <div class="product-rating-2" style="display: flex; justify-content:start; align-items:left;">${checkRate(item.rate, "", 5)}</div>
                             <span href="/Home/Detail/${item.id}">${item.sellingPrice}</span>
                         </div>
                         <div class="product-list-cart-wishlist">
@@ -235,7 +220,7 @@ function ShowData(results) {
                             </div>
                             <div class="product-list-wishlist">
                                 <a class="btn-hover list-btn-wishlist" href="#">
-                                    <i class="pe-7s-like"></i>
+                                    ${item.isFavorite == 1 ? '<i class="bi bi-suit-heart-fill"></i>' : '<i class="bi bi-suit-heart"></i>'}
                                 </a>
                             </div>
                         </div>
@@ -247,4 +232,6 @@ function ShowData(results) {
 
     grid_sidebar1.innerHTML = SearchResults_1;
     grid_sidebar2.innerHTML = SearchResults_2;
+
 }
+*/

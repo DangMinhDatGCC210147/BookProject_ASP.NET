@@ -3,6 +3,7 @@ using Repositories.Interfaces;
 using Repositories;
 using BusinessObjects;
 using BusinessObjects.DTO;
+using DataAccess;
 
 namespace BookStoreAPI.Controllers
 {
@@ -13,29 +14,25 @@ namespace BookStoreAPI.Controllers
         private readonly IHomeRepository repository = new HomeRepository();
 
         [HttpGet]
-        public ActionResult<IEnumerable<BookAuthor>> GetFilter()
+        public async Task<ActionResult<IEnumerable<BookAuthor>>> GetFilter()
         {
-            try
-            {
-                // Call the TopSixAuthors method from your service or data access layer.
-                var topAuthors = repository.GetBookAuthors();
+			try
+			{
+				BookHome books = new()
+				{
+					topAuthors = await repository.GetBookAuthors(),
+					topGenres = await repository.GetBookGenres(),
+				};
 
-                if (topAuthors != null)
-                {
-                    return Ok(topAuthors);
-                }
-                else
-                {
-                    // Handle the case when no data is found.
-                    return NotFound();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle any exceptions or errors and return an appropriate response.
-                return StatusCode(500, $"An error occurred: {ex.Message}");
-            }
-        }
+				return Ok(books);
+			}
+			catch (Exception ex)
+			{
+				// Log the exception for debugging purposes
+				Console.WriteLine($"An error occurred: {ex.Message}");
+				return StatusCode(500); // Return a 500 Internal Server Error response for other exceptions
+			}
+		}
 
 		[HttpGet("Search")]
 		public ActionResult<IEnumerable<Book>> FilterByGenre([FromQuery] int filterName, [FromQuery] int filterId)

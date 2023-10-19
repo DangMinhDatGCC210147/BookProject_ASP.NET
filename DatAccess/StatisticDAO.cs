@@ -20,7 +20,7 @@ namespace DataAccess
 				using (var context = new ApplicationDBContext())
 				{
 					return context.Orders
-						.Where(o => o.DeliveryDate.Year == currentDate.Year && o.DeliveryDate.Month == currentDate.Month && o.DeliveryDate.Date == currentDate.Date)
+						.Where(o => o.DeliveryDate.Year == currentDate.Year && o.DeliveryDate.Month == currentDate.Month && o.DeliveryDate.Date == currentDate.Date && o.IsConfirm == true)
 						.Sum(o => o.Total);
 				}
 			}
@@ -36,7 +36,7 @@ namespace DataAccess
 				using (var context = new ApplicationDBContext())
 				{
 					return context.Orders
-						.Where(o => o.DeliveryDate.Year == currentDate.Year && o.DeliveryDate.Month == currentDate.Month)
+						.Where(o => o.DeliveryDate.Year == currentDate.Year && o.DeliveryDate.Month == currentDate.Month && o.IsConfirm == true)
 						.Sum(o => o.Total);
 				}
 			}
@@ -53,7 +53,7 @@ namespace DataAccess
 				using (var context = new ApplicationDBContext())
 				{
 					var dailyRevenue = context.Orders
-						.Where(o => o.DeliveryDate.Month == currentDate.Month)
+						.Where(o => o.DeliveryDate.Month == currentDate.Month && o.IsConfirm == true)
 						.GroupBy(o => o.DeliveryDate.Date)
 						.AsEnumerable() // Chuyển đổi sang LINQ to Objects
 						.Select(g => new DailyRevenue
@@ -83,7 +83,7 @@ namespace DataAccess
 					.Join(context.Books, genre => genre.Id, book => book.GenreId, (genre, book) => new { Genre = genre, Book = book })
 					.Join(context.OrderDetails, joined => joined.Book.Id, orderdetail => orderdetail.BookId, (joined, orderdetail) => new { Genre = joined.Genre, OrderDetail = orderdetail })
 					.Join(context.Orders, joined => joined.OrderDetail.OrderId, order => order.Id, (joined, order) => new { Genre = joined.Genre, Order = order })
-					.Where(joined => joined.Order.DeliveryDate.Year == currentDate.Year)
+					.Where(joined => joined.Order.DeliveryDate.Year == currentDate.Year && joined.Order.IsConfirm == true)
 					.GroupBy(joined => joined.Genre.Name)
 					.Select(group => new RevenueByGenre
 					{
@@ -110,7 +110,7 @@ namespace DataAccess
 				using (var context = new ApplicationDBContext())
 				{
 					var topPublisher = context.Publishers
-					.Where(p => p.Books.Any(b => b.OrderDetails.Any(od => od.Order.DeliveryDate.Year == currentDate.Year)))
+					.Where(p => p.Books.Any(b => b.OrderDetails.Any(od => od.Order.DeliveryDate.Year == currentDate.Year && od.Order.IsConfirm == true)))
 					.Select(p => new RevenueByPublisher
 					{
 						Publisher = p.Name,
@@ -140,7 +140,7 @@ namespace DataAccess
 					var bestSelling = context.Books
 					.Join(context.OrderDetails, book => book.Id, orderdetail => orderdetail.BookId, (book, orderdetail) => new { Book = book, OrderDetail = orderdetail })
 					.Join(context.Orders, joined => joined.OrderDetail.OrderId, order => order.Id, (joined, order) => new { Book = joined.Book, Order = order, OrderDetail = joined.OrderDetail })
-					.Where(joined => joined.Order.DeliveryDate.Year == currentDate.Year)
+					.Where(joined => joined.Order.DeliveryDate.Year == currentDate.Year && joined.Order.IsConfirm == true)
 					.GroupBy(joined => joined.Book.Title)
 					.Select(group => new RevenueBestSelling
 					{

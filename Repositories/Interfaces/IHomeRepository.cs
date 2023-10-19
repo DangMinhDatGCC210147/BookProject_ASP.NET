@@ -10,5 +10,6 @@ namespace Repositories.Interfaces
     public interface IHomeRepository
     {
         Task<List<BookAuthor>> GetBookAuthors();
-    }
+        Task<List<BookGenre>> GetBookGenres();
+	}
 }

@@ -8,80 +8,35 @@
             <div class="col-lg-6 col-md-12 col-12">
                 <form action="#">
                     <div class="checkbox-form">
-                        <h3>Billing Details</h3>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="country-select">
-                                    <label>Country <span class="required">*</span></label>
-                                    <select>
-                                        <option value="volvo">bangladesh</option>
-                                        <option value="saab">Algeria</option>
-                                        <option value="mercedes">Afghanistan</option>
-                                        <option value="audi">Ghana</option>
-                                        <option value="audi2">Albania</option>
-                                        <option value="audi3">Bahrain</option>
-                                        <option value="audi4">Colombia</option>
-                                        <option value="audi5">Dominican Republic</option>
-                                    </select>
-                                </div>
-                            </div>
+                        <h3>Basic Information</h3>
+                        <div class="row">                            
                             <div class="col-md-6">
                                 <div class="checkout-form-list">
                                     <label>First Name <span class="required">*</span></label>
-                                    <input type="text" placeholder="" />
+                                    <input type="text" placeholder="" value="@ViewBag.user.FirstName" />
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="checkout-form-list">
                                     <label>Last Name <span class="required">*</span></label>
-                                    <input type="text" placeholder="" />
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="checkout-form-list">
-                                    <label>Company Name</label>
-                                    <input type="text" placeholder="" />
+                                    <input type="text" placeholder="" value="@ViewBag.user.LastName" />
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="checkout-form-list">
                                     <label>Address <span class="required">*</span></label>
-                                    <input type="text" placeholder="Street address" />
+                                    <input type="text" placeholder="Street address" value="@ViewBag.user.Address" />
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="checkout-form-list">
                                     <input type="text" placeholder="Apartment, suite, unit etc. (optional)" />
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="checkout-form-list">
-                                    <label>Town / City <span class="required">*</span></label>
-                                    <input type="text" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="checkout-form-list">
-                                    <label>State / County <span class="required">*</span></label>
-                                    <input type="text" placeholder="" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="checkout-form-list">
-                                    <label>Postcode / Zip <span class="required">*</span></label>
-                                    <input type="text" />
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="checkout-form-list">
-                                    <label>Email Address <span class="required">*</span></label>
-                                    <input type="email" />
-                                </div>
-                            </div>
+                            </div>                            
                             <div class="col-md-6">
                                 <div class="checkout-form-list">
                                     <label>Phone  <span class="required">*</span></label>
-                                    <input type="text" />
+                                    <input type="text" value="@ViewBag.user.PhoneNumber" />
                                 </div>
                             </div>                           
                         </div>                        
@@ -100,27 +55,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="cart_item">
-                                    <td class="product-name">
-                                        Vestibulum suscipit <strong class="product-quantity"> × 1</strong>
-                                    </td>
-                                    <td class="product-total">
-                                        <span class="amount">£165.00</span>
-                                    </td>
-                                </tr>
-                                <tr class="cart_item">
-                                    <td class="product-name">
-                                        Vestibulum dictum magna	<strong class="product-quantity"> × 1</strong>
-                                    </td>
-                                    <td class="product-total">
-                                        <span class="amount">£50.00</span>
-                                    </td>
-                                </tr>
+                                @foreach (var book in ViewBag.books)
+                                {
+                                    <tr class="cart_item">
+                                        <td class="product-name">
+                                            @book.Title <strong class="product-quantity"> ×  @book.Quantity</strong>
+                                        </td>
+                                        <td class="product-total">
+                                            <span class="amount checkout_subtotal">$@book.SubTotal</span>
+                                        </td>
+                                    </tr>
+                                }                               
                             </tbody>
                             <tfoot>
                                 <tr class="cart-subtotal">
                                     <th>Cart Subtotal</th>
-                                    <td><span class="amount">£215.00</span></td>
+                                    <td><span class="amount checkout_total">£215.00</span></td>
                                 </tr>
                                 <tr class="order-total">
                                     <th>Order Total</th>
@@ -134,7 +84,7 @@
                     <div class="payment-method">
                         <div class="payment-accordion">
                             <div class="order-button-payment">
-                                <input type="submit" value="Place order" />
+                                <input type="submit" value="Payment" />
                             </div>
                         </div>
                     </div>
@@ -145,5 +95,14 @@
 </div>
 
 @section Scripts {
+
+    <script>
+        var subtotalElements = document.querySelectorAll(".checkout_subtotal");
+        var total = 0;
+        for (var i = 0; i < subtotalElements.length; i++) {
+            total += parseFloat(subtotalElements[i].textContent.replace('$', ''));
+        }
+        $("#checkout_total").text(total.toFixed(2));
+    </script>
     <script src="~/js/main.js"></script>
 }
