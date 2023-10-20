@@ -134,7 +134,7 @@ namespace BookStoreWebClient.Areas.Identity.Pages.Account
                                 returnUrl = Url.Content("~/Admin/Dashboard/Index");
                                 break;
 							case Roles.Customer:
-								returnUrl = Url.Content("~/Home/Index/?userId=" + user.Id);
+								returnUrl = Url.Content("~/Home/Index");
 								break;
 						}
                     }

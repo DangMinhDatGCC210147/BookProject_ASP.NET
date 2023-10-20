@@ -2,10 +2,10 @@
 {
     public class Filter
     {
-        public List<GetNameAndQuantity> genres { get; set; }
-        public List<GetNameAndQuantity> publishers { get; set; }
-        public List<GetNameAndQuantity> languages { get; set; }
-        public List<GetNameAndQuantity> authors { get; set; }
+        public List<GetNameAndQuantity> Genres { get; set; }
+        public List<GetNameAndQuantity> Publishers { get; set; }
+        public List<GetNameAndQuantity> Languages { get; set; }
+        public List<GetNameAndQuantity> Authors { get; set; }
 
     }
 }
