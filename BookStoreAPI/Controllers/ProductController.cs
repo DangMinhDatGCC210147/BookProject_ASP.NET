@@ -207,25 +207,7 @@ namespace BookStoreAPI.Controllers
 
             using (var package = new ExcelPackage(stream))
             {
-                var workSheet = package.Workbook.Worksheets.Add("Sheet1");
-                workSheet.Cells.LoadFromCollection(list, true);
-                package.Save();
-            }
-            stream.Position = 0;
-            string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
-
-        [HttpGet("export")]
-        public async Task<IActionResult> ExportV2(CancellationToken cancellationToken)
-        {
-            // query data from database  
-            await Task.Yield();
-
-            var list = repository.GetProducts().ToList();
-            var stream = new MemoryStream();
-
-            using (var package = new ExcelPackage(stream))
-            {
-                var workSheet = package.Workbook.Worksheets.Add("Product"); 
+                var workSheet = package.Workbook.Worksheets.Add("Product");
                 workSheet.Cells.LoadFromCollection(list, true);
                 package.Save();
             }
@@ -235,6 +217,5 @@ namespace BookStoreAPI.Controllers
             //return File(stream, "application/octet-stream", excelName);  
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
         }
-
     }
 }

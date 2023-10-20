@@ -12,7 +12,6 @@ namespace BookStoreAPI.Controllers
 	public class UserController : ControllerBase
 	{
         private readonly IUserRepository repository = new UserRepository();
-        // GET: api/<UserController>
         [HttpGet]
         public ActionResult<IEnumerable<AppUser>> GetUsers() => repository.GetUsers();
 
