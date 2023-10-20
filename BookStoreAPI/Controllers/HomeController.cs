@@ -20,8 +20,8 @@ namespace BookStoreAPI.Controllers
 			{
 				BookHome books = new()
 				{
-					topAuthors = await repository.GetBookAuthors(),
-					topGenres = await repository.GetBookGenres(),
+					TopAuthors = await repository.GetBookAuthors(),
+					TopGenres = await repository.GetBookGenres(),
 				};
 
 				return Ok(books);

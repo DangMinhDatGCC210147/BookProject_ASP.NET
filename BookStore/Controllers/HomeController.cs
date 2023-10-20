@@ -25,7 +25,6 @@ namespace BookStore.Controllers
         private string UserApiUrl = "";
         private string HomeApiUrl = "";
 
-
 		public HomeController(IConfiguration configuration, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;

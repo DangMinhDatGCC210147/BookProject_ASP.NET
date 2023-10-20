@@ -1,4 +1,5 @@
-﻿@model BusinessObjects.DTO.BookHome
+﻿@using Microsoft.AspNetCore.Html;
+@model BusinessObjects.DTO.BookHome
 @{
 	ViewData["Title"] = "Home Page";
 }
@@ -29,6 +30,40 @@
 		</div>
 	</div>
 </div>
+@functions {
+	// Helper function to generate star rating HTML
+	public IHtmlContent GenerateStarRating(double rating, int maxRating)
+	{
+		var starRatingHtml = new HtmlContentBuilder();
+		for (int i = 0; i < maxRating; i++)
+		{
+			if (rating >= 1)
+			{
+				starRatingHtml.AppendHtml("<i class=\"bi bi-star-fill\"></i>");
+				rating--;
+			}
+			else if (rating > 0)
+			{
+				starRatingHtml.AppendHtml("<i class=\"bi bi-star-half\"></i>");
+				rating = 0;
+			}
+			else
+			{
+				starRatingHtml.AppendHtml("<i class=\"bi bi-star\"></i>");
+			}
+		}
+		return starRatingHtml;
+	}
+
+	public IHtmlContent GenerateFavoriteIcon(bool isFavorite, int BookId)
+	{
+		var favoriteHtml = isFavorite
+			? $"<i class=\"bi bi-suit-heart-fill\" onclick=\"DeleteToWishlist({BookId})\"></i>"
+			: $"<i class=\"bi bi-suit-heart\" onclick=\"AddToWishlist({BookId})\"></i>";
+		return new HtmlString(favoriteHtml);
+	}
+
+}
 <!-- banner area start -->
 <div class="banner-area pt-120 pb-110">
 	<div class="container">
@@ -66,8 +101,8 @@
 				<h2>Best Products</h2>
 			</div>
 			<div class="best-product-style">
-				<div id="genre_name" class="product-tab-list2 text-center mb-95 nav product-menu-mrg" role="tablist">
-					@foreach (var item in Model.topGenres)
+				<div class="product-tab-list2 text-center mb-95 nav product-menu-mrg" role="tablist">
+					@foreach (var item in Model.TopGenres)
 					{
 						<a href="#home_@item.GenreId" data-bs-toggle="tab" role="tab">
 							<h4>@item.GenreName</h4>
@@ -75,35 +110,32 @@
 					}
 				</div>
 
-				<div class="tab-content" id="books_in_genre">
-					@foreach (var item in Model.topGenres)
+				<div class="tab-content">
+					@foreach (var item in Model.TopGenres)
 					{
 						<div class="tab-pane show fade" id="home_@item.GenreId" role="tabpanel">
 							<div class="custom-row">
-								@foreach (var book in Model.topGenres)
+								@foreach (var book in item.BookGenres)
 								{
 									<div class="custom-col-5 custom-col-style mb-95">
 										<div class="product-wrapper">
 											<div class="product-img-2">
-												<a href="Home/Detail/@book.BookId">
+												<a asp-controller="Home" asp-action="Detail" asp-route-id="@book.BookId">
 													<img src="/img/product/book/@book.BookImage" alt="">
 												</a>
 												<div class="product-action-2">
 													<a class="animate-left add-style-2" title="Add To Cart" onclick="AddToCart(@book.BookId)">Add to Cart <i class="ti-shopping-cart"></i></a>
-													<a class="animate-right wishlist-style-2" title="wishlist" onclick="AddToWishlist(@book.BookId)">
-														<i class="ti-heart"></i>
+													<a class="animate-right wishlist-style-2" title="wishlist">
+														@GenerateFavoriteIcon(@book.IsFavourite, @book.BookId)
 													</a>
 												</div>
 											</div>
 											<div class="product-content-2 text-center">
 												<input type="hidden" id="quantity" runat="server" value="1">
-												<h4><a href="Home/Detail/@book.BookId">@book.BookTitle</a></h4>
+												<h4><a asp-controller="Home" asp-action="Detail" asp-route-id="@book.BookId">@book.BookTitle</a></h4>
 												<span>By: @book.AuthorName</span>
 												<div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">
-													@for (int i = 0; i < book.ReviewRate; i++)
-													{
-														<i class="ti-star"></i>
-													}
+													@GenerateStarRating(book.ReviewRate, 5)
 												</div>
 											</div>
 										</div>
@@ -127,51 +159,52 @@
 		<div class="row">
 			<div class="col-md-4" id="theBestAuthor">
 				<div class="writer-wrapper">
-					<a href="/Home/Detail/@Model.topAuthors[0].BookId">
-						<img src="~/img/product/book/@Model.topAuthors[0].BookImage" alt="">
+					<a asp-controller="Home" asp-action="Detail" asp-route-id="@Model.TopAuthors[0].BookAuthors[0].BookId">
+						<img src="~/img/product/book/@Model.TopAuthors[0].BookAuthors[0].BookImage" alt="">
 					</a>
 					<div class="writer-content">
 						<input type="hidden" id="quantity" runat="server" value="1">
-						<h4>@Model.topAuthors[0].BookTitle</h4>
-						<span>@Model.topAuthors[0].AuthorName</span>
-					</div>
-					<div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">
-						@for (int i = 0; i < Model.topAuthors[0].ReviewRate; i++)
-						{
-							<i class="ti-star"></i>
-						}
+						<h4>@Model.TopAuthors[0].BookAuthors[0].BookTitle</h4>
+						<span>
+							By @Model.TopAuthors[0].BookAuthors[0].AuthorName
+						</span>
 					</div>
 				</div>
+				<div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">
+					@GenerateStarRating(Model.TopAuthors[0].BookAuthors[0].ReviewRate, 5)
+				</div>
 			</div>
-
 
 			<div class="col-md-8">
 				<div class="book-list-hover">
 					<div class="book-list-active owl-carousel">
-						@foreach (var item in Model.topAuthors)
+						@for (int i = 1; i < Model.TopAuthors.Count; i++)
 						{
-							<div class="product-wrapper">
-								<div class="product-img-2">
-									<a href="/Home/Detail/@item.BookId">
-										<img src="~/img/product/book/@item.BookImage" alt="">
-									</a>
-									<div class="product-action-2">
-										<a class="animate-left add-style-2" title="Add To Cart" href="#">Add to Cart <i class="ti-shopping-cart"></i></a>
-										<a class="animate-right wishlist-style-2" title="wishlist" href="#">
-											<i class="ti-heart"></i>
+							for (int j = 0; j < @Model.TopAuthors[i].BookAuthors.Count; j++)
+							{
+								<div class="product-wrapper">
+									<div class="product-img-2">
+										<a asp-controller="Home" asp-action="Detail" asp-route-id="@Model.TopAuthors[i].BookAuthors[j].BookId">
+											<img src="~/img/product/book/@Model.TopAuthors[i].BookAuthors[j].BookImage" alt="">
 										</a>
+										<div class="product-action-2">
+											<a class="animate-left add-style-2" title="Add To Cart" href="#">Add to Cart <i class="ti-shopping-cart"></i></a>
+											<a class="animate-right wishlist-style-2" title="wishlist" href="#">
+												@GenerateFavoriteIcon(@Model.TopAuthors[i].BookAuthors[j].IsFavourite, @Model.TopAuthors[i].BookAuthors[j].BookId)
+											</a>
+										</div>
+									</div>
+									<div class="product-content-3 text-center">
+										<h4><a asp-controller="Home" asp-action="Detail" asp-route-id="@Model.TopAuthors[i].BookAuthors[j].BookId">@Model.TopAuthors[i].BookAuthors[j].BookTitle</a></h4>
+										<span>
+											@Model.TopAuthors[i].BookAuthors[j].AuthorName
+										</span>
+										<div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">
+											@GenerateStarRating(Model.TopAuthors[i].BookAuthors[j].ReviewRate, 5)
+										</div>
 									</div>
 								</div>
-								<div class="product-content-3 text-center">
-									<h4><a href="/Home/Detail/@item.BookId">@item.BookTitle</a></h4>
-									<div class="product-rating-2">
-										@for (int i = 0; i < item.ReviewRate; i++)
-										{
-											<i class="ti-star"></i>
-										}
-									</div>
-								</div>
-							</div>
+							}
 						}
 					</div>
 				</div>
@@ -208,27 +241,28 @@
 <!-- testimonials area end -->
 @section Scripts {
 	<script>
-		const api = "@ViewBag.api";
-		localStorage.setItem("apiUrl", api);
-
-		if ($("#userId").length > 0) {
-			if (!localStorage.getItem("userId")) {
-				localStorage.setItem("userId", $("#userId").val());
-				window.location.reload();
-			}
-		} else {
-			localStorage.removeItem("userId");
-		}
-
-		// Display rate
+		// Define the checkRate function
 		function checkRate(rate, star, count) {
-			if (count == 0) { return star; }
-
-			if (rate <= 0) { star += "<i class=\"bi bi-star\"></i>"; }
-			else if (rate < 1) { star += "<i class=\"bi bi-star-half\"></i>"; }
-			else { star += "<i class=\"bi bi-star-fill\"></i>"; }
+			if (count == 0) {
+				return star;
+			}
+			if (rate <= 0) {
+				star += "<i class=\"bi bi-star\"></i>";
+			} else if (rate < 1) {
+				star += "<i class=\"bi bi-star-half\"></i>";
+			} else {
+				star += "<i class=\"bi bi-star-fill\"></i>";
+			}
 
 			return checkRate(rate - 1, star, count - 1);
+		}
+
+		// Rest of your JavaScript code
+
+		// Function to display the rate
+		function displayRate(rate, id) {
+			console.log(checkRate(rate, "", 5));
+			document.getElementById("author_" + id).innerHTML = checkRate(rate, "", 5);
 		}
 	</script>
 	<script src="~/js/main.js"></script>

@@ -1,4 +1,5 @@
-﻿using BusinessObjects.DTO;
+﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using DataAccess;
 using Repositories.Interfaces;
 using System;
@@ -11,7 +12,7 @@ namespace Repositories
 {
     public class HomeRepository : IHomeRepository
     {
-        public Task<List<BookAuthor>> GetBookAuthors() => HomeDAO.TopSixAuthors();
-        public Task<List<BookGenre>> GetBookGenres() => HomeDAO.TopGenres();
+        public Task<List<TopAuthor>> GetBookAuthors() => HomeDAO.TopSixAuthors();
+        public Task<List<TopGenre>> GetBookGenres() => HomeDAO.TopGenres();
     }
 }

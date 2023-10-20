@@ -1,4 +1,5 @@
-﻿using BusinessObjects.DTO;
+﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Repositories.Interfaces
 {
     public interface IHomeRepository
     {
-        Task<List<BookAuthor>> GetBookAuthors();
-        Task<List<BookGenre>> GetBookGenres();
+        Task<List<TopAuthor>> GetBookAuthors();
+        Task<List<TopGenre>> GetBookGenres();
 	}
 }
