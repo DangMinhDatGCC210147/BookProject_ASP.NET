@@ -2,7 +2,7 @@
 @* @model BusinessObjects.AppUser *@
 
 @{
-    ViewData["Title"] = "StoreOwner";
+    ViewData["Title"] = "Customer";
 }
 
 <main id="main" class="main">
@@ -12,24 +12,24 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="card-title">StoreOwners table</h5>
+                            <h5 class="card-title">Customers table</h5>
                             @* <form class="form-inline" method="POST"> *@
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
-                                        <div class="input-group-append">
-                                            <button type="button" class="btn btn-success">Search</button>
-                                        </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-success">Search</button>
                                     </div>
                                 </div>
+                            </div>
                             @* </form> *@
-                           @*  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#userModal">Add New User</button> *@
+                            @*  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#userModal">Add New User</button> *@
                             <!-- Modal -->
                             <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="userModalLabel">Add New User</h5>
+                                            <h5 class="modal-title" id="userModalLabel">Add New Customers</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -45,12 +45,12 @@
                                                     <div class="form-group col-md-6">
                                                         <label for="username">Last Name</label>
                                                         <input type="text" class="form-control" id="lastName" placeholder="Enter last name" required>
-                                                    </div>    
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="username">Address</label>
                                                     <input type="text" class="form-control" id="address" placeholder="Enter address" required>
-                                                </div>                                                
+                                                </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="username">Phone number</label>
@@ -61,7 +61,7 @@
                                                         <input type="email" class="form-control" id="email" placeholder="Enter address" required>
                                                     </div>
                                                 </div>
-                                                    <div class="form-group">
+                                                <div class="form-group">
                                                     <label for="address">Password</label>
                                                     <input type="password" class="form-control" id="password" placeholder="Enter address" required>
                                                 </div>
@@ -92,21 +92,21 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                 <tr>
-                                    <th scope="row">@item.Id</th>
-                                    <td>@item.FirstName</td>
-                                    <td>@item.LastName</td>
-                                    <td>@item.Address</td>
-                                    <td>@item.PhoneNumber</td>
-                                    <td>@item.Email</td>
-                                    <td>@item.PasswordHash</td>
-                                    <td>
-                                        <div class="flex-column align-items-center">
-                                            <button type="button" class="btn btn-danger">Delete</button>
-                                            <button type="button" class="btn btn-warning">Edit</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <th scope="row">@item.Id</th>
+                                        <td>@item.FirstName</td>
+                                        <td>@item.LastName</td>
+                                        <td>@item.Address</td>
+                                        <td>@item.PhoneNumber</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.PasswordHash</td>
+                                        <td>
+                                            <div class="flex-column align-items-center">
+                                                <button type="button" class="btn btn-danger">Delete</button>
+                                                <button type="button" class="btn btn-warning">Edit</button>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 }
 
                             </tbody>
