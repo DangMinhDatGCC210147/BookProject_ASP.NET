@@ -11,14 +11,14 @@ namespace BusinessObjects
 {
 	public class CartDetail
 	{
-		[Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int Id { get; set; }
-		[Required]
+		[Key]
+		[Column(Order = 1)]
 		public int BookId { get; set; }
+		[Key]
+		[Column(Order = 2)]
+		public int CartId { get; set; }
 		[Required]
 		public int Quantity { get; set; }
-		[Required]
-		public int CartId { get; set; }
 		[ForeignKey("BookId")]
 		public virtual Book? Book { get; set; }
 		[ForeignKey("CartId")]

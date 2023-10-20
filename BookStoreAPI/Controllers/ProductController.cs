@@ -1,9 +1,11 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using Repositories;
 using Repositories.Interfaces;
+using System.Collections.Generic;
 
 namespace BookStoreAPI.Controllers
 {
@@ -28,8 +30,8 @@ namespace BookStoreAPI.Controllers
             if (book == null)
                 return NotFound();
 
-            return Ok(book);
-        }
+			return Ok(book);
+		}
 
         [HttpGet("Search/{name}")]
         public ActionResult<IEnumerable<Book>> Search(string name)

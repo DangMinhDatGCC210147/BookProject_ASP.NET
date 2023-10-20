@@ -28,7 +28,6 @@ namespace BookStoreAPI.Controllers
             if (foundCart == null) return Ok(cartRepository.SaveCartDetail(cartDetail));
             else
             {
-                cartDetail.Id = foundCart.Id;
                 cartDetail.Quantity += foundCart.Quantity;
                 var cd = cartRepository.UpdateCartDetail(cartDetail);
 				return Ok(cd);
