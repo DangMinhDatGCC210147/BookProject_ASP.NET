@@ -29,27 +29,25 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="orderModalLabel">Order Form</h5>
+                                        <h5 class="modal-title" id="orderModalLabel">Order Detail</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form method="post" id="myForm">
-                                            <input type="hidden" id="orderId">
-                                            <div class="form-group">
-                                                <label for="orderName">Order Name</label>
-                                                <input type="text" class="form-control" id="orderName" placeholder="Enter order name">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="orderDescription">Description</label>
-                                                <textarea class="form-control" id="orderDescription" rows="3" placeholder="Enter order description"></textarea>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                            </div>
-                                        </form>
+                                        <table class="table table-sm table-hover" id="orderTable" name="orderTable">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Book Title</th>
+                                                    <th scope="col">Book Image</th>
+                                                    <th scope="col">Quatity</th>
+                                                    <th scope="col">UnitPrice</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="orderDetailList">
+                                                @* Javascript *@
+                                            </tbody>
+                                        </table>
                                     </div>
 
                                 </div>
@@ -68,6 +66,7 @@
                                     <th scope="col">IsConfirm</th>
                                     <th scope="col">Discount ID</th>
                                     <th scope="col">Action</th>
+                                    <th scope="col">Remove</th>
                                 </tr>
                             </thead>
                             <tbody id="orderList">
@@ -85,9 +84,7 @@
                                         <td>@order.Total</td>
                                         <td>@order.IsConfirm</td>
                                         <td>@order.DiscountId</td>
-                                                                             
-                                                                            
-
+                                        <td><a href="#" onclick="displayOrderdetail(@order.Id)" data-toggle="modal" data-target="#orderModal">See more</a></td>
                                         <td>
                                             <div class="flex-column align-items-center">
                                                 <button type="button" class="btn btn-danger" onclick="deleteOrder(@order.Id) ">Delete</button>
