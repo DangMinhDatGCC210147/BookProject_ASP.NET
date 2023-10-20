@@ -16,11 +16,11 @@ namespace Repositories
         public List<GetNameAndQuantity> PublisherAndQuantity() => ShopDAO.GetPublisher();
         public List<GetNameAndQuantity> LanguageAndQuantity() => ShopDAO.GetLanguage();
         public List<GetNameAndQuantity> AuthorAndQuantity() => ShopDAO.GetAuthor();
-        public List<Book> FilterByGenre(int id) => ShopDAO.GetFilterByGenre(id);
-        public List<Book> FilterByPublisher(int id) => ShopDAO.GetFilterByPublisher(id);
-		public List<Book> FilterByLanguage(int id) => ShopDAO.GetFilterByLanguage(id);
+        public List<BookList> FilterByGenre(int id) => ShopDAO.GetFilterByGenre(id);
+        public List<BookList> FilterByPublisher(int id) => ShopDAO.GetFilterByPublisher(id);
+		public List<BookList> FilterByLanguage(int id) => ShopDAO.GetFilterByLanguage(id);
+		public List<BookList> FilterByAuthor(int id) => ShopDAO.GetFilterByAuthor(id);
 		public List<Book> RelatedProduct(int id) => ShopDAO.GetRelatedProduct(id);
-		public List<Book> FilterByAuthor(int id) => ShopDAO.GetFilterByAuthor(id);
 		public BookDetail BookDetail(int id) => ShopDAO.GetBookDetail(id);
         public Task<List<BookList>> GetProducts() => ShopDAO.GetProducts();
         public Task<List<BookList>> GetProductsByFavoutite(string userId) => ShopDAO.GetProductsWithFavoutite(userId);

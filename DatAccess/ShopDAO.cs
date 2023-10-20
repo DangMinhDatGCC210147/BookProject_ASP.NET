@@ -63,7 +63,7 @@ namespace DataAccess
 							SellingPrice = b.SellingPrice,
 							Quantity = b.Quantity,
 							Rate = review != null ? averageReviewRates.ContainsKey(b.Id) ? averageReviewRates[b.Id] : 0 : 0,
-							IsFavorite = favorite.UserId == userId ? 1 : 0
+							IsFavorite = favorite.UserId == userId ? true : false
 						}
 					).ToListAsync();
 
@@ -80,10 +80,9 @@ namespace DataAccess
 							SellingPrice = book.SellingPrice,
 							Quantity = book.Quantity,
 							Rate = group.Average(b => b.Rate), // Tính trung bình của tất cả cuốn sách trong nhóm
-							IsFavorite = group.Max(b => b.IsFavorite) == 1 ? 1 : 0 // Kiểm tra xem có ít nhất một cuốn sách trong nhóm được đánh dấu là yêu thích
+							IsFavorite = group.Max(b => b.IsFavorite) == true ? true : false // Kiểm tra xem có ít nhất một cuốn sách trong nhóm được đánh dấu là yêu thích
 						};
-					})
-					.ToList();
+					}).ToList();
 
 					return books;
 				}
@@ -141,7 +140,7 @@ namespace DataAccess
 							SellingPrice = book.SellingPrice,
 							Quantity = book.Quantity,
 							Rate = group.Average(b => b.Rate), // Tính trung bình của tất cả cuốn sách trong nhóm
-							IsFavorite = 0 
+							IsFavorite = false
 						};
 					})
 					.ToList();
@@ -265,15 +264,24 @@ namespace DataAccess
 			}
 		}
 
-		public static List<Book> GetFilterByGenre(int id)
+		public static List<BookList> GetFilterByGenre(int id)
 		{
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					var books = context.Books
+					List<BookList> books = context.Books
 					.Where(book => book.GenreId == id)
-					.ToList();
+					.Select(book => new BookList
+					{
+						Id = book.Id,
+						Title = book.Title,
+						Image = book.Image,
+						SellingPrice = book.SellingPrice,
+						Quantity = book.Quantity,
+						Rate = 0,
+						IsFavorite = false,
+					}).ToList();
 
 					return books;
 				}
@@ -284,15 +292,24 @@ namespace DataAccess
 			}
 		}
 
-		public static List<Book> GetFilterByPublisher(int id)
+		public static List<BookList> GetFilterByPublisher(int id)
 		{
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					var books = context.Books
+					List<BookList> books = context.Books
 					.Where(book => book.PublisherId == id)
-					.ToList();
+					.Select(book => new BookList
+					{
+						Id = book.Id,
+						Title = book.Title,
+						Image = book.Image,
+						SellingPrice = book.SellingPrice,
+						Quantity = book.Quantity,
+						Rate = 0,
+						IsFavorite = false,
+					}).ToList();
 
 					return books;
 				}
@@ -302,15 +319,24 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-		public static List<Book> GetFilterByLanguage(int id)
+		public static List<BookList> GetFilterByLanguage(int id)
 		{
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					var books = context.Books
+					List<BookList> books = context.Books
 					.Where(book => book.LanguageId == id)
-					.ToList();
+					.Select(book => new BookList
+					{
+						Id = book.Id,
+						Title = book.Title,
+						Image = book.Image,
+						SellingPrice = book.SellingPrice,
+						Quantity = book.Quantity,
+						Rate = 0,
+						IsFavorite = false,
+					}).ToList();
 
 					return books;
 				}
@@ -320,18 +346,31 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-		public static List<Book> GetFilterByAuthor(int id)
+
+		public static List<BookList> GetFilterByAuthor(int id)
 		{
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					var books = context.Books.Where(book => book.AuthorId == id).ToList();
+					List<BookList> books = context.Books
+						.Where(book => book.AuthorId == id)
+						.Select(book => new BookList
+						{
+							Id = book.Id,
+							Title = book.Title,
+							Image = book.Image,
+							SellingPrice = book.SellingPrice,
+							Quantity = book.Quantity,
+							Rate = 0,
+							IsFavorite = false
+						}).ToList();
 					return books;
 				}
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
+
 		public static BookDetail GetBookDetail(int bookId)
 		{
 			try

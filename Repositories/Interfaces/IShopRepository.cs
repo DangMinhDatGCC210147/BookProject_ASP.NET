@@ -15,10 +15,10 @@ namespace Repositories.Interfaces
         List<GetNameAndQuantity> PublisherAndQuantity();
         List<GetNameAndQuantity> LanguageAndQuantity();
         List<GetNameAndQuantity> AuthorAndQuantity();
-        List<Book> FilterByGenre(int id);
-        List<Book> FilterByPublisher(int id);
-        List<Book> FilterByLanguage(int id);
-        List<Book> FilterByAuthor(int id);
+        List<BookList> FilterByGenre(int id);
+        List<BookList> FilterByPublisher(int id);
+        List<BookList> FilterByLanguage(int id);
+        List<BookList> FilterByAuthor(int id);
         BookDetail BookDetail(int id);
         Task<List<BookList>> GetProducts();
         Task<List<BookList>> GetProductsByFavoutite(string userId);
