@@ -233,3 +233,42 @@ function handleEditButton(id) {
         }
     });
 }
+
+function displayOrderdetail(orderid) {
+    console.log(orderid)
+
+    $.ajax({
+        type: 'GET',
+        url: apiUrl + '/api/OrderDetails/' + orderid,
+        success: function (response) {
+            console.log(response)
+            var table = document.getElementById('orderDetailList');
+            while (table.firstChild) {
+                table.removeChild(table.firstChild)
+            }
+
+            response.forEach(od => {
+                const booktitle = od.book.title
+                const bookimage = od.book.image
+                const quantity = od.quantity
+                const unitPrice = od.unitPrice
+
+                const newOrderDetail = document.createElement('tr');
+
+                newOrderDetail.innerHTML = `
+                    <th scope="row">${booktitle}</th>
+                    <td><img src="/img/product/book/${bookimage}" /></td>
+                    <td>${quantity}</td>
+                    <td>$${unitPrice}</td>
+                `;
+                
+                const firstRow = table.getElementsByTagName('tr')[0]; // Get the first row of the table
+                table.insertBefore(newOrderDetail, firstRow);
+            })
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr);
+            Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+        }
+    });
+}
