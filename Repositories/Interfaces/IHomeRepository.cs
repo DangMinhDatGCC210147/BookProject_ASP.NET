@@ -10,7 +10,7 @@ namespace Repositories.Interfaces
 {
     public interface IHomeRepository
     {
-        Task<List<TopAuthor>> GetBookAuthors();
-        Task<List<TopGenre>> GetBookGenres();
+        Task<List<TopAuthor>> GetBookAuthors(string userId);
+        Task<List<TopGenre>> GetBookGenres(string userId);
 	}
 }

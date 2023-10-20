@@ -12,7 +12,7 @@ namespace Repositories
 {
     public class HomeRepository : IHomeRepository
     {
-        public Task<List<TopAuthor>> GetBookAuthors() => HomeDAO.TopSixAuthors();
-        public Task<List<TopGenre>> GetBookGenres() => HomeDAO.TopGenres();
+        public Task<List<TopAuthor>> GetBookAuthors(string userId) => HomeDAO.TopSixAuthors(userId);
+        public Task<List<TopGenre>> GetBookGenres(string userId) => HomeDAO.TopGenres(userId);
     }
 }

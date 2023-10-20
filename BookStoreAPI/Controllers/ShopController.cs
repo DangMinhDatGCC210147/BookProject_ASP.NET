@@ -30,18 +30,18 @@ namespace BookStoreAPI.Controllers
 		public ActionResult<Filter> GetFilter()
 		{
 			Filter filters = new Filter();
-			filters.genres = repository.GenreAndQuantity();
-			filters.publishers = repository.PublisherAndQuantity();
-			filters.languages = repository.LanguageAndQuantity();
-			filters.authors = repository.AuthorAndQuantity();
+			filters.Genres = repository.GenreAndQuantity();
+			filters.Publishers = repository.PublisherAndQuantity();
+			filters.Languages = repository.LanguageAndQuantity();
+			filters.Authors = repository.AuthorAndQuantity();
 
 			return filters;
 		}
 
 		[HttpGet("Filter")]
-		public ActionResult<IEnumerable<Book>> FilterByGenre([FromQuery] int filterName, [FromQuery] int filterId)
+		public ActionResult<IEnumerable<BookList>> FilterByGenre([FromQuery] int filterName, [FromQuery] int filterId)
 		{
-			List<Book> booksFilter = new List<Book>();
+			List<BookList> booksFilter = new List<BookList>();
 
 			if (filterName == 1) booksFilter = repository.FilterByGenre(filterId);
 			else if (filterName == 2) booksFilter = repository.FilterByPublisher(filterId);

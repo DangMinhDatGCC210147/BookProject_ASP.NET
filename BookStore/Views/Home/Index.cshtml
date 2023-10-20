@@ -157,7 +157,7 @@
 			<h2>Top Writer In this Month</h2>
 		</div>
 		<div class="row">
-			<div class="col-md-4" id="theBestAuthor">
+			@*<div class="col-md-4" id="theBestAuthor">
 				<div class="writer-wrapper">
 					<a asp-controller="Home" asp-action="Detail" asp-route-id="@Model.TopAuthors[0].BookAuthors[0].BookId">
 						<img src="~/img/product/book/@Model.TopAuthors[0].BookAuthors[0].BookImage" alt="">
@@ -173,12 +173,12 @@
 				<div class="product-rating-2" style="display: flex; justify-content:center; align-items:center;">
 					@GenerateStarRating(Model.TopAuthors[0].BookAuthors[0].ReviewRate, 5)
 				</div>
-			</div>
+			</div>*@
 
 			<div class="col-md-8">
 				<div class="book-list-hover">
 					<div class="book-list-active owl-carousel">
-						@for (int i = 1; i < Model.TopAuthors.Count; i++)
+						@for (int i = 0; i < Model.TopAuthors.Count; i++)
 						{
 							for (int j = 0; j < @Model.TopAuthors[i].BookAuthors.Count; j++)
 							{
@@ -241,28 +241,16 @@
 <!-- testimonials area end -->
 @section Scripts {
 	<script>
-		// Define the checkRate function
-		function checkRate(rate, star, count) {
-			if (count == 0) {
-				return star;
+		const api = "@ViewBag.api";
+		localStorage.setItem("apiUrl", api);
+
+		if ($("#userId").length > 0) {
+			if (!localStorage.getItem("userId")) {
+				localStorage.setItem("userId", $("#userId").val());
+				window.location.reload();
 			}
-			if (rate <= 0) {
-				star += "<i class=\"bi bi-star\"></i>";
-			} else if (rate < 1) {
-				star += "<i class=\"bi bi-star-half\"></i>";
-			} else {
-				star += "<i class=\"bi bi-star-fill\"></i>";
-			}
-
-			return checkRate(rate - 1, star, count - 1);
-		}
-
-		// Rest of your JavaScript code
-
-		// Function to display the rate
-		function displayRate(rate, id) {
-			console.log(checkRate(rate, "", 5));
-			document.getElementById("author_" + id).innerHTML = checkRate(rate, "", 5);
+		} else {
+			localStorage.removeItem("userId");
 		}
 	</script>
 	<script src="~/js/main.js"></script>
