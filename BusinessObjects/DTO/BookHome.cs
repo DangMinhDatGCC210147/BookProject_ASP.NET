@@ -8,7 +8,7 @@ namespace BusinessObjects.DTO
 {
 	public class BookHome
 	{
-		public List<BookAuthor> topAuthors {  get; set; }
-		public List<BookGenre> topGenres {  get; set; }
+		public List<TopAuthor> TopAuthors {  get; set; }
+		public List<TopGenre> TopGenres {  get; set; }
 	}
 }

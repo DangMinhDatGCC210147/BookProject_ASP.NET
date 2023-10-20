@@ -1,6 +1,42 @@
-﻿@model BusinessObjects.DTO.ShopView
+﻿@using Microsoft.AspNetCore.Html;
+@model BusinessObjects.DTO.ShopView
 @{
 	ViewData["Title"] = "Shop";
+}
+
+@functions {
+	// Helper function to generate star rating HTML
+	public IHtmlContent GenerateStarRating(double rating, int maxRating)
+	{
+		var starRatingHtml = new HtmlContentBuilder();
+		for (int i = 0; i < maxRating; i++)
+		{
+			if (rating >= 1)
+			{
+				starRatingHtml.AppendHtml("<i class=\"bi bi-star-fill\"></i>");
+				rating--;
+			}
+			else if (rating > 0)
+			{
+				starRatingHtml.AppendHtml("<i class=\"bi bi-star-half\"></i>");
+				rating = 0;
+			}
+			else
+			{
+				starRatingHtml.AppendHtml("<i class=\"bi bi-star\"></i>");
+			}
+		}
+		return starRatingHtml;
+	}
+
+	public IHtmlContent GenerateFavoriteIcon(bool isFavorite, int BookId)
+	{
+		var favoriteHtml = (isFavorite == true)
+			? $"<i class=\"bi bi-suit-heart-fill\" onclick=\"DeleteToWishlist({BookId})\"></i>"
+			: $"<i class=\"bi bi-suit-heart\" onclick=\"AddToWishlist({BookId})\"></i>";
+		return new HtmlString(favoriteHtml);
+	}
+
 }
 
 <div class="shop-page-wrapper shop-page-padding ptb-100">
@@ -17,10 +53,50 @@
 							</form>
 						</div>
 					</div>
-					<div id="genres" class="sidebar-widget mb-45"></div>
-					<div id="publishers" class="sidebar-widget mb-45"></div>
-					<div id="languages" class="sidebar-widget mb-45"></div>
-					<div id="authors" class="sidebar-widget mb-45"></div>
+					<div id="genres" class="sidebar-widget mb-45">
+						<h3 class="sidebar-title">Genres</h3>
+						<div class="sidebar-categories">
+							<ul>
+								@foreach (var item in Model.Filter.Genres)
+								{
+									<li><a asp-route="displaybookbygenre" asp-route-filterId="@item.Id"> @item.Name <span>@item.Quantity </span></a></li>
+								}
+							</ul>
+						</div>
+					</div>
+					<div id="publishers" class="sidebar-widget mb-45">
+						<h3 class="sidebar-title">Publishers</h3>
+						<div class="sidebar-categories">
+							<ul>
+								@foreach (var item in Model.Filter.Publishers)
+								{
+									<li><a href="#"> @item.Name <span>@item.Quantity </span></a></li>
+								}
+							</ul>
+						</div>
+					</div>
+					<div id="languages" class="sidebar-widget mb-45">
+						<h3 class="sidebar-title">Languages</h3>
+						<div class="sidebar-categories">
+							<ul>
+								@foreach (var item in Model.Filter.Languages)
+								{
+									<li><a href="#"> @item.Name <span>@item.Quantity </span></a></li>
+								}
+							</ul>
+						</div>
+					</div>
+					<div id="authors" class="sidebar-widget mb-45">
+						<h3 class="sidebar-title">Authors</h3>
+						<div class="sidebar-categories">
+							<ul>
+								@foreach (var item in Model.Filter.Authors)
+								{
+									<li><a href="#"> @item.Name <span>@item.Quantity </span></a></li>
+								}
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="col-lg-9 order-1 order-lg-2">
@@ -57,16 +133,8 @@
 															<img src="/img/product/book/@book.Image" alt="">
 														</a>
 														<div class="product-action">
-															<p>@book.IsFavorite</p>
 															<a class="animate-left" title="Wishlist" href="#">
-																@if (@book.IsFavorite == 1)
-																{
-																	<i class="bi bi-suit-heart-fill" id="icon_heart_@book.Id" onclick="DeleteWishlist(@book.Id)"></i>
-																}
-																else
-																{
-																	<i class="bi bi-suit-heart" id="icon_heart_@book.Id" onclick="AddToWishlist(@book.Id)"></i>
-																}
+																@GenerateFavoriteIcon(@book.IsFavorite, @book.Id)
 															</a>
 															<a class="animate-top" title="Add To Cart" onclick="AddToCart(@book.Id)">
 																<i class="pe-7s-cart"></i>
@@ -77,7 +145,9 @@
 														</div>
 													</div>
 													<div class="product-content">
-														<div class="product-rating-2" id="rate_book_@book.Id" onload="DisplayRate(@book.Rate, @book.Id)"></div>
+														<div class="product-rating-2">
+															@GenerateStarRating(book.Rate, 5)
+														</div>
 														<h4><a href="#">@book.Title</a></h4>
 														<span>@book.SellingPrice</span>
 													</div>
@@ -96,7 +166,7 @@
 											<div class="col-lg-12 col-xl-6">
 												<div class="product-wrapper mb-30 single-product-list product-list-right-pr mb-60">
 													<div class="product-img list-img-width">
-														<a href="/Home/Detail/@book.Id">
+														<a asp-controller="Home" asp-action="Detail" asp-route-id="@book.Id">
 															<img src="/img/product/book/@book.Image" alt="">
 														</a>
 														<span>hot</span>
@@ -104,7 +174,9 @@
 													<div class="product-content-list">
 														<div class="product-list-info">
 															<h4><a href="/Home/Detail/@book.Id">@book.Title</a></h4>
-															<div class="product-rating-2" id="rate_book_id_@book.Id" onload="DisplayRate(@book.Rate, @book.Id)"></div>
+															<div class="product-rating-2">
+																@GenerateStarRating(book.Rate, 5)
+															</div>
 															<span href="/Home/Detail/@book.Id">@book.SellingPrice</span>
 														</div>
 														<div class="product-list-cart-wishlist">
@@ -113,14 +185,7 @@
 															</div>
 															<div class="product-list-wishlist">
 																<a class="btn-hover list-btn-wishlist" href="#">
-																	@if (@book.IsFavorite == 1)
-																	{
-																		<i class="bi bi-suit-heart-fill" id="icon_heart_@book.Id" onclick="DeleteWishlist(@book.Id)"></i>
-																	}
-																	else
-																	{
-																		<i class="bi bi-suit-heart" id="icon_heart_@book.Id" onclick="AddToWishlist(@book.Id)"></i>
-																	}
+																	@GenerateFavoriteIcon(@book.IsFavorite, @book.Id)
 																</a>
 															</div>
 														</div>

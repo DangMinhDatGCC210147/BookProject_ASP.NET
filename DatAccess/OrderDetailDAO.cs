@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatAccess
 {
@@ -28,7 +29,7 @@ namespace DatAccess
             {
                 using (var context = new ApplicationDBContext())
                 {
-					return context.OrderDetails.Where(od => od.OrderId == orderId).ToList();
+					return context.OrderDetails.Include(od => od.Book).Where(od => od.OrderId == orderId).ToList();
                 }
             }
             catch (Exception ex)

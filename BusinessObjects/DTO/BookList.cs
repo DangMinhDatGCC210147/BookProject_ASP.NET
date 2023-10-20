@@ -14,6 +14,6 @@ namespace BusinessObjects.DTO
         public decimal SellingPrice { get; set; }  
         public decimal Quantity { get; set; }  
         public double Rate { get; set; }  
-        public int IsFavorite { get; set; }
+        public bool IsFavorite { get; set; }
 	}
 }
