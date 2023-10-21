@@ -130,6 +130,10 @@ namespace BookStore.Controllers
 		public async Task<IActionResult> Contact()
 		{
 			return View();
+		}		
+		public async Task<IActionResult> Help()
+		{
+			return View();
 		}
 
 		public IActionResult AboutUs()

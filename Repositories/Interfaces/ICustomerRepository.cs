@@ -10,5 +10,9 @@ namespace Repositories.Interfaces
     public interface ICustomerRepository
     {
         List<AppUser> GetCustomers();
+        AppUser SaveUser(AppUser user);
+        AppUser GetUserById(string id);
+        void DeleteUserById(AppUser user);
+        AppUser UpdateUser(AppUser user);
     }
 }

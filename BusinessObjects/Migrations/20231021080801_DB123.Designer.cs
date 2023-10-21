@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessObjects.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20231019090030_DB123")]
+    [Migration("20231021080801_DB123")]
     partial class DB123
     {
         /// <inheritdoc />
@@ -410,25 +410,25 @@ namespace BusinessObjects.Migrations
                         {
                             Id = 1,
                             DiscountName = "Discount 1",
-                            EndDate = new DateTime(2023, 10, 26, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5622),
+                            EndDate = new DateTime(2023, 10, 28, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7785),
                             Percentage = 50,
-                            StartDate = new DateTime(2023, 10, 12, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5616)
+                            StartDate = new DateTime(2023, 10, 14, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7780)
                         },
                         new
                         {
                             Id = 2,
                             DiscountName = "Discount 2",
-                            EndDate = new DateTime(2023, 10, 29, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5624),
+                            EndDate = new DateTime(2023, 10, 31, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7786),
                             Percentage = 60,
-                            StartDate = new DateTime(2023, 10, 16, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5623)
+                            StartDate = new DateTime(2023, 10, 18, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7785)
                         },
                         new
                         {
                             Id = 3,
                             DiscountName = "Discount 3",
-                            EndDate = new DateTime(2023, 10, 24, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5625),
+                            EndDate = new DateTime(2023, 10, 26, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7787),
                             Percentage = 50,
-                            StartDate = new DateTime(2023, 10, 18, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5625)
+                            StartDate = new DateTime(2023, 10, 20, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7787)
                         });
                 });
 
@@ -519,7 +519,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 1,
-                            AddDate = new DateTime(2023, 10, 19, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5546),
+                            AddDate = new DateTime(2023, 10, 21, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7739),
                             ApprovalStatus = 0,
                             Description = "Description for Fiction",
                             Name = "Fiction"
@@ -527,7 +527,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 2,
-                            AddDate = new DateTime(2023, 10, 19, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5559),
+                            AddDate = new DateTime(2023, 10, 21, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7748),
                             ApprovalStatus = 1,
                             Description = "Description for Mystery",
                             Name = "Mystery"
@@ -535,7 +535,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 3,
-                            AddDate = new DateTime(2023, 10, 19, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5560),
+                            AddDate = new DateTime(2023, 10, 21, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7749),
                             ApprovalStatus = 2,
                             Description = "Description for Science Fiction",
                             Name = "Science Fiction"
@@ -543,7 +543,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 4,
-                            AddDate = new DateTime(2023, 10, 19, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5561),
+                            AddDate = new DateTime(2023, 10, 21, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7750),
                             ApprovalStatus = 0,
                             Description = "Description for Fantasy",
                             Name = "Fantasy"
@@ -551,7 +551,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 5,
-                            AddDate = new DateTime(2023, 10, 19, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5562),
+                            AddDate = new DateTime(2023, 10, 21, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7751),
                             ApprovalStatus = 1,
                             Description = "Description for Romance",
                             Name = "Romance"
@@ -559,7 +559,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 6,
-                            AddDate = new DateTime(2023, 10, 19, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5563),
+                            AddDate = new DateTime(2023, 10, 21, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7752),
                             ApprovalStatus = 0,
                             Description = "Description for Horror",
                             Name = "Horror"
@@ -567,7 +567,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 7,
-                            AddDate = new DateTime(2023, 10, 19, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5563),
+                            AddDate = new DateTime(2023, 10, 21, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7753),
                             ApprovalStatus = 1,
                             Description = "Description for Adventure",
                             Name = "Adventure"
@@ -575,7 +575,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 8,
-                            AddDate = new DateTime(2023, 10, 19, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5564),
+                            AddDate = new DateTime(2023, 10, 21, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7754),
                             ApprovalStatus = 2,
                             Description = "Description for Non-fiction",
                             Name = "Non-fiction"
@@ -583,7 +583,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 9,
-                            AddDate = new DateTime(2023, 10, 19, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5566),
+                            AddDate = new DateTime(2023, 10, 21, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7755),
                             ApprovalStatus = 0,
                             Description = "Description for Biography",
                             Name = "Biography"
@@ -591,7 +591,7 @@ namespace BusinessObjects.Migrations
                         new
                         {
                             Id = 10,
-                            AddDate = new DateTime(2023, 10, 19, 16, 0, 29, 967, DateTimeKind.Local).AddTicks(5567),
+                            AddDate = new DateTime(2023, 10, 21, 15, 8, 1, 202, DateTimeKind.Local).AddTicks(7756),
                             ApprovalStatus = 1,
                             Description = "Description for History",
                             Name = "History"
