@@ -314,7 +314,7 @@ namespace BusinessObjects.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -481,9 +481,9 @@ namespace BusinessObjects.Migrations
                 columns: new[] { "Id", "DiscountName", "EndDate", "Percentage", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "Discount 1", new DateTime(2023, 10, 28, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3024), 50, new DateTime(2023, 10, 14, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3020) },
-                    { 2, "Discount 2", new DateTime(2023, 10, 31, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3026), 60, new DateTime(2023, 10, 18, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3025) },
-                    { 3, "Discount 3", new DateTime(2023, 10, 26, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3027), 50, new DateTime(2023, 10, 20, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3026) }
+                    { 1, "Discount 1", new DateTime(2023, 10, 29, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1795), 50, new DateTime(2023, 10, 15, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1792) },
+                    { 2, "Discount 2", new DateTime(2023, 11, 1, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1797), 60, new DateTime(2023, 10, 19, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1796) },
+                    { 3, "Discount 3", new DateTime(2023, 10, 27, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1798), 50, new DateTime(2023, 10, 21, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1798) }
                 });
 
             migrationBuilder.InsertData(
@@ -491,16 +491,16 @@ namespace BusinessObjects.Migrations
                 columns: new[] { "Id", "AddDate", "ApprovalStatus", "Description", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2981), 0, "Description for Fiction", "Fiction" },
-                    { 2, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2991), 1, "Description for Mystery", "Mystery" },
-                    { 3, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2991), 2, "Description for Science Fiction", "Science Fiction" },
-                    { 4, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2992), 0, "Description for Fantasy", "Fantasy" },
-                    { 5, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2993), 1, "Description for Romance", "Romance" },
-                    { 6, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2993), 0, "Description for Horror", "Horror" },
-                    { 7, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2994), 1, "Description for Adventure", "Adventure" },
-                    { 8, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2994), 2, "Description for Non-fiction", "Non-fiction" },
-                    { 9, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2995), 0, "Description for Biography", "Biography" },
-                    { 10, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2995), 1, "Description for History", "History" }
+                    { 1, new DateTime(2023, 10, 22, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1755), 0, "Description for Fiction", "Fiction" },
+                    { 2, new DateTime(2023, 10, 22, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1764), 1, "Description for Mystery", "Mystery" },
+                    { 3, new DateTime(2023, 10, 22, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1765), 2, "Description for Science Fiction", "Science Fiction" },
+                    { 4, new DateTime(2023, 10, 22, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1765), 0, "Description for Fantasy", "Fantasy" },
+                    { 5, new DateTime(2023, 10, 22, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1766), 1, "Description for Romance", "Romance" },
+                    { 6, new DateTime(2023, 10, 22, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1766), 0, "Description for Horror", "Horror" },
+                    { 7, new DateTime(2023, 10, 22, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1767), 1, "Description for Adventure", "Adventure" },
+                    { 8, new DateTime(2023, 10, 22, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1767), 2, "Description for Non-fiction", "Non-fiction" },
+                    { 9, new DateTime(2023, 10, 22, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1768), 0, "Description for Biography", "Biography" },
+                    { 10, new DateTime(2023, 10, 22, 3, 30, 39, 414, DateTimeKind.Local).AddTicks(1768), 1, "Description for History", "History" }
                 });
 
             migrationBuilder.InsertData(
