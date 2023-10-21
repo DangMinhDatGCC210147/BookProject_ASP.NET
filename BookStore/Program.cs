@@ -2,12 +2,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BusinessObjects;
 using BookStoreWebClient.Data;
+using Repositories.Interfaces;
+using Repositories;
 using Microsoft.Extensions.Hosting.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDBContextConnection' not found.");
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 	options.UseSqlServer(connectionString));
+//builder.Services.AddTransient<IFileService, FileService>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
 		.AddEntityFrameworkStores<ApplicationDBContext>()

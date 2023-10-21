@@ -1,5 +1,5 @@
 ﻿using BusinessObjects;
-using BusinessObjects.DTO;
+using Microsoft.AspNetCore.Http;
 
 namespace Repositories.Interfaces
 {

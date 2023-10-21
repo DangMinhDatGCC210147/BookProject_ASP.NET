@@ -29,8 +29,8 @@ namespace BookStoreAPI.Controllers
 
         public IActionResult CreatePublisher(Publisher publisher)
         {
-            repository.SavePublisher(publisher);
-            return Ok();
+            
+            return Ok(repository.SavePublisher(publisher));
         }
 
         [HttpDelete("{id}")]

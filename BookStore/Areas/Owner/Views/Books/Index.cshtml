@@ -79,9 +79,8 @@
                                                     <label for="datePublished">Publication Year</label>
                                                     <input type="number" min="1900" max="2099" step="1" class="form-control" id="datePublished">
                                                 </div>
-                                                <div class="form-group col-md-6">
+                                                <div class="form-group col-md-4">
                                                     <label for="publisher">Publisher</label>
-                                                    <!-- <input type="text" class="form-control" id="publisher" placeholder="Enter publisher"> -->
                                                     <select class="form-control" id="publisherDropdown">
                                                         <option value="">Select a publisher</option>
                                                     </select>
@@ -100,7 +99,6 @@
                                                         <label class="custom-file-label" for="fileInput">Choose an image:</label>
                                                     </div>
                                                 </div>
-
                                             </div>
                                             <dic class="form-row">
                                                 <div class="form-group col-md-4">
@@ -141,7 +139,8 @@
                                     <th scope="col">ID</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Book Name</th>
-                                    <th scope="col" class="w-25">Description</th>
+                                    <th scope="col">Genre</th>
+                                    <th scope="col">Description</th>
                                     <th scope="col">Actual Price</th>
                                     <th scope="col">Real Price</th>
                                     <th scope="col">Status</th>
@@ -149,6 +148,7 @@
                                     <th scope="col">ISBN</th>
                                     <th scope="col">Publication Year</th>
                                     <th scope="col">Publisher</th>
+                                    <th scope="col">Author</th>
                                     <th scope="col">Pages</th>
                                     <th scope="col">Languages</th>
                                     <th scope="col">Action</th>
@@ -166,6 +166,7 @@
                                             <img src="@ViewBag.api/@book.Image" title=""/>
                                         </td>
                                         <td>@book.Title</td>
+                                        <td>@book.Genre</td>
                                         <td>@book.Description</td>
                                         <td>@book.OriginalPrice</td>
                                         <td>@book.SellingPrice</td>
