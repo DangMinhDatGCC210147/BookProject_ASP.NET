@@ -95,6 +95,7 @@
                                                 <div class="form-group col-md-6">
                                                     <label for="fileInput" class="control-label">Image</label>
                                                     <div class="custom-file">
+                                                        
                                                         <input type="file" class="custom-file-input" id="fileInput" onchange="updateLabel(this)">
                                                         <label class="custom-file-label" for="fileInput">Choose an image:</label>
                                                     </div>
@@ -161,7 +162,9 @@
                                 {
                                     <tr id="row_@book.Id">
                                         <th scope="row">@book.Id</th>
-                                        <td id="imageContainer_@book.Title"></td>
+                                        <td>
+                                            <img src="@ViewBag.api/@book.Image" title=""/>
+                                        </td>
                                         <td>@book.Title</td>
                                         <td>@book.Description</td>
                                         <td>@book.OriginalPrice</td>

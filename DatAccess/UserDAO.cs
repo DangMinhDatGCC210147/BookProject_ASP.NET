@@ -17,9 +17,23 @@ namespace DataAccess
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    listUsers = context.Users.ToList();
+                    listUsers = context.Users
+                        .Join(
+                            context.UserRoles,
+                            user => user.Id,
+                            userRole => userRole.UserId,
+                            (user, userRole) => new { User = user, UserRole = userRole }
+                        )
+                        .Join(
+                            context.Roles,
+                            ur => ur.UserRole.RoleId,
+                            role => role.Id,
+                            (ur, role) => new { User = ur.User, Role = role }
+                        )
+                        .Where(ur => ur.Role.Name == "StoreOwner")
+                        .Select(ur => ur.User)
+                        .ToList();
                 }
-
             }
             catch (Exception ex)
             {
@@ -27,7 +41,37 @@ namespace DataAccess
             }
             return listUsers;
         }
-
+        public static List<AppUser> GetCustomers()
+        {
+            var listUsers = new List<AppUser>();
+            try
+            {
+                using (var context = new ApplicationDBContext())
+                {
+                    listUsers = context.Users
+                        .Join(
+                            context.UserRoles,
+                            user => user.Id,
+                            userRole => userRole.UserId,
+                            (user, userRole) => new { User = user, UserRole = userRole }
+                        )
+                        .Join(
+                            context.Roles, // Sử dụng context.Roles thay vì context.UserRoles
+                            ur => ur.UserRole.RoleId,
+                            role => role.Id,
+                            (ur, role) => new { User = ur.User, Role = role }
+                        )
+                        .Where(ur => ur.Role.Name == "Customer")
+                        .Select(ur => ur.User)
+                        .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return listUsers;
+        }
         public static AppUser FindUserById(string id)
         {
             var user = new AppUser();

@@ -1,38 +1,37 @@
 ﻿using BusinessObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Repositories.Interfaces;
 using Repositories;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace BookStoreWebClient.Areas.Admin.Controllers
-{
+{        
     [Authorize(Roles = "Admin")]
     [Area("Admin")]
-    public class UsersController : Controller
+    public class CustomersController : Controller
     {
         private readonly IConfiguration _configuration;
         private readonly HttpClient client = null;
-        private string UserApiUrl = "";
+        private string CustomerApi = "";
 
-        private readonly IUserRepository repository = new UserRepository();
+        private readonly ICustomerRepository repository = new CustomerRepository();
 
-        public UsersController(IConfiguration configuration)
+        public CustomersController(IConfiguration configuration)
         {
             _configuration = configuration;
             client = new HttpClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            UserApiUrl = "/api/Users";
+            CustomerApi = "/api/Customers";
         }
 
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            HttpResponseMessage httpResponse = await client.GetAsync(UserApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
+            HttpResponseMessage httpResponse = await client.GetAsync(CustomerApi); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
 
             string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
 
@@ -47,7 +46,7 @@ namespace BookStoreWebClient.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AppUser p)
         {
-            HttpResponseMessage response = await client.GetAsync(UserApiUrl);
+            HttpResponseMessage response = await client.GetAsync(CustomerApi);
             string strData = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
@@ -69,7 +68,7 @@ namespace BookStoreWebClient.Areas.Admin.Controllers
             user.Id = id;
             string data = JsonSerializer.Serialize(user);
             var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PutAsync(UserApiUrl + "/" + id, content);
+            HttpResponseMessage response = await client.PutAsync(CustomerApi + "/" + id, content);
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "User");
@@ -79,7 +78,7 @@ namespace BookStoreWebClient.Areas.Admin.Controllers
         public ActionResult<IEnumerable<AppUser>> GetAccount()
         {
             // Kết nối đến cơ sở dữ liệu và truy vấn dữ liệu
-            var data = repository.GetUsers().ToList();
+            var data = repository.GetCustomers().ToList();
 
             // Truyền dữ liệu đến View
             ViewBag.MyData = data;
