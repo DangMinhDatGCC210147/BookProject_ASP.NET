@@ -127,7 +127,7 @@ function AjaxWishlist() {
             var row = "";
             response.forEach(item => {
                 row += `
-                            <li class="single-product-wishlist" id="row_wishlist_${item.bookId}">
+                            <li class="single-product-cart" id="row_wishlist_${item.bookId}">
                                 <div class="cart-img">
                                     <a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
                                 </div>
