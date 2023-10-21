@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BusinessObjects.Migrations
 {
     /// <inheritdoc />
-    public partial class DB1 : Migration
+    public partial class DB123 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,9 +32,11 @@ namespace BusinessObjects.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gender = table.Column<bool>(type: "bit", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GoogleId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FacebookId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -78,6 +80,7 @@ namespace BusinessObjects.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DiscountName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Percentage = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -279,7 +282,7 @@ namespace BusinessObjects.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DeliveryDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeleveryLocal = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CustomerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CustomerPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -293,7 +296,8 @@ namespace BusinessObjects.Migrations
                         name: "FK_Orders_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_Discounts_DiscountId",
                         column: x => x.DiscountId,
@@ -311,6 +315,7 @@ namespace BusinessObjects.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
                     OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -355,15 +360,13 @@ namespace BusinessObjects.Migrations
                 name: "CartDetails",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     BookId = table.Column<int>(type: "int", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    CartId = table.Column<int>(type: "int", nullable: true)
+                    CartId = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartDetails", x => x.Id);
+                    table.PrimaryKey("PK_CartDetails", x => new { x.BookId, x.CartId });
                     table.ForeignKey(
                         name: "FK_CartDetails_Books_BookId",
                         column: x => x.BookId,
@@ -374,7 +377,8 @@ namespace BusinessObjects.Migrations
                         name: "FK_CartDetails_Carts_CartId",
                         column: x => x.CartId,
                         principalTable: "Carts",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -474,12 +478,12 @@ namespace BusinessObjects.Migrations
 
             migrationBuilder.InsertData(
                 table: "Discounts",
-                columns: new[] { "Id", "DiscountName", "EndDate", "StartDate" },
+                columns: new[] { "Id", "DiscountName", "EndDate", "Percentage", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, "Discount 1", new DateTime(2023, 10, 13, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(249), new DateTime(2023, 9, 29, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(244) },
-                    { 2, "Discount 2", new DateTime(2023, 10, 16, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(250), new DateTime(2023, 10, 3, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(250) },
-                    { 3, "Discount 3", new DateTime(2023, 10, 11, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(251), new DateTime(2023, 10, 5, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(251) }
+                    { 1, "Discount 1", new DateTime(2023, 10, 28, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3024), 50, new DateTime(2023, 10, 14, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3020) },
+                    { 2, "Discount 2", new DateTime(2023, 10, 31, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3026), 60, new DateTime(2023, 10, 18, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3025) },
+                    { 3, "Discount 3", new DateTime(2023, 10, 26, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3027), 50, new DateTime(2023, 10, 20, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(3026) }
                 });
 
             migrationBuilder.InsertData(
@@ -487,16 +491,16 @@ namespace BusinessObjects.Migrations
                 columns: new[] { "Id", "AddDate", "ApprovalStatus", "Description", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(196), 0, "Description for Fiction", "Fiction" },
-                    { 2, new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(210), 1, "Description for Mystery", "Mystery" },
-                    { 3, new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(211), 2, "Description for Science Fiction", "Science Fiction" },
-                    { 4, new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(211), 0, "Description for Fantasy", "Fantasy" },
-                    { 5, new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(212), 1, "Description for Romance", "Romance" },
-                    { 6, new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(212), 0, "Description for Horror", "Horror" },
-                    { 7, new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(213), 1, "Description for Adventure", "Adventure" },
-                    { 8, new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(214), 2, "Description for Non-fiction", "Non-fiction" },
-                    { 9, new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(214), 0, "Description for Biography", "Biography" },
-                    { 10, new DateTime(2023, 10, 6, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(215), 1, "Description for History", "History" }
+                    { 1, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2981), 0, "Description for Fiction", "Fiction" },
+                    { 2, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2991), 1, "Description for Mystery", "Mystery" },
+                    { 3, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2991), 2, "Description for Science Fiction", "Science Fiction" },
+                    { 4, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2992), 0, "Description for Fantasy", "Fantasy" },
+                    { 5, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2993), 1, "Description for Romance", "Romance" },
+                    { 6, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2993), 0, "Description for Horror", "Horror" },
+                    { 7, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2994), 1, "Description for Adventure", "Adventure" },
+                    { 8, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2994), 2, "Description for Non-fiction", "Non-fiction" },
+                    { 9, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2995), 0, "Description for Biography", "Biography" },
+                    { 10, new DateTime(2023, 10, 21, 16, 26, 35, 918, DateTimeKind.Local).AddTicks(2995), 1, "Description for History", "History" }
                 });
 
             migrationBuilder.InsertData(
@@ -506,7 +510,8 @@ namespace BusinessObjects.Migrations
                 {
                     { 1, "English" },
                     { 2, "Spanish" },
-                    { 3, "French" }
+                    { 3, "French" },
+                    { 4, "Italian" }
                 });
 
             migrationBuilder.InsertData(
@@ -528,53 +533,19 @@ namespace BusinessObjects.Migrations
 
             migrationBuilder.InsertData(
                 table: "Books",
-                columns: new[] { "Id", "AuthorId", "Description", "GenreId", "ISBN", "Image", "IsSale", "LanguageId", "OriginalPrice", "PageCount", "PublicationYear", "PublisherId", "SellingPrice", "Title" },
+                columns: new[] { "Id", "AuthorId", "Description", "GenreId", "ISBN", "Image", "IsSale", "LanguageId", "OriginalPrice", "PageCount", "PublicationYear", "PublisherId", "Quantity", "SellingPrice", "Title" },
                 values: new object[,]
                 {
-                    { 1, 1, "Description for Book 1", 1, "123456789", "book1.jpg", true, 1, 19.99m, 300, 2020, 1, 14.99m, "Book 1" },
-                    { 2, 2, "Description for Book 2", 2, "987654321", "book2.jpg", false, 2, 24.99m, 400, 2019, 2, 19.99m, "Book 2" },
-                    { 3, 3, "Description for Book 3", 1, "987654322", "book3.jpg", true, 1, 29.99m, 350, 2021, 1, 24.99m, "Book 3" },
-                    { 4, 1, "Description for Book 4", 3, "123456790", "book4.jpg", true, 3, 18.99m, 280, 2018, 3, 15.99m, "Book 4" },
-                    { 5, 2, "Description for Book 5", 2, "987654323", "book5.jpg", false, 2, 34.99m, 450, 2022, 2, 29.99m, "Book 5" },
-                    { 6, 4, "Description for Book 6", 1, "123456791", "book6.jpg", false, 1, 14.99m, 240, 2017, 1, 11.99m, "Book 6" },
-                    { 7, 5, "Description for Book 7", 1, "987654324", "book7.jpg", true, 3, 22.99m, 320, 2019, 3, 18.99m, "Book 7" },
-                    { 8, 2, "Description for Book 8", 2, "123456792", "book8.jpg", true, 2, 26.99m, 380, 2021, 2, 21.99m, "Book 8" },
-                    { 9, 3, "Description for Book 9", 1, "987654325", "book9.jpg", false, 1, 17.99m, 260, 2020, 1, 14.99m, "Book 9" },
-                    { 10, 4, "Description for Book 10", 3, "123456793", "book10.jpg", true, 3, 31.99m, 420, 2022, 3, 26.99m, "Book 10" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Orders",
-                columns: new[] { "Id", "CustomerName", "CustomerPhone", "DeleveryLocal", "DeliveryDate", "DiscountId", "IsConfirm", "Total", "UserId" },
-                values: new object[,]
-                {
-                    { 1, "Customer 1", "123-456-7890", "123 Delivery St", new DateTime(2023, 10, 11, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(293), 1, false, 100.00m, null },
-                    { 2, "Customer 2", "987-654-3210", "456 Delivery St", new DateTime(2023, 10, 11, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(296), 2, true, 75.50m, null },
-                    { 3, "Customer 3", "111-222-3333", "789 Delivery St", new DateTime(2023, 10, 14, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(297), 1, true, 90.00m, null },
-                    { 4, "Customer 4", "444-555-6666", "101 Delivery St", new DateTime(2023, 10, 12, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(298), 2, false, 85.75m, null },
-                    { 5, "Customer 5", "777-888-9999", "202 Delivery St", new DateTime(2023, 10, 15, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(299), 1, false, 120.25m, null },
-                    { 6, "Customer 6", "555-666-7777", "303 Delivery St", new DateTime(2023, 10, 13, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(300), 2, true, 110.50m, null },
-                    { 7, "Customer 7", "888-999-0000", "404 Delivery St", new DateTime(2023, 10, 17, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(301), 1, true, 95.00m, null },
-                    { 8, "Customer 8", "333-444-5555", "505 Delivery St", new DateTime(2023, 10, 16, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(303), 2, false, 65.25m, null },
-                    { 9, "Customer 9", "999-000-1111", "606 Delivery St", new DateTime(2023, 10, 20, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(304), 1, true, 135.75m, null },
-                    { 10, "Customer 10", "666-777-8888", "707 Delivery St", new DateTime(2023, 10, 18, 21, 46, 10, 818, DateTimeKind.Local).AddTicks(305), 2, false, 70.00m, null }
-                });
-
-            migrationBuilder.InsertData(
-                table: "OrderDetails",
-                columns: new[] { "BookId", "OrderId", "Quantity", "UnitPrice" },
-                values: new object[,]
-                {
-                    { 1, 1, 2, 50.00m },
-                    { 2, 2, 3, 60.00m },
-                    { 6, 3, 1, 40.00m },
-                    { 3, 4, 2, 55.50m },
-                    { 4, 5, 2, 48.00m },
-                    { 1, 6, 1, 35.25m },
-                    { 7, 7, 3, 75.00m },
-                    { 9, 8, 2, 42.00m },
-                    { 10, 9, 1, 65.75m },
-                    { 5, 10, 3, 45.00m }
+                    { 1, 1, "Description for Book 1", 1, "123456789", "1.jpg", true, 1, 19.99m, 300, 2020, 1, 18, 14.99m, "Book 1" },
+                    { 2, 2, "Description for Book 2", 2, "987654321", "2.jpg", false, 2, 24.99m, 400, 2019, 2, 18, 19.99m, "Book 2" },
+                    { 3, 3, "Description for Book 3", 1, "987654322", "3.jpg", true, 1, 29.99m, 350, 2021, 1, 18, 24.99m, "Book 3" },
+                    { 4, 1, "Description for Book 4", 3, "123456790", "4.jpg", true, 3, 18.99m, 280, 2018, 3, 0, 15.99m, "Book 4" },
+                    { 5, 2, "Description for Book 5", 2, "987654323", "5.jpg", false, 2, 34.99m, 450, 2022, 2, 18, 29.99m, "Book 5" },
+                    { 6, 4, "Description for Book 6", 1, "123456791", "6.jpg", false, 1, 14.99m, 240, 2017, 1, 18, 11.99m, "Book 6" },
+                    { 7, 5, "Description for Book 7", 1, "987654324", "7.jpg", true, 3, 22.99m, 320, 2019, 3, 18, 18.99m, "Book 7" },
+                    { 8, 2, "Description for Book 8", 2, "123456792", "8.jpg", true, 2, 26.99m, 380, 2021, 2, 18, 21.99m, "Book 8" },
+                    { 9, 3, "Description for Book 9", 1, "987654325", "9.jpg", false, 1, 17.99m, 260, 2020, 1, 18, 14.99m, "Book 9" },
+                    { 10, 4, "Description for Book 10", 3, "123456793", "10.jpg", true, 3, 31.99m, 420, 2022, 3, 18, 26.99m, "Book 10" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -635,11 +606,6 @@ namespace BusinessObjects.Migrations
                 name: "IX_Books_PublisherId",
                 table: "Books",
                 column: "PublisherId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CartDetails_BookId",
-                table: "CartDetails",
-                column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartDetails_CartId",
