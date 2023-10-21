@@ -6724,9 +6724,10 @@ h1.cart-heading {
 .input_quantity_box {
     max-width: 50px;
     border-radius: 0px;
-    padding: 1px;
+    padding: 2px;
     border-left: none;
     border-right: none;
+    height: 35px;
 }
 .input-quantity {
     display: flex;
@@ -9552,7 +9553,7 @@ input.cart-plus-minus-box {
     border: 1px solid #dcdcdc;
     overflow: hidden;
     padding: 0px 0 4px 4px;
-    width: 80px;
+    width: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
