@@ -16,7 +16,7 @@
                             @* <form class="form-inline" method="POST"> *@
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
+                                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search" id="searchInput">
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-success">Search</button>
                                     </div>
@@ -25,48 +25,30 @@
                             @* </form> *@
                             @*  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#userModal">Add New User</button> *@
                             <!-- Modal -->
-                            <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="userModalLabel">Add New Customers</h5>
+                                            <h5 class="modal-title" id="passwordChangeModalLabel">Change Password</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST" id="myForm">
-                                                <input type="hidden" id="userId">
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="username">First Name</label>
-                                                        <input type="text" class="form-control" id="firstName" placeholder="Enter first name" required>
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="username">Last Name</label>
-                                                        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" required>
-                                                    </div>
+                                            <form id="passwordChangeForm" method="post">
+                                                <input type="hidden" id="userId"> <!-- Đây là trường input ẩn để chứa userId -->
+                                                <div class="form-group">
+                                                    <label for="newPassword">New Password</label>
+                                                    <input type="password" class="form-control" id="newPassword" required>
+                                                    <small id="newPasswordError" class="text-danger"></small>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="username">Address</label>
-                                                    <input type="text" class="form-control" id="address" placeholder="Enter address" required>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-6">
-                                                        <label for="username">Phone number</label>
-                                                        <input type="text" class="form-control" id="phoneNumber" placeholder="Enter last name" required>
-                                                    </div>
-                                                    <div class="form-group col-md-6">
-                                                        <label for="address">Email</label>
-                                                        <input type="email" class="form-control" id="email" placeholder="Enter address" required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="address">Password</label>
-                                                    <input type="password" class="form-control" id="password" placeholder="Enter address" required>
+                                                    <label for="confirmPassword">Confirm Password</label>
+                                                    <input type="password" class="form-control" id="confirmPassword" required>
+                                                    <small id="confirmPasswordError" class="text-danger"></small>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                    <button type="submit" class="btn btn-primary" id="saveButton">Save</button>
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                                 </div>
                                             </form>
@@ -76,7 +58,7 @@
                             </div>
                         </div>
                         <!-- Small tables -->
-                        <table class="table table-sm table-hover">
+                        <table class="table table-sm table-hover" id="customerAccountTable">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
@@ -90,20 +72,23 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <div id="noResultsMessage" class="alert alert-warning" style="display: none;">
+                                    No available values found.
+                                </div>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
+                                    <tr id="row_@item.Id">
                                         <th scope="row">@item.Id</th>
                                         <td>@item.FirstName</td>
                                         <td>@item.LastName</td>
                                         <td>@item.Address</td>
                                         <td>@item.PhoneNumber</td>
                                         <td>@item.Email</td>
-                                        <td>@item.PasswordHash</td>
+                                        <td>********</td>
                                         <td>
                                             <div class="flex-column align-items-center">
-                                                <button type="button" class="btn btn-danger">Delete</button>
-                                                <button type="button" class="btn btn-warning">Edit</button>
+                                                @* <button type="button" class="btn btn-danger">Delete</button> *@
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#passwordChangeModal" data-userid="@item.Id">Change Password</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -122,6 +107,7 @@
 
 </main><!-- End #main -->
 @section Scripts{
+    <script src="~/js/js-admin/customer.js"></script>
     <script src="~/js/js-admin/main.js"></script>
 }
 

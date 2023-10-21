@@ -14,7 +14,7 @@ namespace BookStoreAPI.Controllers
         private readonly IDiscountRepository repository = new DiscountRepository();
 
         [HttpGet]
-        public ActionResult<IEnumerable<Discount>> GetDiscounts() => repository.GetDiscounts();
+        public ActionResult<IEnumerable<Discount>> GetDiscounts() => Ok(repository.GetDiscounts());
 
         [HttpGet("{id}")]
         public ActionResult<Discount> GetDiscountById(int id)

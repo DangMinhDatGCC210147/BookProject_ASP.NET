@@ -2,16 +2,19 @@
 using Repositories.Interfaces;
 using Repositories;
 using BusinessObjects;
+using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BookStoreAPI.Controllers
 {
-	[Route("api/Users")]
-	[ApiController]
-	public class UserController : ControllerBase
-	{
+    [Route("api/Users")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
         private readonly IUserRepository repository = new UserRepository();
+
         [HttpGet]
         public ActionResult<IEnumerable<AppUser>> GetUsers() => repository.GetUsers();
 
@@ -24,11 +27,11 @@ namespace BookStoreAPI.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
-        public IActionResult CreateUser([FromBody] AppUser user)
-        {
-            return Ok(repository.SaveUser(user));
-        }
+        //[HttpPost]
+        //public IActionResult CreateUser([FromBody] AppUser user)
+        //{
+        //    return Ok(repository.SaveUser(user));
+        //}
 
 
         [HttpDelete("{id}")]
@@ -41,14 +44,46 @@ namespace BookStoreAPI.Controllers
             return Ok();
         }
 
+        //[HttpPut("{id}")]
+        //public IActionResult UpdateUser(string id, AppUser user)
+        //{
+        //    var existingUser = repository.GetUserById(id);
+        //    if (existingUser == null)
+        //        return NotFound();
+        //    user.Id = id; 
+        //    return Ok(repository.UpdateUser(user));
+        //}
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(string id, AppUser user)
+        public IActionResult UpdateUser(string id, [FromBody] string newPassword)
         {
             var existingUser = repository.GetUserById(id);
             if (existingUser == null)
+            {
                 return NotFound();
-            user.Id = id; 
-            return Ok(repository.UpdateUser(user));
+            }
+
+            // Kiểm tra xem có cần cập nhật mật khẩu không
+            if (!string.IsNullOrEmpty(newPassword))
+            {
+                // Sử dụng PasswordHasher để hash mật khẩu mới
+                var passwordHasher = new PasswordHasher<AppUser>();
+                existingUser.PasswordHash = passwordHasher.HashPassword(existingUser, newPassword);
+
+                // Gọi phương thức cập nhật từ repository hoặc DbContext của bạn để chỉ cập nhật mật khẩu
+                var updatedUser = repository.UpdateUser(existingUser);
+
+                if (updatedUser == null)
+                {
+                    return BadRequest("Failed to update password.");
+                }
+
+                return Ok(updatedUser);
+            }
+            else
+            {
+                return BadRequest("New password is required. Check again in UserController");
+            }
         }
+
     }
 }

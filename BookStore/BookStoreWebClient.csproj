@@ -37,6 +37,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Owner\Data\" />
     <Folder Include="Areas\Owner\Models\" />
+    <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,110 @@
+﻿@model List<BusinessObjects.Publisher>
+@{
+    ViewData["Title"] = "Publisher";
+}
+
+<main id="main" class="main">
+
+    <!-- <div class="pagetitle">
+      <h1>General Tables</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">Tables</li>
+          <li class="breadcrumb-item active">General</li>
+        </ol>
+      </nav>
+    </div> -->
+    <!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">Publishers table</h5>
+                            <form class="form-inline" method="POST">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
+                                        <div class="input-group-append">
+                                            <button type="button" class="btn btn-success">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#publisherModal">Add New Publisher</button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="publisherModal" tabindex="-1" role="dialog" aria-labelledby="publisherModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="publisherModalLabel">Add New Publisher</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="publisherName">Publisher Name</label>
+                                                    <input type="text" class="form-control" id="publisherName" placeholder="Enter Publisher Name">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary">Save</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Small tables -->
+                        <table class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Publisher Name</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(Model != null)
+                                {
+                                    @foreach (var publisher in Model)
+                                    {
+                                        <tr>
+                                            <th scope="row">@publisher.Id</th>
+                                            <td>@publisher.Name</td>
+                                            <td>
+                                                <div class="flex-column align-items-center">
+                                                    <button type="button" class="btn btn-danger">Delete</button>
+                                                    <button type="button" class="btn btn-warning">Edit</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }else{
+                                    <h3>No publishers available</h3>
+                                }
+                                
+                            </tbody>
+                        </table>
+                        <!-- End small tables -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+@section Scripts{
+    <script src="~/js/js-admin/main.js"></script>
+}
+
+

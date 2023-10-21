@@ -64,17 +64,43 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
             return View();
         }
 
-        public async Task<ActionResult> EditAsync(string id, AppUser user)
+        //public async Task<ActionResult> EditAsync(string id, AppUser user)
+        //{
+        //    user.Id = id;
+        //    string data = JsonSerializer.Serialize(user);
+        //    var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
+        //    HttpResponseMessage response = await client.PutAsync(UserApiUrl + "/" + id, content);
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        return RedirectToAction("Index", "User");
+        //    }
+        //    return View(user);
+        //}
+        public async Task<ActionResult> EditAsync(string id, string newPassword)
         {
-            user.Id = id;
-            string data = JsonSerializer.Serialize(user);
+            // Kiểm tra xem newPassword có giá trị hợp lệ
+            if (string.IsNullOrWhiteSpace(newPassword))
+            {
+                ModelState.AddModelError("newPassword", "New password is required.");
+                return View(newPassword);
+            }
+
+            // Tạo một đối tượng chứa chỉ thông tin mật khẩu mới
+            var passwordUpdateModel = new
+            {
+                passwordHash = newPassword
+            };
+
+            string data = JsonSerializer.Serialize(passwordUpdateModel);
             var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PutAsync(UserApiUrl + "/" + id, content);
+
             if (response.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index", "User");
             }
-            return View(user);
+            return View(newPassword);
         }
+
     }
 }

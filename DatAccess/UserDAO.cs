@@ -1,5 +1,6 @@
 ﻿using BookStore.Models;
 using BusinessObjects;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -116,10 +117,34 @@ namespace DataAccess
                 {
                     context.Entry<AppUser>(user).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
-                    return user ;
+                    return user;
                 }
 
             }
+            //try
+            //{
+            //    using (var context = new ApplicationDBContext())
+            //    {
+            //        // Tìm người dùng dựa trên userId
+            //        var user = context.Users.FirstOrDefault(u => u.Id == userId);
+
+            //        if (user != null)
+            //        {
+            //            // Sử dụng PasswordHasher để hash mật khẩu mới
+            //            var passwordHasher = new PasswordHasher<AppUser>();
+            //            user.PasswordHash = passwordHasher.HashPassword(user, newPassword);
+
+            //            // Cập nhật mật khẩu
+            //            context.SaveChanges();
+
+            //            return user;
+            //        }
+            //        else
+            //        {
+            //            throw new Exception("User not found");
+            //        }
+            //    }
+            //}
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);

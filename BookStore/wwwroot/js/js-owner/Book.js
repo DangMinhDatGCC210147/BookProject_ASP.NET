@@ -1,4 +1,7 @@
 ﻿const apiUrl = localStorage.getItem("apiUrl");
+//========================================================================================================
+//================================== FUNCTION TO GET LIST ================================================
+//========================================================================================================
 //Lấy ds Language
 $(document).ready(function () {
     // Gọi API để lấy danh sách ngôn ngữ và cập nhật dropdownlist
@@ -73,10 +76,214 @@ $(document).ready(function () {
         }
     });
 });
-//Delete
+//========================================================================================================
+//================================== FUNCTION TO CHANGE NAME =============================================
+//========================================================================================================
+$(".fileInput").on("change", function () {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".fileInputLable").addClass("selected").html(fileName);
+});
+//========================================================================================================
+//================================== FUNCTION TO INTERACT ================================================
+//========================================================================================================
+
+$(document).ready(function () {
+    $('#myForm').submit(function (e) {
+        e.preventDefault();
+
+        const bookId = $('#bookId').val();
+        const bookName = $('#bookName').val();
+        const genreDropdown = $('#genreDropdown').val();
+        const pageCount = $('#pages').val();
+        const bookDescription = $('#bookDescription').val();
+        const actualPrice = $('#actualPrice').val();
+        const realPrice = $('#realPrice').val();
+        const quantity = $('#quantity').val();
+        const isbn = $('#isbn').val();
+        const datePublish = $('#datePublish').val();
+        const publisherDropdown = $('#publisherDropdown').val();
+        const authorDropdown = $('#authorDropdown').val();
+        const fileInput = $('#fileInput')[0].files[0];
+        const languageDropdown = $('#languageDropdown').val();
+        const saleDropdown = $('#saleDropdown').val();
+        console.log("Test: " + publisherDropdown)
+        console.log("Test: " + genreDropdown)
+        console.log("Test: " + authorDropdown)
+        console.log("Test: " + languageDropdown)
+        console.log("Test: " + saleDropdown)
+        console.log("Test Image: " + fileInput)
+        const data = {
+            title: bookName,
+            description: bookDescription,
+            image: fileInput,
+            quantity: quantity,
+            originalPrice: actualPrice,
+            sellingPrice: realPrice,  
+            isbn: isbn,
+            pageCount: pageCount,
+            isSale: saleDropdown,
+            publicationYear: datePublish,
+            publisherId: publisherDropdown,
+            languageId: languageDropdown,
+            authorId: authorDropdown,
+            genreId: genreDropdown,    
+        };
+
+        if (bookId) {
+            // Edit state
+            $.ajax({
+                url: apiUrl + '/api/Products/' + bookId,
+                type: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Your work has been edited',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    console.log(response);
+
+                    // Thay đổi dữ liệu trên giao diện khi sửa bản ghi
+                    //...
+
+                    // Đóng modal
+                    var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
+                    closeButton.click();
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr);
+                    alert('An error occurred while sending data.');
+                }
+            });
+        } else {
+            // Add state
+            $.ajax({
+                url: apiUrl + '/api/Products',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+
+                    const idBook = response.id
+                    const title = response.title
+                    const description = response.description
+                    const image = response.image
+                    const quantity = response.quantity
+                    const originalPrice = response.originalPrice
+                    const actualPrice = response.actualPrice
+                    const isbn = response.isbn
+                    const pageCount = response.pageCount
+                    const isSale = response.isSale
+                    const publicationYear = response.publicationYear
+                    const publisherId = response.publisherId
+                    const languageId = response.languageId
+                    const authorId = response.authorId
+                    const genreId = response.genreId
+
+                    const newBook = document.createElement('tr');
+                    newBook.setAttribute('id', 'row_' + idBook);
+                    newBook.innerHTML = `
+                        <th scope="row">${idBook}</th>
+                        <td>${title}</td>
+                        <td>${description}</td>
+                        <td><img scr="${image}"></img></td>
+                        <td>${quantity}</td>
+                        <td>${originalPrice}</td>
+                        <td>${actualPrice}</td>
+                        <td>${isbn}</td>
+                        <td>${pageCount}</td>
+                        <td>${isSale}</td>
+                        <td>${formatDate(publicationYear)}</td>
+                        <td>${publisherId}</td>
+                        <td>${languageId}</td>
+                        <td>${authorId}</td>
+                        <td>${genreId}</td>
+                        <td>
+                            <div class="flex-column align-items-center">
+                                <button type="button" class="btn btn-danger" onclick="deleteBook(${idBook})">Delete</button>
+                                <button type="submit" class="btn btn-warning edit-book" data-toggle="modal" data-target="#bookModal" onclick="handleEditButton(${idBook})">Edit</button>
+                            </div>
+                        </td>
+                    `;
+
+                    const table = document.getElementById('bookList');
+                    const firstRow = table.getElementsByTagName('tr')[0]; // Get the first row of the table
+                    table.insertBefore(newBook, firstRow);
+
+                    // Clear input in Popup 
+                    $('#bookName').val('');
+                    $('#genreDropdown').val('');
+                    $('#bookDescription').val('');
+                    $('#actualPrice').val('');
+                    $('#realPrice').val('');
+                    $('#quantity').val('');
+                    $('#isbn').val('');
+                    $('#datePublish').val('');
+                    $('#publisherDropdown').val('');
+                    $('#authorDropdown').val('');
+                    $('#fileInput').val('');
+                    $('#languageDropdown').val('');
+                    $('#discountDropdown').val('');
+                    $('#saleDropdown').val('');
+
+                    // Close the modal
+                    var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
+                    closeButton.click();
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr);
+                    alert('An error occurred while sending data.');
+                }
+            });
+        }
+    });
+
+    $('#searchInput').on('input', function () {
+        var searchText = $(this).val().toLowerCase();
+        var found = false;
+
+        $('#discountTable tbody tr').each(function () {
+            var rowText = $(this).text().toLowerCase();
+
+            if (rowText.includes(searchText)) {
+                $(this).show();
+                found = true;
+            } else {
+                $(this).hide();
+            }
+        });
+
+        if (!found) {
+            $('#noResultsMessage').show();
+        } else {
+            $('#noResultsMessage').hide();
+        }
+    });
+});
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 // === Delete ===
-function deleteBook(id) {
-    // Show a confirmation dialog before deletion
+function deleteDiscount(id) {
+    // Hiển thị một hộp thoại xác nhận trước khi xóa
     Swal.fire({
         title: 'Are you sure?',
         text: 'You won\'t be able to revert this!',
@@ -86,17 +293,17 @@ function deleteBook(id) {
         cancelButtonText: 'No, cancel'
     }).then((result) => {
         if (result.isConfirmed) {
-            // If the user agrees to delete, perform an AJAX request to send the delete request
+            // Nếu người dùng đồng ý xóa, thực hiện AJAX để gửi yêu cầu xóa
             $.ajax({
                 type: 'DELETE',
-                url: apiUrl + '/api/Products/' + id,
+                url: apiUrl + '/api/Discounts/' + id,
                 success: function () {
-                    // If deletion is successful, update the user interface by removing the row from the table
+                    // Nếu xóa thành công, cập nhật giao diện người dùng bằng cách xóa dòng trong bảng
                     $('#row_' + id).remove();
                     Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
                 },
                 error: function (xhr, status, error) {
-                    console.log(xhr);
+                    console.log(xhr)
                     Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
                 }
             });
@@ -104,227 +311,32 @@ function deleteBook(id) {
     });
 }
 
-//================ADD AND UPDATE FUNCTION======================
-$(document).ready(function () {
-    $('#myForm').submit(function (e) {
-        e.preventDefault();
-
-        const bookId = $('#bookId').val();
-        const bookName = $('#bookName').val();
-        const genreDropdown = $('#genreDropdown').val();
-        const bookDescription = $('#bookDescription').val();
-        const actualPrice = $('#actualPrice').val();
-        const realPrice = $('#realPrice').val();
-        const quantity = $('#quantity').val();
-        const isbn = $('#isbn').val();
-        const datePublished = $('#datePublished').val();
-        const publisherDropdown = $('#publisherDropdown').val();
-        const pages = $('#pages').val();
-        const fileInput = document.getElementById('fileInput');
-        const selectedFile = fileInput.files[0];
-        const languageDropdown = $('#languageDropdown').val();
-        const authorDropdown = $('#authorDropdown').val();
-        const isSale = $('#saleDropdown').val();
-
-
-        const formData = new FormData();
-        //formData.append('id', bookId);
-        formData.append('title', bookName);
-        formData.append('description', bookDescription);
-        formData.append('imageFile', selectedFile);
-        formData.append('quantity', quantity);
-        formData.append('originalPrice', actualPrice);
-        formData.append('sellingPrice', realPrice);
-        formData.append('isbn', isbn);
-        formData.append('publicationYear', datePublished);
-        formData.append('publisherId', publisherDropdown);
-        formData.append('languageId', languageDropdown);
-        formData.append('authorId', authorDropdown);
-        formData.append('pageCount', pages);
-        formData.append('genreId', genreDropdown);
-        formData.append('isSale', isSale);
-
-        if (selectedFile) {
-            formData.append('imageFile', selectedFile);
-        }
-
-        console.log("Form data:");
-        formData.forEach((value, key) => {
-            console.log(key + ": " + value);
-        });//Test data
-        if (bookId) {
-            // Edit state
-
-            $.ajax(
-                {
-                    url: apiUrl + '/api/Products/' + bookId,
-                    type: 'PUT',
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    success: function (response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Your work has been edited',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        console.log(response);
-                        setTimeout(function () {
-                            location.reload();
-                        }, 1500);
-                        // Close the modal
-                        var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
-                        closeButton.click();
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle errors (if any)
-                        console.error(xhr);
-                        alert('An error occurred while sending data.');
-                    }
-                });
-        } else {
-                // Add state
-                $.ajax({               
-                    url: apiUrl + '/api/Products',
-                    type: 'POST',
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    success: function (response) {
-                        console.log("Data in reponse: ");
-                        console.log(response);
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Your work has been saved',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        setTimeout(function () {
-                            location.reload();
-                        }, 1500);
-
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle errors (if any)
-                        console.error(xhr);
-                        alert('An error occurred while sending data.');
-                    }
-                });
-        }
-    });
-});
-function getPictures() {
-    // Sử dụng Ajax để lấy danh sách titles
-    $.ajax({
-        url: apiUrl + '/api/Products/GetAllTitles',
-        type: "GET",
-        dataType: "json",
-        success: function (titles) {
-            titles.forEach(function (title) {
-                // Sử dụng Ajax để lấy hình ảnh cho từng title
-                $.ajax({
-                    url: apiUrl + '/api/Products/GetImage/' + title,
-                    type: "GET",
-                    dataType: "json",
-                    success: function (data) {
-                        const base64Image = data.base64Image;
-                        var cell = document.getElementById('imageContainer_' + title);
-                        const imageElement = document.createElement('img');
-                        imageElement.src = 'data:image/png;base64,' + base64Image;
-                        cell.appendChild(imageElement);
-                    },
-                    error: function () {
-                        console.error("Lỗi khi tải hình ảnh.");
-                    }
-                });
-            });
-        },
-        error: function () {
-            console.error("Lỗi khi tải danh sách titles.");
-        }
-    });
+// Clear all input when user click on Add new button
+function handleAddButton() {
+    $("#discountId").val("");
+    $("#discountName").val("");
+    $("#discountPercentage").val("");
+    $("#discountStartDate").val("");
+    $("#discountEndDate").val("");
 }
-
-
-// Gọi API để lấy danh sách các Title
-getPictures();
-
-//Search
-$(document).ready(function () {
-    // Xác định sự kiện khi người dùng nhập vào ô tìm kiếm
-    $('#searchInput').on('input', function () {
-        var searchText = $(this).val().toLowerCase();
-        var found = false;
-
-        // Lặp qua từng dòng trong bảng danh sách book
-        $('#bookTable tbody tr').each(function () {
-            var rowText = $(this).text().toLowerCase();
-
-            // So sánh văn bản của từng dòng với văn bản tìm kiếm
-            if (rowText.includes(searchText)) {
-                $(this).show();
-                found = true;
-            } else {
-                $(this).hide();
-            }
-        });
-
-        // Hiển thị thông báo khi không có kết quả tìm thấy
-        if (!found) {
-            $('#noResultsMessage').show();
-        } else {
-            $('#noResultsMessage').hide();
-        }
-    });
-});
 
 // Fill data in input when user click on Edit button
 function handleEditButton(id) {
     $.ajax({
         type: 'GET',
-        url: apiUrl + '/api/Products/' + id,
+        url: apiUrl + '/api/Discounts/' + id,
         success: function (response) {
             console.log(response)
             const id = response.id;
-            const title = response.title;
-            const description = response.description;
-            const originalPrice = response.originalPrice;
-            const sellingPrice = response.sellingPrice;
-            const isSale = response.isSale;
-            const quantity = response.quantity;
-            const isbn = response.isbn;
-            const publicationYear = response.publicationYear;
-            const publisherId = response.publisherId;
-            const pageCount = response.pageCount;
-            const languageId = response.languageId;
-            const genreId = response.genreId;
-            const authorId = response.authorId;
-            const fileName = response.title
-
-            $('#bookId').val(id);
-            $('#bookName').val(title);
-            $('#genreDropdown').val(genreId);
-            $('#bookDescription').val(description);
-            $('#actualPrice').val(originalPrice);
-            $('#realPrice').val(sellingPrice);
-            $('#quantity').val(quantity);
-            $('#isbn').val(isbn);
-            $('#datePublished').val(publicationYear);
-            $('#publisherDropdown').val(publisherId);
-            $('#pages').val(pageCount);
-            $('#languageDropdown').val(languageId);
-            $('#authorDropdown').val(authorId);
-            
-            if (isSale) {
-                document.getElementById('saleDropdown').value = 'true'; // Đặt cho giá trị tương ứng khi là true
-            } else {
-                document.getElementById('saleDropdown').value = 'false'; // Đặt cho giá trị tương ứng khi là false
-            }
-            const imageFileName = response.title; // Lấy tên tệp hình ảnh từ response
-            const imageSrc = apiUrl + '/GetImage?imagePath=' + imageFileName;
-            $('#fileInput').val(imageSrc);
-
+            const name = response.discountName;
+            const percentage = response.percentage;
+            const startdate = formatDate(response.startDate);
+            const endDate = formatDate(response.endDate);
+            $("#discountId").val(id);
+            $("#discountName").val(name);
+            $("#percentage").val(percentage);
+            $("#startDate").val(startdate);
+            $("#endDate").val(endDate);
         },
         error: function (xhr, status, error) {
             console.log(xhr)
@@ -332,18 +344,3 @@ function handleEditButton(id) {
         }
     });
 }
-
-//Xử lý lable cho file input
-function updateLabel(input) {
-    const selectedFile = input.files[0];
-    if (selectedFile) {
-        // Cập nhật nội dung của label với tên của tệp
-        const label = input.nextElementSibling; // Lấy đối tượng label
-        label.textContent = selectedFile.name;
-    } else {
-        // Nếu không có tệp nào được chọn, reset nội dung của label
-        const label = input.nextElementSibling; // Lấy đối tượng label
-        label.textContent = 'Choose an image:';
-    }
-}
-
