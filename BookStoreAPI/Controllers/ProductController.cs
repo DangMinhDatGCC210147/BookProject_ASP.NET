@@ -15,8 +15,13 @@ namespace BookStoreAPI.Controllers
 	public class ProductController : ControllerBase
 	{
         private IProductRepository repository = new ProductRepository();
+		private readonly IWebHostEnvironment environment;
+		public ProductController(IWebHostEnvironment environment)
+		{
+			this.environment = environment;
+		}
 
-        [HttpGet]
+		[HttpGet]
 		public ActionResult<IEnumerable<Book>> GetProducts() => repository.GetProducts();
 
         [HttpGet("{id}")]
@@ -35,30 +40,106 @@ namespace BookStoreAPI.Controllers
             return Ok(repository.GetProductByName(name));
         }
 
-        [HttpPost]
-        public IActionResult PostProducts([FromBody] Book book)
-        {
-			repository.SaveProduct(book);
-			return Ok(book);
-        }
+		[HttpPost]
+		public async Task<IActionResult> PostProducts([FromForm] Book book)
+		{
+			APIResponse responses = new APIResponse();
+			try
+			{
+				// Gọi phương thức để thêm sản phẩm mới vào cơ sở dữ liệu
+				repository.SaveProduct(book);
 
-        [HttpDelete("id")]
+				// Tiếp theo, lưu hình ảnh theo cách bạn đã thực hiện trong phương thức gốc của bạn
+				string Filepath = GetFilepath(book.Title);
+				if (!System.IO.Directory.Exists(Filepath))
+				{
+					System.IO.Directory.CreateDirectory(Filepath);
+				}
+				string imagepath = Filepath + "\\" + book.Title + ".png";
+				if (!System.IO.File.Exists(imagepath))
+				{
+					System.IO.File.Delete(imagepath);
+				}
+
+				using (FileStream stream = System.IO.File.Create(imagepath))
+				{
+					await book.ImageFile.CopyToAsync(stream);
+					responses.ResponseCode = 200;
+					responses.Result = "pass";
+				}
+				book.Image = "upload\\" + book.Title + "\\" + book.Title + ".png";
+
+				return Ok(repository.UpdateProduct(book));
+			}
+			catch (Exception ex)
+			{
+				responses.Errormessage = ex.Message;
+			}
+			return Ok();
+		}
+
+		[HttpDelete("{id}")]
 		public IActionResult DeleteProducts(int id)
 		{
 			var product = repository.GetProductById(id);
-            if (product == null)
-                return NotFound();
-            repository.DeleteProductById(product);
-            return Ok();
-        }
+			if (product == null)
+				return NotFound();
+			repository.DeleteProductById(product);
+			return Ok();
+		}
 
-		[HttpPut("id")]
-		public IActionResult UpdateProducts(int id, Book book)
+		[HttpPut("{id}")]
+		public IActionResult UpdateProducts([FromForm] int id, Book book)
 		{
 			var checkProduct = repository.GetProductById(id);
 			if (checkProduct == null)
 				return NotFound();
+			book.Id = id;
 			return Ok(repository.UpdateProduct(book));
+		}
+		[NonAction]
+		private string GetFilepath(string title)
+		{
+			return this.environment.WebRootPath + "\\upload\\" + title;
+		}
+		[HttpGet("GetImage/{Title}")]
+		public async Task<IActionResult> GetImage(string Title)
+		{
+			try
+			{
+				string Filepath = GetFilepath(Title);
+				string imagepath = Filepath + "\\" + Title + ".png";
+				if (System.IO.File.Exists(imagepath))
+				{
+					byte[] imageBytes = System.IO.File.ReadAllBytes(imagepath);
+					string base64Image = Convert.ToBase64String(imageBytes);
+					return Ok(new { Base64Image = base64Image });
+				}
+				else
+				{
+					return NotFound("Images is not available");
+				}
+			}
+			catch (Exception ex)
+			{
+				// Xử lý lỗi tại đây nếu cần.
+				return StatusCode(500, "Error when accessing the image!");
+			}
+		}
+		[HttpGet("GetAllTitles")]
+		public IActionResult GetAllTitles()
+		{
+			try
+			{
+				// Sử dụng repository để lấy danh sách các Title (hoặc sản phẩm)
+				var titles = repository.GetProducts().Select(product => product.Title).ToList();
+				return Ok(titles);
+			}
+			catch (Exception ex)
+			{
+				// Xử lý lỗi ở đây nếu cần
+				return StatusCode(500, "Đã xảy ra lỗi khi truy cập danh sách Titles.");
+			}
 		}
 	}
 }
