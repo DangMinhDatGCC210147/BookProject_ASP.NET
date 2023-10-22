@@ -43,45 +43,45 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="bookName">Book Name</label>
-                                                    <input type="text" class="form-control" id="bookName" placeholder="Enter book name">
+                                                    <input type="text" class="form-control" id="bookName" placeholder="Enter book name" required>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label class="control-label">Genres</label>
-                                                    <select class="form-control" id="genreDropdown">
+                                                    <select class="form-control" id="genreDropdown" required>
                                                         <option value="">Select a genre</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="bookDescription">Description</label>
-                                                <textarea class="form-control" id="bookDescription" rows="3" placeholder="Enter book description"></textarea>
+                                                <textarea class="form-control" id="bookDescription" rows="3" placeholder="Enter book description" required></textarea>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-3">
                                                     <label for="actualPrice">Actual Price</label>
-                                                    <input type="number" class="form-control" id="actualPrice" placeholder="Enter actual price">
+                                                    <input type="number" min="1" step="0.01" class="form-control" id="actualPrice" placeholder="Enter actual price" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="realPrice">Real Price</label>
-                                                    <input type="number" class="form-control" id="realPrice" placeholder="Enter real price">
+                                                    <input type="number" min="1" step="0.01" class="form-control" id="realPrice" placeholder="Enter real price" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="quantity">Quantity</label>
-                                                    <input type="number" class="form-control" id="quantity" placeholder="Enter quantity">
+                                                    <input type="number" min="1" max="500" class="form-control" id="quantity" placeholder="Enter quantity" required>
                                                 </div>
                                                 <div class="form-group col-md-3">
                                                     <label for="isbn">ISBN</label>
-                                                    <input type="text" class="form-control" id="isbn" placeholder="Enter ISBN">
+                                                    <input type="text" class="form-control" id="isbn" placeholder="Enter ISBN" required>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="datePublished">Publication Year</label>
-                                                    <input type="number" min="1900" max="2099" step="1" class="form-control" id="datePublished">
+                                                    <input type="number" min="1800" max="2999" class="form-control" id="datePublished" required>
                                                 </div>
-                                                <div class="form-group col-md-4">
+                                                <div class="form-group col-md-6">
                                                     <label for="publisher">Publisher</label>
-                                                    <select class="form-control" id="publisherDropdown">
+                                                    <select class="form-control" id="publisherDropdown" required>
                                                         <option value="">Select a publisher</option>
                                                     </select>
                                                 </div>
@@ -89,34 +89,34 @@
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="pages">Pages</label>
-                                                    <input type="number" class="form-control" id="pages" placeholder="Enter number of pages">
+                                                    <input type="number" min="1" max="2000" class="form-control" id="pages" placeholder="Enter number of pages" required>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="fileInput" class="control-label">Image</label>
-                                                    <div class="custom-file">
-                                                        
-                                                        <input type="file" class="custom-file-input" id="fileInput" onchange="updateLabel(this)">
+                                                    <div class="custom-file">                                                       
+                                                        <input type="file" class="custom-file-input" id="fileInput" onchange="updateLabel(this)" max="15360">
                                                         <label class="custom-file-label" for="fileInput">Choose an image:</label>
                                                     </div>
+                                                    <div id="fileSizeError" style="color: red;"></div>
                                                 </div>
                                             </div>
                                             <dic class="form-row">
                                                 <div class="form-group col-md-4">
                                                     <label class="control-label">Language</label>
-                                                    <select class="form-control" id="languageDropdown">
+                                                    <select class="form-control" id="languageDropdown" required>
                                                         <option value="">Select a language</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-4">
                                                     <label for="author">Author</label>
-                                                    <select class="form-control" id="authorDropdown">
+                                                    <select class="form-control" id="authorDropdown" required>
                                                         <option value="">Select a author</option>
                                                     </select>
                                                 </div>                  
                                                 <div class="form-group col-md-4">
                                                     <label for="author">Is Sale</label>
-                                                    <select class="form-control" id="saleDropdown">
-                                                        <option value="">Select a author</option>
+                                                    <select class="form-control" id="saleDropdown" required>
+                                                        <option value="">Select a status</option>
                                                         <option value="true">Are trading</option>
                                                         <option value="false">Not trading</option>
                                                     </select>
@@ -166,7 +166,7 @@
                                             <img src="@ViewBag.api/@book.Image" title=""/>
                                         </td>
                                         <td>@book.Title</td>
-                                        <td>@book.Genre</td>
+                                        <td>@book.Genre?.Name</td>
                                         <td>@book.Description</td>
                                         <td>@book.OriginalPrice</td>
                                         <td>@book.SellingPrice</td>
@@ -174,9 +174,10 @@
                                         <td>@book.Quantity</td>
                                         <td>@book.ISBN</td>
                                         <td>@book.PublicationYear</td>
-                                        <td>@book.PublisherId</td>
+                                        <td>@book.Publisher?.Name</td>
+                                        <td>@book.Author?.Name</td>
                                         <td>@book.PageCount</td>
-                                        <td>@book.LanguageId</td>
+                                        <td>@book.Language?.Name</td>
                                         <td>
                                             <div class="flex-column align-items-center">
                                                 <button type="button" class="btn btn-danger" onclick="deleteBook(@book.Id)">Delete</button>
@@ -210,7 +211,7 @@
             }).then((result) => { 
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: apiUrl + '/api/Books/export',
+                        url: apiUrl + '/api/Products/export',
                         type: 'GET',
                         xhrFields: {
                             responseType: 'blob'
@@ -232,8 +233,6 @@
                 }
             });
         }
-
-
         </script>
 
     <script src="~/js/js-owner/Book.js"></script>

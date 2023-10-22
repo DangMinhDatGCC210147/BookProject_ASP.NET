@@ -10,27 +10,35 @@
         var userId = $('#userId').val();
         var newPassword = $('#newPassword').val();
         var confirmPassword = $('#confirmPassword').val();
+
         if (newPassword !== confirmPassword) {
             alert('Passwords do not match. Please try again.');
+            return;
+        }
+
+        // Kiểm tra xem mật khẩu có đủ mạnh không
+        if (!IsStrongPassword(newPassword)) {
+            alert('Password must be at least 8 characters long and contain at least 1 uppercase letter and 1 special character.');
             return;
         }
 
         var data = {
             newPassword: newPassword
         };
-        console.log(data)
+        console.log(data);
+
         $.ajax({
             url: apiUrl + '/api/Users/' + userId,
             type: 'PUT',
             contentType: 'application/json',
-            data: JSON.stringify(newPassword), // Chuyển mật khẩu mới thành một chuỗi JSON
+            data: JSON.stringify(data), // Chuyển mật khẩu mới thành một chuỗi JSON
             success: function (response) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Your work has been saved',
                     showConfirmButton: false,
                     timer: 1500
-                })
+                });
                 var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
                 closeButton.click();
 
@@ -43,6 +51,38 @@
             }
         });
     });
+
+    // Lắng nghe sự kiện khi trường mật khẩu thay đổi
+    document.getElementById("newPassword").addEventListener("input", function () {
+        var password = this.value;
+
+        // Kiểm tra độ mạnh của mật khẩu
+        var strength = CheckPasswordStrength(password);
+
+        // Hiển thị thông báo ngay dưới trường mật khẩu
+        var passwordStrengthElement = document.getElementById("passwordStrength");
+        passwordStrengthElement.textContent = strength.message;
+        passwordStrengthElement.style.color = strength.color;
+    });
+
+    // Hàm kiểm tra độ mạnh của mật khẩu
+    function CheckPasswordStrength(password) {
+        if (password.length < 8) {
+            return { message: "Password is too short", color: "red" };
+        }
+
+        if (!/[A-Z]/.test(password)) {
+            return { message: "Password must contain at least one uppercase letter", color: "red" };
+        }
+
+        if (!/[^a-zA-Z0-9]/.test(password)) {
+            return { message: "Password must contain at least one special character", color: "red" };
+        }
+
+        return { message: "Password is strong", color: "green" };
+    }
+
+
 
     $('#searchInput').on('input', function () {
         var searchText = $(this).val().toLowerCase();

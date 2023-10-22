@@ -1,5 +1,6 @@
 ﻿// Show Cart
 $(window).on("load", function () {
+	const apiUrl = localStorage.getItem("apiUrl")
 	$.ajax({
 		url: apiUrl + "/api/CartDetails/" + userId,
 		type: "GET",
@@ -52,7 +53,7 @@ $(window).on("load", function () {
 							<tr id="row_${item.bookId}">
 								<td class="product-remove"><a onclick="DeleteCart(${item.bookId})"><i class="pe-7s-close"></i></a></td>
 								<td class="product-thumbnail">
-									<a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
+									<a href="/Home/Detail/${item.bookId}"><img src="${apiUrl}/${item.image}" alt=""></a>
 								</td>
 								<td class="product-name"><a href="/Home/Detail/${item.bookId}" id="product-name_${item.bookId}">${item.title}</a></td>
 								<td class="product-price-cart"><span class="amount" id="price_${item.bookId}">$${item.price}</span></td>

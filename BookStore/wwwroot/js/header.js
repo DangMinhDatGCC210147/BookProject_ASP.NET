@@ -27,7 +27,7 @@ function AjaxCart() {
                 row += `
                             <li class="single-product-cart" id="row_cart_${item.bookId}">
                                 <div class="cart-img">
-                                    <a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
+                                    <a href="/Home/Detail/${item.bookId}"><img src="${apiUrl}/${item.image}" alt=""></a>
                                 </div>
                                 <div class="cart-title">
                                     <h5><a id="product-name_${item.bookId}" href="/Home/Detail/${item.bookId}"> ${item.title}</a></h5>
@@ -129,7 +129,7 @@ function AjaxWishlist() {
                 row += `
                             <li class="single-product-cart" id="row_wishlist_${item.bookId}">
                                 <div class="cart-img">
-                                    <a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
+                                    <a href="/Home/Detail/${item.bookId}"><img src="${apiUrl}/${item.image}" alt=""></a>
                                 </div>
                                 <div class="cart-title">
                                     <h5><a id="product-name_${item.bookId}" href="/Home/Detail/${item.bookId}"> ${item.title}</a></h5>
@@ -194,6 +194,9 @@ function DeleteCart(bookId) {
                     Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
                 }
             });
+            setTimeout(function () {
+                location.reload();
+            }, 1000);
         }
     });
 }

@@ -144,6 +144,7 @@ namespace BookStore.Controllers
 		[Authorize(Roles = "Customer")]
 		public async Task<IActionResult> Cart(string userId)
 		{
+			ViewData["api"] = _configuration["BaseAddress"];
 			HttpResponseMessage httpResponse = await client.GetAsync(CartDetailApiUrl + "/" + userId);
 			string data = await httpResponse.Content.ReadAsStringAsync();
 			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -154,6 +155,7 @@ namespace BookStore.Controllers
 		[Authorize(Roles = "Customer")]
 		public async Task<IActionResult> Wishlist(string userId)
 		{
+			ViewData["api"] = _configuration["BaseAddress"];
 			HttpResponseMessage httpResponse = await client.GetAsync(WishlistApiUrl + "/" + userId);
 			string data = await httpResponse.Content.ReadAsStringAsync();
 			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -163,6 +165,7 @@ namespace BookStore.Controllers
 
 		public async Task<IActionResult> Detail(int id)
 		{
+			ViewData["api"] = _configuration["BaseAddress"];
 			HttpResponseMessage httpResponse = await client.GetAsync(ShopApiUrl + "/Detail/" + id); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
 			string data = await httpResponse.Content.ReadAsStringAsync();
 			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
