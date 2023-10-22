@@ -43,7 +43,35 @@
             }
         });
     });
+    // Lắng nghe sự kiện khi trường mật khẩu thay đổi
+    document.getElementById("newPassword").addEventListener("input", function () {
+        var password = this.value;
 
+        // Kiểm tra độ mạnh của mật khẩu
+        var strength = CheckPasswordStrength(password);
+
+        // Hiển thị thông báo ngay dưới trường mật khẩu
+        var passwordStrengthElement = document.getElementById("passwordStrength");
+        passwordStrengthElement.textContent = strength.message;
+        passwordStrengthElement.style.color = strength.color;
+    });
+
+    // Hàm kiểm tra độ mạnh của mật khẩu
+    function CheckPasswordStrength(password) {
+        if (password.length < 8) {
+            return { message: "Password is too short", color: "red" };
+        }
+
+        if (!/[A-Z]/.test(password)) {
+            return { message: "Password must contain at least one uppercase letter", color: "red" };
+        }
+
+        if (!/[^a-zA-Z0-9]/.test(password)) {
+            return { message: "Password must contain at least one special character", color: "red" };
+        }
+
+        return { message: "Password is strong", color: "green" };
+    }
     $('#searchInput').on('input', function () {
         var searchText = $(this).val().toLowerCase();
         var found = false;

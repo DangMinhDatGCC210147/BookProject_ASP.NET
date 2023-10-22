@@ -372,4 +372,22 @@ function updateLabel(input) {
         const label = input.nextElementSibling; // Lấy đối tượng label
         label.textContent = 'Choose an image:';
     }
+
+    var maxFileSize = 15 * 1024 * 1024; // Kích thước tệp tối đa (15 MB)
+
+    var fileInput = input;
+    if (fileInput.files && fileInput.files.length > 0) {
+        var fileSize = fileInput.files[0].size; // Kích thước của tệp (bytes)
+
+        if (fileSize > maxFileSize) {
+            // Kích thước tệp vượt quá giới hạn
+            document.getElementById("fileSizeError").innerText = "File size is too large. Maximum size is 15 MB.";
+            fileInput.value = ''; // Xóa tệp đã chọn
+        } else {
+            // Kích thước tệp hợp lệ
+            document.getElementById("fileSizeError").innerText = '';
+        }
+    }
 }
+
+
