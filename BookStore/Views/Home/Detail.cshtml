@@ -46,7 +46,7 @@
 			</div>
 			<div class="col-md-12 col-lg-5 col-12">
 				<div class="product-details-content">
-					<h3>@Model.Id</h3>
+					<h3>@Model.Title</h3>
 					<div class="rating-number">
 						<div class="quick-view-rating">
 							<i class="pe-7s-star red-star"></i>
@@ -73,7 +73,7 @@
 							<a class="btn-hover-black" onclick="AddToCart(@Model.Id)">add to cart</a>
 						</div>
 						<div class="quickview-btn-wishlist">
-							<a class="btn-hover" href="#"><i class="pe-7s-like"></i></a>
+							<a class="btn-hover" onclick="AddToWishlist(@Model.Id)"><i class="pe-7s-like"></i></a>
 						</div>
 					</div>
 					<div class="product-details-cati-tag mt-35">
@@ -172,22 +172,16 @@
 	<div class="container">
 		<div class="product-description-review text-center">
 			<div class="description-review-title nav" role="tablist">
-				<a href="#pro-review" data-bs-toggle="tab" role="tab" aria-selected="false">
-					Reviews (0)
-				</a>
+                <h3>Reviews (0)</h3>
 			</div>
 			<div class="review-section tab-content" id="book-review">
 				<div class="review-display" role="tabpanel">
-					<div class="review">
-						<div class="user-comment">
-							<div class="user-name">Datng</div>
-							<div class="star-rating" data-rating="4"></div>
-							<p>ABC</p>
-						</div>
-						<div class="review-date">ABC</div>
+					<div id="review-container">
+						<!-- Đánh giá sẽ được hiển thị ở đây -->
 					</div>
 				</div>
 			</div>
+
 		</div>
 	</div>
 </div>
@@ -369,6 +363,7 @@
 
 	</script>
 	<script src="~/js/main.js"></script>
+	<script src="~/js/header.js"></script>
 	<script src="~/js/cart.js"></script>
 	<script src="~/js/BookDetail.js"></script>
 }

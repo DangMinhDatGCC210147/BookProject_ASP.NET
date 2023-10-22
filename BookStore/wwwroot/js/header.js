@@ -165,6 +165,7 @@ function DeleteCart(bookId) {
         icon: 'warning',
         showConfirmButton: true,
         confirmButtonText: 'Yes, delete it!',
+        showCancelButton: true,
         cancelButtonText: 'No, cancel',
     }).then((result) => {   
         if (result.isConfirmed) {            
@@ -246,6 +247,7 @@ function DeleteWishlist(bookId) {
         icon: 'warning',
         showConfirmButton: true,
         confirmButtonText: 'Yes, delete it!',
+        showCancelButton: true, // Hiển thị nút "Cancel"
         cancelButtonText: 'No, cancel',
     }).then((result) => {
         if (result.isConfirmed) {

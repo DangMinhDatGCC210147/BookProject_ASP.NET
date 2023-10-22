@@ -12,7 +12,10 @@ namespace DataAccess
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    listReviews = context.Reviews.ToList();
+                    listReviews = context.Reviews
+                        .Include(r => r.User) // Khi thực hiện Include, nó sẽ lấy dữ liệu từ bảng User
+                        .Include(r => r.Book)
+                        .ToList();
                 }
             }
             catch (Exception ex)

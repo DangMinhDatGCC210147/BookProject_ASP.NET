@@ -101,44 +101,52 @@ namespace BookStoreAPI.Controllers
 			return Ok();
 		}
 
-		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateProduct(int id, [FromForm] Book book)
-		{
-			var checkProduct = repository.GetProductById(id);
-			if (checkProduct == null)
-			{
-				return NotFound();
-			}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromForm] Book book)
+        {
+            var checkProduct = repository.GetProductById(id);
+            if (checkProduct == null)
+            {
+                return NotFound();
+            }
 
-			book.Id = id;
+            book.Id = id;
 
-			// Lấy đường dẫn đến thư mục lưu ảnh mới
-			string filePath = GetFilepath(book.Title);
+            // Kiểm tra xem người dùng đã tải lên ảnh mới hay chưa
+            if (book.ImageFile != null)
+            {
+                // Lấy đường dẫn đến thư mục lưu ảnh mới
+                string filePath = GetFilepath(book.Title);
 
-			if (!System.IO.Directory.Exists(filePath))
-			{
-				System.IO.Directory.CreateDirectory(filePath);
-			}
+                if (!System.IO.Directory.Exists(filePath))
+                {
+                    System.IO.Directory.CreateDirectory(filePath);
+                }
 
-			// Kiểm tra xem có sẵn ảnh cũ không
-			string existingImagePath = filePath + "\\" + book.Title + ".png";
-			if (System.IO.File.Exists(existingImagePath))
-			{
-				System.IO.File.Delete(existingImagePath);
-			}
+                // Kiểm tra xem có sẵn ảnh cũ không
+                string existingImagePath = filePath + "\\" + book.Title + ".png";
+                if (System.IO.File.Exists(existingImagePath))
+                {
+                    System.IO.File.Delete(existingImagePath);
+                }
 
-			using (FileStream stream = System.IO.File.Create(existingImagePath))
-			{
-				await book.ImageFile.CopyToAsync(stream);
-			}
+                using (FileStream stream = System.IO.File.Create(existingImagePath))
+                {
+                    await book.ImageFile.CopyToAsync(stream);
+                }
 
-			book.Image = "upload\\" + book.Title + "\\" + book.Title + ".png";
+                book.Image = "upload\\" + book.Title + "\\" + book.Title + ".png";
+            }
+            else
+            {
+                // Nếu không có ảnh mới, giữ nguyên đường dẫn ảnh cũ
+                book.Image = checkProduct.Image;
+            }
 
-			return Ok(repository.UpdateProduct(book));
-		}
+            return Ok(repository.UpdateProduct(book));
+        }
 
-
-		[NonAction]
+        [NonAction]
 		private string GetFilepath(string title)
 		{
 			return this.environment.WebRootPath + "\\upload\\" + title;
