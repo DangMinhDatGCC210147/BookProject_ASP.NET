@@ -13,7 +13,7 @@
                             <h5 class="card-title">Reviews table</h5>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
+                                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search" id="searchInput">
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-success">Search</button>
                                     </div>
@@ -28,6 +28,7 @@
                                 <tr>
                                     <th scope="col">Review ID</th>
                                     <th scope="col" >Name</th>
+                                    <th scope="col" >Book Name</th>
                                     <th scope="col" class="w-50">Comment</th>
                                     <th scope="col">Add Date</th>
                                     <th scope="col">Rate</th>
@@ -37,13 +38,13 @@
                             <tbody id="reviewList">
                                 <div id="noResultsMessage" class="alert alert-warning" style="display: none;">
                                     No available values found.
-                                </div>
-                                
+                                </div>                               
                                 @foreach (var review in Model)
                                 {
                                     <tr id="row_@review.Id">
                                         <th scope="row">@review.Id</th>
-                                        <td>@review.UserId</td>
+                                        <td>@review.User?.LastName @review.User?.FirstName</td>
+                                        <td>@review.Book?.Title</td>
                                         <td>@review.Comment</td>
                                         <td>@review.Date</td>
                                         <td>@review.Rate</td>

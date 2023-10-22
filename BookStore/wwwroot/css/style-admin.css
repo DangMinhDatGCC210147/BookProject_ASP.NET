@@ -71,17 +71,17 @@ h6 {
 # Back to top button
 --------------------------------------------------------------*/
 .back-to-top {
-  position: fixed;
-  visibility: hidden;
-  opacity: 0;
-  right: 15px;
-  bottom: 15px;
-  z-index: 99999;
-  background: #4154f1;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  transition: all 0.4s;
+    position: fixed;
+    visibility: hidden;
+    opacity: 0;
+    right: 15px;
+    bottom: 15px;
+    z-index: 99999;
+    background: #f44344;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    transition: all 0.4s;
 }
 
 .back-to-top i {
@@ -91,8 +91,8 @@ h6 {
 }
 
 .back-to-top:hover {
-  background: #6776f4;
-  color: #fff;
+    background: #f44344;
+    color: #fff;
 }
 
 .back-to-top.active {
@@ -750,7 +750,7 @@ h6 {
 
 .sidebar-nav .nav-content a:hover,
 .sidebar-nav .nav-content a.active {
-  color: #4154f1;
+  color: #f44344;
 }
 
 .sidebar-nav .nav-content a.active i {

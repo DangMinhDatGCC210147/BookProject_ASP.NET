@@ -9595,6 +9595,7 @@ input.cart-plus-minus-box.book-detail{
     position: relative;
     text-transform: uppercase;
     z-index: 5;
+    cursor: pointer;
 }
 .quickview-btn-wishlist > a {
     border: 1px solid #dcdcdc;

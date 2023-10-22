@@ -108,12 +108,9 @@ $(document).ready(function () {
         const authorDropdown = $('#authorDropdown').val();
         const isSale = $('#saleDropdown').val();
 
-
         const formData = new FormData();
-        //formData.append('id', bookId);
         formData.append('title', bookName);
         formData.append('description', bookDescription);
-        formData.append('imageFile', selectedFile);
         formData.append('quantity', quantity);
         formData.append('originalPrice', actualPrice);
         formData.append('sellingPrice', realPrice);
@@ -126,6 +123,7 @@ $(document).ready(function () {
         formData.append('genreId', genreDropdown);
         formData.append('isSale', isSale);
 
+        // Kiểm tra xem selectedFile có giá trị hay không
         if (selectedFile) {
             formData.append('imageFile', selectedFile);
         }
@@ -133,37 +131,37 @@ $(document).ready(function () {
         console.log("Form data:");
         formData.forEach((value, key) => {
             console.log(key + ": " + value);
-        });//Test data
+        });
+
         if (bookId) {
             // Edit state
-            $.ajax(
-                {
-                    url: apiUrl + '/api/Products/' + bookId,
-                    type: 'PUT',
-                    processData: false,
-                    contentType: false,
-                    data: formData,
-                    success: function (response) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Your work has been edited',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        console.log(response);
-                        setTimeout(function () {
-                            location.reload();
-                        }, 1500);
-                        // Close the modal
-                        var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
-                        closeButton.click();
-                    },
-                    error: function (xhr, status, error) {
-                        // Handle errors (if any)
-                        console.error(xhr);
-                        alert('An error occurred while sending data.');
-                    }
-                });
+            $.ajax({
+                url: apiUrl + '/api/Products/' + bookId,
+                type: 'PUT',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Your work has been edited',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    console.log(response);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500);
+                    // Close the modal
+                    var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
+                    closeButton.click();
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors (if any)
+                    console.error(xhr);
+                    alert('An error occurred while sending data.');
+                }
+            });
         } else {
             // Add state
             $.ajax({
@@ -173,18 +171,17 @@ $(document).ready(function () {
                 contentType: false,
                 data: formData,
                 success: function (response) {
-                    console.log("Data in reponse: ");
+                    console.log("Data in response: ");
                     console.log(response);
                     Swal.fire({
                         icon: 'success',
                         title: 'Your work has been saved',
                         showConfirmButton: false,
                         timer: 1500
-                    })
+                    });
                     setTimeout(function () {
                         location.reload();
                     }, 1500);
-
                 },
                 error: function (xhr, status, error) {
                     // Handle errors (if any)
@@ -194,47 +191,12 @@ $(document).ready(function () {
             });
         }
     });
-    function getPictures() {
-        // Sử dụng Ajax để lấy danh sách titles
-        $.ajax({
-            url: apiUrl + '/api/Products/GetAllTitles',
-            type: "GET",
-            dataType: "json",
-            success: function (titles) {
-                titles.forEach(function (title) {
-                    // Sử dụng Ajax để lấy hình ảnh cho từng title
-                    $.ajax({
-                        url: apiUrl + '/api/Products/GetImage/' + title,
-                        type: "GET",
-                        dataType: "json",
-                        success: function (data) {
-                            const base64Image = data.base64Image;
-                            var cell = document.getElementById('imageContainer_' + title);
-                            const imageElement = document.createElement('img');
-                            imageElement.src = 'data:image/png;base64,' + base64Image;
-                            cell.appendChild(imageElement);
-                        },
-                        error: function () {
-                            console.error("Lỗi khi tải hình ảnh.");
-                        }
-                    });
-                });
-            },
-            error: function () {
-                console.error("Lỗi khi tải danh sách titles.");
-            }
-        });
-    }
-
-
-    // Gọi API để lấy danh sách các Title
-    getPictures();
 
     $('#searchInput').on('input', function () {
         var searchText = $(this).val().toLowerCase();
         var found = false;
 
-        $('#discountTable tbody tr').each(function () {
+        $('#bookTable tbody tr').each(function () {
             var rowText = $(this).text().toLowerCase();
 
             if (rowText.includes(searchText)) {
@@ -252,6 +214,7 @@ $(document).ready(function () {
         }
     });
 });
+
 
 function formatDate(date) {
     var d = new Date(date),

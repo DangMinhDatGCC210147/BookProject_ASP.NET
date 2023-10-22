@@ -13,6 +13,9 @@
         <li class="nav-item" role="presentation">
             <a class="nav-link" id="password-tab" data-bs-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">Change Password</a>
         </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="history-tab" data-bs-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">History</a>
+        </li>
     </ul>
     <div class="tab-content mt-4" id="myTabContent">
         <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -57,6 +60,32 @@
                 </div>
                 <button type="submit" class="btn btn-dark mt-3">Change Password</button>
             </form>
+        </div>
+        <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+            <!-- Content for the "History" tab -->
+            <h3>Your Order History</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Total Books</th>
+                        <th>Order Date</th>
+                        <th>Total Quantity</th>
+                        <th>See Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>
+                            <a href="#" class="btn seeDetail" style="text-decoration:none; color: #F44344; font-size:1.5rem"><i class="bi bi-brightness-high-fill"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
