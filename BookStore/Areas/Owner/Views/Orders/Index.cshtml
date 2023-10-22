@@ -84,7 +84,11 @@
                                         <td>@order.Total</td>
                                         <td>@order.IsConfirm</td>
                                         <td>@order.DiscountId</td>
-                                        <td><a href="#" onclick="displayOrderdetail(@order.Id)" data-toggle="modal" data-target="#orderModal">See more</a></td>
+                                        <td>
+                                            <a href="#" onclick="displayOrderdetail(@order.Id)" data-toggle="modal" data-target="#orderModal" style="text-decoration:none; color: #F44344; font-size:1.5rem">
+                                                <i class="bi bi-brightness-high-fill"></i>
+                                            </a>
+                                        </td>
                                         <td>
                                             <div class="flex-column align-items-center">
                                                 <button type="button" class="btn btn-danger" onclick="deleteOrder(@order.Id) ">Delete</button>

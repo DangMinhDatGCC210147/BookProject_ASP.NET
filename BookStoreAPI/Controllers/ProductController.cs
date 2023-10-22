@@ -83,20 +83,60 @@ namespace BookStoreAPI.Controllers
 		{
 			var product = repository.GetProductById(id);
 			if (product == null)
+			{
 				return NotFound();
+			}
+
+			// Kiểm tra xem có sẵn ảnh trong thư mục hay không
+			string filePath = GetFilepath(product.Title);
+			string imagePath = filePath + "\\" + product.Title + ".png";
+
+			if (System.IO.File.Exists(imagePath))
+			{
+				System.IO.File.Delete(imagePath);
+			}
+
 			repository.DeleteProductById(product);
 			return Ok();
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult UpdateProducts([FromForm] int id, Book book)
+		public async Task<IActionResult> UpdateProduct(int id, [FromForm] Book book)
 		{
 			var checkProduct = repository.GetProductById(id);
 			if (checkProduct == null)
+			{
 				return NotFound();
+			}
+
 			book.Id = id;
+
+			// Lấy đường dẫn đến thư mục lưu ảnh mới
+			string filePath = GetFilepath(book.Title);
+
+			if (!System.IO.Directory.Exists(filePath))
+			{
+				System.IO.Directory.CreateDirectory(filePath);
+			}
+
+			// Kiểm tra xem có sẵn ảnh cũ không
+			string existingImagePath = filePath + "\\" + book.Title + ".png";
+			if (System.IO.File.Exists(existingImagePath))
+			{
+				System.IO.File.Delete(existingImagePath);
+			}
+
+			using (FileStream stream = System.IO.File.Create(existingImagePath))
+			{
+				await book.ImageFile.CopyToAsync(stream);
+			}
+
+			book.Image = "upload\\" + book.Title + "\\" + book.Title + ".png";
+
 			return Ok(repository.UpdateProduct(book));
 		}
+
+
 		[NonAction]
 		private string GetFilepath(string title)
 		{
