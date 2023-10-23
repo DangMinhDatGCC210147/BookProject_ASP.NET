@@ -92,7 +92,7 @@
 										<div class="product-wrapper">
 											<div class="product-img-2">
 												<a asp-controller="Home" asp-action="Detail" asp-route-id="@book.BookId">
-													<img src="/img/product/book/@book.BookImage" alt="">
+													<img src="@ViewBag.api/@book.BookImage" alt="">
 												</a>
 												<div class="product-action-2">
 													<a class="animate-left add-style-2" title="Add To Cart" onclick="AddToCart(@book.BookId)">Add to Cart <i class="ti-shopping-cart"></i></a>
