@@ -175,17 +175,17 @@
 				</div>
 			</div>*@
 
-			<div class="col-md-8">
+			<div class="col-md-12">
 				<div class="book-list-hover">
 					<div class="book-list-active owl-carousel">
-						@for (int i = 0; i < Model.TopAuthors.Count; i++)
+						@for (int i = 0; i < @Model.TopAuthors.Count; i++)
 						{
 							for (int j = 0; j < @Model.TopAuthors[i].BookAuthors.Count; j++)
 							{
 								<div class="product-wrapper">
 									<div class="product-img-2">
 										<a asp-controller="Home" asp-action="Detail" asp-route-id="@Model.TopAuthors[i].BookAuthors[j].BookId">
-											<img src="~/img/product/book/@Model.TopAuthors[i].BookAuthors[j].BookImage" alt="">
+											<img src="@ViewBag.api/@Model.TopAuthors[i].BookAuthors[j].BookImage" alt="">
 										</a>
 										<div class="product-action-2">
 											<a class="animate-left add-style-2" title="Add To Cart" href="#">Add to Cart <i class="ti-shopping-cart"></i></a>

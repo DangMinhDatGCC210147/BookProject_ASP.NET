@@ -257,7 +257,7 @@ function displayOrderdetail(orderid) {
 
                 newOrderDetail.innerHTML = `
                     <th scope="row">${booktitle}</th>
-                    <td><img src="/img/product/book/${bookimage}" /></td>
+                    <td><img src="${apiUrl}/${bookimage}" /></td>
                     <td>${quantity}</td>
                     <td>$${unitPrice}</td>
                 `;
