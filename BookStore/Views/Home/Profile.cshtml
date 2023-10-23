@@ -81,7 +81,29 @@
                         <td>3</td>
                         <td>4</td>
                         <td>
-                            <a href="#" class="btn seeDetail" style="text-decoration:none; color: #F44344; font-size:1.5rem"><i class="bi bi-brightness-high-fill"></i></a>
+                            <a href="#" class="btn seeDetail" data-toggle="modal" data-target="#popupFormModal">
+                                <i class="bi bi-brightness-high-fill"></i>
+                            </a>
+                            <div class="modal fade" id="popupFormModal" tabindex="-1" role="dialog" aria-labelledby="popupFormModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <!-- Nội dung của form sẽ được đặt ở đây -->
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="popupFormModalLabel">Modal Title</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Nội dung của form sẽ được đặt ở đây -->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <!-- Nút đóng modal -->
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

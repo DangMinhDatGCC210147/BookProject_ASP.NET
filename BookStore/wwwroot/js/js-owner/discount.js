@@ -25,7 +25,7 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (response) {
-                    if (response && response.discountId) {
+                    if (response) {
                         Swal.fire({
                             icon: 'success',
                             title: 'Your work has been edited',
@@ -238,3 +238,16 @@ function handleEditButton(id) {
         }
     });
 }
+
+//Clear input click cancel button
+$('#cancelButton').click(function () {
+    // Xóa nội dung trong các trường nhập liệu
+    $('#discountName').val('');
+    $('#percentage').val('');
+    $('#startDate').val('');
+    $('#endDate').val('');
+
+    // Đóng modal (nếu bạn sử dụng modal)
+    var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
+    closeButton.click();
+});
