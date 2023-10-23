@@ -33,13 +33,61 @@ namespace DataAccess
             }
         }
 
-        public static List<Book> FindProductByName(string titleToSearch)
+        public static async Task<List<BookList>> FindProductByName(string titleToSearch, string userId)
 		{
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					return context.Books.Where(book => book.Title.Contains(titleToSearch)).ToList();
+					var averageReviewRates = await(
+						from book in context.Books
+						join review in context.Reviews on book.Id equals review.BookId into reviews
+						from review in reviews.DefaultIfEmpty()
+						group review by book.Id into bookGroup
+						select new
+						{
+							BookId = bookGroup.Key,
+							AverageRate = bookGroup.Average(r => r != null ? r.Rate : 0)
+						}
+					).ToDictionaryAsync(r => r.BookId, r => r.AverageRate);
+
+					List<BookList> query = await(
+						from b in context.Books
+						join r in context.Reviews on b.Id equals r.BookId into reviews
+						from review in reviews.DefaultIfEmpty()
+						join f in context.Favourites on b.Id equals f.BookId into favorites
+						from favorite in favorites.DefaultIfEmpty()
+						where b.Title.Contains(titleToSearch)
+						select new BookList
+						{
+							Id = b.Id,
+							Title = b.Title,
+							Image = b.Image,
+							SellingPrice = b.SellingPrice,
+							Quantity = b.Quantity,
+							Rate = review != null ? averageReviewRates.ContainsKey(b.Id) ? averageReviewRates[b.Id] : 0 : 0,
+							IsFavorite = favorite.UserId == userId
+						}
+					).ToListAsync();
+
+					List<BookList> books = query
+					.GroupBy(book => book.Id)
+					.Select(group =>
+					{
+						var book = group.First(); // Lấy một cuốn sách từ mỗi nhóm
+						return new BookList
+						{
+							Id = book.Id,
+							Title = book.Title,
+							Image = book.Image,
+							SellingPrice = book.SellingPrice,
+							Quantity = book.Quantity,
+							Rate = group.Average(b => b.Rate), // Tính trung bình của tất cả cuốn sách trong nhóm
+							IsFavorite = group.Max(b => b.IsFavorite) == true ? true : false // Kiểm tra xem có ít nhất một cuốn sách trong nhóm được đánh dấu là yêu thích
+						};
+					}).ToList();
+
+					return books;
 				}
 
 			}

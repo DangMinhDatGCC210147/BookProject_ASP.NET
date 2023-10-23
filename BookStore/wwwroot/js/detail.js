@@ -74,14 +74,15 @@ $(document).ready(function () {
             const starIcon = document.createElement('i');
             starIcon.className = 'fas fa-star';
 
-        // Thêm class 'rated' cho các sao đã được đánh giá (màu vàng)
-        if (i <= rating) {
-            starIcon.classList.add('rated');
-            starIcon.style.color = 'gold'; // Đặt màu vàng
+            // Thêm class 'rated' cho các sao đã được đánh giá (màu vàng)
+            if (i <= rating) {
+                starIcon.classList.add('rated');
+                starIcon.style.color = 'gold'; // Đặt màu vàng
+            }
+            starRating.appendChild(starIcon);
         }
-        starRating.appendChild(starIcon);
-    }
-});
+    });
+})
 
 function BtnMinus() {
     var input = document.getElementById("quantity");
