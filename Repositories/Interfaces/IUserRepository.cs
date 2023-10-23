@@ -14,5 +14,6 @@ namespace Repositories.Interfaces
         void DeleteUserById(AppUser user);
         AppUser UpdateUser(AppUser user);
         List<AppUser> GetUsers();
-    }
+
+	}
 }

@@ -22,11 +22,20 @@ namespace BookStoreAPI.Controllers
             var discount = repository.GetDiscountById(id);
             if (discount == null)
                 return NotFound();
-
             return Ok(discount);
         }
 
-        [HttpPost]
+		[HttpGet("GetName/{discountName}")]
+		public ActionResult<Discount> GetDiscountByName(string discountName)
+		{
+			var discount = repository.GetDiscountByName(discountName);
+			if (discount == null)
+				return NotFound();
+
+			return Ok(discount);
+		}
+
+		[HttpPost]
         public IActionResult CreateDiscount([FromBody] Discount discount)
         {
             return Ok(repository.SaveDiscount(discount));

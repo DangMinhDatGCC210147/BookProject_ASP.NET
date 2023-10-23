@@ -20,9 +20,10 @@ namespace Repositories
         public List<BookList> FilterByPublisher(int id) => ShopDAO.GetFilterByPublisher(id);
 		public List<BookList> FilterByLanguage(int id) => ShopDAO.GetFilterByLanguage(id);
 		public List<BookList> FilterByAuthor(int id) => ShopDAO.GetFilterByAuthor(id);
-		public List<Book> RelatedProduct(int id) => ShopDAO.GetRelatedProduct(id);
-		public BookDetail BookDetail(int id) => ShopDAO.GetBookDetail(id);
+		public Task<BookDetail> BookDetail(int id) => ShopDAO.GetBookDetail(id);
+		public Task<BookDetail> BookDetailIsFavourite(int bookId, string userId) => ShopDAO.GetBookDetailWithFavoutite(bookId, userId);
         public Task<List<BookList>> GetProducts() => ShopDAO.GetProducts();
         public Task<List<BookList>> GetProductsByFavoutite(string userId) => ShopDAO.GetProductsWithFavoutite(userId);
+        public Task<List<BookList>> RelatedBook(int genreId, string userId) => ShopDAO.RelatedBookDetail(genreId, userId);
 	}
 }

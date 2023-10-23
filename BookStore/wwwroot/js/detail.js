@@ -58,3 +58,17 @@ starRatings.forEach(starRating => {
         starRating.appendChild(starIcon);
     }
 });
+
+function BtnMinus() {
+    var input = document.getElementById("quantity");
+    var currentValue = parseInt(input.value, 10);
+    if (currentValue > 1) {
+        input.value = currentValue - 1;
+    }
+}
+
+function BtnPlus() {
+    var input = document.getElementById("quantity");
+    var currentValue = parseInt(input.value, 10);
+    input.value = currentValue + 1;
+}

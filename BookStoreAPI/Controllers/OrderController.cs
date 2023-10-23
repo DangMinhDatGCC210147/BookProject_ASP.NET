@@ -27,7 +27,7 @@ namespace BookStoreAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateOrder([FromBody] Order order)
+        public IActionResult CreateOrder(Order order)
         {
             return Ok(repository.SaveOrder(order));
         }

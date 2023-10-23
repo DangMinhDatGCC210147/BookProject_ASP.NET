@@ -18,8 +18,11 @@ namespace BusinessObjects.DTO
         public int PageCount { get; set; }
         public int PublicationYear { get; set; }
         public string Genre { get; set; }
+        public int GenreId { get; set; }
         public string Publisher { get; set; }
         public string Language { get; set; }
         public string Author { get; set; }
-    }
+		public double Rate { get; set; }
+		public bool IsFavorite { get; set; }
+	}
 }

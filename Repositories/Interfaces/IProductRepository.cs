@@ -13,5 +13,7 @@ namespace Repositories.Interfaces
         Book UpdateProduct(Book p);
         List<Book> GetProducts();
         List<Book> TopBestSeling();
-    }
+        bool UpdateQuantity(int bookId, int soldQuantity);
+
+	}
 }

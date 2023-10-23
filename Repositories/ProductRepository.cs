@@ -22,6 +22,7 @@ namespace Repositories
             throw new NotImplementedException();
         }
         public Book UpdateProduct(Book product) => BookDAO.UpdateProduct(product);
+        public bool UpdateQuantity(int bookId, int soldQuantity) => BookDAO.UpdateQuantity(bookId, soldQuantity);
 
 	}
 }

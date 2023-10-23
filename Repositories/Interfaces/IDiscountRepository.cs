@@ -10,5 +10,6 @@ namespace Repositories.Interfaces
         Discount GetDiscountById(int id);
         void DeleteDiscountById(Discount discount);
         Discount UpdateDiscount(Discount discount);
-    }
+		Discount GetDiscountByName(string name);
+	}
 }

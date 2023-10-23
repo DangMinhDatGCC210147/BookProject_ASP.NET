@@ -98,5 +98,23 @@ namespace DataAccess
                 throw new Exception(ex.Message);
             }
         }
+        public static decimal GetTotal(string userId)
+        {
+            try
+            {
+                using (var context = new ApplicationDBContext())
+                {
+					decimal getTotal = context.CartDetails
+	                .Where(cd => cd.Cart.UserId == userId)
+	                .Sum(cd => cd.Book.SellingPrice * cd.Quantity);
+					return getTotal;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

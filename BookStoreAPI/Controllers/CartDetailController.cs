@@ -59,5 +59,32 @@ namespace BookStoreAPI.Controllers
             checkOut.ListBooks = cartRepository.GetCartDetails(userId);
 			return Ok(checkOut);
 		}
+
+		//Payment
+		[HttpGet("Total/{userId}")]
+		public ActionResult<decimal> GetTotal(string userId)
+		{
+			var user = cartRepository.GetTotal(userId);
+			if (user == null)
+				return NotFound();
+			return Ok(user);
+		}
+
+		[HttpDelete("ClearCart/{userId}")]
+		public IActionResult ClearCartByUserId(string userId)
+		{
+			List<BookCart> bookCarts = cartRepository.GetCartDetails(userId);
+
+            if (bookCarts != null)
+            {
+                foreach (var item in bookCarts)
+                {
+					cartRepository.DeleteCartDetailById(item.BookId, userId);
+				}
+				return Ok();
+			}
+
+            return NotFound();
+		}
 	}
 }

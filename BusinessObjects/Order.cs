@@ -27,8 +27,7 @@ namespace BusinessObjects
 		public decimal Total { get; set; }
 		[Required]
 		public Boolean IsConfirm { get; set; }
-		[Required]
-		public int DiscountId { get; set; }
+		public int? DiscountId { get; set; }
 		[ForeignKey("DiscountId")]
 		public virtual Discount? Discount { get; set; }
 		[ForeignKey("UserId")]
