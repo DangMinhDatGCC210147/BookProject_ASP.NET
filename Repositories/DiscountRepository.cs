@@ -15,6 +15,7 @@ namespace Repositories
         public void DeleteDiscountById(Discount discount) => DiscountDAO.DeleteDiscount(discount);
 
         public Discount GetDiscountById(int id) => DiscountDAO.FindDiscountById(id);
+        public Discount GetDiscountByName(string name) => DiscountDAO.FindDiscountByName(name);
 
         public List<Discount> GetDiscounts() => DiscountDAO.GetDiscounts();
 

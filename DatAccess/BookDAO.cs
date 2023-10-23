@@ -117,5 +117,31 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
+
+		//Payment 
+		public static bool UpdateQuantity(int BookId, int soldQuantity)
+		{
+			try
+			{
+				using (var context = new ApplicationDBContext())
+				{
+					Book getBook = FindProductById(BookId);
+					if (getBook != null)
+					{
+						getBook.Quantity = getBook.Quantity - soldQuantity;
+						
+                        if (UpdateProduct(getBook) != null)
+                        {
+							return true;
+                        }
+                    }
+					return false;
+				}
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+		}
 	}
 }

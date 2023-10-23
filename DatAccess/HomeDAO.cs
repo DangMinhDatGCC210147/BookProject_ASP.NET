@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.Data.Enum;
 using BusinessObjects.DTO;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,89 +31,100 @@ namespace DataAccess
                     if (userId == null)
                     {
 						query = await (
-					   from b in context.Books
-					   join g in context.Genres on b.GenreId equals g.Id
-					   join a in context.Authors on b.AuthorId equals a.Id
-					   join od in context.OrderDetails on b.Id equals od.BookId
-					   join o in context.Orders on od.OrderId equals o.Id
-					   join r in context.Reviews on b.Id equals r.BookId into reviewGroup
-					   join f in context.Favourites on b.Id equals f.BookId into favorites
-					   from favorite in favorites.DefaultIfEmpty()
-					   where o.DeliveryDate.Year == current.Year
-					   group new { b, g, reviewGroup, od, favorites, a } by new
-					   {
-						   GenreId = g.Id,
-						   GenreName = g.Name
-					   } into grouped
-					   select new TopGenre
-					   {
-						   GenreId = grouped.Key.GenreId,
-						   GenreName = grouped.Key.GenreName,
-						   BookGenres = (
-							   from item in grouped
-							   group item by item.b.Id into distinctBooks
-							   select new BookGenre
-							   {
-								   BookId = distinctBooks.Key,
-								   BookTitle = distinctBooks.FirstOrDefault().b.Title,
-								   BookImage = distinctBooks.FirstOrDefault().b.Image,
-								   AuthorName = distinctBooks.FirstOrDefault().a.Name,
-								   ReviewRate = averageReviewRates.ContainsKey(distinctBooks.Key) ? averageReviewRates[distinctBooks.Key] : 0,
-								   TotalSold = distinctBooks.Sum(b => b.od.UnitPrice),
-								   IsFavourite = false
-							   }
-						   ).ToList()
-					   }
+						   from b in context.Books
+						   join g in context.Genres on b.GenreId equals g.Id
+						   join a in context.Authors on b.AuthorId equals a.Id
+						   join od in context.OrderDetails on b.Id equals od.BookId
+						   join o in context.Orders on od.OrderId equals o.Id
+						   join r in context.Reviews on b.Id equals r.BookId into reviewGroup
+						   from r in reviewGroup.DefaultIfEmpty()
+						   join f in context.Favourites on b.Id equals f.BookId into favorites
+						   from f in favorites.DefaultIfEmpty()
+						   where o.DeliveryDate.Year == current.Year && g.ApprovalStatus == GenerApproval.Accpeted
+						   group new { b, g, reviewGroup, od, favorites, a } by new
+						   {
+							   GenreId = g.Id,
+							   GenreName = g.Name
+						   } into grouped
+						   select new TopGenre
+						   {
+							   GenreId = grouped.Key.GenreId,
+							   GenreName = grouped.Key.GenreName,
+							   TotalSold = grouped.Sum(b => b.od.UnitPrice),
+							   BookGenres = (
+								   from item in grouped
+								   join favourite in context.Favourites on item.b.Id equals favourite.BookId into favourites
+								   from favorite in favourites.DefaultIfEmpty()
+								   group new { item, favorite } by new
+								   {
+									   BookId = item.b.Id,
+									   BookTitle = item.b.Title,
+									   BookImage = item.b.Image,
+									   AuthorName = item.b.Author.Name,
+								   } into distinctBooks
+								   select new BookGenre
+								   {
+									   BookId = distinctBooks.Key.BookId,
+									   BookTitle = distinctBooks.Key.BookTitle,
+									   BookImage = distinctBooks.Key.BookImage,
+									   AuthorName = distinctBooks.Key.AuthorName,
+									   ReviewRate = averageReviewRates.ContainsKey(distinctBooks.Key.BookId) ? averageReviewRates[distinctBooks.Key.BookId] : 0,
+									   IsFavourite = false // Check if any user has favorited this book
+								   }
+							   ).ToList()
+						   }
 					   into result
-					   orderby result.GenreId descending
-					   select result
+						   orderby result.TotalSold descending
+						   select result
 					   ).ToListAsync();
 					}
 					else
 					{
 						query = await (
-					   from b in context.Books
-					   join g in context.Genres on b.GenreId equals g.Id
-					   join a in context.Authors on b.AuthorId equals a.Id
-					   join od in context.OrderDetails on b.Id equals od.BookId
-					   join o in context.Orders on od.OrderId equals o.Id
-					   join r in context.Reviews on b.Id equals r.BookId into reviewGroup
-					   join f in context.Favourites on b.Id equals f.BookId into favorites
-					   from favorite in favorites.DefaultIfEmpty()
-					   where o.DeliveryDate.Year == current.Year
-					   group new { b, g, reviewGroup, od, favorites, a } by new
-					   {
-						   GenreId = g.Id,
-						   GenreName = g.Name
-					   } into grouped
-					   select new TopGenre
-					   {
-						   GenreId = grouped.Key.GenreId,
-						   GenreName = grouped.Key.GenreName,
-						   BookGenres = (
-							   from item in grouped
-							   join favourite in context.Favourites on item.b.Id equals favourite.BookId
-							   group new { item, favourite } by new
-							   {
-								   BookId = item.b.Id,
-								   BookTitle = item.b.Title,
-								   BookImage = item.b.Image,
-								   AuthorName = item.b.Author.Name,
-							   } into distinctBooks
-							   select new BookGenre
-							   {
-								   BookId = distinctBooks.Key.BookId,
-								   BookTitle = distinctBooks.Key.BookTitle,
-								   BookImage = distinctBooks.Key.BookImage,
-								   AuthorName = distinctBooks.Key.AuthorName,
-								   ReviewRate = averageReviewRates.ContainsKey(distinctBooks.Key.BookId) ? averageReviewRates[distinctBooks.Key.BookId] : 0,
-								   TotalSold = 0,
-								   IsFavourite = distinctBooks.Any(d => d.favourite.UserId == userId) // Check if any user has favorited this book
-							   }
-						   ).ToList()
+						   from b in context.Books
+						   join g in context.Genres on b.GenreId equals g.Id
+						   join a in context.Authors on b.AuthorId equals a.Id
+						   join od in context.OrderDetails on b.Id equals od.BookId
+						   join o in context.Orders on od.OrderId equals o.Id
+						   join r in context.Reviews on b.Id equals r.BookId into reviewGroup
+						   from r in reviewGroup.DefaultIfEmpty()
+						   join f in context.Favourites on b.Id equals f.BookId into favorites
+						   from f in favorites.DefaultIfEmpty()
+						   where o.DeliveryDate.Year == current.Year && g.ApprovalStatus == GenerApproval.Accpeted
+						   group new { b, g, reviewGroup, od, favorites, a } by new
+						   {
+							   GenreId = g.Id,
+							   GenreName = g.Name
+						   } into grouped
+						   select new TopGenre
+						   {
+							   GenreId = grouped.Key.GenreId,
+							   GenreName = grouped.Key.GenreName,
+							   TotalSold = grouped.Sum(b => b.od.UnitPrice),
+							   BookGenres = (
+								   from item in grouped
+								   join favourite in context.Favourites on item.b.Id equals favourite.BookId into favourites
+								   from favorite in favourites.DefaultIfEmpty()
+								   group new { item, favorite } by new
+								   {
+									   BookId = item.b.Id,
+									   BookTitle = item.b.Title,
+									   BookImage = item.b.Image,
+									   AuthorName = item.b.Author.Name,
+								   } into distinctBooks
+								   select new BookGenre
+								   {
+									   BookId = distinctBooks.Key.BookId,
+									   BookTitle = distinctBooks.Key.BookTitle,
+									   BookImage = distinctBooks.Key.BookImage,
+									   AuthorName = distinctBooks.Key.AuthorName,
+									   ReviewRate = averageReviewRates.ContainsKey(distinctBooks.Key.BookId) ? averageReviewRates[distinctBooks.Key.BookId] : 0,
+									   IsFavourite = distinctBooks.Any(d => d.favorite.UserId == userId) // Check if any user has favorited this book
+								   }
+							   ).ToList()
 					   }
 					   into result
-					   orderby result.GenreId descending
+					   orderby result.TotalSold descending
 					   select result
 					   ).ToListAsync();
 					}
@@ -151,17 +163,16 @@ namespace DataAccess
 						}
 					).ToDictionaryAsync(r => r.BookId, r => r.AverageRate);
 
-                    List<TopAuthor> rankedBooks = new List<TopAuthor>();
+                    List<TopAuthor> rankedBooks;
                     if (userId == null)
                     {
                         rankedBooks = await (
 						from author in context.Authors
 						join book in context.Books on author.Id equals book.AuthorId
-						join favourite in context.Favourites on book.Id equals favourite.BookId
 						join orderDetail in context.OrderDetails on book.Id equals orderDetail.BookId
 						join order in context.Orders on orderDetail.OrderId equals order.Id
 						where order.DeliveryDate.Year == current.Year
-						group new { author, book, orderDetail, favourite } by new
+						group new { author, book, orderDetail } by new
 						{
 							AuthorId = author.Id,
 							AuthorName = author.Name,
@@ -170,8 +181,11 @@ namespace DataAccess
 						{
 							AuthorId = grouped.Key.AuthorId,
 							AuthorName = grouped.Key.AuthorName,
+							TotalSold = grouped.Sum(b => b.orderDetail.UnitPrice),
 							BookAuthors = (
 								from item in grouped
+								join favourite in context.Favourites on item.book.Id equals favourite.BookId into favorites
+								from f in favorites.DefaultIfEmpty()
 								group item by item.book.Id into distinctBooks
 								select new BookAuthor
 								{
@@ -180,7 +194,6 @@ namespace DataAccess
 									BookImage = distinctBooks.FirstOrDefault().book.Image,
 									AuthorName = distinctBooks.FirstOrDefault().author.Name,
 									ReviewRate = averageReviewRates.ContainsKey(distinctBooks.Key) ? averageReviewRates[distinctBooks.Key] : 0,
-									TotalSold = distinctBooks.Sum(b => b.orderDetail.UnitPrice),
 									IsFavourite = false
 								}
 							).ToList()
@@ -207,9 +220,11 @@ namespace DataAccess
 						{
 							AuthorId = grouped.Key.AuthorId,
 							AuthorName = grouped.Key.AuthorName,
+							TotalSold = grouped.Sum(b => b.orderDetail.UnitPrice),
 							BookAuthors = (
 								from item in grouped
-								join favourite in context.Favourites on item.book.Id equals favourite.BookId
+								join favourite in context.Favourites on item.book.Id equals favourite.BookId into favouriteGroup
+								from favourite in favouriteGroup.DefaultIfEmpty()
 								group new { item, favourite } by new
 								{
 									BookId = item.book.Id,
@@ -224,13 +239,12 @@ namespace DataAccess
 									BookImage = distinctBooks.Key.BookImage,
 									AuthorName = distinctBooks.Key.AuthorName,
 									ReviewRate = averageReviewRates.ContainsKey(distinctBooks.Key.BookId) ? averageReviewRates[distinctBooks.Key.BookId] : 0,
-									TotalSold = distinctBooks.Sum(d => d.item.orderDetail.UnitPrice), // Calculate TotalSold
 									IsFavourite = distinctBooks.Any(d => d.favourite.UserId == userId) // Check if any user has favorited this book
 								}
 							).ToList()
 						}
 						into result
-						orderby result.AuthorId descending
+						orderby result.TotalSold descending
 						select result
 						).ToListAsync();
                     }

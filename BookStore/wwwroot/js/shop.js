@@ -1,130 +1,9 @@
-﻿
-function DisplayRate(rate, bookId) {
-    console.log(checkRate(rate, "", 5));
-    document.getElementById("rate_book_" + bookId).innerHTML = checkRate(rate, "", 5);
-    document.getElementById("rate_book_id_" + bookId).innerHTML = checkRate(rate, "", 5);
-}
-
-// Display rate
-function checkRate(rate, star, count) {
-    if (count == 0) { return star; }
-
-    if (rate <= 0) { star += "<i class=\"bi bi-star\" style=\"color: gold;\"></i>"; }
-    else if (rate < 1) { star += "<i class=\"bi bi-star-half\" style=\"color: gold;\"></i>"; }
-    else star += "<i class=\"bi bi-star-fill\" style=\"color: gold; background - color: gold; \"></i>";
-    return checkRate(rate - 1, star, count - 1);
-}
-/*
-//Show on Shop
-$(window).on("load", function () {
-    AjaxBarArea();
-    //AjaxAllBooks();
-});
-
-function AjaxBarArea() {
-    $.ajax({
-        url: apiUrl + "/api/Shops",
-        method: "GET",
-        success: function (data) {
-            DisplayBarArea(data);
-        },
-        error: function (error) {
-            console.log(error)
-        },
-    })
-}
-
-var label_title = document.getElementById("found");
-
-function AjaxAllBooks() {
-    label_title.innerHTML = `<p>All Books</p>`;
-    var userId = $("#userId").val();
-    if (userId != "") {
-        $.ajax({
-            url: apiUrl + "/api/Shops/" + userId,
-            method: "GET",
-            success: function (response) {
-                console.log(response)
-                ShowData(response);
-            },
-            error: function (error) {
-                console.log(error)
-            },
-        })
-    } else {
-        userId = "getAll";
-        $.ajax({
-            url: apiUrl + "/api/Shops/" + userId,
-            method: "GET",
-            success: function (response) {
-                console.log(response)
-                ShowData(response);
-            },
-            error: function (error) {
-                console.log(error)
-            },
-        })
-    }
-}
-
-function DisplayBarArea(data) {
-    var filterGenres = data.genres;
-    var filterPublishers = data.publishers;
-    var filterLanguages = data.languages;
-    var filterAuthors = data.authors;
-    let filterGenre = "";
-    let filterPublisher = "";
-    let filterLanguage = "";
-    let filterAuthor = "";
-
-    //Genres
-    filterGenres.forEach(item => {
-        filterGenre += `<li><a href="#" onclick="PerformFilter(1, ${item.id})">> ${item.name} <span>${item.quantity} </span></a></li>`
-    });
-    document.getElementById("genres").innerHTML = `<h3 class="sidebar-title">Genres</h3>
-                        <div class="sidebar-categories">
-                            <ul>
-                                ${filterGenre}
-                            </ul>
-                        </div>`
-    //Publisher
-    filterPublishers.forEach(item => {
-        filterPublisher += `<li><a href="#" onclick="PerformFilter(2, ${item.id})">> ${item.name} <span>${item.quantity} </span></a></li>`
-    });
-    document.getElementById("publishers").innerHTML = `<h3 class="sidebar-title">Publishers</h3>
-                        <div class="sidebar-categories">
-                            <ul>
-                                ${filterPublisher}
-                            </ul>
-                        </div>`
-
-    //Languages
-    filterLanguages.forEach(item => {
-        filterLanguage += `<li><a href="#" onclick="PerformFilter(3, ${item.id})">> ${item.name} <span>${item.quantity} </span></a></li>`
-    });
-    document.getElementById("languages").innerHTML = `<h3 class="sidebar-title">Languages</h3>
-                        <div class="sidebar-categories">
-                            <ul>
-                                ${filterLanguage}
-                            </ul>
-                        </div>`
-
-    //Authors
-    filterAuthors.forEach(item => {
-        filterAuthor += `<li><a href="#" onclick="PerformFilter(4, ${item.id})">> ${item.name} <span>${item.quantity} </span></a></li>`
-    });
-    document.getElementById("authors").innerHTML = `<h3 class="sidebar-title">Authors</h3>
-                        <div class="sidebar-categories">
-                            <ul>
-                                ${filterAuthor}
-                            </ul>
-                        </div>`
-}
-
-//Search
+﻿//Search
 var grid_sidebar1 = document.getElementById("result_search_1");
 var grid_sidebar2 = document.getElementById("result_search_2");
-$("#search").on("input", function () {
+var label_title = document.getElementById("found");
+
+function Search() {
     var searchName = document.getElementById("search").value;
 
     if (searchName == "") {
@@ -150,20 +29,7 @@ $("#search").on("input", function () {
             console.log(error)
         },
     })
-});
-
-function PerformFilter(filter_title, filter_name) {
-    $.ajax({
-        url: apiUrl + "/api/Shops/Filter?filterName=" + filter_title + "&filterId=" + filter_name,
-        method: "GET",
-        success: function (data) {
-            ShowData(data);
-        },
-        error: function (error) {
-            console.log(error)
-        },
-    })
-}
+};
 
 function ShowData(results) {
     SearchResults_1 = "";
@@ -234,4 +100,34 @@ function ShowData(results) {
     grid_sidebar2.innerHTML = SearchResults_2;
 
 }
-*/
+
+function AjaxAllBooks() {
+    label_title.innerHTML = `<p>All Books</p>`;
+    var userId = $("#userId").val();
+    if (userId != "") {
+        $.ajax({
+            url: apiUrl + "/api/Shops/" + userId,
+            method: "GET",
+            success: function (response) {
+                console.log(response)
+                ShowData(response);
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
+    } else {
+        userId = "getAll";
+        $.ajax({
+            url: apiUrl + "/api/Shops/" + userId,
+            method: "GET",
+            success: function (response) {
+                console.log(response)
+                ShowData(response);
+            },
+            error: function (error) {
+                console.log(error)
+            },
+        })
+    }
+}

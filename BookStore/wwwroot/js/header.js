@@ -5,7 +5,7 @@ const userId = localStorage.getItem("userId")
 if (userId) {
     AjaxCart();
     AjaxWishlist();
-} 
+}
 
 //Display cart in header
 function AjaxCart() {
@@ -23,9 +23,32 @@ function AjaxCart() {
                 <ul class="cart-dropdown" id="row_cart_dropdown"> </ul>   
             `;
             var row = "";
-            response.forEach(item => {
-                row += `
-                            <li class="single-product-cart" id="row_cart_${item.bookId}">
+
+            //Cart empty
+            if (response.length == 0) {
+                row +=
+                    `
+                    <div id="cartEmpty">
+						<img src="/img/cart/empty.gif"
+							 style=" display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+						<p class="text-center"
+						   style=" display: block; margin-left: auto; margin-right: auto; ">
+							Product Cart is empty
+						</p>
+					</div>
+					<div class="pt-5">
+						<h6 class="mb-3 back">
+							<a href="/Home/Shop?userId=${userId}" class="text-body fw-semibold">
+								<i class="fas fa-long-arrow-alt-left ms-5 me-2"></i>
+								Go to shop
+							</a>
+						</h6>
+					</div>
+                `
+            } else {
+                response.forEach(item => {
+                    row += `
+                            <li class="single-product-cart" id="row_quickcart_${item.bookId}">
                                 <div class="cart-img">
                                     <a href="/Home/Detail/${item.bookId}"><img src="${apiUrl}/${item.image}" alt=""></a>
                                 </div>
@@ -40,9 +63,9 @@ function AjaxCart() {
                             </li>
                         `
 
-            })
-            row +=
-                `
+                })
+                row +=
+                    `
                 <li class="cart-space">
 								<div class="cart-sub">
 									<h4>Subtotal</h4>
@@ -52,10 +75,13 @@ function AjaxCart() {
 								</div>
 							</li >
                 <li class="cart-btn-wrapper">
-                    <a class="cart-btn btn-hover" href="/Home/Cart?userId=${userId}">view cart</a>
-                    <a class="cart-btn btn-hover" href="/Home/CheckOut?userId=${userId}">checkout</a>
+                    <a class="cart-btn btn-hover" href="/Home/Cart">view cart</a>
                 </li>
             `
+            }
+
+
+
             document.getElementById("row_cart_dropdown").innerHTML = row;
             UpdateCartNumber();
         },
@@ -109,6 +135,53 @@ function AddToCart(bookId) {
     }
 }
 
+// Delete Cart
+function DeleteCart(bookId) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Book \"' + $("#product-name_" + bookId).text() + '\" will be removed in your cart',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Book \"' + $("#product-name_" + bookId).text() + '\" was removed in your cart',
+                showConfirmButton: false,
+                timer: 1000
+            })
+
+            const data = {
+                bookId: bookId,
+                newQuantity: 0,
+                userId: userId
+            }
+            $.ajax({
+                type: 'DELETE',
+                url: apiUrl + '/api/CartDetails',
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                success: function () {
+                    document.getElementById("row_quickcart_" + bookId).remove();
+
+                    // Check is exist cart
+                    if (document.getElementById("tbody_cart")) {
+                        document.getElementById("row_cart_" + bookId).remove();
+                    }
+                    UpdateCartNumber();
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr)
+                    Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
+                }
+            });
+        }
+    });
+}
+
 //Display wishlist in header
 function AjaxWishlist() {
     $.ajax({
@@ -123,11 +196,33 @@ function AjaxWishlist() {
                     </a>
                     <ul class="cart-dropdown" id="row_wishlist_dropdown">
                     </ul>
-                </div>`;    
+                </div>`;
             var row = "";
-            response.forEach(item => {
-                row += `
-                            <li class="single-product-cart" id="row_wishlist_${item.bookId}">
+            //Cart empty
+            if (response.length == 0) {
+                row +=
+                    `
+                    <div id="cartEmpty">
+						<img src="/img/cart/empty.gif"
+							 style=" display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+						<p class="text-center"
+						   style=" display: block; margin-left: auto; margin-right: auto; ">
+							Wishlist is empty
+						</p>
+					</div>
+					<div class="pt-5">
+						<h6 class="mb-3 back">
+							<a href="/Home/Shop?userId=${userId}" class="text-body fw-semibold">
+								<i class="fas fa-long-arrow-alt-left ms-5 me-2"></i>
+								Go to shop
+							</a>
+						</h6>
+					</div>
+                `
+            } else {
+                response.forEach(item => {
+                    row += `
+                            <li class="single-product-wishlist" id="row_wishlist_${item.bookId}">
                                 <div class="cart-img">
                                     <a href="/Home/Detail/${item.bookId}"><img src="${apiUrl}/${item.image}" alt=""></a>
                                 </div>
@@ -141,65 +236,20 @@ function AjaxWishlist() {
                             </li>
                         `
 
-            })
-            row +=
-                `
+                })
+                row +=
+                    `
                 <li class="cart-btn-wrapper">
 						<a class="cart-btn btn-hover" href="/Home/Wishlist?userId=${userId}">view wishlist</a>
 				</li>
             `
-
+            }
             document.getElementById("row_wishlist_dropdown").innerHTML = row;
         },
         error: function (error) {
             console.log(error)
         },
     })
-}
-
-// Delete Cart
-function DeleteCart(bookId) {
-    Swal.fire({
-        title: 'Are you sure?',
-        text: 'Book \"' + $("#product-name_" + bookId).text() + '\" will be removed in your cart',
-        icon: 'warning',
-        showConfirmButton: true,
-        confirmButtonText: 'Yes, delete it!',
-        showCancelButton: true,
-        cancelButtonText: 'No, cancel',
-    }).then((result) => {   
-        if (result.isConfirmed) {            
-            Swal.fire({
-                icon: 'success',
-                title: 'Book \"' + $("#product-name_" + bookId).text() + '\" was removed in your cart',
-                showConfirmButton: false,
-                timer: 1000
-            })            
-
-            const data = {
-                bookId: bookId,
-                newQuantity: 0,
-                userId: userId
-            }
-            $.ajax({
-                type: 'DELETE',
-                url: apiUrl + '/api/CartDetails',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function () {
-                    document.getElementById("row_cart_" + bookId).remove();                    
-                    UpdateCartNumber();
-                },
-                error: function (xhr, status, error) {
-                    console.log(xhr)
-                    Swal.fire('Error!', 'An error occurred while deleting the record.', 'error');
-                }
-            });
-            setTimeout(function () {
-                location.reload();
-            }, 1000);
-        }
-    });
 }
 
 // add to wishlist
@@ -223,7 +273,8 @@ function AddToWishlist(bookId) {
                     timer: 1000
                 })
                 AjaxWishlist();
-                var icon = document.getElementById("icon_heart_" + bookId);
+                var icon = document.getElementById("wishlist_book_" + bookId);
+                console.log(icon.className);
                 if (icon.className == "bi bi-suit-heart") {
                     icon.classList.remove("bi-suit-heart");
                     icon.classList.add("bi-suit-heart-fill");
@@ -252,7 +303,7 @@ function DeleteWishlist(bookId) {
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire('Deleted!', 'Book \"' + $("#product-name_" + bookId).text() + '\" was removed in your Wishlist', 'success');
-            
+
             const data = {
                 bookId: bookId,
                 newQuantity: 0,
@@ -265,14 +316,15 @@ function DeleteWishlist(bookId) {
                 data: JSON.stringify(data),
                 contentType: 'application/json',
                 success: function () {
-                    $('#row_wishlist_' + bookId).remove();
-                    UpdateWishlistNumber();
-
-                    var icon = document.getElementById("icon_heart_" + bookId);
+                    var icon = document.getElementById("wishlist_book_" + bookId);
+                    console.log(icon.className);
                     if (icon.className == "bi bi-suit-heart-fill") {
                         icon.classList.remove("bi-suit-heart-fill");
                         icon.classList.add("bi-suit-heart");
                     }
+
+                    $('#row_wishlist_' + bookId).remove();
+                    UpdateWishlistNumber();
                 },
                 error: function (xhr, status, error) {
                     console.log(xhr)
@@ -285,19 +337,42 @@ function DeleteWishlist(bookId) {
 
 function UpdateCartNumber() {
     var countElements = document.querySelectorAll(".single-product-cart");
-    console.log(countElements.length);
     $(".cart_count").text(countElements.length);
 
     var subtotalElements = document.querySelectorAll(".subtotal");
     var total = 0;
     for (var i = 0; i < subtotalElements.length; i++) {
         total += parseFloat(subtotalElements[i].textContent.replace('$', ''));
+
+        $("#price").text(total.toFixed(2));
+        $("#subtotal").text(total.toFixed(2));
+        $("#total").text(total.toFixed(2));
     }
-    $("#price").text(total.toFixed(2));
 }
 
 function UpdateWishlistNumber() {
     var countElements = document.querySelectorAll(".single-product-wishlist");
     console.log(countElements.length);
     $(".wishlist_count").text(countElements.length);
+}
+
+function ViewDetail(bookId) {
+    window.location.href = "/Home/Detail/" + bookId;
+}
+
+// Display rate
+
+function DisplayRate(rate, bookId) {
+    console.log(checkRate(rate, "", 5));
+    document.getElementById("rate_book_" + bookId).innerHTML = checkRate(rate, "", 5);
+    document.getElementById("rate_book_id_" + bookId).innerHTML = checkRate(rate, "", 5);
+}
+
+function checkRate(rate, star, count) {
+    if (count == 0) { return star; }
+
+    if (rate <= 0) { star += "<i class=\"bi bi-star\" style=\"color: gold;\"></i>"; }
+    else if (rate < 1) { star += "<i class=\"bi bi-star-half\" style=\"color: gold;\"></i>"; }
+    else star += "<i class=\"bi bi-star-fill\" style=\"color: gold; background - color: gold; \"></i>";
+    return checkRate(rate - 1, star, count - 1);
 }

@@ -32,8 +32,8 @@
 	public IHtmlContent GenerateFavoriteIcon(bool isFavorite, int BookId)
 	{
 		var favoriteHtml = (isFavorite == true)
-			? $"<i class=\"bi bi-suit-heart-fill\" onclick=\"DeleteToWishlist({BookId})\"></i>"
-			: $"<i class=\"bi bi-suit-heart\" onclick=\"AddToWishlist({BookId})\"></i>";
+			? $"<i class=\"bi bi-suit-heart-fill\" id=\"wishlist_book_{BookId}\" onclick=\"DeleteWishlist({BookId})\"></i>"
+			: $"<i class=\"bi bi-suit-heart\" id=\"wishlist_book_{BookId}\" onclick=\"AddToWishlist({BookId})\"></i>";
 		return new HtmlString(favoriteHtml);
 	}
 
@@ -48,8 +48,8 @@
 						<h3 class="sidebar-title">Search Products</h3>
 						<div class="sidebar-search">
 							<form>
-								<input placeholder="Search Products..." name="title" id="search" type="text">
-								<button><i class="ti-search"></i></button>
+								<input placeholder="Search Products..." name="title" id="search" type="text" oninput="Search()">
+								<button onclick="Search()" type="button"><i class="ti-search"></i></button>
 							</form>
 						</div>
 					</div>
@@ -105,7 +105,7 @@
 						<div class="shop-bar pb-60">
 							<div class="shop-found-selector">
 								<div class="shop-found" id="found">
-									<p><span>23</span> Book Found of <span>50</span></p>
+									<p>All Books</p>
 								</div>
 							</div>
 							<div class="shop-filter-tab">
@@ -120,6 +120,7 @@
 							</div>
 						</div>
 						<div class="shop-product-content tab-content">
+							<input type="hidden" id="quantity" value="1"/>
 							<div id="grid-sidebar1" class="tab-pane fade active show">
 								<div class="row" id="result_search_1">
 									@if (Model != null)
@@ -133,14 +134,14 @@
 															<img src="@ViewBag.api/@book.Image" alt="">
 														</a>
 														<div class="product-action">
-															<a class="animate-left" title="Wishlist" href="#">
+															<a class="animate-left" title="Wishlist">
 																@GenerateFavoriteIcon(@book.IsFavorite, @book.Id)
 															</a>
 															<a class="animate-top" title="Add To Cart" onclick="AddToCart(@book.Id)">
 																<i class="pe-7s-cart"></i>
 															</a>
-															<a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-																<i class="pe-7s-look"></i>
+															<a asp-controller="Home" asp-action="Detail" asp-route-id="@book.Id" class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal">
+																<i class="pe-7s-look" onclick="ViewDetail(@book.Id)"></i>
 															</a>
 														</div>
 													</div>
@@ -214,9 +215,8 @@
 	</div>
 </div>
 @section Scripts {
-	<script src="~/js/main.js"></script>
 	<script src="~/js/header.js"></script>
+	<script src="~/js/main.js"></script>
 	<script src="~/js/shop.js"></script>
-	<script src="~/js/cart.js"></script>
 }
 

@@ -21,6 +21,6 @@ namespace Repositories
 
         public AppUser SaveUser(AppUser user) => UserDAO.SaveUser(user);
 
-        public AppUser UpdateUser(AppUser user) => UserDAO.UpdateUser(user);
+        public AppUser UpdateUser(AppUser user) => UserDAO.UpdateUser(user);     
     }
 }

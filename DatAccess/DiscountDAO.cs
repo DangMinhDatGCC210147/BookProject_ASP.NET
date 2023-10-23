@@ -38,6 +38,23 @@ namespace DataAccess
             return discount;
         }
 
+        public static Discount FindDiscountByName(string name)
+        {
+            var discount = new Discount();
+            try
+            {
+                using (var context = new ApplicationDBContext())
+                {
+                    discount = context.Discounts.Where(d => d.DiscountName == name).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            return discount;
+        }
+
         public static Discount SaveDiscount(Discount discount)
         {
             try

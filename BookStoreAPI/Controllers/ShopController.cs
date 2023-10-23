@@ -3,6 +3,7 @@ using Repositories.Interfaces;
 using Repositories;
 using BusinessObjects;
 using BusinessObjects.DTO;
+using System.Net;
 
 namespace BookStoreAPI.Controllers
 {
@@ -16,7 +17,7 @@ namespace BookStoreAPI.Controllers
 		public async Task<ActionResult<IEnumerable<BookList>>> GetProducts()
 		{
 			List<BookList> books = await repository.GetProducts();
-			return Ok(books);	
+			return Ok(books);
 		}
 
 		[HttpGet("{userId}")]
@@ -51,15 +52,32 @@ namespace BookStoreAPI.Controllers
 			return booksFilter;
 		}
 
-		[HttpGet("Detail/{bookId}")]
-		public ActionResult<BookDetail> Detail(int bookId)
+		[HttpGet("Detail")]
+		public async Task<ActionResult<BookDetail>> DetailAsync(int bookId, string userId)
 		{
-			return repository.BookDetail(bookId);
+			BookDetail bookDetail;
+
+			if (userId == "null")
+			{
+				bookDetail = await repository.BookDetail(bookId);
+			}
+			else
+			{
+				bookDetail = await repository.BookDetailIsFavourite(bookId, userId);
+			}
+
+			return Ok(bookDetail);
 		}
+
 		[HttpGet("Related")]
-		public ActionResult<BookDetail> ByGenre(int genreId)
+		public async Task<ActionResult<IEnumerable<BookList>>> ByGenre(int genreId, string userId)
 		{
-			return repository.BookDetail(genreId);
+            if (userId == null)
+            {
+                userId = "null";
+            }
+            List<BookList> bookDetail = await repository.RelatedBook(genreId, userId);
+			return Ok(bookDetail);
 		}
 	}
 }
