@@ -2,13 +2,15 @@
 using BusinessObjects.DTO;
 using DataAccess;
 using DatAccess;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Repositories.Interfaces;
 
 namespace Repositories
 {
 	public class ProductRepository : IProductRepository
-	{	
-		public void DeleteProductById(Book product) => BookDAO.DeleteProduct(product);
+	{
+        public void DeleteProductById(Book product) => BookDAO.DeleteProduct(product);
 
 		public Book GetProductById(int id) => BookDAO.FindProductById(id);
 		public List<Book> GetProductByName(string titleToSearch) => BookDAO.FindProductByName(titleToSearch);
@@ -21,8 +23,9 @@ namespace Repositories
         {
             throw new NotImplementedException();
         }
+
         public Book UpdateProduct(Book product) => BookDAO.UpdateProduct(product);
         public bool UpdateQuantity(int bookId, int soldQuantity) => BookDAO.UpdateQuantity(bookId, soldQuantity);
 
-	}
+    }
 }

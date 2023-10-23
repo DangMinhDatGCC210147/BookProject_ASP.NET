@@ -12,9 +12,10 @@ namespace BusinessObjects
 		public string Title { get; set; }
 		[Required]
 		public string Description { get; set; }
-        public string? Image { get; set; }
-        [NotMapped]
-        public IFormFile ImageFile { get; set; }
+		[StringLength(50)]
+		public string? Image { get; set; }
+		[NotMapped]
+		public IFormFile? ImageFile { get; set; }
         [Required]
         public int Quantity { get; set; }
         [Required]
@@ -36,7 +37,7 @@ namespace BusinessObjects
         [Required]
 		public int LanguageId { get; set; }
 		[ForeignKey("LanguageId")]
-		public virtual Language? Language { get; set; }
+		public virtual Language? Language{ get; set; }
 		[Required]
 		public virtual int AuthorId { get; set; }
 		[ForeignKey("AuthorId")]

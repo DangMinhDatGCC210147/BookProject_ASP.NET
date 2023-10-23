@@ -131,7 +131,7 @@
 												<div class="product-wrapper mb-30">
 													<div class="product-img">
 														<a asp-controller="Home" asp-action="Detail" asp-route-id="@book.Id">
-															<img src="/img/product/book/@book.Image" alt="">
+															<img src="@ViewBag.api/@book.Image" alt="">
 														</a>
 														<div class="product-action">
 															<a class="animate-left" title="Wishlist">
@@ -168,7 +168,7 @@
 												<div class="product-wrapper mb-30 single-product-list product-list-right-pr mb-60">
 													<div class="product-img list-img-width">
 														<a asp-controller="Home" asp-action="Detail" asp-route-id="@book.Id">
-															<img src="/img/product/book/@book.Image" alt="">
+															<img src="@ViewBag.api/@book.Image" alt="">
 														</a>
 														<span>hot</span>
 													</div>

@@ -24,8 +24,21 @@ namespace BookStoreAPI.Controllers
 
             return Ok(review);
         }
+		[HttpGet("book/{bookId}")]
+		public ActionResult<Review> GetReviewsByBookId(int bookId)
+		{
+			// Lấy tất cả các review có bookId tương ứng từ cơ sở dữ liệu
+			var reviews = repository.GetReviewsByBookId(bookId);
 
-        [HttpPost]
+			if (reviews == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(reviews);
+		}
+
+		[HttpPost]
         public IActionResult CreateReview(Review review)
         {
             return Ok(repository.SaveReview(review));

@@ -12,8 +12,9 @@ namespace Repositories
         public void DeleteReviewById(Review review) => ReviewDAO.DeleteReview(review);
 
         public Review GetReviewById(int id) => ReviewDAO.FindReviewById(id);
+		public List<Review> GetReviewsByBookId(int bookId) => ReviewDAO.FindReviewsByBookId(bookId);
 
-        public List<Review> GetReviews() => ReviewDAO.GetReviews();
+		public List<Review> GetReviews() => ReviewDAO.GetReviews();
 
         public Review SaveReview(Review review) => ReviewDAO.SaveReview(review);
 

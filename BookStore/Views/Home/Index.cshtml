@@ -138,7 +138,7 @@
 								<div class="product-wrapper">
 									<div class="product-img-2">
 										<a asp-controller="Home" asp-action="Detail" asp-route-id="@Model.TopAuthors[i].BookAuthors[j].BookId">
-											<img src="~/img/product/book/@Model.TopAuthors[i].BookAuthors[j].BookImage" alt="">
+											<img src="@ViewBag.api/@Model.TopAuthors[i].BookAuthors[j].BookImage" alt="">
 										</a>
 										<div class="product-action-2">
 											<a class="animate-left add-style-2" title="Add To Cart" onclick="AddToCart(@Model.TopAuthors[i].BookAuthors[j].BookId)">Add to Cart <i class="ti-shopping-cart"></i></a>

@@ -10,23 +10,23 @@
 # General
 --------------------------------------------------------------*/
 :root {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
-  background: #f6f9ff;
-  color: #444444;
+      font-family: "Open Sans", sans-serif;
+      background: #f6f9ff;
+      color: #444444;
 }
 
 a {
-  color: #4154f1;
-  text-decoration: none;
+    color: #f44344;
+    text-decoration: none;
 }
 
 a:hover {
-  color: #717ff5;
-  text-decoration: none;
+    color: #f44344;
+    text-decoration: none;
 }
 
 h1,
@@ -61,27 +61,27 @@ h6 {
 }
 
 .pagetitle h1 {
-  font-size: 24px;
-  margin-bottom: 0;
-  font-weight: 600;
-  color: #012970;
+    font-size: 24px;
+    margin-bottom: 0;
+    font-weight: 600;
+    color: #f44344;
 }
 
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
 .back-to-top {
-  position: fixed;
-  visibility: hidden;
-  opacity: 0;
-  right: 15px;
-  bottom: 15px;
-  z-index: 99999;
-  background: #4154f1;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  transition: all 0.4s;
+    position: fixed;
+    visibility: hidden;
+    opacity: 0;
+    right: 15px;
+    bottom: 15px;
+    z-index: 99999;
+    background: #f44344;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    transition: all 0.4s;
 }
 
 .back-to-top i {
@@ -91,8 +91,8 @@ h6 {
 }
 
 .back-to-top:hover {
-  background: #6776f4;
-  color: #fff;
+    background: #f44344;
+    color: #fff;
 }
 
 .back-to-top.active {
@@ -233,11 +233,11 @@ h6 {
 }
 
 .card-title {
-  padding: 20px 0 15px 0;
-  font-size: 18px;
-  font-weight: 500;
-  color: #012970;
-  font-family: "Poppins", sans-serif;
+    padding: 20px 0 15px 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: #f44344;
+    font-family: "Poppins", sans-serif;
 }
 
 .card-title span {
@@ -342,13 +342,13 @@ h6 {
 
 .nav-tabs-bordered .nav-link:hover,
 .nav-tabs-bordered .nav-link:focus {
-  color: #4154f1;
+    color: #f44344;
 }
 
 .nav-tabs-bordered .nav-link.active {
-  background-color: #fff;
-  color: #4154f1;
-  border-bottom: 2px solid #4154f1;
+    background-color: #fff;
+    color: #f44344;
+    border-bottom: 2px solid #4154f1;
 }
 
 /*--------------------------------------------------------------
@@ -680,26 +680,26 @@ h6 {
 }
 
 .sidebar-nav .nav-link {
-  display: flex;
-  align-items: center;
-  font-size: 15px;
-  font-weight: 600;
-  color: #4154f1;
-  transition: 0.3;
-  background: #f6f9ff;
-  padding: 10px 15px;
-  border-radius: 4px;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #f44344;
+    transition: 0.3;
+    background: #f6f9ff;
+    padding: 10px 15px;
+    border-radius: 4px;
 }
 
 .sidebar-nav .nav-link i {
-  font-size: 16px;
-  margin-right: 10px;
-  color: #4154f1;
+    font-size: 16px;
+    margin-right: 10px;
+    color: #f44344;
 }
 
 .sidebar-nav .nav-link.collapsed {
-  color: #012970;
-  background: #fff;
+    color: #f44344;
+    background: #fff;
 }
 
 .sidebar-nav .nav-link.collapsed i {
@@ -707,12 +707,12 @@ h6 {
 }
 
 .sidebar-nav .nav-link:hover {
-  color: #4154f1;
-  background: #f6f9ff;
+    color: #f44344;
+    background: #f6f9ff;
 }
 
 .sidebar-nav .nav-link:hover i {
-  color: #4154f1;
+    color: #f44344;
 }
 
 .sidebar-nav .nav-link .bi-chevron-down {
@@ -731,14 +731,14 @@ h6 {
 }
 
 .sidebar-nav .nav-content a {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: #012970;
-  transition: 0.3;
-  padding: 10px 0 10px 40px;
-  transition: 0.3s;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #f44344;
+    transition: 0.3;
+    padding: 10px 0 10px 40px;
+    transition: 0.3s;
 }
 
 .sidebar-nav .nav-content a i {
@@ -750,7 +750,7 @@ h6 {
 
 .sidebar-nav .nav-content a:hover,
 .sidebar-nav .nav-content a.active {
-  color: #4154f1;
+  color: #f44344;
 }
 
 .sidebar-nav .nav-content a.active i {
@@ -821,8 +821,8 @@ h6 {
 }
 
 .dashboard .sales-card .card-icon {
-  color: #4154f1;
-  background: #f6f6fe;
+    color: #f44344;
+    background: #f6f6fe;
 }
 
 .dashboard .revenue-card .card-icon {

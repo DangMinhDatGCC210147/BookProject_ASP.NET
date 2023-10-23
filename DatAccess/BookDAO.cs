@@ -11,23 +11,29 @@ namespace DataAccess
 {
 	public class BookDAO
 	{
-		public static List<Book> GetProducts()
-		{
-			try
-			{
-				using (var context = new ApplicationDBContext())
-				{
-					return context.Books.ToList();
-				}
+        public static List<Book> GetProducts()
+        {
+            try
+            {
+                using (var context = new ApplicationDBContext())
+                {
+                    var books = context.Books
+                        .Include(book => book.Publisher)
+                        .Include(book => book.Author)
+                        .Include(book => book.Genre)
+                        .Include(book => book.Language)
+                        .ToList();
 
-			}
-			catch (Exception ex)
-			{
-				throw new Exception(ex.Message);
-			}
-		}
+                    return books;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
-		public static List<Book> FindProductByName(string titleToSearch)
+        public static List<Book> FindProductByName(string titleToSearch)
 		{
 			try
 			{

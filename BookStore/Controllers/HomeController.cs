@@ -132,6 +132,10 @@ namespace BookStore.Controllers
 		public async Task<IActionResult> Contact()
 		{
 			return View();
+		}		
+		public async Task<IActionResult> Help()
+		{
+			return View();
 		}
 
 		public IActionResult AboutUs()
@@ -158,6 +162,7 @@ namespace BookStore.Controllers
 		[Authorize(Roles = "Customer")]
 		public async Task<IActionResult> Wishlist(string userId)
 		{
+			ViewData["api"] = _configuration["BaseAddress"];
 			HttpResponseMessage httpResponse = await client.GetAsync(WishlistApiUrl + "/" + userId);
 			string data = await httpResponse.Content.ReadAsStringAsync();
 			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

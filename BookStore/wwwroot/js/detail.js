@@ -1,54 +1,78 @@
-﻿$(document).ready(function () {
-    $('.rating i').click(function () {
-        var rating = $(this).data('rating');
-        var selectedRating = $('#selectedRating').val();
+﻿
+const bookId = localStorage.getItem("bookId");
+$(document).ready(function () {
+    const userId = localStorage.getItem("userId");
+    const bookId = document.getElementById("bookId").value;
 
-        // Nếu ngôi sao đã được chọn, thì tắt tất cả ngôi sao từ ngôi sao đó trở về trước
-        if (selectedRating == rating) {
-            $('#selectedRating').val('');
+    // Handle form submission
+    $('#reviewForm').submit(function (event) {
+        event.preventDefault();
+
+        const comment = $("#comment").val();
+        const rating = $("#selectedRating").val();
+        const date = new Date().toISOString();
+
+        const reviewData = {
+            userId: userId,
+            comment: comment,
+            rate: rating,
+            date: date,
+            bookId: bookId
+        };
+
+        // Make an AJAX POST request to submit the review
+        $.ajax({
+            url: apiUrl + '/api/Reviews',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(reviewData),
+        })
+            .done(function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Your review has been saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                $('#comment').val('');
+                $('.rating i').removeClass('selected');
+                setTimeout(function () {
+                    location.reload();
+                }, 1500);
+            })
+            .fail(function (xhr, status, error) {
+                console.error(xhr);
+                alert('An error occurred while sending data.');
+            });
+    });
+
+    // Handle star ratings
+    $('.rating i').click(function () {
+        const rating = $(this).data('rating');
+        const selectedRating = $("#selectedRating");
+
+        if (selectedRating.val() == rating) {
+            selectedRating.val(0);
             $(this).removeClass('selected');
             $(this).prevAll().removeClass('selected');
         } else {
-            // Ngược lại, chọn ngôi sao và cập nhật giá trị
-            $('#selectedRating').val(rating);
+            selectedRating.val(rating);
             $('.rating i').removeClass('selected');
             $(this).addClass('selected');
             $(this).prevAll().addClass('selected');
         }
     });
 
-    $('#reviewForm').submit(function (event) {
-        // Ngăn chặn form submit mặc định
-        event.preventDefault();
+    // Show reviews based on rating
+    const starRatings = document.querySelectorAll('.star-rating');
 
-        // Lấy giá trị số sao lớn nhất được chọn
-        var maxRating = Math.max.apply(null, $('.rating i.selected').map(function () {
-            return $(this).data('rating');
-        }).get());
+    starRatings.forEach(starRating => {
+        const rating = parseInt(starRating.getAttribute('data-rating'));
+        starRating.innerHTML = '';
 
-        // Sử dụng giá trị lớn nhất cho ô input 'rating' trước khi submit
-        $('#selectedRating').val(maxRating);
-
-        // Đây là nơi bạn có thể submit form hoặc xử lý dữ liệu khác theo yêu cầu của bạn.
-        // Ví dụ: $('#reviewForm').submit();
-    });
-});
-//Show review start at last
-
-// Lấy tất cả các phần tử có class "star-rating"
-const starRatings = document.querySelectorAll('.star-rating');
-
-starRatings.forEach(starRating => {
-    // Lấy giá trị số sao từ thuộc tính data-rating
-    const rating = parseInt(starRating.getAttribute('data-rating'));
-
-    // Xóa tất cả các nội dung bên trong phần tử "star-rating"
-    starRating.innerHTML = '';
-
-    // Tạo icon sao màu vàng dựa trên giá trị số sao
-    for (let i = 1; i <= 5; i++) {
-        const starIcon = document.createElement('i');
-        starIcon.className = 'fas fa-star';
+        for (let i = 1; i <= 5; i++) {
+            const starIcon = document.createElement('i');
+            starIcon.className = 'fas fa-star';
 
         // Thêm class 'rated' cho các sao đã được đánh giá (màu vàng)
         if (i <= rating) {

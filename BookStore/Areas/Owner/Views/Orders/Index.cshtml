@@ -63,7 +63,7 @@
                                     <th scope="col">Customer Name</th>
                                     <th scope="col">Customer Phone</th>
                                     <th scope="col">Total</th>
-                                    <th scope="col">IsConfirm</th>
+                                    <th scope="col">Confirm</th>
                                     <th scope="col">Discount ID</th>
                                     <th scope="col">Action</th>
                                     <th scope="col">Remove</th>
@@ -82,9 +82,27 @@
                                         <td>@order.CustomerName</td>
                                         <td>@order.CustomerPhone</td>
                                         <td>@order.Total</td>
-                                        <td>@order.IsConfirm</td>
+
+
+
+
+                                        <td>
+                                            @if (order.IsConfirm)
+                                            {
+                                                <button type="button" class="btn btn-warning">Confirmed</button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" onclick="toggleConfirmation(@order.Id)" class="btn btn-danger">Not Confirmed</button>
+                                            }
+                                        </td>
+
                                         <td>@order.DiscountId</td>
-                                        <td><a href="#" onclick="displayOrderdetail(@order.Id)" data-toggle="modal" data-target="#orderModal">See more</a></td>
+                                        <td>
+                                            <a href="#" onclick="displayOrderdetail(@order.Id)" data-toggle="modal" data-target="#orderModal" style="text-decoration:none; color: #F44344; font-size:1.5rem">
+                                                <i class="bi bi-brightness-high-fill"></i>
+                                            </a>
+                                        </td>
                                         <td>
                                             <div class="flex-column align-items-center">
                                                 <button type="button" class="btn btn-danger" onclick="deleteOrder(@order.Id) ">Delete</button>
@@ -107,6 +125,34 @@
 @section Scripts{
 
     <script>
+        function toggleConfirmation(orderId) {
+            Swal.fire({
+                title: 'Confirm Order',
+                text: 'Are you sure you want to confirm this order?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, confirm it!',
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Send an AJAX request to update the IsConfirm status in the backend
+                    $.ajax({
+                        url: apiUrl + '/api/Orders/' + orderId + "/Confirm",
+                        type: 'PUT',
+                        success: function (response) {
+                            window.location.reload();
+                            // Update UI or show a success message
+                        },
+                        error: function (error) {
+                            console.log('Error:', error);
+                        }
+                    });
+                }
+            });
+        }
+
+
+
         function exportToExcel() {
             Swal.fire({
                 title: 'Export Excel',

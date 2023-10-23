@@ -6722,11 +6722,13 @@ h1.cart-heading {
     width: 180px;
 }
 .input_quantity_box {
-    max-width: 50px;
+    max-width: 40px;
     border-radius: 0px;
-    padding: 1px;
+    /*padding: 2px;*/
+    padding-top: 5px;
     border-left: none;
     border-right: none;
+    height: 36px;
 }
 .input-quantity {
     display: flex;
@@ -9543,12 +9545,32 @@ input.cart-plus-minus-box {
     text-align: center;
     width: 25px;
 }
+input.cart-plus-minus-box.book-detail{
+    background: transparent none repeat scroll 0 0;
+    border: medium none;
+    float: left;
+    font-size: 16px;
+    height: 25px;
+    margin-top: 5px;
+    padding: 0;
+    text-align: center;
+    width: 30px;
+}
 .cart-plus-minus *::-moz-selection {
     background: transparent none repeat scroll 0 0;
     color: #333;
     text-shadow: none;
 }
 .cart-plus-minus {
+    border: 1px solid #dcdcdc;
+    overflow: hidden;
+    padding: 0px 0 4px 4px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cart-plus-minus.book-detail{
     border: 1px solid #dcdcdc;
     overflow: hidden;
     padding: 0px 0 4px 4px;
@@ -9573,6 +9595,7 @@ input.cart-plus-minus-box {
     position: relative;
     text-transform: uppercase;
     z-index: 5;
+    cursor: pointer;
 }
 .quickview-btn-wishlist > a {
     border: 1px solid #dcdcdc;

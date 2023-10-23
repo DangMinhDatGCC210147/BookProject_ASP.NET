@@ -1,6 +1,9 @@
 ﻿using BusinessObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Repositories.Interfaces;
+using Repositories;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -13,6 +16,8 @@ namespace BookStoreWebClient.Areas.Admin.Controllers
         private readonly IConfiguration _configuration;
         private readonly HttpClient client = null;
         private string UserApiUrl = "";
+
+        private readonly IUserRepository repository = new UserRepository();
 
         public UsersController(IConfiguration configuration)
         {
@@ -70,6 +75,16 @@ namespace BookStoreWebClient.Areas.Admin.Controllers
                 return RedirectToAction("Index", "User");
             }
             return View(user);
+        }
+        public ActionResult<IEnumerable<AppUser>> GetAccount()
+        {
+            // Kết nối đến cơ sở dữ liệu và truy vấn dữ liệu
+            var data = repository.GetUsers().ToList();
+
+            // Truyền dữ liệu đến View
+            ViewBag.MyData = data;
+
+            return View();
         }
     }
 }

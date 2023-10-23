@@ -27,7 +27,8 @@ namespace BookStoreWebClient.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            HttpResponseMessage httpResponse = await client.GetAsync(ReviewApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
+			ViewData["api"] = _configuration["BaseAddress"];
+			HttpResponseMessage httpResponse = await client.GetAsync(ReviewApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
 
             string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
 

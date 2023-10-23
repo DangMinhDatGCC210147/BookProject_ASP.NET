@@ -1,4 +1,8 @@
+using Repositories;
+using Repositories.Interfaces;
 using System.Text.Json.Serialization;
+using BusinessObjects;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
 
 
@@ -10,13 +14,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//builder.Services.AddTransient<IFileService, FileService>();
 
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddHttpClient();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +33,8 @@ app.UseCors(builder =>
 	.AllowAnyMethod()
 	.AllowAnyHeader();
 });
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 

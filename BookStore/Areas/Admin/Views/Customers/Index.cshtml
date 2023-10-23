@@ -1,0 +1,122 @@
+﻿@model List<BusinessObjects.AppUser>
+@* @model BusinessObjects.AppUser *@
+
+@{
+    ViewData["Title"] = "Customer";
+}
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Customer</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-controller="Dashboard" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item active">Customer</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title">Customers table</h5>
+                            @* <form class="form-inline" method="POST"> *@
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search..." aria-label="Search" id="searchInput">
+                                    <div class="input-group-append">
+                                        <button type="button" class="btn btn-success">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                            @* </form> *@
+                            @*  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#userModal">Add New User</button> *@
+                            <!-- Modal -->
+                            <div class="modal fade" id="passwordChangeModal" tabindex="-1" role="dialog" aria-labelledby="passwordChangeModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="passwordChangeModalLabel">Change Password</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="passwordChangeForm" method="post">
+                                                <input type="hidden" id="userId"> <!-- Đây là trường input ẩn để chứa userId -->
+                                                <div class="form-group">
+                                                    <label for="newPassword">New Password</label>
+                                                    <input type="password" class="form-control" id="newPassword" required>
+                                                    <div id="passwordStrength" style="color: red;"></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="confirmPassword">Confirm Password</label>
+                                                    <input type="password" class="form-control" id="confirmPassword" required>
+                                                    <small id="confirmPasswordError" class="text-danger"></small>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary" id="saveButton">Save</button>
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Small tables -->
+                        <table class="table table-sm table-hover" id="customerAccountTable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Fist Name</th>
+                                    <th scope="col">Last Name</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Phone Number</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Password</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <div id="noResultsMessage" class="alert alert-warning" style="display: none;">
+                                    No available values found.
+                                </div>
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="row_@item.Id">
+                                        <th scope="row">@item.Id</th>
+                                        <td>@item.FirstName</td>
+                                        <td>@item.LastName</td>
+                                        <td>@item.Address</td>
+                                        <td>@item.PhoneNumber</td>
+                                        <td>@item.Email</td>
+                                        <td>********</td>
+                                        <td>
+                                            <div class="flex-column align-items-center">
+                                                @* <button type="button" class="btn btn-danger">Delete</button> *@
+                                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#passwordChangeModal" data-userid="@item.Id">Change Password</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <!-- End small tables -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+@section Scripts{
+    <script src="~/js/js-admin/customer.js"></script>
+    <script src="~/js/js-admin/main.js"></script>
+}
+

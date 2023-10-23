@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess
 {
@@ -11,7 +12,10 @@ namespace DataAccess
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    listReviews = context.Reviews.ToList();
+                    listReviews = context.Reviews
+                        .Include(r => r.User) // Khi thực hiện Include, nó sẽ lấy dữ liệu từ bảng User
+                        .Include(r => r.Book)
+                        .ToList();
                 }
             }
             catch (Exception ex)
@@ -37,8 +41,27 @@ namespace DataAccess
             }
             return review;
         }
+		public static List<Review> FindReviewsByBookId(int bookId)
+		{
+			var listReviews = new List<Review>();
+			try
+			{
+				using (var context = new ApplicationDBContext())
+				{
+					listReviews = context.Reviews
+						.Where(review => review.BookId == bookId)
+						.Include(review => review.User) // Include the User entity
+						.ToList();
+				}
+			}
+			catch (Exception ex)
+			{
+				throw new Exception(ex.Message);
+			}
+			return listReviews;
+		}
 
-        public static Review SaveReview(Review review)
+		public static Review SaveReview(Review review)
         {
             try
             {

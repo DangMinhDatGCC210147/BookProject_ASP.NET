@@ -60,7 +60,6 @@ function handleAddButton() {
     $("#genreDescription").val("");
 }
 $(document).ready(function () {
-    // Mã JavaScript của bạn ở đây
     // Xử lý nút "Reject"
     $('.reject-button').on('click', function () {
         const genreId = $(this).data('id'); // Lấy id của genre từ thuộc tính data
@@ -91,7 +90,6 @@ $(document).ready(function () {
                 const genre = document.getElementById('row_' + genreId);
                 genre.querySelector('td.description').textContent = mapApprovalStatus(approvalStatus);
                 console.log('Trạng thái đã được cập nhật thành công.');
-                // Cập nhật giao diện hoặc thực hiện các hành động khác (tuỳ theo yêu cầu)
             },
             error: function (xhr, status, error) {
                 // Xử lý lỗi nếu có

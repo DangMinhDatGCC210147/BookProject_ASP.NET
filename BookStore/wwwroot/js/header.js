@@ -50,7 +50,7 @@ function AjaxCart() {
                     row += `
                             <li class="single-product-cart" id="row_quickcart_${item.bookId}">
                                 <div class="cart-img">
-                                    <a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
+                                    <a href="/Home/Detail/${item.bookId}"><img src="${apiUrl}/${item.image}" alt=""></a>
                                 </div>
                                 <div class="cart-title">
                                     <h5><a id="product-name_${item.bookId}" href="/Home/Detail/${item.bookId}"> ${item.title}</a></h5>
@@ -224,7 +224,7 @@ function AjaxWishlist() {
                     row += `
                             <li class="single-product-wishlist" id="row_wishlist_${item.bookId}">
                                 <div class="cart-img">
-                                    <a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
+                                    <a href="/Home/Detail/${item.bookId}"><img src="${apiUrl}/${item.image}" alt=""></a>
                                 </div>
                                 <div class="cart-title">
                                     <h5><a id="product-name_${item.bookId}" href="/Home/Detail/${item.bookId}"> ${item.title}</a></h5>
@@ -298,6 +298,7 @@ function DeleteWishlist(bookId) {
         icon: 'warning',
         showConfirmButton: true,
         confirmButtonText: 'Yes, delete it!',
+        showCancelButton: true, // Hiển thị nút "Cancel"
         cancelButtonText: 'No, cancel',
     }).then((result) => {
         if (result.isConfirmed) {
