@@ -10,5 +10,6 @@ namespace BusinessObjects.DTO
     {
         public AppUser User { get; set; }
         public ChangePassword ChangePassword { get; set; }
+        public List<OrderedHistory> History { get; set; }
     }
 }

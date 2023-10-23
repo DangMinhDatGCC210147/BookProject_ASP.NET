@@ -2,7 +2,7 @@ var firstDiv = document.querySelector(".tab-content div");
 
 if (firstDiv) {
 
-    firstDiv.classList.add("active"); 
+    firstDiv.classList.add("active");
 } else {
     console.log("No added");
 }
@@ -12,7 +12,7 @@ if (firstDiv) {
     /* jQuery MeanMenu */
     $('#mobile-menu-active').meanmenu({
         meanScreenWidth: "991",
-        meanMenuContainer: ".mobile-menu-area .mobile-menu",    
+        meanMenuContainer: ".mobile-menu-area .mobile-menu",
     });
 
     /*--
@@ -694,3 +694,8 @@ if (firstDiv) {
         }
     })
 })(jQuery);
+
+if (document.getElementById("header_nav")) {
+    var header = document.getElementById("header_nav");
+    header.classList.add("header-nav");
+}

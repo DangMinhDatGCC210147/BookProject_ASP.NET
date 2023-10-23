@@ -435,9 +435,10 @@ namespace DataAccess
 
 					var bookDetail = await (
 						from b in context.Books
-						join f in context.Favourites on b.Id equals f.BookId
+						join f in context.Favourites on b.Id equals f.BookId into favourites
+						from favourite in favourites.DefaultIfEmpty()
 						where b.Id == bookId
-						select new BookDetail // Sử dụng lớp BookDetail thay vì BookList
+						select new BookDetail
 						{
 							Id = b.Id,
 							Title = b.Title,
@@ -445,7 +446,7 @@ namespace DataAccess
 							SellingPrice = b.SellingPrice,
 							Quantity = b.Quantity,
 							Rate = averageReviewRates.ContainsKey(b.Id) ? averageReviewRates[b.Id] : 0,
-							IsFavorite = f.UserId == userId ? true : false,
+							IsFavorite = favourite.UserId == userId,
 							ISBN = b.ISBN,
 							PageCount = b.PageCount,
 							PublicationYear = b.PublicationYear,
@@ -525,5 +526,7 @@ namespace DataAccess
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
+
+
 	}
 }

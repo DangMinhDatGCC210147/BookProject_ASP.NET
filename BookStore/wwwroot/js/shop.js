@@ -12,7 +12,7 @@ function Search() {
     }
 
     $.ajax({
-        url: apiUrl + "/api/Products/Search/" + searchName,
+        url: apiUrl + "/api/Products/Search?name=" + searchName + "&userId=" + userId,
         method: "GET",
         success: function (response) {
             console.log(response)
@@ -42,7 +42,7 @@ function ShowData(results) {
                 <div class="product-wrapper mb-30">
                     <div class="product-img">
                         <a href="/Home/Detail/${item.id}">
-                            <img src="/img/product/book/${item.image}" alt="">
+                            <img src="${apiUrl}/${item.image}" alt="Book Image">
                         </a>
                         <div class="product-action">
                             <a class="animate-left" title="Wishlist">

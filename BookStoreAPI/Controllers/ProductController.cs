@@ -36,7 +36,7 @@ namespace BookStoreAPI.Controllers
 		public ActionResult<IEnumerable<Book>> GetProducts() => repository.GetProducts();
 
 		[HttpGet("{id}")]
-		public ActionResult<Book> GetBookById(int id)
+		public ActionResult<BookList> GetBookById(int id)
 		{
 			var book = repository.GetProductById(id);
 			if (book == null)	
@@ -45,10 +45,10 @@ namespace BookStoreAPI.Controllers
 			return Ok(book);
 		}
 
-		[HttpGet("Search/{name}")]
-		public ActionResult<IEnumerable<Book>> Search(string name)
+		[HttpGet("Search")]
+		public async Task<ActionResult<List<BookList>>> Search(string name, string userId)
 		{
-			return Ok(repository.GetProductByName(name));
+			return Ok(await repository.GetProductByName(name, userId));
 		}
 
 		[HttpPost]

@@ -1,95 +1,181 @@
-﻿
-@model BusinessObjects.DTO.UserProfile
+﻿@model BusinessObjects.DTO.UserProfile
 @{
-    ViewData["Title"] = "Profile";
+	ViewData["Title"] = "Profile";
 }
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<BusinessObjects.AppUser> SignInManager
+@inject UserManager<BusinessObjects.AppUser> UserManager
+
 <div class="container">
-    <h2 class="text-center mt-4">Welcome to your profile!</h2>
-    <div asp-validation-summary="ModelOnly" class="text-danger text-center"></div>
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link" id="password-tab" data-bs-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">Change Password</a>
-        </li>
-        <li class="nav-item" role="presentation">
-            <a class="nav-link" id="history-tab" data-bs-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">History</a>
-        </li>
-    </ul>
-    <div class="tab-content mt-4" id="myTabContent">
-        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <form>
-                <!-- Profile information form here -->
-                @Html.AntiForgeryToken()
-                <div class="form-group">
-                    <label for="username">First Name</label>
-                    <input type="text" asp-for="User.FirstName" class="form-control edit" value="@Model.User.FirstName" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="username">Last Name</label>
-                    <input type="text" asp-for="User.LastName" class="form-control edit" value="@Model.User.LastName" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="username">Address</label>
-                    <input type="text" asp-for="User.Address" class="form-control edit" value="@Model.User.Address" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" asp-for="User.UserName" class="form-control edit" value="@Model.User.UserName" readonly>
-                </div>
-            </form>
-        </div>
-        <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
-            <form asp-controller="Home" asp-action="ChangePassword" method="post">
-                <!-- Change password form here -->
-                <div class="form-group">
-                    <label for="currentPassword">Current Password</label>
-                    <input type="password" asp-for="ChangePassword.OldPassword" class="form-control" required>
-                    <span asp-validation-for="ChangePassword.OldPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">New Password</label>
-                    <input type="password" asp-for="ChangePassword.NewPassword" class="form-control" required>
-                    <span asp-validation-for="ChangePassword.NewPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm New Password</label>
-                    <input type="password" asp-for="ChangePassword.ConfirmPassword" class="form-control" required>
-                    <span asp-validation-for="ChangePassword.ConfirmPassword" class="text-danger"></span>
-                </div>
-                <button type="submit" class="btn btn-dark mt-3">Change Password</button>
-            </form>
-        </div>
+	<h2 class="text-center mt-4">Welcome to your profile!</h2>
+	<div asp-validation-summary="ModelOnly" class="text-danger text-center"></div>
+	<ul class="nav nav-tabs" id="myTab" role="tablist">
+		<li class="nav-item" role="presentation">
+			<a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+		</li>
+		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="password-tab" data-bs-toggle="tab" href="#password" role="tab" aria-controls="password" aria-selected="false">Change Password</a>
+		</li>
+		<li class="nav-item" role="presentation">
+			<a class="nav-link" id="history-tab" data-bs-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">History</a>
+		</li>
+	</ul>
+	<div class="tab-content mt-4" id="myTabContent">
+		<div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+			<form>
+				<!-- Profile information form here -->
+				@Html.AntiForgeryToken()
+				<div class="form-group">
+					<label for="username">First Name</label>
+					<input type="text" asp-for="User.FirstName" class="form-control edit" value="@Model.User.FirstName" readonly>
+				</div>
+				<div class="form-group">
+					<label for="username">Last Name</label>
+					<input type="text" asp-for="User.LastName" class="form-control edit" value="@Model.User.LastName" readonly>
+				</div>
+				<div class="form-group">
+					<label for="username">Address</label>
+					<input type="text" asp-for="User.Address" class="form-control edit" value="@Model.User.Address" readonly>
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" asp-for="User.UserName" class="form-control edit" value="@Model.User.UserName" readonly>
+				</div>
+			</form>
+		</div>
+		<div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+			<form asp-controller="Home" asp-action="ChangePassword" method="post">
+				<!-- Change password form here -->
+				<div class="form-group">
+					<label for="currentPassword">Current Password</label>
+					<input type="password" asp-for="ChangePassword.OldPassword" class="form-control" required>
+					<span asp-validation-for="ChangePassword.OldPassword" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label for="newPassword">New Password</label>
+					<input type="password" asp-for="ChangePassword.NewPassword" class="form-control" required>
+					<span asp-validation-for="ChangePassword.NewPassword" class="text-danger"></span>
+				</div>
+				<div class="form-group">
+					<label for="confirmPassword">Confirm New Password</label>
+					<input type="password" asp-for="ChangePassword.ConfirmPassword" class="form-control" required>
+					<span asp-validation-for="ChangePassword.ConfirmPassword" class="text-danger"></span>
+				</div>
+				<button type="submit" class="btn btn-dark mt-3">Change Password</button>
+			</form>
+		</div>
         <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
-            <!-- Content for the "History" tab -->
-            <h3>Your Order History</h3>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Total Books</th>
-                        <th>Order Date</th>
-                        <th>Total Quantity</th>
-                        <th>See Detail</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>
-                            <a href="#" class="btn seeDetail" style="text-decoration:none; color: #F44344; font-size:1.5rem"><i class="bi bi-brightness-high-fill"></i></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            @if (Model.History.Count != 0)
+            {
+
+				<!-- Content for the "History" tab -->
+				<h3>Your Order History</h3>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Order ID</th>
+							<th>Total Books</th>
+							<th>Order Date</th>
+							<th>Total Quantity</th>
+							<th>See Detail</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var history in Model.History)
+						{
+							<tr>
+								<td>@history.Order.Id</td>
+								<td>@history.Order.Total</td>
+								<td>@history.Order.DeliveryDate</td>
+								<td>@history.OrderDetails.Count</td>
+								<td>
+									<button type="button" class="btn seeDetail" data-toggle="modal" data-target="#Modal_@history.Order.Id">
+										<i class="bi bi-brightness-high-fill"></i>
+									</button>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+
+				@foreach (var history in Model.History)
+				{
+					<!-- Modal -->
+					<div class="modal fade" id="Modal_@history.Order.Id" tabindex="-1" role="dialog" aria-labelledby="ModalLabe_@history.Order.Id" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="ModalLabe_@history.Order.Id">Order Detail</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<!-- Display detail -->
+									<table class="table">
+										<thead>
+											<tr>
+												<th>Book Title</th>
+												<th>Quantity</th>
+												<th>Unit Price</th>
+											</tr>
+										</thead>
+										<tbody>
+											@foreach (var item in history.OrderDetails)
+											{
+												if (@item.Book != null)
+												{
+													<tr>
+														<td>@item.Book.Title</td>
+														<td>
+															<img src="@ViewBag.api/@item.Book.Image" alt="@item.Book.Title" />
+														</td>
+														<td>@item.Book.Quantity</td>
+														<td>@item.Book.SellingPrice</td>
+													</tr>
+												}
+											}
+										</tbody>
+									</table>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									<!-- You can add additional buttons or form elements here if needed. -->
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+
+            }
+            else
+            {
+				<div id="cartEmpty">
+					<img src="/img/cart/empty.gif"
+						 style=" display: block; margin-left: auto; margin-right: auto; width: 50%;" />
+					<p class="text-center"
+					   style=" display: block; margin-left: auto; margin-right: auto; ">
+						Product Cart is empty
+					</p>
+				</div>
+				<div class="pt-5">
+					<h6 class="mb-3 back">
+						@if (SignInManager.IsSignedIn(User))
+						{
+							var user = await UserManager.GetUserAsync(User);
+							<a asp-controller="Home" asp-action="Shop" asp-route-userId="@user.Id" class="text-body fw-semibold">
+								<i class="fas fa-long-arrow-alt-left ms-5 me-2"></i>
+								Back to shop
+							</a>
+						}
+					</h6>
+				</div>
+            }
         </div>
-    </div>
+	</div>
 </div>
 
+
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+	<partial name="_ValidationScriptsPartial" />
 }

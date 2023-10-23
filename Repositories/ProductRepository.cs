@@ -13,7 +13,7 @@ namespace Repositories
         public void DeleteProductById(Book product) => BookDAO.DeleteProduct(product);
 
 		public Book GetProductById(int id) => BookDAO.FindProductById(id);
-		public List<Book> GetProductByName(string titleToSearch) => BookDAO.FindProductByName(titleToSearch);
+		public Task<List<BookList>> GetProductByName(string titleToSearch, string userId) => BookDAO.FindProductByName(titleToSearch, userId);
 
 		public List<Book> GetProducts() => BookDAO.GetProducts();
 

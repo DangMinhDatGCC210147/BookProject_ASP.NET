@@ -38,7 +38,7 @@ function AjaxCart() {
 					</div>
 					<div class="pt-5">
 						<h6 class="mb-3 back">
-							<a href="/Home/Shop?userId=${userId}" class="text-body fw-semibold">
+							<a href="/Home/Shop" class="text-body fw-semibold">
 								<i class="fas fa-long-arrow-alt-left ms-5 me-2"></i>
 								Go to shop
 							</a>
@@ -168,7 +168,7 @@ function DeleteCart(bookId) {
                     document.getElementById("row_quickcart_" + bookId).remove();
 
                     // Check is exist cart
-                    if (document.getElementById("tbody_cart")) {
+                    if (document.getElementById("row_cart_" + bookId)) {
                         document.getElementById("row_cart_" + bookId).remove();
                     }
                     UpdateCartNumber();
@@ -212,7 +212,7 @@ function AjaxWishlist() {
 					</div>
 					<div class="pt-5">
 						<h6 class="mb-3 back">
-							<a href="/Home/Shop?userId=${userId}" class="text-body fw-semibold">
+							<a href="/Home/Shop" class="text-body fw-semibold">
 								<i class="fas fa-long-arrow-alt-left ms-5 me-2"></i>
 								Go to shop
 							</a>
@@ -272,13 +272,34 @@ function AddToWishlist(bookId) {
                     showConfirmButton: false,
                     timer: 1000
                 })
-                AjaxWishlist();
                 var icon = document.getElementById("wishlist_book_" + bookId);
-                console.log(icon.className);
-                if (icon.className == "bi bi-suit-heart") {
-                    icon.classList.remove("bi-suit-heart");
+                var icon2 = document.getElementById("wishlist_book_2_" + bookId);
+
+                if ((icon.className == "bi bi-suit-heart") || (icon2.className == "bi bi-suit-heart")) {
+                    // Remove old icon
+                    icon.classList.remove("bi-suit-heart");               
+                    // Add new icon
                     icon.classList.add("bi-suit-heart-fill");
+
+                    if (icon2) {
+                        icon2.classList.remove("bi-suit-heart");
+                        icon2.classList.add("bi-suit-heart-fill");
+                    }                    
+
+                    // Remove the old click event handler
+                    $("#wishlist_book_" + bookId).off("click");
+                    $("#wishlist_book_2_" + bookId).off("click");
+
+                    // Add a new click event handler
+                    $("#wishlist_book_" + bookId).on("click", function () {
+                        DeleteWishlist(bookId);
+                    });
+                    $("#wishlist_book_2_" + bookId).on("click", function () {
+                        DeleteWishlist(bookId);
+                    });
                 }
+
+                AjaxWishlist();
             },
             error: function (error) {
                 console.log(error)
@@ -317,10 +338,31 @@ function DeleteWishlist(bookId) {
                 contentType: 'application/json',
                 success: function () {
                     var icon = document.getElementById("wishlist_book_" + bookId);
-                    console.log(icon.className);
-                    if (icon.className == "bi bi-suit-heart-fill") {
+                    var icon2 = document.getElementById("wishlist_book_2_" + bookId);
+
+                    if ((icon.className == "bi bi-suit-heart-fill") || (icon2.className == "bi bi-suit-heart-fill")) {
+                        // Remove old icon
                         icon.classList.remove("bi-suit-heart-fill");
-                        icon.classList.add("bi-suit-heart");
+                        // Add new icon
+                        icon.classList.add("bi-suit-heart");   
+
+                        if (icon2) {
+                            icon2.classList.remove("bi-suit-heart-fill");
+                            icon2.classList.add("bi-suit-heart");
+                        }                                             
+
+                        // Remove the old click event handler
+                        $("#wishlist_book_" + bookId).off("click");          
+                        $("#wishlist_book_2_" + bookId).off("click");          
+
+                        // Add a new click event handler
+                        $("#wishlist_book_" + bookId).on("click", function () {    
+                            AddToWishlist(bookId);
+                        });
+                        $("#wishlist_book_2_" + bookId).on("click", function () {    
+                            AddToWishlist(bookId);
+                        });
+
                     }
 
                     $('#row_wishlist_' + bookId).remove();
@@ -347,6 +389,10 @@ function UpdateCartNumber() {
         $("#price").text(total.toFixed(2));
         $("#subtotal").text(total.toFixed(2));
         $("#total").text(total.toFixed(2));
+    }
+
+    if (subtotalElements.length == 0) {
+        AjaxCart();
     }
 }
 

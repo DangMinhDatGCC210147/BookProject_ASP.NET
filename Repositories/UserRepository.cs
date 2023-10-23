@@ -22,5 +22,7 @@ namespace Repositories
         public AppUser SaveUser(AppUser user) => UserDAO.SaveUser(user);
 
         public AppUser UpdateUser(AppUser user) => UserDAO.UpdateUser(user);     
+        public List<Order> GetOrders(string user) => UserDAO.GetOrders(user);     
+        public List<OrderDetail> GetOrderDetail(int order, string user) => UserDAO.GetOrderDetails(order, user);     
     }
 }

@@ -67,7 +67,7 @@ namespace BookStore.Controllers
 		}
 
 		[Route("/Home/FilterGenre/{filterId:int}", Name = "displaybookbygenre")]
-		public async Task<IActionResult> Filter(string filterId)
+		public async Task<IActionResult> FilterGenre(string filterId)
 		{
 			ViewData["api"] = _configuration["BaseAddress"];
 
@@ -77,6 +77,72 @@ namespace BookStore.Controllers
 			Filter filter = JsonSerializer.Deserialize<Filter>(dataFilter, optionsFilter);
 
 			HttpResponseMessage httpResponse = await client.GetAsync(ShopApiUrl + "/Filter?filterName=1" + "&filterId=" + filterId);
+			string data = await httpResponse.Content.ReadAsStringAsync();
+			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			List<BookList> books = JsonSerializer.Deserialize<List<BookList>>(data, options);
+
+			ShopView shopView = new ShopView();
+			shopView.Filter = filter;   // Filter in nav
+			shopView.Books = books; // found book
+
+			return View("Shop", shopView);
+		}
+
+		[Route("/Home/FilterPublisher/{filterId:int}", Name = "displaybookbypublisher")]
+		public async Task<IActionResult> FilterPublisher(string filterId)
+		{
+			ViewData["api"] = _configuration["BaseAddress"];
+
+			HttpResponseMessage httpFilterResponse = await client.GetAsync(ShopApiUrl + "/NavBar");
+			string dataFilter = await httpFilterResponse.Content.ReadAsStringAsync();
+			var optionsFilter = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			Filter filter = JsonSerializer.Deserialize<Filter>(dataFilter, optionsFilter);
+
+			HttpResponseMessage httpResponse = await client.GetAsync(ShopApiUrl + "/Filter?filterName=2" + "&filterId=" + filterId);
+			string data = await httpResponse.Content.ReadAsStringAsync();
+			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			List<BookList> books = JsonSerializer.Deserialize<List<BookList>>(data, options);
+
+			ShopView shopView = new ShopView();
+			shopView.Filter = filter;   // Filter in nav
+			shopView.Books = books; // found book
+
+			return View("Shop", shopView);
+		}
+
+		[Route("/Home/FilterLanguage/{filterId:int}", Name = "displaybookbylanguage")]
+		public async Task<IActionResult> FilterLanguage(string filterId)
+		{
+			ViewData["api"] = _configuration["BaseAddress"];
+
+			HttpResponseMessage httpFilterResponse = await client.GetAsync(ShopApiUrl + "/NavBar");
+			string dataFilter = await httpFilterResponse.Content.ReadAsStringAsync();
+			var optionsFilter = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			Filter filter = JsonSerializer.Deserialize<Filter>(dataFilter, optionsFilter);
+
+			HttpResponseMessage httpResponse = await client.GetAsync(ShopApiUrl + "/Filter?filterName=3" + "&filterId=" + filterId);
+			string data = await httpResponse.Content.ReadAsStringAsync();
+			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			List<BookList> books = JsonSerializer.Deserialize<List<BookList>>(data, options);
+
+			ShopView shopView = new ShopView();
+			shopView.Filter = filter;   // Filter in nav
+			shopView.Books = books; // found book
+
+			return View("Shop", shopView);
+		}
+
+		[Route("/Home/FilterAuthor/{filterId:int}", Name = "displaybookbyauthor")]
+		public async Task<IActionResult> FilterAuthor(string filterId)
+		{
+			ViewData["api"] = _configuration["BaseAddress"];
+
+			HttpResponseMessage httpFilterResponse = await client.GetAsync(ShopApiUrl + "/NavBar");
+			string dataFilter = await httpFilterResponse.Content.ReadAsStringAsync();
+			var optionsFilter = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			Filter filter = JsonSerializer.Deserialize<Filter>(dataFilter, optionsFilter);
+
+			HttpResponseMessage httpResponse = await client.GetAsync(ShopApiUrl + "/Filter?filterName=4" + "&filterId=" + filterId);
 			string data = await httpResponse.Content.ReadAsStringAsync();
 			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 			List<BookList> books = JsonSerializer.Deserialize<List<BookList>>(data, options);
@@ -118,15 +184,26 @@ namespace BookStore.Controllers
 			return View(shopView);
 		}
 
-		public async Task<IActionResult> Search([FromForm] string title)
+		public async Task<IActionResult> Search(string title)
 		{
+			ViewData["api"] = _configuration["BaseAddress"];
 			ViewData["search"] = title;
-			HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl + "/Search/" + title);
+			AppUser user = await _userManager.GetUserAsync(User);
+			HttpResponseMessage httpFilterResponse = await client.GetAsync(ShopApiUrl + "/NavBar");
+			string dataFilter = await httpFilterResponse.Content.ReadAsStringAsync();
+			var optionsFilter = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			Filter filter = JsonSerializer.Deserialize<Filter>(dataFilter, optionsFilter);
+
+			HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl + "/Search?name=" + title + "&userId=" + user.Id);
 			string data = await httpResponse.Content.ReadAsStringAsync();
 			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-			List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);
+			List<BookList> books = JsonSerializer.Deserialize<List<BookList>>(data, options);
 
-			return RedirectToAction("Shop", "Home", books);
+			ShopView shopView = new ShopView();
+			shopView.Filter = filter;
+			shopView.Books = books;
+
+			return View("Shop", shopView);
 		}
 
 		public async Task<IActionResult> Contact()
@@ -146,6 +223,7 @@ namespace BookStore.Controllers
 		[Authorize(Roles = "Customer")]
 		public async Task<IActionResult> Cart()
 		{
+			ViewData["api"] = _configuration["BaseAddress"];
 			AppUser user = await _userManager.GetUserAsync(User);
 
 			HttpResponseMessage httpResponse = await client.GetAsync(CartDetailApiUrl + "/" + user.Id);
@@ -172,6 +250,8 @@ namespace BookStore.Controllers
 
 		public async Task<IActionResult> Detail(int id)
 		{
+			ViewData["api"] = _configuration["BaseAddress"];
+
 			AppUser user = await _userManager.GetUserAsync(User);
 			string? ApiDetailUrl;
 			if (user == null)
@@ -211,6 +291,7 @@ namespace BookStore.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CheckOut([FromForm] TotalCart totalCart)
 		{
+			ViewData["api"] = _configuration["BaseAddress"];
 			AppUser user = await _userManager.GetUserAsync(User);
 
 			HttpResponseMessage httpUserResponse = await client.GetAsync(UserApiUrl + "/" + user.Id);
@@ -233,12 +314,20 @@ namespace BookStore.Controllers
 		[Authorize(Roles = "Customer")]
 		public async Task<IActionResult> Profile()
 		{
+			ViewData["api"] = _configuration["BaseAddress"];
 			AppUser user = await _userManager.GetUserAsync(User);
+			UserProfile userProfile = new UserProfile();
+
 			HttpResponseMessage httpResponse = await client.GetAsync(UserApiUrl + "/" + user.Id);
 			string data = await httpResponse.Content.ReadAsStringAsync();
 			var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-			UserProfile userProfile = new UserProfile();
 			userProfile.User = JsonSerializer.Deserialize<AppUser>(data, options);
+
+			HttpResponseMessage history_Response = await client.GetAsync(UserApiUrl + "/History/" + user.Id);
+			string history_data = await history_Response.Content.ReadAsStringAsync();
+			var history_options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+			userProfile.History = JsonSerializer.Deserialize<List<OrderedHistory>>(history_data, history_options);
+			
 			return View(userProfile);
 		}
 

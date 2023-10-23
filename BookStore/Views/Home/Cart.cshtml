@@ -2,9 +2,6 @@
 @{
 	ViewData["Title"] = "Cart";
 }
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<BusinessObjects.AppUser> SignInManager
-@inject UserManager<BusinessObjects.AppUser> UserManager
 <!-- shopping-cart-area start -->
 <div class="cart-main-area pt-95 pb-100">
 	<div class="container">
@@ -23,14 +20,10 @@
 					</div>
 					<div class="pt-5">
 						<h6 class="mb-3 back">
-							@if (SignInManager.IsSignedIn(User))
-							{
-								var user = await UserManager.GetUserAsync(User);
-								<a asp-controller="Home" asp-action="Shop" asp-route-userId="@user.Id" class="text-body fw-semibold">
-									<i class="fas fa-long-arrow-alt-left ms-5 me-2"></i>
-									Back to shop
-								</a>
-							}
+							<a asp-controller="Home" asp-action="Shop" class="text-body fw-semibold">
+								<i class="fas fa-long-arrow-alt-left ms-5 me-2"></i>
+								Back to shop
+							</a>
 						</h6>
 					</div>
 				}
@@ -55,7 +48,7 @@
 									<tr id="row_cart_@item.BookId">
 										<td class="product-remove"><a onclick="DeleteCart(@item.BookId)"><i class="pe-7s-close"></i></a></td>
 										<td class="product-thumbnail">
-											<a asp-controller="Home" asp-action="Detail" asp-route-id="@item.BookId"><img src="/img/product/book/@item.Image" alt=""></a>
+											<a asp-controller="Home" asp-action="Detail" asp-route-id="@item.BookId"><img src="@ViewBag.api/@item.Image" alt=""></a>
 										</td>
 										<td class="product-name"><a asp-controller="Home" asp-action="Detail" asp-route-id="@item.BookId" id="product-name_@item.BookId">@item.Title</a></td>
 										<td class="product-price-cart"><span class="amount" id="price_@item.BookId">$@item.Price</span></td>
@@ -113,6 +106,7 @@
 	</div>
 </div>
 @section Scripts {
+	
 	<script src="~/js/main.js"></script>
 	<script src="~/js/header.js"></script>
 	<script src="~/js/discount.js"></script>
