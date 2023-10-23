@@ -53,6 +53,13 @@ namespace BookStoreAPI.Controllers
             return Ok(repository.UpdateOrder(order));
         }
 
+        [HttpPut("{orderId}/Confirm")]
+        public IActionResult ConfirmOrder(int orderId)
+        {
+            repository.ConfirmOrder(orderId);
+            return Ok();
+        }
+
         [HttpGet("export")]
         public async Task<IActionResult> ExportV2(CancellationToken cancellationToken)
         {
