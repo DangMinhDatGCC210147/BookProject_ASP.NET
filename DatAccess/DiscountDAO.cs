@@ -69,7 +69,7 @@ namespace DataAccess
 						return null; // Nếu discountName đã tồn tại, không thêm và trả về null
 					}
 					context.Discounts.Add(discount);
-                    context.SaveChanges();
+					context.SaveChanges();
                     return discount;
                 }
             }
@@ -87,13 +87,13 @@ namespace DataAccess
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    // Kiểm tra xem discountName mới đã tồn tại trong cơ sở dữ liệu chưa (trừ bản ghi hiện tại)
-                    bool isDuplicate = context.Discounts.Any(d => d.DiscountName == discount.DiscountName && d.Id != discount.Id);
-                    if (isDuplicate)
-                    {
-                        return null;
-                    }
-                    context.Entry<Discount>(discount).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+					// Kiểm tra xem discountName mới đã tồn tại trong cơ sở dữ liệu chưa (trừ bản ghi hiện tại)
+					bool isDuplicate = context.Discounts.Any(d => d.DiscountName == discount.DiscountName && d.Id != discount.Id);
+					if (isDuplicate)
+					{
+						return null;
+					}
+					context.Entry<Discount>(discount).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     context.SaveChanges();
                     return discount;
                 }
@@ -103,8 +103,6 @@ namespace DataAccess
                 throw new Exception(ex.Message);
             }
         }
-
-
         public static void DeleteDiscount(Discount discount)
         {
             try
