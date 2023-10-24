@@ -26,7 +26,7 @@ function UpdateQuantity(action_bookId) {
             var unitTotal = (quantity * price).toFixed(2);
             $("#unitTotal_" + arr[1]).text("$" + unitTotal);
 			SubTotal();
-            DisplayCartAndWishlist();
+            AjaxCart();
         },
         error: function (xhr, status, error) {
             console.log(xhr)
