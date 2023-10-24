@@ -82,6 +82,8 @@ $(document).ready(function () {
             starRating.appendChild(starIcon);
         }
     });
+
+    loadReviews(bookId);
 })
 
 function BtnMinus() {
@@ -96,4 +98,69 @@ function BtnPlus() {
     var input = document.getElementById("quantity");
     var currentValue = parseInt(input.value, 10);
     input.value = currentValue + 1;
+}
+function loadReviews(bookId) {
+    const apiUrl = localStorage.getItem("apiUrl");
+    $.ajax({
+        url: apiUrl + '/api/Reviews/book/' + bookId,
+        method: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            // Assuming data is an array of reviews
+            const numberOfReviews = data.length;
+            const totalReviewDiv = $('.description-review-title');
+            totalReviewDiv.empty()
+            totalReviewDiv.append(`<h3 style="font-weight: bold;">Reviews (${numberOfReviews})</h3>`)
+            document.addEventListener("DOMContentLoaded", function () {
+                // Mã JavaScript của bạn ở đây
+            });
+            const reviewContainer = $('#review-container');
+            reviewContainer.empty();
+            console.log(data)
+            data.forEach(function (review) {
+                const reviewDiv = $('<div class="review"></div>');
+
+                const userCommentDiv = $('<div class="user-comment"></div>');
+
+                userCommentDiv.append(`<div class="user-name">${review.user.firstName} ${review.user.lastName}</div>`);
+                userCommentDiv.append(`<div class="star-rating" data-rating="${review.rate}">${getStarIcons(review.rate)}</div>`);
+                userCommentDiv.append(`<p>${review.comment}</p>`);
+
+                const reviewDateDiv = $(`<div class="review-date">${review.date}</div>`);
+
+                reviewDiv.append(userCommentDiv);
+                reviewDiv.append(reviewDateDiv);
+
+                reviewContainer.append(reviewDiv);
+            });
+        },
+        error: function (error) {
+            console.error('Error loading reviews:', error);
+        }
+    });
+}
+function getStarIcons(rate) {
+    const goldColor = 'gold'; // Màu vàng
+    const greyColor = 'grey'; // Màu vàng
+    const fullStar = `<i class="fas fa-star" style="color: ${goldColor};"></i>`;
+    const halfStar = `<i class="fas fa-star-half-alt" style="color: ${goldColor};"></i>`;
+    const emptyStar = `<i class="fas fa-star" style="color: ${greyColor};"></i>`;
+
+    const stars = [];
+    const fullStarsCount = Math.floor(rate);
+    const hasHalfStar = rate % 1 !== 0;
+
+    for (let i = 0; i < fullStarsCount; i++) {
+        stars.push(fullStar);
+    }
+
+    if (hasHalfStar) {
+        stars.push(halfStar);
+    }
+
+    while (stars.length < 5) {
+        stars.push(emptyStar);
+    }
+
+    return stars.join('');
 }
