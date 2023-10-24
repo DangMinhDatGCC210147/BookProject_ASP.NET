@@ -49,10 +49,6 @@ namespace BookStoreAPI.Controllers
                 });
 			}
 
-            if (lstHistory.Count == 0)
-            {
-				return NotFound();
-			}
             return Ok(lstHistory);
         }
     }
