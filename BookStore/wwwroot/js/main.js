@@ -1,12 +1,20 @@
+var firstDiv = document.querySelector(".tab-content div");
+
+if (firstDiv) {
+
+    firstDiv.classList.add("active");
+} else {
+    console.log("No added");
+}
 (function ($) {
     "use strict";
-    
+
     /* jQuery MeanMenu */
     $('#mobile-menu-active').meanmenu({
         meanScreenWidth: "991",
         meanMenuContainer: ".mobile-menu-area .mobile-menu",
     });
-    
+
     /*--
     One Page Nav
     -----------------------------------*/
@@ -15,8 +23,8 @@
         currentClass: 'active',
         scrollOffset: top_offset,
     });
-    
-    
+
+
     /*--- clickable menu active ----*/
     const slinky = $('#menu').slinky()
     /*====== sidebarmenu ======*/
@@ -24,17 +32,17 @@
         var menuTrigger = $('.clickable-mainmenu-active'),
             endTrigger = $('button.clickable-mainmenu-close'),
             container = $('.clickable-mainmenu');
-        menuTrigger.on('click', function(e) {
+        menuTrigger.on('click', function (e) {
             e.preventDefault();
             container.addClass('inside');
         });
-        endTrigger.on('click', function() {
+        endTrigger.on('click', function () {
             container.removeClass('inside');
         });
     };
     sidebarMainmenu();
-    
-    
+
+
     /* slider active */
     $('.slider-active').owlCarousel({
         loop: true,
@@ -56,8 +64,8 @@
             }
         }
     })
-    
-    
+
+
     $('.slider-active-2').owlCarousel({
         loop: true,
         nav: true,
@@ -79,8 +87,8 @@
             }
         }
     })
-    
-    
+
+
     /* arrival active */
     $('.arrival-active').owlCarousel({
         loop: true,
@@ -104,8 +112,8 @@
             }
         }
     })
-    
-    
+
+
     /* brand logo active */
     $('.brand-logo-active').owlCarousel({
         loop: true,
@@ -129,8 +137,8 @@
             }
         }
     })
-    
-    
+
+
     /* brand logo active */
     $('.brand-logo-active2').owlCarousel({
         loop: true,
@@ -151,8 +159,8 @@
             }
         }
     })
-    
-    
+
+
     /* book list active */
     $('.book-list-active').owlCarousel({
         loop: true,
@@ -175,8 +183,8 @@
             }
         }
     })
-    
-    
+
+
     /* testimonials active */
     $('.testimonials-active').owlCarousel({
         loop: true,
@@ -199,8 +207,8 @@
             }
         }
     })
-    
-    
+
+
     /* testimonials active */
     $('.brand-logo-active3').owlCarousel({
         loop: true,
@@ -249,7 +257,7 @@
             }
         }
     })
-    
+
     /* instafeed active */
     $('.instafeed-active').owlCarousel({
         loop: true,
@@ -273,8 +281,8 @@
             }
         }
     })
-    
-    
+
+
     /* testimonials active */
     $('.special-food-active').owlCarousel({
         loop: true,
@@ -298,8 +306,8 @@
             }
         }
     })
-    
-    
+
+
     /* testimonials active */
     $('.smart-watch-product-active').owlCarousel({
         loop: true,
@@ -323,8 +331,8 @@
             }
         }
     })
-    
-    
+
+
     /* testimonials active */
     $('.related-product-active').owlCarousel({
         loop: true,
@@ -348,8 +356,8 @@
             }
         }
     })
-    
-    
+
+
     /* popular-product-active active */
     $('.popular-product-active').owlCarousel({
         loop: true,
@@ -374,8 +382,8 @@
             }
         }
     })
-    
-    
+
+
     /* popular-product-active-2 active */
     $('.popular-product-active-2').owlCarousel({
         loop: true,
@@ -400,8 +408,8 @@
             }
         }
     })
-    
-    
+
+
     /* trandy-product-active active */
     $('.trandy-product-active').owlCarousel({
         loop: true,
@@ -425,8 +433,8 @@
             }
         }
     })
-    
-    
+
+
     /* feadback-silder-active active */
     $('.feadback-silder-active').owlCarousel({
         loop: true,
@@ -450,46 +458,46 @@
             }
         }
     })
-    
-    
+
+
     /*category left menu*/
-    $('.category-heading-2').on('click', function() {
+    $('.category-heading-2').on('click', function () {
         $('.category-menu-list').slideToggle(300);
     });
-    
-    
+
+
     /*--
     menu-toggle
     ------------------------*/
-    $('.menu-toggle').on('click', function() {
+    $('.menu-toggle').on('click', function () {
         if ($('.menu-toggle').hasClass('is-active')) {
             $('.hamburger-menu nav').removeClass('menu-open');
         } else {
             $('.hamburger-menu nav').addClass('menu-open');
         }
     });
-    
-    
+
+
     /*--
-    	Hamburger js
+        Hamburger js
     -----------------------------------*/
-    var forEach = function(t, o, r) {
+    var forEach = function (t, o, r) {
         if ("[object Object]" === Object.prototype.toString.call(t))
             for (var c in t) Object.prototype.hasOwnProperty.call(t, c) && o.call(r, t[c], c, t);
         else
             for (var e = 0, l = t.length; l > e; e++) o.call(r, t[e], e, t)
     };
-    
+
     var hamburgers = document.querySelectorAll(".hamburger");
     if (hamburgers.length > 0) {
-        forEach(hamburgers, function(hamburger) {
-            hamburger.addEventListener("click", function() {
+        forEach(hamburgers, function (hamburger) {
+            hamburger.addEventListener("click", function () {
                 this.classList.toggle("is-active");
             }, false);
         });
     }
-    
-    
+
+
     /* magnificPopup video popup */
     $('.video-popup').magnificPopup({
         type: 'iframe',
@@ -500,8 +508,8 @@
             enabled: true,
         }
     });
-    
-    
+
+
     /*----------------------------
         text-animation
     ------------------------------ */
@@ -514,11 +522,11 @@
             effect: 'flip',
         },
     });
-    
+
     /*--
     Menu Stick
     -----------------------------------*/
-    $(window).on('scroll', function() {
+    $(window).on('scroll', function () {
         var scroll = $(window).scrollTop();
         if (scroll < 1) {
             $('.sticker').removeClass('stick');
@@ -526,7 +534,7 @@
             $('.sticker').addClass('stick');
         }
     });
-    
+
     /* hover 3d init for tilt */
     if ($('.tilter').length > 0) {
         $('.tilter').tilt({
@@ -538,7 +546,7 @@
             transition: true,
         });
     }
-    
+
     /* hover 3d init for tilt */
     if ($('.tilter-2').length > 0) {
         $('.tilter-2').tilt({
@@ -550,7 +558,7 @@
             transition: true,
         });
     }
-    
+
     /* hover 3d init for tilt */
     if ($('.tilter-3').length > 0) {
         $('.tilter-3').tilt({
@@ -562,32 +570,32 @@
             transition: true,
         });
     }
-    
-    
+
+
     /*--- showlogin toggle function ----*/
-    $('#showlogin').on('click', function() {
+    $('#showlogin').on('click', function () {
         $('#checkout-login').slideToggle(900);
     });
-    
+
     /*--- showlogin toggle function ----*/
-    $('#showcoupon').on('click', function() {
+    $('#showcoupon').on('click', function () {
         $('#checkout_coupon').slideToggle(900);
     });
-    
+
     /*--- showlogin toggle function ----*/
-    $('#cbox').on('click', function() {
+    $('#cbox').on('click', function () {
         $('#cbox_info').slideToggle(1000);
     });
-    
+
     /*--- showlogin toggle function ----*/
-    $('#ship-box').on('click', function() {
+    $('#ship-box').on('click', function () {
         $('#ship-box-info').slideToggle(1000);
     });
-    
+
     // Instantiate EasyZoom instances
     var $easyzoom = $('.easyzoom').easyZoom();
-    
-    
+
+
     /*---------------------
     sidebar sticky
     --------------------- */
@@ -596,22 +604,22 @@
         bottomSpacing: 30,
         minWidth: 991,
     });
-    
+
     $('.sidebar-active1').stickySidebar({
         topSpacing: 80,
         bottomSpacing: 30,
         minWidth: 991,
     });
-    
+
     $('.sidebar-active3').stickySidebar({
         topSpacing: 80,
         bottomSpacing: 30,
         minWidth: 991,
     });
-    
+
     /* isotop active */
     // filter items on button click
-    $('.blog-mesonry').imagesLoaded(function() {
+    $('.blog-mesonry').imagesLoaded(function () {
         // init Isotope
         var $grid = $('.grid').isotope({
             itemSelector: '.grid-item',
@@ -622,46 +630,31 @@
             }
         });
     });
-    
-    $('.notification-close button').on('click', function() {
+
+    $('.notification-close button').on('click', function () {
         $('.notification-section').slideUp();
     });
-    
-    $(".qtybutton").on("click", function () {
-        var $button = $(this);
-        var oldValue = $button.parent().find("input").val();
-        if ($button.text() == "+") {
-            var newVal = parseFloat(oldValue) + 1;
-        } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 1;
-            }
-        }
-        $button.parent().find("input").val(newVal);
-    });
-    
+
+
     /*---------------------
     price slider
     --------------------- */
     var sliderrange = $('#slider-range');
     var amountprice = $('#amount');
-    $(function() {
+    $(function () {
         sliderrange.slider({
             range: true,
             min: 20,
             max: 100,
             values: [0, 100],
-            slide: function(event, ui) {
+            slide: function (event, ui) {
                 amountprice.val("$" + ui.values[0] + " - $" + ui.values[1]);
             }
         });
         amountprice.val("$" + sliderrange.slider("values", 0) +
             " - $" + sliderrange.slider("values", 1));
     });
-    
+
     /*--------------------------
         09. ScrollUp
     ---------------------------- */
@@ -671,33 +664,38 @@
         scrollSpeed: 900,
         animation: 'fade'
     });
-    
-    
-    
+
+
+
     /*---------------------
     countdown
   --------------------- */
-    $('[data-countdown]').each(function() {
-		var $this = $(this), finalDate = $(this).data('countdown');
-		$this.countdown(finalDate, function(event) {
-		$this.html(event.strftime('<span class="cdown day">%-D <p>Days</p></span> <span class="cdown hour">%-H <p>Hour</p></span> <span class="cdown minutes">%M <p>Min</p></span class="cdown second"> <span>%S <p>Sec</p></span>'));
-		});
+    $('[data-countdown]').each(function () {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function (event) {
+            $this.html(event.strftime('<span class="cdown day">%-D <p>Days</p></span> <span class="cdown hour">%-H <p>Hour</p></span> <span class="cdown minutes">%M <p>Min</p></span class="cdown second"> <span>%S <p>Sec</p></span>'));
+        });
     });
-    
+
     /*------ Wow Active ----*/
     new WOW().init();
-    
+
     /*--
-	Header Search Toggle
+    Header Search Toggle
     -----------------------------------*/
     var searchToggle = $('.search-toggle');
-    searchToggle.on('click', function(){
-        if($(this).hasClass('open')){
-           $(this).removeClass('open');
-           $(this).siblings('.handicraft-content').removeClass('open');
-        }else{
-           $(this).addClass('open');
-           $(this).siblings('.handicraft-content').addClass('open');
+    searchToggle.on('click', function () {
+        if ($(this).hasClass('open')) {
+            $(this).removeClass('open');
+            $(this).siblings('.handicraft-content').removeClass('open');
+        } else {
+            $(this).addClass('open');
+            $(this).siblings('.handicraft-content').addClass('open');
         }
     })
 })(jQuery);
+
+if (document.getElementById("header_nav")) {
+    var header = document.getElementById("header_nav");
+    header.classList.add("header-nav");
+}

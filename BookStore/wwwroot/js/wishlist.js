@@ -13,7 +13,7 @@ $(window).on("load", function () {
                     <tr id="row_${item.bookId}">
                         <td class="product-remove"><a onclick="DeleteWishlist(${item.bookId})"><i class="pe-7s-close"></i></a></td>
                         <td class="product-thumbnail">
-                            <a href="/Home/Detail/${item.bookId}"><img src="/img/product/book/${item.image}" alt=""></a>
+                            <a href="/Home/Detail/${item.bookId}"><img src="${api}/${item.image}" alt=""></a>
                         </td>
                         <td class="product-name_${response.bookId}"><a href="/Home/Detail/${item.bookId}">${item.title}</a></td>
                         <td class="product-price-cart"><span class="amount">$${item.sellingPrice}</span></td>

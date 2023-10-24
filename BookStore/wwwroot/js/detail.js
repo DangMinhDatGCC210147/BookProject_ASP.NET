@@ -74,17 +74,31 @@ $(document).ready(function () {
             const starIcon = document.createElement('i');
             starIcon.className = 'fas fa-star';
 
+            // Thêm class 'rated' cho các sao đã được đánh giá (màu vàng)
             if (i <= rating) {
                 starIcon.classList.add('rated');
-                starIcon.style.color = 'gold';
+                starIcon.style.color = 'gold'; // Đặt màu vàng
             }
             starRating.appendChild(starIcon);
         }
     });
+
     loadReviews(bookId);
-});
+})
 
+function BtnMinus() {
+    var input = document.getElementById("quantity");
+    var currentValue = parseInt(input.value, 10);
+    if (currentValue > 1) {
+        input.value = currentValue - 1;
+    }
+}
 
+function BtnPlus() {
+    var input = document.getElementById("quantity");
+    var currentValue = parseInt(input.value, 10);
+    input.value = currentValue + 1;
+}
 function loadReviews(bookId) {
     const apiUrl = localStorage.getItem("apiUrl");
     $.ajax({
@@ -125,8 +139,6 @@ function loadReviews(bookId) {
         }
     });
 }
-
-
 function getStarIcons(rate) {
     const goldColor = 'gold'; // Màu vàng
     const greyColor = 'grey'; // Màu vàng

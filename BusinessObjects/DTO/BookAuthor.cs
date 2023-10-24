@@ -13,7 +13,6 @@ namespace BusinessObjects.DTO
 		public string BookImage { get; set; }
 		public string AuthorName { get; set; }
 		public double ReviewRate { get; set; }
-		public decimal TotalSold { get; set; }
 		public bool IsFavourite { get; set; }
 	}
 
@@ -22,5 +21,7 @@ namespace BusinessObjects.DTO
 		public int AuthorId { get; set; }
 		public string AuthorName { get; set; }
 		public List<BookAuthor> BookAuthors { get; set; }
+		public decimal TotalSold { get; set; }
+
 	}
 }

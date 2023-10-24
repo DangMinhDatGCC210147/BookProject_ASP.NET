@@ -63,7 +63,7 @@ namespace DataAccess
 							SellingPrice = b.SellingPrice,
 							Quantity = b.Quantity,
 							Rate = review != null ? averageReviewRates.ContainsKey(b.Id) ? averageReviewRates[b.Id] : 0 : 0,
-							IsFavorite = favorite.UserId == userId ? true : false
+							IsFavorite = favorite.UserId == userId
 						}
 					).ToListAsync();
 
@@ -263,7 +263,6 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-
 		public static List<BookList> GetFilterByGenre(int id)
 		{
 			try
@@ -291,7 +290,6 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-
 		public static List<BookList> GetFilterByPublisher(int id)
 		{
 			try
@@ -346,7 +344,6 @@ namespace DataAccess
 				throw new Exception(ex.Message);
 			}
 		}
-
 		public static List<BookList> GetFilterByAuthor(int id)
 		{
 			try
@@ -370,41 +367,166 @@ namespace DataAccess
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
-
-		public static BookDetail GetBookDetail(int bookId)
+		public static async Task<BookDetail> GetBookDetail(int bookId)
 		{
 			try
 			{
 				using (var context = new ApplicationDBContext())
 				{
-					var bookDetail = context.Books
-						.Where(b => b.Id == bookId)
-						.Select(b => new BookDetail
+					var averageReviewRates = await (
+						from book in context.Books
+						join review in context.Reviews on book.Id equals review.BookId into reviews
+						from review in reviews.DefaultIfEmpty()
+						group review by book.Id into bookGroup
+						select new
+						{
+							BookId = bookGroup.Key,
+							AverageRate = bookGroup.Average(r => r != null ? r.Rate : 0)
+						}
+					).ToDictionaryAsync(r => r.BookId, r => r.AverageRate);
+
+					var bookDetail = await (
+						from b in context.Books
+						where b.Id == bookId
+						select new BookDetail // Sử dụng lớp BookDetail thay vì BookList
 						{
 							Id = b.Id,
 							Title = b.Title,
-							Description = b.Description,
 							Image = b.Image,
-							Quantity = b.Quantity,
 							SellingPrice = b.SellingPrice,
+							Quantity = b.Quantity,
+							Rate = averageReviewRates.ContainsKey(b.Id) ? averageReviewRates[b.Id] : 0,
+							IsFavorite = false,
 							ISBN = b.ISBN,
 							PageCount = b.PageCount,
 							PublicationYear = b.PublicationYear,
 							Genre = b.Genre.Name,
+							GenreId = b.Genre.Id,
 							Publisher = b.Publisher.Name,
 							Language = b.Language.Name,
 							Author = b.Author.Name
-						})
-						.FirstOrDefault();
+						}
+					).FirstOrDefaultAsync();
+
+					return bookDetail;
+				}
+
+
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
+		}
+		public static async Task<BookDetail> GetBookDetailWithFavoutite(int bookId, string userId)
+		{
+			try
+			{
+				using (var context = new ApplicationDBContext())
+				{
+					var averageReviewRates = await (
+						from book in context.Books
+						join review in context.Reviews on book.Id equals review.BookId into reviews
+						from review in reviews.DefaultIfEmpty()
+						group review by book.Id into bookGroup
+						select new
+						{
+							BookId = bookGroup.Key,
+							AverageRate = bookGroup.Average(r => r != null ? r.Rate : 0)
+						}
+					).ToDictionaryAsync(r => r.BookId, r => r.AverageRate);
+
+					var bookDetail = await (
+						from b in context.Books
+						join f in context.Favourites on b.Id equals f.BookId into favourites
+						from favourite in favourites.DefaultIfEmpty()
+						where b.Id == bookId
+						select new BookDetail
+						{
+							Id = b.Id,
+							Title = b.Title,
+							Image = b.Image,
+							SellingPrice = b.SellingPrice,
+							Quantity = b.Quantity,
+							Rate = averageReviewRates.ContainsKey(b.Id) ? averageReviewRates[b.Id] : 0,
+							IsFavorite = favourite.UserId == userId,
+							ISBN = b.ISBN,
+							PageCount = b.PageCount,
+							PublicationYear = b.PublicationYear,
+							Genre = b.Genre.Name,
+							GenreId = b.Genre.Id,
+							Publisher = b.Publisher.Name,
+							Language = b.Language.Name,
+							Author = b.Author.Name
+						}
+					).FirstOrDefaultAsync();
+
 					return bookDetail;
 				}
 			}
 			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
-
-		public static List<Book> GetRelatedProduct(int id)
+		public static async Task<List<BookList>> RelatedBookDetail(int genreId, string userId)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				using (var context = new ApplicationDBContext())
+				{
+					var averageReviewRates = await (
+						from book in context.Books
+						join review in context.Reviews on book.Id equals review.BookId into reviews
+						from review in reviews.DefaultIfEmpty()
+						group review by book.Id into bookGroup
+						select new
+						{
+							BookId = bookGroup.Key,
+							AverageRate = bookGroup.Average(r => r != null ? r.Rate : 0)
+						}
+					).ToDictionaryAsync(r => r.BookId, r => r.AverageRate);
+
+					List<BookList> query = await (
+						from b in context.Books
+						join r in context.Reviews on b.Id equals r.BookId into reviews
+						from review in reviews.DefaultIfEmpty()
+						join f in context.Favourites on b.Id equals f.BookId into favorites
+						from favorite in favorites.DefaultIfEmpty()
+						where b.Genre.Id == genreId
+						select new BookList
+						{
+							Id = b.Id,
+							Title = b.Title,
+							Image = b.Image,
+							SellingPrice = b.SellingPrice,
+							Quantity = b.Quantity,
+							Rate = review != null ? averageReviewRates.ContainsKey(b.Id) ? averageReviewRates[b.Id] : 0 : 0,
+							IsFavorite = favorite.UserId == userId ? true : false
+						}
+					).ToListAsync();
+
+					List<BookList> books = query
+					.GroupBy(book => book.Id)
+					.Select(group =>
+					{
+						var book = group.First(); // Lấy một cuốn sách từ mỗi nhóm
+						return new BookList
+						{
+							Id = book.Id,
+							Title = book.Title,
+							Image = book.Image,
+							SellingPrice = book.SellingPrice,
+							Quantity = book.Quantity,
+							Rate = group.Average(b => b.Rate), // Tính trung bình của tất cả cuốn sách trong nhóm
+							IsFavorite = group.Max(b => b.IsFavorite) == true ? true : false // Kiểm tra xem có ít nhất một cuốn sách trong nhóm được đánh dấu là yêu thích
+						};
+					})
+					.Take(4)
+					.ToList();
+
+					return books;
+				}
+
+
+			}
+			catch (Exception ex) { throw new Exception(ex.Message); }
 		}
+
+
 	}
 }

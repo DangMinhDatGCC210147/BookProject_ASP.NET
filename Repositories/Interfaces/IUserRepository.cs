@@ -14,5 +14,7 @@ namespace Repositories.Interfaces
         void DeleteUserById(AppUser user);
         AppUser UpdateUser(AppUser user);
         List<AppUser> GetUsers();
-    }
+        List<Order> GetOrders(string user);
+        List<OrderDetail> GetOrderDetail(int order, string user);
+	}
 }

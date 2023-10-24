@@ -117,7 +117,10 @@
     24. Modal style
     
 -----------------------------------------------------------------------------------*/
-
+*{
+    text-decoration: none !important;
+    
+}
 
 /* 2. index page */
 /* 2.1 Header sidebar */
@@ -460,7 +463,16 @@ label{
     margin-bottom: 20px;
     padding-bottom: 20px;
 }
+.single-product-wishlist {
+    border-bottom: 1px solid #f6f6f6;
+    display: flex;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
 .single-product-cart .cart-img a img{
+    max-width: 85px;
+}
+.single-product-wishlist .cart-img a img{
     max-width: 85px;
 }
 .single-product-cart:last-child {
@@ -9570,7 +9582,7 @@ input.cart-plus-minus-box.book-detail{
     justify-content: center;
     align-items: center;
 }
-.cart-plus-minus.book-detail{
+.cart-plus-minus.detail-book {
     border: 1px solid #dcdcdc;
     overflow: hidden;
     padding: 0px 0 4px 4px;
@@ -9579,6 +9591,7 @@ input.cart-plus-minus-box.book-detail{
     justify-content: center;
     align-items: center;
 }
+
 .quickview-plus-minus {
     display: flex;
     justify-content: flex-start;

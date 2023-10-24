@@ -1,9 +1,14 @@
 ﻿
 document.addEventListener("DOMContentLoaded", () => {
     const apiUrl = localStorage.getItem("apiUrl")
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Chuyển số tháng thành chuỗi và đảm bảo rằng nó có hai chữ số
+    const day = today.getDate().toString().padStart(2, '0'); // Chuyển số ngày thành chuỗi và đảm bảo rằng nó có hai chữ số
 
+    const formattedDate = `${year}-${month}-${day}`;
     $.ajax({
-        url: apiUrl + "/api/Statistics?currentDate=" + new Date().toLocaleDateString(),
+        url: apiUrl + "/api/Statistics?currentDate=" + formattedDate,
         method: "GET",
         success: function (data) {
             LineChart(data);

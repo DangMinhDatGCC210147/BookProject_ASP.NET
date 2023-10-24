@@ -9,6 +9,5 @@ namespace BusinessObjects.DTO
     public class CheckOut
     {
         public List<BookCart> ListBooks { get; set; }
-        public AppUser user { get; set; }
 	}
 }

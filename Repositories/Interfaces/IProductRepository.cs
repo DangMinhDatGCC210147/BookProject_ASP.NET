@@ -1,4 +1,5 @@
 ﻿using BusinessObjects;
+using BusinessObjects.DTO;
 using Microsoft.AspNetCore.Http;
 
 namespace Repositories.Interfaces
@@ -7,11 +8,12 @@ namespace Repositories.Interfaces
     {
         Book SaveProduct(Book p);
         Book GetProductById(int id);
-		List<Book> GetProductByName(string titleToSearch);
-
+		Task<List<BookList>> GetProductByName(string titleToSearch, string userId);
 		void DeleteProductById(Book p);
         Book UpdateProduct(Book p);
         List<Book> GetProducts();
         List<Book> TopBestSeling();
-    }
+        bool UpdateQuantity(int bookId, int soldQuantity);
+
+	}
 }

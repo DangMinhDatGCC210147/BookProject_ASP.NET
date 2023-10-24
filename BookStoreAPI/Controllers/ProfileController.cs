@@ -2,6 +2,7 @@
 using Repositories.Interfaces;
 using Repositories;
 using BusinessObjects;
+using BusinessObjects.DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,6 +32,28 @@ namespace BookStoreAPI.Controllers
                 return NotFound();
             existingUser.PasswordHash = user.PasswordHash;
             return Ok(repository.UpdateUser(existingUser));
+        }
+
+        [HttpGet("History/{userId}")]
+        public ActionResult<IEnumerable<OrderedHistory>> History(string userId)
+        {
+            List<Order> lstOrder = repository.GetOrders(userId);
+            List<OrderedHistory> lstHistory = new List<OrderedHistory>();
+            foreach (Order order in lstOrder)
+            {
+				List<OrderDetail> orderDetail = repository.GetOrderDetail(order.Id, userId);
+                lstHistory.Add(new OrderedHistory()
+                {
+                    Order = order,
+                    OrderDetails = orderDetail
+                });
+			}
+
+            if (lstHistory.Count == 0)
+            {
+				return NotFound();
+			}
+            return Ok(lstHistory);
         }
     }
 }

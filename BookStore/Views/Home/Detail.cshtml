@@ -1,9 +1,43 @@
-﻿@model BusinessObjects.DTO.BookDetail
+﻿@using Microsoft.AspNetCore.Html;
+@model BusinessObjects.DTO.BookDetail
 @{
 	ViewData["Title"] = "Product Detail";
 }
 
+@functions {
+	// Helper function to generate star rating HTML
+	public IHtmlContent GenerateStarRating(double rating, int maxRating)
+	{
+		var starRatingHtml = new HtmlContentBuilder();
+		for (int i = 0; i < maxRating; i++)
+		{
+			if (rating >= 1)
+			{
+				starRatingHtml.AppendHtml("<i class=\"bi bi-star-fill\"></i>");
+				rating--;
+			}
+			else if (rating > 0)
+			{
+				starRatingHtml.AppendHtml("<i class=\"bi bi-star-half\"></i>");
+				rating = 0;
+			}
+			else
+			{
+				starRatingHtml.AppendHtml("<i class=\"bi bi-star\"></i>");
+			}
+		}
+		return starRatingHtml;
+	}
 
+	public IHtmlContent GenerateFavoriteIcon(bool isFavorite, int BookId)
+	{
+		var favoriteHtml = (isFavorite == true)
+			? $"<i class=\"bi bi-suit-heart-fill\" id=\"wishlist_book_{BookId}\" onclick=\"DeleteWishlist({BookId})\"></i>"
+			: $"<i class=\"bi bi-suit-heart\" id=\"wishlist_book_{BookId}\" onclick=\"AddToWishlist({BookId})\"></i>";
+		return new HtmlString(favoriteHtml);
+	}
+
+}
 <div class="product-details ptb-100 pb-90">
 	<div class="container">
 		<div class="row">
@@ -13,97 +47,66 @@
 						<div class="product-details-large tab-content">
 							<div class="tab-pane active show fade" id="pro-details1" role="tabpanel">
 								<div class="easyzoom easyzoom--overlay ">
-									@* <a href="@ViewBag.api/@Model.Image">
-										<img src="@ViewBag.api/@Model.Image" alt="">
-									</a> *@
-									<img src="@ViewBag.api/@Model.Image" alt="">
-								</div>
-							</div>
-							@* <div class="tab-pane fade" id="pro-details2" role="tabpanel">
-								<div class="easyzoom easyzoom--overlay">
-									<a href="@ViewBag.api/@Model.Image">
-										<img src="@ViewBag.api/@Model.Image" alt="">
+									<a href="@ViewBag.api/@ViewBag.Image">
+										<img src="@ViewBag.api/@ViewBag.BookDetail.Image" alt="">
 									</a>
 								</div>
 							</div>
-							<div class="tab-pane fade" id="pro-details3" role="tabpanel">
-								<div class="easyzoom easyzoom--overlay">
-									<a href="@ViewBag.api/@Model.Image">
-										<img src="@ViewBag.api/@Model.Image" alt="">
-									</a>
-								</div>
-							</div>
-							<div class="tab-pane fade" id="pro-details4" role="tabpanel">
-								<div class="easyzoom easyzoom--overlay">
-									<a href="@ViewBag.api/@Model.Image">
-										<img src="@ViewBag.api/@Model.Image" alt="">
-									</a>
-								</div>
-							</div> *@
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-12 col-lg-5 col-12">
 				<div class="product-details-content">
-					<h3>@Model.Title</h3>
-					<div class="rating-number">
-						<div class="quick-view-rating">
-							<i class="pe-7s-star red-star"></i>
-							<i class="pe-7s-star red-star"></i>
-							<i class="pe-7s-star"></i>
-							<i class="pe-7s-star"></i>
-							<i class="pe-7s-star"></i>
-						</div>
-						<div class="quick-view-number">
-							<span>2 Ratting (S)</span>
-						</div>
-					</div>
+					<h3>@ViewBag.BookDetail.Title</h3>
+					<div class="rating-number"> @GenerateStarRating(@ViewBag.BookDetail.Rate, 5)</div>
 					<div class="details-price">
-						<span>$@Model.SellingPrice</span>
+						<span>$@ViewBag.BookDetail.SellingPrice</span>
 					</div>
-					<p>@Model.Description</p>
+					<p>@ViewBag.BookDetail.Description</p>
 					<div class="quickview-plus-minus">
-						<div class="cart-plus-minus book-detail">
-							<div class="inc qtybutton">+</div>
-							<input type="text" value="01" name="qtybutton" id="quantity" class="cart-plus-minus-box book-detail">
-							<div class="inc qtybutton">-</div>
+						<div class="cart-plus-minus detail-book">
+							<div class="inc qtybutton" onclick="BtnMinus()">-</div>
+							<input type="text" value="1" name="qtybutton" id="quantity" class="cart-plus-minus-box">
+							<div class="inc qtybutton" onclick="BtnPlus()">+</div>
 						</div>
 						<div class="quickview-btn-cart">
-							<a class="btn-hover-black" onclick="AddToCart(@Model.Id)">add to cart</a>
+							<a class="btn-hover-black" onclick="AddToCart(@ViewBag.BookDetail.Id)">add to cart</a>
 						</div>
 						<div class="quickview-btn-wishlist">
-							<a class="btn-hover" onclick="AddToWishlist(@Model.Id)"><i class="pe-7s-like"></i></a>
+							<a cite="btn-hover">
+								@GenerateFavoriteIcon(ViewBag.BookDetail.IsFavorite, @ViewBag.BookDetail.Id)
+							</a>
 						</div>
 					</div>
 					<div class="product-details-cati-tag mt-35">
 						<ul>
 							<li class="categories-title">Genre :</li>
-							<li><a href="#">@Model.Genre</a></li>
+							<li><a href="#">@ViewBag.BookDetail.Genre</a></li>
 						</ul>
 						<ul>
 							<li class="categories-title">Publisher :</li>
-							<li><a href="#">@Model.Publisher</a></li>
+							<li><a href="#">@ViewBag.BookDetail.Publisher</a></li>
 						</ul>
 						<ul>
 							<li class="categories-title">Publisher Year :</li>
-							<li><a href="#">@Model.PublicationYear</a></li>
+							<li><a href="#">@ViewBag.BookDetail.PublicationYear</a></li>
 						</ul>
 						<ul>
 							<li class="categories-title">Author :</li>
-							<li><a href="#">@Model.Author</a></li>
+							<li><a href="#">@ViewBag.BookDetail.Author</a></li>
 						</ul>
 						<ul>
 							<li class="categories-title">ISBN :</li>
-							<li><a href="#">@Model.ISBN</a></li>
+							<li><a href="#">@ViewBag.BookDetail.ISBN</a></li>
 						</ul>
 						<ul>
 							<li class="categories-title">Page Count :</li>
-							<li><a href="#">@Model.PageCount</a></li>
+							<li><a href="#">@ViewBag.BookDetail.PageCount</a></li>
 						</ul>
 						<ul>
 							<li class="categories-title">Language :</li>
-							<li><a href="#">@Model.Language</a></li>
+							<li><a href="#">@ViewBag.BookDetail.Language</a></li>
 						</ul>
 
 					</div>
@@ -118,7 +121,7 @@
 
 		<form method="POST" id="reviewForm">
 			<h2>Leave your comments here</h2>
-			<input type="hidden" id="bookId" value="@Model.Id">
+			<input type="hidden" id="bookId" value="@ViewBag.BookDetail.Id">
 			<div class="mb-3">
 				<label for="comment" class="form-label">Comment</label>
 				<textarea class="form-control" id="comment" rows="3"></textarea>
@@ -172,7 +175,7 @@
 	<div class="container">
 		<div class="product-description-review text-center">
 			<div class="description-review-title nav" role="tablist">
-                <h3>Reviews (0)</h3>
+				<h3>Reviews (0)</h3>
 			</div>
 			<div class="review-section tab-content" id="book-review">
 				<div class="review-display" role="tabpanel">
@@ -194,164 +197,41 @@
 		</div>
 		<div class="product-style">
 			<div class="related-product-active owl-carousel related-product">
-				<div class="product-wrapper">
-					<div class="product-img">
-						<a href="#">
-							<img src="assets/img/product/fashion-colorful/1.jpg" alt="">
-						</a>
-						<span>hot</span>
-						<div class="product-action">
-							<a class="animate-left" title="Wishlist" href="#">
-								<i class="pe-7s-like"></i>
-							</a>
-							<a class="animate-top" title="Add To Cart" href="#">
-								<i class="pe-7s-cart"></i>
-							</a>
-							<a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-								<i class="pe-7s-look"></i>
-							</a>
+				@foreach (var book in @ViewBag.RelatedBook)
+				{
+					<div class="product-wrapper">
+						<div class="product-img">
+							<div class="product-img list-img-width">
+								<a asp-controller="Home" asp-action="Detail" asp-route-id="@book.Id">
+									<img src="@ViewBag.api/@book.Image" alt="">
+								</a>
+								<span>hot</span>
+							</div>
+							<span>hot</span>
+							<div class="product-action">
+								<a class="animate-left" title="Wishlist">
+									@GenerateFavoriteIcon(@book.IsFavorite, @book.Id)
+								</a>
+								<a class="animate-top" title="Add To Cart" onclick="AddToCart(@book.Id)">
+									<i class="pe-7s-cart"></i>
+								</a>
+								<a asp-controller="Home" asp-action="Detail" asp-route-id="@book.Id" class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal">
+									<i class="pe-7s-look" onclick="ViewDetail(@book.Id)"></i>
+								</a>
+							</div>
+						</div>
+
+						<div class="product-content">
+							<div class="product-rating-2">
+								@GenerateStarRating(book.Rate, 5)
+							</div>
+							<h4><a href="#">@book.Title</a></h4>
+							<span>$@book.SellingPrice</span>
 						</div>
 					</div>
-					<div class="product-content">
-						<h4><a href="#">Arifo Stylas Dress</a></h4>
-						<span>$115.00</span>
-					</div>
-				</div>
-				<div class="product-wrapper">
-					<div class="product-img">
-						<a href="#">
-							<img src="assets/img/product/fashion-colorful/2.jpg" alt="">
-						</a>
-						<div class="product-action">
-							<a class="animate-left" title="Wishlist" href="#">
-								<i class="pe-7s-like"></i>
-							</a>
-							<a class="animate-top" title="Add To Cart" href="#">
-								<i class="pe-7s-cart"></i>
-							</a>
-							<a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-								<i class="pe-7s-look"></i>
-							</a>
-						</div>
-					</div>
-					<div class="product-content">
-						<h4><a href="#">Arifo Stylas Dress</a></h4>
-						<span>$115.00</span>
-					</div>
-				</div>
-				<div class="product-wrapper">
-					<div class="product-img">
-						<a href="#">
-							<img src="assets/img/product/fashion-colorful/3.jpg" alt="">
-						</a>
-						<span>hot</span>
-						<div class="product-action">
-							<a class="animate-left" title="Wishlist" href="#">
-								<i class="pe-7s-like"></i>
-							</a>
-							<a class="animate-top" title="Add To Cart" href="#">
-								<i class="pe-7s-cart"></i>
-							</a>
-							<a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-								<i class="pe-7s-look"></i>
-							</a>
-						</div>
-					</div>
-					<div class="product-content">
-						<h4><a href="#">Arifo Stylas Dress</a></h4>
-						<span>$115.00</span>
-					</div>
-				</div>
-				<div class="product-wrapper">
-					<div class="product-img">
-						<a href="#">
-							<img src="assets/img/product/fashion-colorful/4.jpg" alt="">
-						</a>
-						<div class="product-action">
-							<a class="animate-left" title="Wishlist" href="#">
-								<i class="pe-7s-like"></i>
-							</a>
-							<a class="animate-top" title="Add To Cart" href="#">
-								<i class="pe-7s-cart"></i>
-							</a>
-							<a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-								<i class="pe-7s-look"></i>
-							</a>
-						</div>
-					</div>
-					<div class="product-content">
-						<h4><a href="#">Arifo Stylas Dress</a></h4>
-						<span>$115.00</span>
-					</div>
-				</div>
-				<div class="product-wrapper">
-					<div class="product-img">
-						<a href="#">
-							<img src="assets/img/product/fashion-colorful/5.jpg" alt="">
-						</a>
-						<span>hot</span>
-						<div class="product-action">
-							<a class="animate-left" title="Wishlist" href="#">
-								<i class="pe-7s-like"></i>
-							</a>
-							<a class="animate-top" title="Add To Cart" href="#">
-								<i class="pe-7s-cart"></i>
-							</a>
-							<a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-								<i class="pe-7s-look"></i>
-							</a>
-						</div>
-					</div>
-					<div class="product-content">
-						<h4><a href="#">Arifo Stylas Dress</a></h4>
-						<span>$115.00</span>
-					</div>
-				</div>
-				<div class="product-wrapper">
-					<div class="product-img">
-						<a href="#">
-							<img src="assets/img/product/fashion-colorful/1.jpg" alt="">
-						</a>
-						<div class="product-action">
-							<a class="animate-left" title="Wishlist" href="#">
-								<i class="pe-7s-like"></i>
-							</a>
-							<a class="animate-top" title="Add To Cart" href="#">
-								<i class="pe-7s-cart"></i>
-							</a>
-							<a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-								<i class="pe-7s-look"></i>
-							</a>
-						</div>
-					</div>
-					<div class="product-content">
-						<h4><a href="#">Arifo Stylas Dress</a></h4>
-						<span>$115.00</span>
-					</div>
-				</div>
-				<div class="product-wrapper">
-					<div class="product-img">
-						<a href="#">
-							<img src="assets/img/product/fashion-colorful/2.jpg" alt="">
-						</a>
-						<span>hot</span>
-						<div class="product-action">
-							<a class="animate-left" title="Wishlist" href="#">
-								<i class="pe-7s-like"></i>
-							</a>
-							<a class="animate-top" title="Add To Cart" onclick="AddToCart(@Model.Id)">
-								<i class="pe-7s-cart"></i>
-							</a>
-							<a class="animate-right" title="Quick View" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
-								<i class="pe-7s-look"></i>
-							</a>
-						</div>
-					</div>
-					<div class="product-content">
-						<h4><a href="#">Arifo Stylas Dress</a></h4>
-						<span>$115.00</span>
-					</div>
-				</div>
+				}
+
+
 			</div>
 		</div>
 	</div>
@@ -365,5 +245,5 @@
 	<script src="~/js/main.js"></script>
 	<script src="~/js/header.js"></script>
 	<script src="~/js/cart.js"></script>
-	<script src="~/js/BookDetail.js"></script>
+	<script src="~/js/detail.js"></script>
 }

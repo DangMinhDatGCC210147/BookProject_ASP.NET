@@ -11,5 +11,7 @@ namespace Repositories.Interfaces
 		CartDetail UpdateCartDetail(CartDetail cartDetail);
         CartDetail FindBookInCart(int id, string userId);
         List<BookCart> GetCartDetails(string userId);
-    }
+        decimal GetTotal(string userId);
+
+	}
 }

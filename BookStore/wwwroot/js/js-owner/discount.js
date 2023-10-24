@@ -25,31 +25,37 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Your work has been edited',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    console.log(response)
-                    const discount = document.getElementById('row_' + discountId);
-                    discount.innerHTML = `
-                        <th scope="row">${response.id}</th>
-                        <td>${response.discountName}</td>
-                        <td>${response.percentage}</td>
-                        <td>${formatDate(response.startDate)}</td>
-                        <td>${formatDate(response.endDate)}</td>
-                        <td>
-                            <div class="flex-column align-items-center">
-                                <button type="button" class="btn btn-danger" onclick="deleteDiscount(${discountId})">Delete</button>
-                                <button type="submit" class="btn btn-warning edit-discount" data-toggle="modal" data-target="#discountModal" onclick="handleEditButton(${response.id})">Edit</button>
-                            </div>
-                        </td>
-                    `;
+                    if (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Your work has been edited',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        console.log(response)
+                        const discount = document.getElementById('row_' + discountId);
+                        discount.innerHTML = `
+                            <th scope="row">${response.id}</th>
+                            <td>${response.discountName}</td>
+                            <td>${response.percentage}</td>
+                            <td>${formatDate(response.startDate)}</td>
+                            <td>${formatDate(response.endDate)}</td>
+                            <td>
+                                <div class="flex-column align-items-center">
+                                    <button type="button" class="btn btn-danger" onclick="deleteDiscount(${discountId})">Delete</button>
+                                    <button type="submit" class="btn btn-warning edit-discount" data-toggle="modal" data-target="#discountModal" onclick="handleEditButton(${response.id})">Edit</button>
+                                </div>
+                            </td>
+                        `;
 
-                    // Close the modal
-                    var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
-                    closeButton.click();
+                        // Close the modal
+                        var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
+                        closeButton.click();
+                    } else {
+                        // Xử lý khi có lỗi (response là null hoặc có giá trị lỗi)
+                        $('#discountName').css('border-color', 'red'); // Đặt màu đỏ cho border của input
+                        $('#errorContainer').css('display', 'block').text('Discount name already exists'); // Hiển thị thông báo lỗi màu đỏ
+                    }
                 },
                 error: function (xhr, status, error) {
                     // Handle errors (if any)
@@ -66,48 +72,55 @@ $(document).ready(function () {
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (response) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Your work has been saved',
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
+                    if (response) {
+                        // Xử lý chỉ khi có phản hồi và không có lỗi
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Your work has been saved',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
 
-                    const id = response.id;
-                    const name = response.discountName;
-                    const percentage = response.percentage;
-                    const startDate = response.startDate;
-                    const endDate = response.endDate;
+                        const id = response.id;
+                        const name = response.discountName;
+                        const percentage = response.percentage;
+                        const startDate = response.startDate;
+                        const endDate = response.endDate;
 
-                    const newDiscount = document.createElement('tr');
-                    newDiscount.setAttribute('id', 'row_' + id);
-                    newDiscount.innerHTML = `
-                        <th scope="row">${id}</th>
-                        <td>${name}</td>
-                        <td>${percentage}</td>
-                        <td>${formatDate(startDate)}</td>
-                        <td>${formatDate(endDate)}</td>
-                        <td>
-                            <div class="flex-column align-items-center">
-                                <button type="button" class="btn btn-danger" onclick="deleteDiscount(${id})">Delete</button>
-                                <button type="submit" class="btn btn-warning edit-discount" data-toggle="modal" data-target="#discountModal" onclick="handleEditButton(${id})">Edit</button>
-                            </div>
-                        </td>
-                    `;
+                        const newDiscount = document.createElement('tr');
+                        newDiscount.setAttribute('id', 'row_' + id);
+                        newDiscount.innerHTML = `
+                            <th scope="row">${id}</th>
+                            <td>${name}</td>
+                            <td>${percentage}</td>
+                            <td>${formatDate(startDate)}</td>
+                            <td>${formatDate(endDate)}</td>
+                            <td>
+                                <div class="flex-column align-items-center">
+                                    <button type="button" class="btn btn-danger" onclick="deleteDiscount(${id})">Delete</button>
+                                    <button type="submit" class="btn btn-warning edit-discount" data-toggle="modal" data-target="#discountModal" onclick="handleEditButton(${id})">Edit</button>
+                                </div>
+                            </td>
+                        `;
 
-                    const table = document.getElementById('discountList');
-                    const firstRow = table.getElementsByTagName('tr')[0]; // Get the first row of the table
-                    table.insertBefore(newDiscount, firstRow);
+                        const table = document.getElementById('discountList');
+                        const firstRow = table.getElementsByTagName('tr')[0]; // Get the first row of the table
+                        table.insertBefore(newDiscount, firstRow);
 
-                    // Clear input in Popup 
-                    $('#discountName').val('');
-                    $('#percentage').val('');
-                    $('#startDate').val('');
-                    $('#endDate').val('');
+                        // Clear input in Popup 
+                        $('#discountName').val('');
+                        $('#percentage').val('');
+                        $('#startDate').val('');
+                        $('#endDate').val('');
 
-                    // Close the modal
-                    var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
-                    closeButton.click();
+                        // Close the modal
+                        var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
+                        closeButton.click();
+                    } else {
+                        // Xử lý khi có lỗi (response là null hoặc có giá trị lỗi)
+                        $('#discountName').css('border-color', 'red'); // Đặt màu đỏ cho border của input
+                        $('#errorContainer').css('display', 'block').text('Discount name already exists'); // Hiển thị thông báo lỗi màu đỏ
+                    }
                 },
                 error: function (xhr, status, error) {
                     // Handle errors (if any)
@@ -143,20 +156,25 @@ $(document).ready(function () {
             $('#noResultsMessage').hide();
         }
     });
+
+    //Clear input click cancel button
+    $('#cancelButton').click(function () {
+        // Xóa nội dung trong các trường nhập liệu
+        $('#discountName').val('');
+        $('#percentage').val('');
+        $('#startDate').val('');
+        $('#endDate').val('');
+
+        // Đóng modal (nếu bạn sử dụng modal)
+        var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
+        closeButton.click();
+    });
 });
 function formatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2)
-        month = '0' + month;
-    if (day.length < 2)
-        day = '0' + day;
-
-    return [year, month, day].join('-');
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(date).toLocaleDateString(undefined, options);
 }
+
 // === Delete ===
 function deleteDiscount(id) {
     // Hiển thị một hộp thoại xác nhận trước khi xóa
@@ -220,3 +238,16 @@ function handleEditButton(id) {
         }
     });
 }
+
+//Clear input click cancel button
+$('#cancelButton').click(function () {
+    // Xóa nội dung trong các trường nhập liệu
+    $('#discountName').val('');
+    $('#percentage').val('');
+    $('#startDate').val('');
+    $('#endDate').val('');
+
+    // Đóng modal (nếu bạn sử dụng modal)
+    var closeButton = document.querySelector('.modal-footer button[data-dismiss="modal"]');
+    closeButton.click();
+});

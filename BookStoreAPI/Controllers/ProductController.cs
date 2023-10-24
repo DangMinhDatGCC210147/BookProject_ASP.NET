@@ -15,31 +15,41 @@ namespace BookStoreAPI.Controllers
 	[ApiController]
 	public class ProductController : ControllerBase
 	{
-        private IProductRepository repository = new ProductRepository();
+		private readonly IProductRepository repository = new ProductRepository();
 		private readonly IWebHostEnvironment environment;
 		public ProductController(IWebHostEnvironment environment)
 		{
 			this.environment = environment;
 		}
 
+		[HttpPut("Quantity/Update")]
+		public IActionResult GetBookById([FromBody] BookQuantity bookQuantity)
+		{
+			bool book = repository.UpdateQuantity(bookQuantity.BookId, bookQuantity.SoldQuantity);
+			if (book)
+				return Ok();
+			return NotFound();
+
+		}
+
 		[HttpGet]
 		public ActionResult<IEnumerable<Book>> GetProducts() => repository.GetProducts();
 
-        [HttpGet("{id}")]
-        public ActionResult<Book> GetBookById(int id)
-        {
-            var book = repository.GetProductById(id);
-            if (book == null)
-                return NotFound();
+		[HttpGet("{id}")]
+		public ActionResult<BookList> GetBookById(int id)
+		{
+			var book = repository.GetProductById(id);
+			if (book == null)	
+				return NotFound();
 
 			return Ok(book);
 		}
 
-        [HttpGet("Search/{name}")]
-        public ActionResult<IEnumerable<Book>> Search(string name)
-        {
-            return Ok(repository.GetProductByName(name));
-        }
+		[HttpGet("Search")]
+		public async Task<ActionResult<List<BookList>>> Search(string name, string userId)
+		{
+			return Ok(await repository.GetProductByName(name, userId));
+		}
 
 		[HttpPost]
 		public async Task<IActionResult> PostProducts([FromForm] Book book)
@@ -47,6 +57,25 @@ namespace BookStoreAPI.Controllers
 			APIResponse responses = new APIResponse();
 			try
 			{
+				// Lưu sản phẩm vào cơ sở dữ liệu (đảm bảo rằng bạn đã có phương thức để thực hiện việc này)
+				//var newProduct = new Book
+				//{
+				//    Title = book.Title,
+				//    Description = book.Description,
+				//    Quantity = book.Quantity,
+				//    OriginalPrice = book.OriginalPrice,
+				//    SellingPrice = book.SellingPrice,
+				//    ISBN = book.ISBN,
+				//    PageCount = book.PageCount,
+				//    IsSale = book.IsSale,
+				//    PublicationYear = book.PublicationYear,
+				//    PublisherId = book.PublisherId,
+				//    LanguageId = book.LanguageId,
+				//    AuthorId = book.AuthorId,
+				//    GenreId = book.GenreId,
+				//    Image = null,
+				//};
+
 				// Gọi phương thức để thêm sản phẩm mới vào cơ sở dữ liệu
 				repository.SaveProduct(book);
 
@@ -70,6 +99,7 @@ namespace BookStoreAPI.Controllers
 				}
 				book.Image = "upload\\" + book.Title + "\\" + book.Title + ".png";
 
+
 				return Ok(repository.UpdateProduct(book));
 			}
 			catch (Exception ex)
@@ -79,74 +109,27 @@ namespace BookStoreAPI.Controllers
 			return Ok();
 		}
 
+
 		[HttpDelete("{id}")]
 		public IActionResult DeleteProducts(int id)
 		{
 			var product = repository.GetProductById(id);
 			if (product == null)
-			{
 				return NotFound();
-			}
-
-			// Kiểm tra xem có sẵn ảnh trong thư mục hay không
-			string filePath = GetFilepath(product.Title);
-			string imagePath = filePath + "\\" + product.Title + ".png";
-
-			if (System.IO.File.Exists(imagePath))
-			{
-				System.IO.File.Delete(imagePath);
-			}
-
 			repository.DeleteProductById(product);
 			return Ok();
 		}
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromForm] Book book)
-        {
-            var checkProduct = repository.GetProductById(id);
-            if (checkProduct == null)
-            {
-                return NotFound();
-            }
-
-            book.Id = id;
-
-            // Kiểm tra xem người dùng đã tải lên ảnh mới hay chưa
-            if (book.ImageFile != null)
-            {
-                // Lấy đường dẫn đến thư mục lưu ảnh mới
-                string filePath = GetFilepath(book.Title);
-
-                if (!System.IO.Directory.Exists(filePath))
-                {
-                    System.IO.Directory.CreateDirectory(filePath);
-                }
-
-                // Kiểm tra xem có sẵn ảnh cũ không
-                string existingImagePath = filePath + "\\" + book.Title + ".png";
-                if (System.IO.File.Exists(existingImagePath))
-                {
-                    System.IO.File.Delete(existingImagePath);
-                }
-
-                using (FileStream stream = System.IO.File.Create(existingImagePath))
-                {
-                    await book.ImageFile.CopyToAsync(stream);
-                }
-
-                book.Image = "upload\\" + book.Title + "\\" + book.Title + ".png";
-            }
-            else
-            {
-                // Nếu không có ảnh mới, giữ nguyên đường dẫn ảnh cũ
-                book.Image = checkProduct.Image;
-            }
-
-            return Ok(repository.UpdateProduct(book));
-        }
-
-        [NonAction]
+		[HttpPut("{id}")]
+		public IActionResult UpdateProducts([FromForm] int id, Book book)
+		{
+			var checkProduct = repository.GetProductById(id);
+			if (checkProduct == null)
+				return NotFound();
+			book.Id = id;
+			return Ok(repository.UpdateProduct(book));
+		}
+		[NonAction]
 		private string GetFilepath(string title)
 		{
 			return this.environment.WebRootPath + "\\upload\\" + title;
@@ -187,31 +170,31 @@ namespace BookStoreAPI.Controllers
 			catch (Exception ex)
 			{
 				// Xử lý lỗi ở đây nếu cần
-				return StatusCode(500, "Đã xảy ra lỗi khi truy cập danh sách Titles.");
+				return StatusCode(500, "Error when accessing the titles.");
 			}
 		}
-        [HttpGet("export")]
-        public async Task<IActionResult> ExportV2(CancellationToken cancellationToken)
-        {
-            // query data from database  
-            await Task.Yield();
 
-            var list = repository.GetProducts().ToList();
-            var stream = new MemoryStream();
+		[HttpGet("export")]
+		public async Task<IActionResult> ExportV2(CancellationToken cancellationToken)
+		{
+			// query data from database  
+			await Task.Yield();
 
-            using (var package = new ExcelPackage(stream))
-            {
-                var workSheet = package.Workbook.Worksheets.Add("Publisher");
-                workSheet.Cells.LoadFromCollection(list, true);
-                package.Save();
-            }
-            stream.Position = 0;
-            string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
+			var list = repository.GetProducts().ToList();
+			var stream = new MemoryStream();
 
-            //return File(stream, "application/octet-stream", excelName);  
-            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
-        }
+			using (var package = new ExcelPackage(stream))
+			{
+				var workSheet = package.Workbook.Worksheets.Add("Product");
+				workSheet.Cells.LoadFromCollection(list, true);
+				package.Save();
+			}
+			stream.Position = 0;
+			string excelName = $"UserList-{DateTime.Now.ToString("yyyyMMddHHmmssfff")}.xlsx";
 
+			//return File(stream, "application/octet-stream", excelName);  
+			return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);
+		}
 
-    }
+	}
 }
