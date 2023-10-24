@@ -20,5 +20,8 @@ namespace BusinessObjects
 		public virtual ICollection<Favourite>? Favourites { get; set; }
 		public virtual ICollection<Review>? Reviews { get; set; }
 		public virtual ICollection<Order>? Orders { get; set; }
-	}
+    }
+
+	
+
 }

@@ -11,7 +11,7 @@ namespace Repositories.Interfaces
 		Task<List<BookList>> GetProductByName(string titleToSearch, string userId);
 		void DeleteProductById(Book p);
         Book UpdateProduct(Book p);
-        List<Book> GetProducts();
+        List<BookView> GetProducts();
         List<Book> TopBestSeling();
         bool UpdateQuantity(int bookId, int soldQuantity);
 

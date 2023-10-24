@@ -58,7 +58,7 @@ namespace BookStoreWebClient.Controllers
 			if (userPayment.DiscountId != 0)
 			{
 				order.DiscountId = userPayment.DiscountId;
-			}            
+			}           
 
 			// save into Order
 			string order_data = JsonSerializer.Serialize(order);
