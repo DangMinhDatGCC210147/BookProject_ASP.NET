@@ -15,7 +15,7 @@ namespace Repositories
 		public Book GetProductById(int id) => BookDAO.FindProductById(id);
 		public Task<List<BookList>> GetProductByName(string titleToSearch, string userId) => BookDAO.FindProductByName(titleToSearch, userId);
 
-		public List<Book> GetProducts() => BookDAO.GetProducts();
+		public List<BookView> GetProducts() => BookDAO.GetProducts();
 
 		public Book SaveProduct(Book product) => BookDAO.SaveProduct(product);
 

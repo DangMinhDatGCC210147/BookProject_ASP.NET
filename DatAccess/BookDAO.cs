@@ -11,17 +11,34 @@ namespace DataAccess
 {
 	public class BookDAO
 	{
-        public static List<Book> GetProducts()
+        public static List<BookView> GetProducts()
         {
             try
             {
                 using (var context = new ApplicationDBContext())
                 {
-                    var books = context.Books
+                    List<BookView> books = context.Books
                         .Include(book => book.Publisher)
                         .Include(book => book.Author)
                         .Include(book => book.Genre)
                         .Include(book => book.Language)
+						.Select(book => new BookView
+						{
+							Id = book.Id,
+							Title = book.Title,
+							Description = book.Description,	
+							Image = book.Image,
+							Quantity = book.Quantity,
+							OriginalPrice = book.OriginalPrice,
+							SellingPrice	= book.SellingPrice,
+							ISBN = book.ISBN,
+							PageCount = book.PageCount,
+							PublicationYear = book.PublicationYear,
+							PublisherName = book.Publisher.Name,
+							LanguageName = book.Language.Name,
+							AuthorName = book.Author.Name,
+							GenreName = book.Genre.Name
+						})
                         .ToList();
 
                     return books;

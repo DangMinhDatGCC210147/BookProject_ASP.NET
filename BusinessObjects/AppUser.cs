@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BusinessObjects
 {
-	public class AppUser :  IdentityUser
+	public class AppUser : IdentityUser
 	{
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
@@ -20,5 +20,8 @@ namespace BusinessObjects
 		public virtual ICollection<Favourite>? Favourites { get; set; }
 		public virtual ICollection<Review>? Reviews { get; set; }
 		public virtual ICollection<Order>? Orders { get; set; }
-	}
+    }
+
+	
+
 }

@@ -292,21 +292,16 @@ namespace BookStore.Controllers
 		public async Task<IActionResult> CheckOut([FromForm] TotalCart totalCart)
 		{
 			ViewData["api"] = _configuration["BaseAddress"];
-			AppUser user = await _userManager.GetUserAsync(User);
+			ViewData["totalCart"] = totalCart;
 
-			HttpResponseMessage httpUserResponse = await client.GetAsync(UserApiUrl + "/" + user.Id);
-			string user_data = await httpUserResponse.Content.ReadAsStringAsync();
-			var user_options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-			AppUser users = JsonSerializer.Deserialize<AppUser>(user_data, user_options);
-			ViewData["user"] = users;
+			AppUser user = await _userManager.GetUserAsync(User);	//Get current User
+			ViewData["user"] = user;
 
 			HttpResponseMessage httpCartResponse = await client.GetAsync(CartDetailApiUrl + "/" + user.Id);
 			string cart_data = await httpCartResponse.Content.ReadAsStringAsync();
 			var cart_options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 			List<BookCart> books = JsonSerializer.Deserialize<List<BookCart>>(cart_data, cart_options);
 			ViewData["books"] = books;
-
-			ViewData["totalCart"] = totalCart;
 
 			return View();
 		}

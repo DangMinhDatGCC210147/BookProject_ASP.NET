@@ -1,7 +1,9 @@
 ﻿using BusinessObjects;
 using BusinessObjects.Data.Enum;
+using BusinessObjects.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -34,15 +36,24 @@ namespace BookStoreWebClient.Areas.Owner.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            ViewData["api"] = _configuration["BaseAddress"];
-            HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
+			try
+			{
 
-            string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
+				ViewData["api"] = _configuration["BaseAddress"];
+				HttpResponseMessage httpResponse = await client.GetAsync(ProductApiUrl); //gửi một yêu cầu HTTP GET đến một đường dẫn API được truyền vào qua biến api. 
 
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //phân tích cú pháp JSON không phân biệt hoa/thường của tên thuộc tính
+				string data = await httpResponse.Content.ReadAsStringAsync();//phản hồi của API, thường là chuỗi JSON
 
-            List<Book> books = JsonSerializer.Deserialize<List<Book>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
-			return View(books);
+				var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true }; //phân tích cú pháp JSON không phân biệt hoa/thường của tên thuộc tính
+
+				List<BookView> books = JsonSerializer.Deserialize<List<BookView>>(data, options);//truy vấn tất cả các bản ghi trong bảng Clubs trong csdl và lưu kq vào biến club dưới dạng một danh sách (List).
+				return View(books);
+			}
+			catch (IOException ex)
+			{
+                Console.Write(ex.Message);
+                return View();
+			}
         }
 
         [HttpPost]

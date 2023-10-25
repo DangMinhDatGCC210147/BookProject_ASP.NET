@@ -13,15 +13,8 @@
 
 	<!-- Thêm CSS của SweetAlert -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-	<!-- Thêm JavaScript của SweetAlert -->
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 	<!-- Thư viện CSS Bootstrap -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-	<!-- Thư viện JavaScript Bootstrap (bao gồm jQuery và Popper.js) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 	<!-- all css here -->
 	<link rel="stylesheet" href="~/css/bootstrap.min.css">
@@ -34,16 +27,9 @@
 	<link rel="stylesheet" href="~/css/bundle.css">
 	<link rel="stylesheet" href="~/css/style.css">
 	<link rel="stylesheet" href="~/css/responsive.css">
-	<script src="~/js/vendor/modernizr-3.11.7.min.js"></script>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 	<!-- Thư viện CSS Bootstrap -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-	<!-- Thư viện JavaScript Bootstrap (bao gồm jQuery và Popper.js) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 	@RenderSection("stylesheets", required: false)
 	<style>
 		button{
@@ -56,124 +42,123 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> SignInManager
 @inject UserManager<AppUser> UserManager
-
-<!-- header start -->
-<header class="res-header-sm">
-	<div class="header-top-wrapper theme-bg-2">
-		<div class="container">
-			<div class="header-top d-flex align-items-center">
-				<div class="header-info">
-					<span>Contact us - (84+) 123456789  or  <a href="#">FPTBookStore@fpt.com.vn</a></span>
+<body>
+	<!-- header start -->
+	<header class="res-header-sm">
+		<div class="header-top-wrapper theme-bg-2">
+			<div class="container">
+				<div class="header-top d-flex align-items-center">
+					<div class="header-info">
+						<span>Contact us - (84+) 123456789  or  <a href="#">FPTBookStore@fpt.com.vn</a></span>
+					</div>
+					<partial name="_LoginPartial.cshtml" />
 				</div>
-				<partial name="_LoginPartial.cshtml" />
 			</div>
 		</div>
-	</div>
-	<div class="header-bottom clearfix" id="header_nav">
-		<div class="container">
-			<div class="header-bottom-wrapper">
-				<div class="logo-2 ptb-30">
-					<a asp-controller="Home" asp-action="Index">
-						<img src="~/img/logo/logo.png" style="max-width: 130px" alt="">
-					</a>
-				</div>
-				<div class="menu-style-2 book-menu menu-hover">
-					<nav>
-						<ul>
-							<li><a asp-controller="Home" asp-action="Index">home</a></li>
-							<li><a asp-controller="Home" asp-action="Shop">shop</a></li>
-							<li><a asp-controller="Home" asp-action="AboutUs">about us</a></li>
-							<li><a asp-controller="Home" asp-action="Contact">contact</a></li>
-							<li><a asp-controller="Home" asp-action="Help">help</a></li>
-						</ul>
-					</nav>
-				</div>
-				<!-- Wishlist ICON -->
-				@if (SignInManager.IsSignedIn(User))
-				{
-					<div class="header-cart-2" id="cart"></div>
-					<div class="header-cart-2" id="wishlist"></div>
-					@* PROFILE ICON *@
-					<div class="header-cart-2">
-						<a class="icon-cart" asp-controller="Home" asp-action="Profile">
-							<i class="ti-user"></i>
+		<div class="header-bottom clearfix" id="header_nav">
+			<div class="container">
+				<div class="header-bottom-wrapper">
+					<div class="logo-2 ptb-30">
+						<a asp-controller="Home" asp-action="Index">
+							<img src="~/img/logo/logo.png" style="max-width: 130px" alt="">
 						</a>
 					</div>
-				}
-				@* ICON Search *@
-				<div class="header-cart-2">
-					<a class="icon-cart" href="#">
-						<i class="ti-search"></i>
-					</a>
-					<ul class="cart-dropdown">
-						<li>
-							<form class="search-form" asp-controller="Home" asp-action="Search" method="get">
-								<input class="search-input" type="text" name="title" placeholder="Search book">
-								<button class="search-button" type="submit"><i class="ti-search"></i></button>
-							</form>
-							<style>
-								.cart-dropdown {
-									padding-bottom: 20px !important;
-								}
-
-								.search-form {
-									display: flex;
-									margin: 0 !important;
-									padding: 0 !important;
-									list-style: none;
-								}
-
-								.search-input {
-									flex: 1;
-									padding: 10px;
-									border: 1px solid #ccc;
-									border-radius: 4px;
-									outline: none;
-									transition: border-color 0.3s;
-								}
-
-									.search-input:focus {
-										border-color: #F44344;
+					<div class="menu-style-2 book-menu menu-hover">
+						<nav>
+							<ul>
+								<li><a asp-controller="Home" asp-action="Index">home</a></li>
+								<li><a asp-controller="Home" asp-action="Shop">shop</a></li>
+								<li><a asp-controller="Home" asp-action="AboutUs">about us</a></li>
+								<li><a asp-controller="Home" asp-action="Contact">contact</a></li>
+								<li><a asp-controller="Home" asp-action="Help">help</a></li>
+							</ul>
+						</nav>
+					</div>
+					<!-- Wishlist ICON -->
+					@if (SignInManager.IsSignedIn(User))
+					{
+						<div class="header-cart-2" id="cart"></div>
+						<div class="header-cart-2" id="wishlist"></div>
+						@* PROFILE ICON *@
+						<div class="header-cart-2">
+							<a class="icon-cart" asp-controller="Home" asp-action="Profile">
+								<i class="ti-user"></i>
+							</a>
+						</div>
+					}
+					@* ICON Search *@
+					<div class="header-cart-2">
+						<a class="icon-cart" href="#">
+							<i class="ti-search"></i>
+						</a>
+						<ul class="cart-dropdown">
+							<li>
+								<form class="search-form" asp-controller="Home" asp-action="Search" method="get">
+									<input class="search-input" type="text" name="title" placeholder="Search book">
+									<button class="search-button" type="submit"><i class="ti-search"></i></button>
+								</form>
+								<style>
+									.cart-dropdown {
+										padding-bottom: 20px !important;
 									}
 
-								.search-button {
-									background-color: #F44344;
-									color: #fff;
-									border: none;
-									border-radius: 4px;
-									padding: 10px 15px;
-									margin-left: 10px;
-									cursor: pointer;
-								}
+									.search-form {
+										display: flex;
+										margin: 0 !important;
+										padding: 0 !important;
+										list-style: none;
+									}
 
-								.bi-suit-heart-fill {
-									color: red;
-								}
-							</style>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="mobile-menu-area d-md-block col-md-12 col-lg-12 col-12 d-lg-none d-xl-none">
-				<div class="mobile-menu">
-					<nav id="mobile-menu-active">
-						<ul class="menu-overflow">
-							<li><a asp-controller="Home" asp-action="Index">home</a></li>
-							<li><a asp-controller="Home" asp-action="Shop">shop</a></li>
-							<li><a asp-controller="Home" asp-action="AboutUs">about us</a></li>
-							<li><a asp-controller="Home" asp-action="Contact">contact</a></li>
-							<li><a asp-controller="Home" asp-action="Help">help me</a></li>
+									.search-input {
+										flex: 1;
+										padding: 10px;
+										border: 1px solid #ccc;
+										border-radius: 4px;
+										outline: none;
+										transition: border-color 0.3s;
+									}
+
+										.search-input:focus {
+											border-color: #F44344;
+										}
+
+									.search-button {
+										background-color: #F44344;
+										color: #fff;
+										border: none;
+										border-radius: 4px;
+										padding: 10px 15px;
+										margin-left: 10px;
+										cursor: pointer;
+									}
+
+									.bi-suit-heart-fill {
+										color: red;
+									}
+								</style>
+							</li>
 						</ul>
-					</nav>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="mobile-menu-area d-md-block col-md-12 col-lg-12 col-12 d-lg-none d-xl-none">
+					<div class="mobile-menu">
+						<nav id="mobile-menu-active">
+							<ul class="menu-overflow">
+								<li><a asp-controller="Home" asp-action="Index">home</a></li>
+								<li><a asp-controller="Home" asp-action="Shop">shop</a></li>
+								<li><a asp-controller="Home" asp-action="AboutUs">about us</a></li>
+								<li><a asp-controller="Home" asp-action="Contact">contact</a></li>
+								<li><a asp-controller="Home" asp-action="Help">help me</a></li>
+							</ul>
+						</nav>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	</div>
-</header>
-<body>
+		</div>
+	</header>
 	@RenderBody()
 	<footer class="footer-area">
 		<div class="footer-top-area gray-bg-5 pt-105 pb-65">
@@ -281,6 +266,13 @@
 		</div>
 	</footer>
 	<!-- all js here -->
+	<!-- Thư viện JavaScript Bootstrap (bao gồm jQuery và Popper.js) -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!-- Thêm JavaScript của SweetAlert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+	<script src="~/js/vendor/modernizr-3.11.7.min.js"></script>
 	<script src="~/js/vendor/jquery-1.12.4.min.js"></script>
 	<script src="~/js/popper.js"></script>
 	<script src="~/js/bootstrap.min.js"></script>

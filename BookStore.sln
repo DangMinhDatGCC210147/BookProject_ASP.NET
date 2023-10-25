@@ -12,11 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{3602BAE9-FF29-4B1A-A73D-6387B258D818}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjects", "BusinessObjects\BusinessObjects.csproj", "{3602BAE9-FF29-4B1A-A73D-6387B258D818}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DatAccess\DataAccess.csproj", "{C9252C22-A972-4FF4-8710-4B20B01A6616}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DatAccess\DataAccess.csproj", "{C9252C22-A972-4FF4-8710-4B20B01A6616}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repositories", "Repositories\Repositories.csproj", "{DBBD49A9-770F-4DED-8EC3-80BE38E09796}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{DBBD49A9-770F-4DED-8EC3-80BE38E09796}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

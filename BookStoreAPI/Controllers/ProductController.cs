@@ -33,7 +33,7 @@ namespace BookStoreAPI.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult<IEnumerable<Book>> GetProducts() => repository.GetProducts();
+		public ActionResult<IEnumerable<BookView>> GetProducts() => repository.GetProducts();
 
 		[HttpGet("{id}")]
 		public ActionResult<BookList> GetBookById(int id)
@@ -102,8 +102,8 @@ namespace BookStoreAPI.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateProduct(int id, [FromForm] Book book)
-		{
+		public IActionResult UpdateProducts( int id,[FromForm] Book book)
+     	{
 			var checkProduct = repository.GetProductById(id);
 			if (checkProduct == null)
 				return NotFound();

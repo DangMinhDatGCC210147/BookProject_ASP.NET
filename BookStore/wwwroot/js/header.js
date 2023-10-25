@@ -25,27 +25,7 @@ function AjaxCart() {
             var row = "";
 
             //Cart empty
-            if (response.length == 0) {
-                row +=
-                    `
-                    <div id="cartEmpty">
-						<img src="/img/cart/empty.gif"
-							 style=" display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
-						<p class="text-center"
-						   style=" display: block; margin-left: auto; margin-right: auto; ">
-							Product Cart is empty
-						</p>
-					</div>
-					<div class="pt-5">
-						<h6 class="mb-3 back">
-							<a href="/Home/Shop" class="text-body fw-semibold">
-								<i class="fas fa-long-arrow-alt-left ms-5 me-2"></i>
-								Go to shop
-							</a>
-						</h6>
-					</div>
-                `
-            } else {
+            if (response.length != 0) {
                 response.forEach(item => {
                     row += `
                             <li class="single-product-cart" id="row_quickcart_${item.bookId}">
@@ -78,10 +58,7 @@ function AjaxCart() {
                     <a class="cart-btn btn-hover" href="/Home/Cart">view cart</a>
                 </li>
             `
-            }
-
-
-
+            } 
             document.getElementById("row_cart_dropdown").innerHTML = row;
             UpdateCartNumber();
         },

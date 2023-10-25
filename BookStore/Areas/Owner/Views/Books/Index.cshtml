@@ -1,4 +1,4 @@
-﻿@model List<BusinessObjects.Book>
+﻿@model List<BusinessObjects.DTO.BookView>
 @{
     ViewData["Title"] = "Book";
 }
@@ -166,7 +166,7 @@
                                             <img src="@ViewBag.api/@book.Image" title=""/>
                                         </td>
                                         <td>@book.Title</td>
-                                        <td>@book.Genre?.Name</td>
+                                        <td>@book.GenreName</td>
                                         <td>@book.Description</td>
                                         <td>@book.OriginalPrice</td>
                                         <td>@book.SellingPrice</td>
@@ -174,12 +174,12 @@
                                         <td>@book.Quantity</td>
                                         <td>@book.ISBN</td>
                                         <td>@book.PublicationYear</td>
-                                        <td>@book.Publisher?.Name</td>
-                                        <td>@book.Author?.Name</td>
+                                        <td>@book.PublisherName</td>
+                                        <td>@book.AuthorName</td>
                                         <td>@book.PageCount</td>
-                                        <td>@book.Language?.Name</td>
+                                        <td>@book.LanguageName</td>
                                         <td>
-                                            <div class="flex-column align-items-center">
+                                            <div class="d-flex align-items-center">
                                                 <button type="button" class="btn btn-danger" onclick="deleteBook(@book.Id)">Delete</button>
                                                 <button type="submit" class="btn btn-warning edit-book" data-toggle="modal" data-target="#bookModal" onclick="handleEditButton(@book.Id)">Edit</button>
                                             </div>

@@ -1,10 +1,18 @@
 ﻿using BookStore.Models;
+using BookStoreAPI.Controllers;
 using BusinessObjects;
+using BusinessObjects.Data.Enum;
 using BusinessObjects.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Numeric;
 using Repositories;
 using Repositories.Interfaces;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace BookStoreAPI.Controllers
 {
@@ -13,7 +21,6 @@ namespace BookStoreAPI.Controllers
     public class CartDetailDetailController : ControllerBase
     {
         private ICartDetailRepository cartRepository = new CartDetailRepository();
-        private ICartDetailRepository userRepository = new CartDetailRepository();
 
         [HttpGet("{userId}")]
 		public IActionResult GetCartDetails(string userId)
@@ -83,8 +90,8 @@ namespace BookStoreAPI.Controllers
 				}
 				return Ok();
 			}
-
-            return NotFound();
+			return NotFound();
 		}
 	}
 }
+
