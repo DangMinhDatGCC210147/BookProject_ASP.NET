@@ -57,26 +57,7 @@ namespace BookStoreAPI.Controllers
 			APIResponse responses = new APIResponse();
 			try
 			{
-				// Lưu sản phẩm vào cơ sở dữ liệu (đảm bảo rằng bạn đã có phương thức để thực hiện việc này)
-				//var newProduct = new Book
-				//{
-				//    Title = book.Title,
-				//    Description = book.Description,
-				//    Quantity = book.Quantity,
-				//    OriginalPrice = book.OriginalPrice,
-				//    SellingPrice = book.SellingPrice,
-				//    ISBN = book.ISBN,
-				//    PageCount = book.PageCount,
-				//    IsSale = book.IsSale,
-				//    PublicationYear = book.PublicationYear,
-				//    PublisherId = book.PublisherId,
-				//    LanguageId = book.LanguageId,
-				//    AuthorId = book.AuthorId,
-				//    GenreId = book.GenreId,
-				//    Image = null,
-				//};
-
-				// Gọi phương thức để thêm sản phẩm mới vào cơ sở dữ liệu
+				
 				repository.SaveProduct(book);
 
 				// Tiếp theo, lưu hình ảnh theo cách bạn đã thực hiện trong phương thức gốc của bạn
@@ -122,11 +103,41 @@ namespace BookStoreAPI.Controllers
 
 		[HttpPut("{id}")]
 		public IActionResult UpdateProducts( int id,[FromForm] Book book)
-		{
+     	{
 			var checkProduct = repository.GetProductById(id);
 			if (checkProduct == null)
 				return NotFound();
 			book.Id = id;
+			if (book.ImageFile != null)
+			{
+				// Lấy đường dẫn đến thư mục lưu ảnh mới
+				string filePath = GetFilepath(book.Title);
+
+				if (!System.IO.Directory.Exists(filePath))
+				{
+					System.IO.Directory.CreateDirectory(filePath);
+				}
+
+				// Kiểm tra xem có sẵn ảnh cũ không
+				string existingImagePath = filePath + "\\" + book.Title + ".png";
+				if (System.IO.File.Exists(existingImagePath))
+				{
+					System.IO.File.Delete(existingImagePath);
+				}
+
+				using (FileStream stream = System.IO.File.Create(existingImagePath))
+				{
+					await book.ImageFile.CopyToAsync(stream);
+				}
+
+				book.Image = "upload\\" + book.Title + "\\" + book.Title + ".png";
+			}
+			else
+			{
+				// Nếu không có ảnh mới, giữ nguyên đường dẫn ảnh cũ
+				book.Image = checkProduct.Image;
+			}
+
 			return Ok(repository.UpdateProduct(book));
 		}
 		[NonAction]
