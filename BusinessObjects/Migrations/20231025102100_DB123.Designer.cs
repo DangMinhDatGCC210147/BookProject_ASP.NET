@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BusinessObjects.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20231023210227_DB123")]
+    [Migration("20231025102100_DB123")]
     partial class DB123
     {
         /// <inheritdoc />
@@ -66,50 +66,6 @@ namespace BusinessObjects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Authors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Description for Author 1",
-                            Name = "Author 1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Description for Author 2",
-                            Name = "Author 2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Description for Author 3",
-                            Name = "Author 3"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Description for Author 4",
-                            Name = "Author 4"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Description for Author 5",
-                            Name = "Author 5"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "Description for Author 6",
-                            Name = "Author 6"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Description = "Description for Author 7",
-                            Name = "Author 7"
-                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.Book", b =>
@@ -177,188 +133,6 @@ namespace BusinessObjects.Migrations
                     b.HasIndex("PublisherId");
 
                     b.ToTable("Books");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AuthorId = 1,
-                            Description = "Description for Book 1",
-                            GenreId = 1,
-                            ISBN = "123456789",
-                            Image = "1.jpg",
-                            IsSale = true,
-                            LanguageId = 1,
-                            OriginalPrice = 19.99m,
-                            PageCount = 300,
-                            PublicationYear = 2020,
-                            PublisherId = 1,
-                            Quantity = 18,
-                            SellingPrice = 14.99m,
-                            Title = "Book 1"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AuthorId = 2,
-                            Description = "Description for Book 2",
-                            GenreId = 2,
-                            ISBN = "987654321",
-                            Image = "2.jpg",
-                            IsSale = false,
-                            LanguageId = 2,
-                            OriginalPrice = 24.99m,
-                            PageCount = 400,
-                            PublicationYear = 2019,
-                            PublisherId = 2,
-                            Quantity = 18,
-                            SellingPrice = 19.99m,
-                            Title = "Book 2"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AuthorId = 3,
-                            Description = "Description for Book 3",
-                            GenreId = 1,
-                            ISBN = "987654322",
-                            Image = "3.jpg",
-                            IsSale = true,
-                            LanguageId = 1,
-                            OriginalPrice = 29.99m,
-                            PageCount = 350,
-                            PublicationYear = 2021,
-                            PublisherId = 1,
-                            Quantity = 18,
-                            SellingPrice = 24.99m,
-                            Title = "Book 3"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AuthorId = 1,
-                            Description = "Description for Book 4",
-                            GenreId = 3,
-                            ISBN = "123456790",
-                            Image = "4.jpg",
-                            IsSale = true,
-                            LanguageId = 3,
-                            OriginalPrice = 18.99m,
-                            PageCount = 280,
-                            PublicationYear = 2018,
-                            PublisherId = 3,
-                            Quantity = 0,
-                            SellingPrice = 15.99m,
-                            Title = "Book 4"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AuthorId = 2,
-                            Description = "Description for Book 5",
-                            GenreId = 2,
-                            ISBN = "987654323",
-                            Image = "5.jpg",
-                            IsSale = false,
-                            LanguageId = 2,
-                            OriginalPrice = 34.99m,
-                            PageCount = 450,
-                            PublicationYear = 2022,
-                            PublisherId = 2,
-                            Quantity = 18,
-                            SellingPrice = 29.99m,
-                            Title = "Book 5"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AuthorId = 4,
-                            Description = "Description for Book 6",
-                            GenreId = 1,
-                            ISBN = "123456791",
-                            Image = "6.jpg",
-                            IsSale = false,
-                            LanguageId = 1,
-                            OriginalPrice = 14.99m,
-                            PageCount = 240,
-                            PublicationYear = 2017,
-                            PublisherId = 1,
-                            Quantity = 18,
-                            SellingPrice = 11.99m,
-                            Title = "Book 6"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            AuthorId = 5,
-                            Description = "Description for Book 7",
-                            GenreId = 1,
-                            ISBN = "987654324",
-                            Image = "7.jpg",
-                            IsSale = true,
-                            LanguageId = 3,
-                            OriginalPrice = 22.99m,
-                            PageCount = 320,
-                            PublicationYear = 2019,
-                            PublisherId = 3,
-                            Quantity = 18,
-                            SellingPrice = 18.99m,
-                            Title = "Book 7"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            AuthorId = 2,
-                            Description = "Description for Book 8",
-                            GenreId = 2,
-                            ISBN = "123456792",
-                            Image = "8.jpg",
-                            IsSale = true,
-                            LanguageId = 2,
-                            OriginalPrice = 26.99m,
-                            PageCount = 380,
-                            PublicationYear = 2021,
-                            PublisherId = 2,
-                            Quantity = 18,
-                            SellingPrice = 21.99m,
-                            Title = "Book 8"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            AuthorId = 3,
-                            Description = "Description for Book 9",
-                            GenreId = 1,
-                            ISBN = "987654325",
-                            Image = "9.jpg",
-                            IsSale = false,
-                            LanguageId = 1,
-                            OriginalPrice = 17.99m,
-                            PageCount = 260,
-                            PublicationYear = 2020,
-                            PublisherId = 1,
-                            Quantity = 18,
-                            SellingPrice = 14.99m,
-                            Title = "Book 9"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            AuthorId = 4,
-                            Description = "Description for Book 10",
-                            GenreId = 3,
-                            ISBN = "123456793",
-                            Image = "10.jpg",
-                            IsSale = true,
-                            LanguageId = 3,
-                            OriginalPrice = 31.99m,
-                            PageCount = 420,
-                            PublicationYear = 2022,
-                            PublisherId = 3,
-                            Quantity = 18,
-                            SellingPrice = 26.99m,
-                            Title = "Book 10"
-                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.CartDetail", b =>
@@ -405,32 +179,6 @@ namespace BusinessObjects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Discounts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DiscountName = "Discount 1",
-                            EndDate = new DateTime(2023, 10, 31, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9750),
-                            Percentage = 50,
-                            StartDate = new DateTime(2023, 10, 17, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9745)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DiscountName = "Discount 2",
-                            EndDate = new DateTime(2023, 11, 3, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9751),
-                            Percentage = 60,
-                            StartDate = new DateTime(2023, 10, 21, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9751)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DiscountName = "Discount 3",
-                            EndDate = new DateTime(2023, 10, 29, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9752),
-                            Percentage = 50,
-                            StartDate = new DateTime(2023, 10, 23, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9752)
-                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.Favourite", b =>
@@ -515,88 +263,6 @@ namespace BusinessObjects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Genres");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AddDate = new DateTime(2023, 10, 24, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9706),
-                            ApprovalStatus = 0,
-                            Description = "Description for Fiction",
-                            Name = "Fiction"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AddDate = new DateTime(2023, 10, 24, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9715),
-                            ApprovalStatus = 1,
-                            Description = "Description for Mystery",
-                            Name = "Mystery"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AddDate = new DateTime(2023, 10, 24, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9716),
-                            ApprovalStatus = 2,
-                            Description = "Description for Science Fiction",
-                            Name = "Science Fiction"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AddDate = new DateTime(2023, 10, 24, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9717),
-                            ApprovalStatus = 0,
-                            Description = "Description for Fantasy",
-                            Name = "Fantasy"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AddDate = new DateTime(2023, 10, 24, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9718),
-                            ApprovalStatus = 1,
-                            Description = "Description for Romance",
-                            Name = "Romance"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AddDate = new DateTime(2023, 10, 24, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9718),
-                            ApprovalStatus = 0,
-                            Description = "Description for Horror",
-                            Name = "Horror"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            AddDate = new DateTime(2023, 10, 24, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9720),
-                            ApprovalStatus = 1,
-                            Description = "Description for Adventure",
-                            Name = "Adventure"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            AddDate = new DateTime(2023, 10, 24, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9720),
-                            ApprovalStatus = 2,
-                            Description = "Description for Non-fiction",
-                            Name = "Non-fiction"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            AddDate = new DateTime(2023, 10, 24, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9721),
-                            ApprovalStatus = 0,
-                            Description = "Description for Biography",
-                            Name = "Biography"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            AddDate = new DateTime(2023, 10, 24, 4, 2, 27, 181, DateTimeKind.Local).AddTicks(9721),
-                            ApprovalStatus = 1,
-                            Description = "Description for History",
-                            Name = "History"
-                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.Language", b =>
@@ -614,28 +280,6 @@ namespace BusinessObjects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Languages");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "English"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Spanish"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "French"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Italian"
-                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.Order", b =>
@@ -721,58 +365,6 @@ namespace BusinessObjects.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Publishers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "English"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Spanish"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "French"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "German"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Italian"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Chinese"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Japanese"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "Korean"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "Russian"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "Arabic"
-                        });
                 });
 
             modelBuilder.Entity("BusinessObjects.Review", b =>

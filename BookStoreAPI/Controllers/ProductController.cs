@@ -102,7 +102,7 @@ namespace BookStoreAPI.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult UpdateProducts( int id,[FromForm] Book book)
+		public async Task<IActionResult> UpdateProductsAsync( int id,[FromForm] Book book)
      	{
 			var checkProduct = repository.GetProductById(id);
 			if (checkProduct == null)
