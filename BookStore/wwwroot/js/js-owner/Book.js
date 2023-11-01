@@ -123,7 +123,7 @@ $(document).ready(function () {
         formData.append('genreId', genreDropdown);
         formData.append('isSale', isSale);
 
-        // Kiểm tra xem selectedFile có giá trị hay không
+        // Check the selected viewFile is valid or not
         if (selectedFile) {
             formData.append('imageFile', selectedFile);
         }

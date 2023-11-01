@@ -11,7 +11,7 @@ namespace BookStoreAPI.Controllers
     public class StatisticController : ControllerBase
     {
         private readonly IStatisticRepository repository = new StatisticRepository();
-
+            
         [HttpGet]
         public ActionResult<StatisticView> GetSatistics(DateTime currentDate)
         {

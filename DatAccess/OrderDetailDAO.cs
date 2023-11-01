@@ -1,7 +1,7 @@
 ﻿using BusinessObjects;
 using Microsoft.EntityFrameworkCore;
 
-namespace DatAccess
+namespace DataAccess
 {
     public class OrderDetailDAO
     {

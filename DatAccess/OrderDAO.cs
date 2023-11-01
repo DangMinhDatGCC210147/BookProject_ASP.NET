@@ -1,11 +1,11 @@
 ﻿using BusinessObjects;
 
-namespace DatAccess
+namespace DataAccess
 {
     public class OrderDAO
     {
         public static List<Order> GetOrders()
-        {
+        {   
             var listOrders = new List<Order>();
             try
             {

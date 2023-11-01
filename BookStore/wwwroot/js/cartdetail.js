@@ -36,9 +36,8 @@ function UpdateQuantity(action_bookId) {
     });
 }
 
-SubTotal();
 function SubTotal() {
-	var subtotalElements = document.querySelectorAll(".product-subtotal");
+    var subtotalElements = document.querySelectorAll(".subtotal");
 	var total = 0;
 	for (var i = 0; i < subtotalElements.length; i++) {
 		total += parseFloat(subtotalElements[i].textContent.replace('$', ''));
