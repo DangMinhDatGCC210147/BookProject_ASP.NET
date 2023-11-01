@@ -18,7 +18,7 @@ namespace BookStoreAPI.Controllers
 {
     [Route("api/CartDetails")]
     [ApiController]
-    public class CartDetailDetailController : ControllerBase
+    public class CartDetailController : ControllerBase
     {
         private ICartDetailRepository cartRepository = new CartDetailRepository();
 

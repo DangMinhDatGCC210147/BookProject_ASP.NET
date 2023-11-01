@@ -48,7 +48,7 @@
 							<div class="col-md-6">
 								<div class="checkout-form-list">
 									<label>Phone  <span class="required">*</span></label>
-									<input type="text" asp-for="PhoneNumber" value=" @ViewBag.user.PhoneNumber" />
+									<input type="text" asp-for="PhoneNumber" value="@ViewBag.user.PhoneNumber" />
 								</div>
 							</div>
 						</div>
@@ -97,9 +97,9 @@
 										<td>
 											<span>
 												<div class="d-flex justify-content-center">
-													<div class="text-center">
-														<span class="mr-2 align-items-center">$</span>
-														<input class="amount" readonly value="94.94" type="text" data-val="true" data-val-number="The field Total must be a number." data-val-required="The Total field is required" id="Total" name="Total" style="background: none">
+													<div class="text-center d-flex align-items-center">
+														<span>$</span>
+														<input class="amount" asp-for="Total" readonly value="@ViewBag.totalCart.Total" type="text" data-val="true" data-val-number="The field Total must be a number." data-val-required="The Total field is required" id="Total" name="Total" style="background: none">
 													</div>
 												</div>
 											</span>

@@ -58,7 +58,27 @@ function AjaxCart() {
                     <a class="cart-btn btn-hover" href="/Home/Cart">view cart</a>
                 </li>
             `
-            } 
+            } else {
+                row +=
+                    `
+                    <div id="cartEmpty">
+						<img src="/img/cart/empty.gif"
+							 style=" display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+						<p class="text-center"
+						   style=" display: block; margin-left: auto; margin-right: auto; ">
+							Cart is empty
+						</p>
+					</div>
+					<div class="pt-5">
+						<h6 class="mb-3 back">
+							<a href="/Home/Shop" class="text-body fw-semibold">
+								<i class="fas fa-long-arrow-alt-left ms-5 me-2"></i>
+								Go to shop
+							</a>
+						</h6>
+					</div>
+                `
+            }
             document.getElementById("row_cart_dropdown").innerHTML = row;
             UpdateCartNumber();
         },
@@ -317,7 +337,7 @@ function DeleteWishlist(bookId) {
                     var icon = document.getElementById("wishlist_book_" + bookId);
                     var icon2 = document.getElementById("wishlist_book_2_" + bookId);
 
-                    if ((icon.className == "bi bi-suit-heart-fill") || (icon2.className == "bi bi-suit-heart-fill")) {
+                    if ((icon2.className == "bi bi-suit-heart-fill") || (icon.className == "bi bi-suit-heart-fill")) {
                         // Remove old icon
                         icon.classList.remove("bi-suit-heart-fill");
                         // Add new icon

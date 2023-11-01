@@ -60,16 +60,14 @@ function handleAddButton() {
     $("#genreDescription").val("");
 }
 $(document).ready(function () {
-    // Xử lý nút "Reject"
     $('.reject-button').on('click', function () {
-        const genreId = $(this).data('id'); // Lấy id của genre từ thuộc tính data
-        updateApprovalStatus(genreId, 2); // Gửi yêu cầu Reject
+        const genreId = $(this).data('id'); 
+        updateApprovalStatus(genreId, 2); 
     });
 
-    // Xử lý nút "Accept"
     $('.accept-button').on('click', function () {
-        const genreId = $(this).data('id'); // Lấy id của genre từ thuộc tính data
-        updateApprovalStatus(genreId, 1); // Gửi yêu cầu Accept
+        const genreId = $(this).data('id');
+        updateApprovalStatus(genreId, 1); 
     });
 
     function updateApprovalStatus(genreId, approvalStatus) {

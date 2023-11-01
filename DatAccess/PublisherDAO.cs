@@ -1,6 +1,6 @@
 ﻿using BusinessObjects;
 
-namespace DatAccess
+namespace DataAccess
 {
     public class PublisherDAO
     {
